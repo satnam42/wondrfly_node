@@ -1,0 +1,97 @@
+"use strict";
+
+const fs = require("fs");
+const api = require("../api");
+const specs = require("../specs");
+const permit = require("../permit")
+const path = require("path");
+const validator = require("../validators");
+var multer = require('multer');
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, '../', 'assets/images'));
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + file.originalname);
+  }
+});
+
+
+var upload = multer({ storage: storage, limits: { fileSize: 1024 * 1024 * 50 } });
+
+const configure = (app, logger) => {
+  const log = logger.start("settings:routes:configure");
+
+  app.get("/specs", function (req, res) {
+    fs.readFile("./public/specs.html", function (err, data) {
+      if (err) {
+        return res.json({
+          isSuccess: false,
+          error: err.toString()
+        });
+      }
+      res.contentType("text/html");
+      res.send(data);
+    });
+  });
+
+  app.get("/api/specs", function (req, res) {
+    res.contentType("application/json");
+    res.send(specs.get());
+  });
+  // user routes
+  app.post(
+    "/api/users/register",
+    permit.context.builder,
+    validator.users.create,
+    api.users.create
+  );
+
+  app.post(
+    "/api/users/uploadProfilePic",
+    permit.context.requiresToken,
+    upload.single('image'),
+    api.users.uploadProfilePic
+  );
+
+  app.get(
+    "/api/users/getById/:id",
+    permit.context.requiresToken,
+    validator.users.getById,
+    api.users.getById
+  );
+  app.get(
+    "/api/users/list",
+    permit.context.builder,
+    // validator.users.get,
+    api.users.list
+  );
+  app.put(
+    "/api/users/update/:id",
+    permit.context.requiresToken,
+    validator.users.update,
+    api.users.update
+  );
+  app.post(
+    "/api/users/login",
+    permit.context.builder,
+    validator.users.login,
+    api.users.login
+  );
+  app.post(
+    "/api/users/logout",
+    permit.context.builder,
+    // validator.users.logout,
+    api.users.logout
+  );
+  app.post(
+    "/api/users/resetPassword",
+    permit.context.requiresToken,
+    validator.users.resetPassword,
+    api.users.resetPassword
+  );
+  log.end();
+};
+
+exports.configure = configure;
