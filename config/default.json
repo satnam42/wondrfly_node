@@ -1,21 +1,21 @@
 {
     "db": {
-        "url": "mongodb://localhost:27017",
+        "url": "mongodb://93.188.167.68:33017",
         "database": "letsPlay"
     },
     "app": {
-        "url": "http://localhost",
+        "url": "http://93.188.167.68",
         "port": 6700
     },
     "webServer": {
-        "url": "http://localhost/",
+        "url": "http://93.188.167.68/",
         "port": 6700
     },
     "auth": {
         "jwtKey": "supersecret"
     },
     "image": {
-        "url": "http://localhost/projects/letplay_nodejs/",
+        "url": "http://93.188.167.68/projects/let-play_nodejs/",
         "port": 6700
     },
     "providers": {},
