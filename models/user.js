@@ -11,7 +11,6 @@ const user = mongoose.Schema({
   addressLine2: { type: String, default: "" },
   city: { type: String, default: "" },
   country: { type: String, default: "" },
-<<<<<<< HEAD
   zipCode: { type: String, default: "" },
   lat: { type: String, default: "" },
   long: { type: String, default: "" },
@@ -23,10 +22,6 @@ const user = mongoose.Schema({
   isDeleted: { type: String, default: "" },
   lastModified: { type: String, default: "" },
   createdBy: { type: String, default: "" },
-=======
-  anniversary: { type: String, default: "" },
-  customerGroup: { type: String, default: "" },
->>>>>>> 5946a1286946c55388262af0385d54fabbc5928a
   status: {
     type: String, default: "active",
     enum: ["active", "inActive"]

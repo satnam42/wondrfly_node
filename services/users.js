@@ -15,7 +15,6 @@ const setUser = (model, user, context) => {
   if (model.phoneNumber !== "string" && model.phoneNumber !== undefined) {
     user.phoneNumber = model.phoneNumber;
   }
-<<<<<<< HEAD
   // if (model.country !== "string" && model.country !== undefined) {
   //   user.country = model.country;
   // }
@@ -25,11 +24,6 @@ const setUser = (model, user, context) => {
   // if (model.dob !== "string" && model.dob !== undefined) {
   //   user.dob = model.dob;
   // }
-=======
-  if (model.customerGroup !== "string" && model.customerGroup !== undefined) {
-    user.customerGroup = model.customerGroup;
-  }
->>>>>>> 5946a1286946c55388262af0385d54fabbc5928a
   if (model.role !== "string" && model.role !== undefined) {
     user.role = model.role;
   }
@@ -82,12 +76,7 @@ const buildUser = async (model, context) => {
   const user = await new db.user({
     firstName: firstName,
     lastName: lastName,
-<<<<<<< HEAD
     phoneNumber: phoneNumber,
-=======
-    mobileNo: mobileNo,
-    customerGroup: customerGroup,
->>>>>>> 5946a1286946c55388262af0385d54fabbc5928a
     email: email,
     password: password,
     createdOn: new Date(),

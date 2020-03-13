@@ -47,7 +47,6 @@ const configure = (app, logger) => {
     validator.users.create,
     api.users.create
   );
-
   app.post(
     "/api/users/uploadProfilePic",
     permit.context.requiresToken,
