@@ -15,9 +15,6 @@ module.exports = [
       phoneNumber: {
         type: "string"
       },
-      customerGroup: {
-        type: 'string'
-      },
       password: {
         type: "string"
       }
