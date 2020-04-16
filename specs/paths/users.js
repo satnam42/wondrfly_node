@@ -227,89 +227,152 @@ module.exports = [
       }
     }
   },
-  // {
-  //   url: "/addAddress",
-  //   post: {
-  //     summary: "add",
-  //     description: "add-address",
-  //     parameters: [
-  //       {
-  //         in: "body",
-  //         name: "body",
-  //         description: "Model of addAdress creation",
-  //         required: true,
-  //         schema: {
-  //           $ref: "#/definitions/addAddress"
-  //         }
-  //       }
-  //     ],
-  //     responses: {
-  //       default: {
-  //         description: "Unexpected error",
-  //         schema: {
-  //           $ref: "#/definitions/Error"
-  //         }
-  //       }
-  //     }
-  //   }
-  // },
-  // {
-  //   url: "/addressList/{id}",
-  //   get: {
-  //     summary: "addressList",
-  //     description: "get address list  by userId",
-  //     parameters: [
-  //       {
-  //         in: "path",
-  //         name: "id",
-  //         description: "userId",
-  //         required: true,
-  //         type: "string"
-  //       },
-  //     ],
-  //     responses: {
-  //       default: {
-  //         description: "Unexpected error",
-  //         schema: {
-  //           $ref: "#/definitions/Error"
-  //         }
-  //       }
-  //     }
-  //   }
-  // },
-  // {
-  //   url: "/addressUpdate/{id}",
-  //   put: {
-  //     summary: "addressUpdate ",
-  //     description: "update address details",
-  //     parameters: [
-  //       {
-  //         in: "path",
-  //         name: "id",
-  //         description: "address id",
-  //         required: true,
-  //         type: "string"
-  //       },
-  //       {
-  //         in: "body",
-  //         name: "body",
-  //         description: "Model of address update",
-  //         required: true,
-  //         schema: {
-  //           $ref: "#/definitions/addressUpdate"
-  //         }
-  //       },
-  //     ],
-  //     responses: {
-  //       default: {
-  //         description: "Unexpected error",
-  //         schema: {
-  //           $ref: "#/definitions/Error"
-  //         }
-  //       }
-  //     }
-  //   }
-  // },
-
-
+  {
+    url: "/delete",
+    put: {
+      summary: "delete user",
+      description: "delete user by id",
+      parameters: [
+        {
+          in: "header",
+          name: "x-access-token",
+          description: "token to access api",
+          required: true,
+          type: "string"
+        },
+        {
+          in: "query",
+          type: "string",
+          name: "id",
+          description: "user id",
+          required: true
+        },
+      ],
+      responses: {
+        default: {
+          description: "Unexpected error",
+          schema: {
+            $ref: "#/definitions/Error"
+          }
+        }
+      }
+    }
+  },
+  {
+    url: "/activeOrDeactive",
+    put: {
+      summary: "activeOrDeactive ",
+      description: "activeOrDeactive user by id",
+      parameters: [
+        {
+          in: "header",
+          name: "x-access-token",
+          description: "token to access api",
+          required: true,
+          type: "string"
+        },
+        {
+          in: "query",
+          type: "string",
+          name: "id",
+          description: "user id",
+          required: true
+        },
+        {
+          in: "query",
+          type: "string",
+          name: "status",
+          description: "active,inacive",
+          required: true
+        },
+      ],
+      responses: {
+        default: {
+          description: "Unexpected error",
+          schema: {
+            $ref: "#/definitions/Error"
+          }
+        }
+      }
+    }
+  },
+  {
+    url: "/count",
+    get: {
+      summary: "get User count",
+      description: "count of user",
+      parameters: [
+        {
+          in: "header",
+          name: "x-access-token",
+          description: "token to access api",
+          required: true,
+          type: "string"
+        },
+      ],
+      responses: {
+        default: {
+          description: "Unexpected error",
+          schema: {
+            $ref: "#/definitions/Error"
+          }
+        }
+      }
+    }
+  },
+  {
+    url: "/recentAddedByRole",
+    get: {
+      summary: "get recent added 5 user by role",
+      description: "get recent added",
+      parameters: [
+        {
+          in: "query",
+          type: "string",
+          name: "role",
+          description: "admin,provider,parent,child",
+          required: true
+        },
+        {
+          in: "header",
+          name: "x-access-token",
+          description: "token to access api",
+          required: true,
+          type: "string"
+        },
+      ],
+      responses: {
+        default: {
+          description: "Unexpected error",
+          schema: {
+            $ref: "#/definitions/Error"
+          }
+        }
+      }
+    }
+  },
+  {
+    url: "/recentAdded",
+    get: {
+      summary: "get recent added 5 user",
+      description: "get recent added",
+      parameters: [
+        {
+          in: "header",
+          name: "x-access-token",
+          description: "token to access api",
+          required: true,
+          type: "string"
+        },
+      ],
+      responses: {
+        default: {
+          description: "Unexpected error",
+          schema: {
+            $ref: "#/definitions/Error"
+          }
+        }
+      }
+    }
+  },
 ];

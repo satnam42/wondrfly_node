@@ -14,7 +14,7 @@ module.exports = [
       role: {
         type: "string",
         default: "parent",
-        enum: ["provider", "chlid", "admin"]
+        enum: ["provider", "child", "admin"]
       },
     }
   }

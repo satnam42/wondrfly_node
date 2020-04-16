@@ -66,6 +66,27 @@ const configure = (app, logger) => {
     // validator.users.get,
     api.users.list
   );
+  app.get(
+    "/api/users/count",
+    permit.context.requiresToken,
+    // permit.context.builder,
+    // validator.users.get,
+    api.users.getCount
+  );
+  app.get(
+    "/api/users/recentAdded",
+    permit.context.requiresToken,
+    // permit.context.builder,
+    // validator.users.get,
+    api.users.getRecentAdded
+  );
+  app.get(
+    "/api/users/recentAddedByRole",
+    permit.context.requiresToken,
+    // permit.context.builder,
+    // validator.users.get,
+    api.users.recentAddedByRole
+  );
   app.put(
     "/api/users/update/:id",
     permit.context.requiresToken,
@@ -89,6 +110,16 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     validator.users.resetPassword,
     api.users.resetPassword
+  );
+  app.put(
+    "/api/users/delete",
+    permit.context.requiresToken,
+    api.users.deleteUser
+  );
+  app.put(
+    "/api/users/activeOrDeactive",
+    permit.context.requiresToken,
+    api.users.activeOrDeactive
   );
   log.end();
 };

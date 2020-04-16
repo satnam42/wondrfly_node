@@ -166,6 +166,39 @@ const get = async (query, context) => {
   log.end();
   return users;
 };
+const getCount = async (context) => {
+  const log = context.logger.start(`services:users:count`);
+  const userCount = await db.user.find({}).count();
+  const providerCount = await db.user.find({ role: 'provider' }).count();
+  const parentCount = await db.user.find({ role: 'parent' }).count();
+  const childrenCount = await db.user.find({ role: 'child' }).count();
+  // const programCount = await db.user.find({ role: query.role }).count();
+
+  let count = {
+    userCount: userCount,
+    providerCount: providerCount,
+    parentCount: parentCount,
+    childrenCount: childrenCount,
+    programCount: 0
+  }
+  log.end();
+  return count;
+};
+const recentAddedByRole = async (context, query) => {
+  const log = context.logger.start(`services:users:getRecentAdded`);
+  const user = await db.user.find({ role: query.role }).sort({ _id: -1 }).limit(5)
+  if (!user) {
+    throw new Error("user not found");
+  }
+  log.end();
+  return user;
+};
+const getRecentAdded = async (context) => {
+  const log = context.logger.start(`services:users:getRecentAdded`);
+  const user = await db.user.find().sort({ _id: -1 }).limit(5)
+  log.end();
+  return user;
+};
 
 const resetPassword = async (model, context) => {
   const log = context.logger.start(`service/users/resetPassword: ${model}`);
@@ -276,6 +309,40 @@ const uploadProfilePic = async (req, context) => {
 
 };
 
+const deleteUser = async (context, id) => {
+  const log = context.logger.start(`services:users:deleteUser`);
+  if (!id) {
+    throw new Error("userId is requried");
+  }
+  let user = await db.user.findById(id);
+  if (!user) {
+    throw new Error("user not found");
+  }
+  user.isDeleted = true
+  user.updatedOn = Date.now()
+  user.save()
+  return user
+
+};
+const setUserStatus = async (context, id, status) => {
+  const log = context.logger.start(`services:users:setUserStatus`);
+  if (!id) {
+    throw new Error("userId is requried");
+  }
+  if (!status) {
+    throw new Error("user status requried");
+  }
+  let user = await db.user.findById(id);
+  if (!user) {
+    throw new Error("user not found");
+  }
+  user.status = status
+  user.updatedOn = Date.now()
+  user.save()
+  return user
+
+};
+
 exports.create = create;
 exports.get = get;
 exports.login = login;
@@ -286,4 +353,9 @@ exports.logout = logout;
 exports.uploadProfilePic = uploadProfilePic;
 exports.addAddress = addAddress;
 exports.getAddressById = getAddressById;
-exports.addressUpdate = adddressUpdate
+exports.addressUpdate = adddressUpdate;
+exports.getCount = getCount;
+exports.getRecentAdded = getRecentAdded;
+exports.recentAddedByRole = recentAddedByRole;
+exports.deleteUser = deleteUser
+exports.setUserStatus = setUserStatus

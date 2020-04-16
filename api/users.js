@@ -4,7 +4,6 @@ const response = require("../exchange/response");
 const userMapper = require("../mappers/user");
 const addressMapper = require("../mappers/address");
 
-
 const create = async (req, res) => {
   const log = req.context.logger.start(`api:users:create`);
   try {
@@ -18,6 +17,7 @@ const create = async (req, res) => {
     return response.failure(res, err.message);
   }
 };
+
 const addAddress = async (req, res) => {
   const log = req.context.logger.start(`api:users:addAddress`);
   try {
@@ -160,6 +160,69 @@ const uploadProfilePic = async (req, res) => {
   }
 };
 
+const getCount = async (req, res) => {
+  const log = req.context.logger.start(`api:users:count`);
+  try {
+    const count = await service.getCount(req.context);
+    log.end();
+    return response.data(res, count);
+  } catch (err) {
+    log.error(err);
+    log.end();
+    return response.failure(res, err.message);
+  }
+};
+
+const getRecentAdded = async (req, res) => {
+  const log = req.context.logger.start(`api:users:getRecentAdded`);
+  try {
+    const count = await service.getRecentAdded(req.context);
+    log.end();
+    return response.data(res, count);
+  } catch (err) {
+    log.error(err);
+    log.end();
+    return response.failure(res, err.message);
+  }
+};
+
+const recentAddedByRole = async (req, res) => {
+  const log = req.context.logger.start(`api:users:recentAddedByRole`);
+  try {
+    const count = await service.recentAddedByRole(req.context, req.query);
+    log.end();
+    return response.data(res, count);
+  } catch (err) {
+    log.error(err);
+    log.end();
+    return response.failure(res, err.message);
+  }
+};
+const deleteUser = async (req, res) => {
+  const log = req.context.logger.start(`api:users:recentAddedByRole`);
+  try {
+    const user = await service.deleteUser(req.context, req.query.id);
+    log.end();
+    return response.data(res, user);
+  } catch (err) {
+    log.error(err);
+    log.end();
+    return response.failure(res, err.message);
+  }
+};
+const activeOrDeactive = async (req, res) => {
+  const log = req.context.logger.start(`api:users:recentAddedByRole`);
+  try {
+    const count = await service.setUserStatus(req.context, req.query.id, req.query.status);
+    log.end();
+    return response.data(res, count);
+  } catch (err) {
+    log.error(err);
+    log.end();
+    return response.failure(res, err.message);
+  }
+};
+
 exports.create = create;
 exports.list = list;
 exports.login = login;
@@ -171,4 +234,9 @@ exports.uploadProfilePic = uploadProfilePic;
 exports.addAddress = addAddress;
 exports.addressList = addressList;
 exports.addressUpdate = addressUpdate;
+exports.getCount = getCount;
+exports.getRecentAdded = getRecentAdded;
+exports.recentAddedByRole = recentAddedByRole
+exports.deleteUser = deleteUser
+exports.activeOrDeactive = activeOrDeactive
 

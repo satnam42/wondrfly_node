@@ -28,7 +28,7 @@ const user = mongoose.Schema({
   },
   role: {
     type: String, default: "parent",
-    enum: ["parent", "provider", "chlid", "admin"]
+    enum: ["parent", "provider", "child", "admin"]
   },
   deviceToken: { type: String, default: "" },
   createdOn: { type: Date, default: Date.now },
