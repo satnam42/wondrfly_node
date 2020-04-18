@@ -121,6 +121,28 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.users.activeOrDeactive
   );
+  //entity routes//
+  app.post(
+    "/api/entities/add",
+    permit.context.requiresToken,
+    api.entities.create
+  );
+  app.get(
+    "/api/entities/list",
+    permit.context.requiresToken,
+    api.entities.list
+  );
+  //permission routes //
+  app.post(
+    "/api/permissions/addPermissionsType",
+    permit.context.requiresToken,
+    api.permissions.create
+  );
+  app.get(
+    "/api/permissions/list",
+    permit.context.requiresToken,
+    api.permissions.list
+  );
   log.end();
 };
 
