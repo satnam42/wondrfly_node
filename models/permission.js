@@ -5,14 +5,15 @@ const permission = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "entity"
     },
-    permissionTypeId: [{
+    permissionTypeId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "permissionType"
-    }],
+    },
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "user"
     },
+    isDelete: { type: Date, default: '' },
     createdOn: { type: Date, default: Date.now },
     updatedOn: { type: Date, default: Date.now }
 });

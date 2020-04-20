@@ -136,7 +136,14 @@ const configure = (app, logger) => {
   app.post(
     "/api/permissions/addPermissionsType",
     permit.context.requiresToken,
+    validator.permissions.assign,
     api.permissions.create
+  );
+  app.post(
+    "/api/permissions/assign",
+    permit.context.requiresToken,
+    validator.permissions.assign,
+    api.permissions.assignPermission
   );
   app.get(
     "/api/permissions/list",

@@ -26,10 +26,7 @@ const user = mongoose.Schema({
     type: String, default: "active",
     enum: ["active", "inActive"]
   },
-  role: {
-    type: String, default: "parent",
-    enum: ["parent", "provider", "child", "admin"]
-  },
+  role: { type: String, default: "" },
   deviceToken: { type: String, default: "" },
   createdOn: { type: Date, default: Date.now },
   updatedOn: { type: Date, default: Date.now }

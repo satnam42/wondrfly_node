@@ -27,5 +27,21 @@ const list = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
+
+const assignPermission = async (req, res) => {
+    const log = req.context.logger.start(`api:permissions:create`);
+    try {
+        const permissions = await service.assign(req.body, req.context);
+        log.end();
+        return response.data(res, permissions);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
+
 exports.create = create;
 exports.list = list;
+exports.assignPermission = assignPermission
