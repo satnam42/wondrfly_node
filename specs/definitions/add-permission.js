@@ -11,8 +11,8 @@ module.exports = [
             permissionTypeId: {
                 type: "string"
             },
-            isDelete: {
-                type: "string"
+            isDeleted: {
+                type: "Boolean"
             },
         }
     }

@@ -269,12 +269,39 @@ const login = async (model, context) => {
     log.end();
     throw new Error("password mismatch");
   }
+  let permissions = []
+  let data = await db.permission.aggregate(
+    [{ $match: { userId: ObjectId(user.id) } },
+    {
+      $lookup: {
+        from: "permissiontypes",
+        localField: "permissionTypeId",
+        foreignField: "_id",
+        as: "permissions"
+      },
+      // { $match: { userId: ObjectId(user.id) } },
+    },
+    ]
 
+  );
+
+  if (data.length > 0) {
+    data.forEach(item => {
+      if (!item.isDeleted) {
+        item.permissions.forEach(permission => {
+          permissions.push(permission.type)
+        })
+      }
+
+    });
+  }
+  // console.log("permission", permission)
   const token = auth.getToken(user.id, false, context);
 
   user.lastLoggedIn = Date.now();
   user.token = token;
   user.save();
+  user.permissions = permissions
   log.end();
   return user;
 

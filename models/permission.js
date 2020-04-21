@@ -13,7 +13,7 @@ const permission = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "user"
     },
-    isDelete: { type: Date, default: '' },
+    isDeleted: { type: Boolean, default: false },
     createdOn: { type: Date, default: Date.now },
     updatedOn: { type: Date, default: Date.now }
 });

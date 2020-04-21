@@ -1,4 +1,5 @@
 "use strict";
+
 const build = async (model, context) => {
     const { type, code } = model;
     const log = context.logger.start(`services:permissionType:build${model}`);
@@ -11,11 +12,12 @@ const build = async (model, context) => {
     log.end();
     return entity;
 };
+
 const buildPermission = async (model, context) => {
     const { entityId, permissionTypeId, userId, status } = model;
     const log = context.logger.start(`services:permissionType:build${model}`);
-    const entity = await new db.permission({
-        entityId: entityId,
+    const permission = await new db.permission({
+        // entityId: entityId,
         permissionTypeId: permissionTypeId,
         userId: userId,
         status: status,
@@ -23,7 +25,7 @@ const buildPermission = async (model, context) => {
         updateOn: new Date(),
     }).save();
     log.end();
-    return entity;
+    return permission;
 };
 
 const create = async (model, context) => {
@@ -50,19 +52,23 @@ const assign = async (model, context) => {
     log.end();
     return permission;
 };
-// const deletePermission = async (model, context) => {
-//     const log = context.logger.start("services:permission:assign");
-//     let role = context.user.role
-//     if (!role) {
-//         throw new Error('role undefined')
-//     }
-//     if (role != 'superAdmin') {
-//         throw new Error('you dont have right for this opreation')
-//     }
-//     const permission = buildPermission(model, context);
-//     log.end();
-//     return permission;
-// };
+
+const deletePermission = async (query, context) => {
+    const log = context.logger.start("services:permission:assign");
+    let role = context.user.role
+    if (!role) {
+        throw new Error('role undefined')
+    }
+    if (role != 'superAdmin') {
+        throw new Error('you dont have right for this opreation')
+    }
+    const permission = await db.permission.findOne({ "$and": [{ entityId: query.entityId }, { permissionTypeId: query.permissionTypeId }, { userId: query.userId }] });
+    permission.isDeleted = true;
+    permission.updatedOn = Date.now()
+    permission.save()
+    log.end();
+    return permission;
+};
 
 const getAllPermissionType = async (context) => {
     const log = context.logger.start(`services:entity:getAllEntities`);
@@ -74,4 +80,4 @@ const getAllPermissionType = async (context) => {
 exports.create = create;
 exports.getAllPermissionType = getAllPermissionType;
 exports.assign = assign;
-// exports.deletePermission = deletePermission;
+exports.deletePermission = deletePermission;

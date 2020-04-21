@@ -2,7 +2,7 @@
 const response = require("../exchange/response");
 
 const assign = (req, res, next) => {
-    const log = req.context.logger.start("validators:users:create");
+    const log = req.context.logger.start("validators:permission:assign");
 
     if (!req.body) {
         log.end();
@@ -24,7 +24,7 @@ const assign = (req, res, next) => {
     return next();
 };
 const permissionType = (req, res, next) => {
-    const log = req.context.logger.start("validators:users:create");
+    const log = req.context.logger.start("validators:permission:permissionType");
 
     if (!req.body) {
         log.end();
@@ -39,8 +39,29 @@ const permissionType = (req, res, next) => {
     return next();
 };
 
+const deletePermission = (req, res, next) => {
+    const log = req.context.logger.start("validators:permission:deletePermission");
+
+    if (!req.query.userId) {
+        log.end();
+        return response.failure(res, "userId is required");
+    }
+    if (!req.query.permissionTypeId) {
+        log.end();
+        return response.failure(res, "permissionTypeId is required");
+    }
+    if (!req.query.entityId) {
+        log.end();
+        return response.failure(res, "entityId is required");
+    }
+
+    log.end();
+    return next();
+
+}
 
 
 exports.assign = assign;
 exports.permissionType = permissionType;
+exports.deletePermission = deletePermission;
 

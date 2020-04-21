@@ -33,7 +33,53 @@ module.exports = [
         }
     },
     {
-        url: "/addPermissionType",
+        url: "/delete",
+        put: {
+            summary: "delete Permission ",
+            description: "delete Permission ",
+            parameters: [
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "query",
+                    type: "string",
+                    name: "userId",
+                    description: "user id",
+                    required: true
+                },
+                {
+                    in: "query",
+                    type: "string",
+                    name: "entityId",
+                    description: "entity id",
+                    required: true
+                },
+                {
+                    in: "query",
+                    type: "string",
+                    name: "permissionTypeId",
+                    description: "permissionType id",
+                    required: true
+                }
+
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
+    {
+        url: "/addPermissionsType",
         post: {
             summary: "add Permission Type",
             description: "add Permission Type",
@@ -66,7 +112,7 @@ module.exports = [
         }
     },
     {
-        url: "/list",
+        url: "/typeList",
         get: {
             summary: "get PermissionType list",
             description: "get PermissionType list",

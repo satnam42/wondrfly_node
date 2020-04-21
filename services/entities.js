@@ -3,7 +3,7 @@
 const build = async (model, context) => {
     const { name, code } = model;
     const log = context.logger.start(`services:entity:build${model}`);
-    const entity = await new db.address({
+    const entity = await new db.entity({
         name: name,
         code: code,
         createdOn: new Date(),
@@ -17,7 +17,7 @@ const create = async (model, context) => {
     const log = context.logger.start("services:entity:create");
     const isEntity = await db.entity.findOne({ name: { $eq: model.name } });
     if (isEntity) {
-        return "Entity already  exist";
+        return "Entity already exist";
     }
     const entity = build(model, context);
     log.end();

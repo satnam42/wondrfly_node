@@ -136,7 +136,7 @@ const configure = (app, logger) => {
   app.post(
     "/api/permissions/addPermissionsType",
     permit.context.requiresToken,
-    validator.permissions.assign,
+    // validator.permissions.assign,
     api.permissions.create
   );
   app.post(
@@ -145,8 +145,15 @@ const configure = (app, logger) => {
     validator.permissions.assign,
     api.permissions.assignPermission
   );
+  app.put(
+    "/api/permissions/delete",
+    permit.context.requiresToken,
+    validator.permissions.deletePermission,
+    api.permissions.deletePermission
+
+  );
   app.get(
-    "/api/permissions/list",
+    "/api/permissions/typeList",
     permit.context.requiresToken,
     api.permissions.list
   );

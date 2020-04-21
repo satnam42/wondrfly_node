@@ -9,6 +9,7 @@ exports.toModel = entity => {
     email: entity.email,
     role: entity.role,
     token: entity.token,
+    permissions: entity.permissions,
     deviceToken: entity.deviceToken,
     updatedOn: entity.updatedOn,
     createdOn: entity.createdOn,

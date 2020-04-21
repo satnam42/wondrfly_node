@@ -40,8 +40,21 @@ const assignPermission = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
+const deletePermission = async (req, res) => {
+    const log = req.context.logger.start(`api:permissions:deletePermission`);
+    try {
+        const permissions = await service.deletePermission(req.query, req.context);
+        log.end();
+        return response.data(res, permissions);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
 
 
 exports.create = create;
 exports.list = list;
-exports.assignPermission = assignPermission
+exports.assignPermission = assignPermission;
+exports.deletePermission = deletePermission;
