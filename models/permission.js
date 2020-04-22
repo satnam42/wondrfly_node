@@ -1,10 +1,10 @@
 "use strict";
 const mongoose = require("mongoose");
 const permission = mongoose.Schema({
-    entityId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "entity"
-    },
+    // entityId: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "entity"
+    // },
     permissionTypeId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "permissionType"

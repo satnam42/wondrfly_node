@@ -17,12 +17,10 @@ var storage = multer.diskStorage({
   }
 });
 
-
 var upload = multer({ storage: storage, limits: { fileSize: 1024 * 1024 * 50 } });
 
 const configure = (app, logger) => {
   const log = logger.start("settings:routes:configure");
-
   app.get("/specs", function (req, res) {
     fs.readFile("./public/specs.html", function (err, data) {
       if (err) {
@@ -35,7 +33,6 @@ const configure = (app, logger) => {
       res.send(data);
     });
   });
-
   app.get("/api/specs", function (req, res) {
     res.contentType("application/json");
     res.send(specs.get());
@@ -53,7 +50,6 @@ const configure = (app, logger) => {
     upload.single('image'),
     api.users.uploadProfilePic
   );
-
   app.get(
     "/api/users/getById/:id",
     permit.context.requiresToken,
@@ -122,15 +118,32 @@ const configure = (app, logger) => {
     api.users.activeOrDeactive
   );
   //entity routes//
+  // app.post(
+  //   "/api/entities/add",
+  //   permit.context.requiresToken,
+  //   api.entities.create
+  // );
+  // app.get(
+  //   "/api/entities/list",
+  //   permit.context.requiresToken,
+  //   api.entities.list
+  // );
+  //category routes//
   app.post(
-    "/api/entities/add",
+    "/api/categories/add",
     permit.context.requiresToken,
-    api.entities.create
+    api.categories.create
   );
   app.get(
-    "/api/entities/list",
+    "/api/categories/list",
     permit.context.requiresToken,
-    api.entities.list
+    api.categories.list
+  );
+  app.put(
+    "/api/categories/update/:id",
+    permit.context.requiresToken,
+    // validator.users.update,
+    api.users.update
   );
   //permission routes //
   app.post(
@@ -150,7 +163,6 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     validator.permissions.deletePermission,
     api.permissions.deletePermission
-
   );
   app.get(
     "/api/permissions/typeList",

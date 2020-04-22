@@ -2,8 +2,8 @@ module.exports = [
     {
         url: "/assign",
         post: {
-            summary: "add Permission ",
-            description: "add Permission ",
+            summary: "assign Permission ",
+            description: "assign Permission ",
             parameters: [
                 {
                     in: "body",
@@ -52,13 +52,13 @@ module.exports = [
                     description: "user id",
                     required: true
                 },
-                {
-                    in: "query",
-                    type: "string",
-                    name: "entityId",
-                    description: "entity id",
-                    required: true
-                },
+                // {
+                //     in: "query",
+                //     type: "string",
+                //     name: "entityId",
+                //     description: "entity id",
+                //     required: true
+                // },
                 {
                     in: "query",
                     type: "string",

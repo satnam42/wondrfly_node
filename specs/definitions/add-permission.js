@@ -5,14 +5,14 @@ module.exports = [
             userId: {
                 type: "string"
             },
-            entityId: {
-                type: "string"
-            },
+            // entityId: {
+            //     type: "string"
+            // },
             permissionTypeId: {
                 type: "string"
             },
             isDeleted: {
-                type: "Boolean"
+                type: "Boolean",
             },
         }
     }
