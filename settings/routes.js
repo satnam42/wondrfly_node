@@ -143,7 +143,23 @@ const configure = (app, logger) => {
     "/api/categories/update/:id",
     permit.context.requiresToken,
     // validator.users.update,
-    api.users.update
+    api.categories.update
+  );
+  app.post(
+    "/api/tags/add",
+    permit.context.requiresToken,
+    api.tags.create
+  );
+  app.get(
+    "/api/tags/list",
+    permit.context.requiresToken,
+    api.tags.list
+  );
+  app.put(
+    "/api/tags/update/:id",
+    permit.context.requiresToken,
+    // validator.users.update,
+    api.tags.update
   );
   //permission routes //
   app.post(

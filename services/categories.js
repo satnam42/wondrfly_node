@@ -38,21 +38,20 @@ const create = async (model, context) => {
 };
 const getAllcategories = async (context) => {
     const log = context.logger.start(`services:categories:getAllcategories`);
-    const categories = await db.categories.find();
+    const categories = await db.category.find();
     log.end();
     return categories;
 };
 const update = async (id, model, context) => {
     const log = context.logger.start(`services:categories:update`);
-    let category = await db.category.findById(id);
-    if (!category) {
+    let isCategory = await db.category.findById(id);
+    if (!isCategory) {
         throw new Error("invalid id");
     }
     const category = await set(model, category, context);
     log.end();
     return user
 };
-
 exports.create = create;
 exports.getAllcategories = getAllcategories;
 exports.update = update;
