@@ -10,10 +10,20 @@ var multer = require('multer');
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, '../', 'assets/images'));
+    if (file.fieldname == 'csv') {
+      cb(null, path.join(__dirname, '../', 'assets'));
+    }
+    else {
+      cb(null, path.join(__dirname, '../', 'assets/images'));
+    }
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + file.originalname);
+    if (file.fieldname == 'csv') {
+      cb(null, file.originalname);
+    }
+    else {
+      cb(null, Date.now() + file.originalname);
+    }
   }
 });
 
@@ -61,6 +71,12 @@ const configure = (app, logger) => {
     permit.context.builder,
     // validator.users.get,
     api.users.list
+  );
+  app.get(
+    "/api/users/otp",
+    permit.context.builder,
+    // validator.users.get,
+    api.users.otp
   );
   app.get(
     "/api/users/count",
@@ -155,6 +171,7 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.tags.list
   );
+
   app.put(
     "/api/tags/update/:id",
     permit.context.requiresToken,
@@ -185,7 +202,19 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.permissions.list
   );
+
+  app.post(
+    "/api/providers/import",
+    permit.context.requiresToken,
+    upload.single('csv'),
+    api.providers.create
+  );
+  app.get(
+    "/api/providers/list",
+    permit.context.requiresToken,
+    api.providers.list
+  );
   log.end();
 };
 
-exports.configure = configure;
+exports.configure = configure
