@@ -375,4 +375,28 @@ module.exports = [
       }
     }
   },
+  // {
+  //   url: "/otp",
+  //   get: {
+  //     summary: "get otp",
+  //     description: "get otp",
+  //     parameters: [
+  //       {
+  //         in: "query",
+  //         type: "integer",
+  //         name: "mobileNo",
+  //         description: "mobileNo",
+  //         required: true
+  //       },
+  //     ],
+  //     responses: {
+  //       default: {
+  //         description: "Unexpected error",
+  //         schema: {
+  //           $ref: "#/definitions/Error"
+  //         }
+  //       }
+  //     }
+  //   }
+  // },
 ];

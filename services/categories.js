@@ -20,7 +20,6 @@ const set = (model, category, context) => {
     if (model.description !== "string" && model.description !== undefined) {
         category.description = model.description;
     }
-
     category.updateOn = new Date()
     log.end();
     category.save();
@@ -46,11 +45,11 @@ const update = async (id, model, context) => {
     const log = context.logger.start(`services:categories:update`);
     let isCategory = await db.category.findById(id);
     if (!isCategory) {
-        throw new Error("invalid id");
+        throw new Error("category Not found");
     }
     const category = await set(model, category, context);
     log.end();
-    return user
+    return category
 };
 exports.create = create;
 exports.getAllcategories = getAllcategories;

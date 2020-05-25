@@ -3,7 +3,12 @@ const auth = require("../permit/auth");
 const path = require("path");
 const imageUrl = require('config').get('image').url
 const ObjectId = require("mongodb").ObjectID;
+const accountSid = 'AC5d73ce4cfa70158e5357a905e379af2b';
+// Your Account SID from www.twilio.com/console
+const authToken = 'd864b1037de18df6150de9b4bf97b200'
+// d864b1037de18df6150de9b4bf97b200;   // Your Auth Token from www.twilio.com/console
 
+var twilio = require('twilio');
 const setUser = (model, user, context) => {
   const log = context.logger.start("services:users:set");
   if (model.firstName !== "string" && model.firstName !== undefined) {
@@ -306,7 +311,26 @@ const login = async (model, context) => {
   return user;
 
 };
+const otp = async (mobileNo, context) => {
+  var client = new twilio(accountSid, authToken);
 
+  const msg = await client.messages.create({
+    body: 'otp is 0000',
+    to: `+91${mobileNo}`,  // Text this number
+    from: '+15005550006' // From a valid Twilio number
+  })
+
+  console.log(msg.status)
+
+  // const log = context.logger.start("services:users:otp");
+  // user.lastLoggedIn = Date.now();
+  // user.token = token;
+  // user.save();
+  // user.permissions = permissions
+  // log.end();
+  return msg;
+
+};
 const logout = async (model, context) => {
   const log = context.logger.start("services:users:logout");
   await context.user.save();
@@ -386,3 +410,4 @@ exports.getRecentAdded = getRecentAdded;
 exports.recentAddedByRole = recentAddedByRole;
 exports.deleteUser = deleteUser
 exports.setUserStatus = setUserStatus
+exports.otp = otp;

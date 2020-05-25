@@ -161,6 +161,8 @@ const configure = (app, logger) => {
     // validator.users.update,
     api.categories.update
   );
+
+  //tag routes //
   app.post(
     "/api/tags/add",
     permit.context.requiresToken,
@@ -178,7 +180,9 @@ const configure = (app, logger) => {
     // validator.users.update,
     api.tags.update
   );
+
   //permission routes //
+
   app.post(
     "/api/permissions/addPermissionsType",
     permit.context.requiresToken,
@@ -214,6 +218,25 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.providers.list
   );
+  //review routes//
+  app.post(
+    "/api/reviews/add",
+    permit.context.requiresToken,
+    api.reviews.create
+  );
+  app.get(
+    "/api/reviews/byProgramId",
+    permit.context.requiresToken,
+    api.reviews.reviewsByProgramId
+  );
+
+  app.put(
+    "/api/reviews/update/:id",
+    permit.context.requiresToken,
+    // validator.users.update,
+    api.reviews.update
+  );
+
   log.end();
 };
 

@@ -106,6 +106,20 @@ const login = async (req, res) => {
   }
 };
 
+const otp = async (req, res) => {
+  const log = req.context.logger.start("api:users:otp");
+  try {
+    const msg = await service.otp(req.query.mobileNo, req.context);
+
+    log.end();
+    return response.success(res, msg);
+  } catch (err) {
+    log.error(err);
+    log.end();
+    return response.failure(res, err.message);
+  }
+};
+
 const update = async (req, res) => {
   const log = req.context.logger.start(`api:users:update:${req.params.id}`);
   try {
@@ -239,4 +253,5 @@ exports.getRecentAdded = getRecentAdded;
 exports.recentAddedByRole = recentAddedByRole
 exports.deleteUser = deleteUser
 exports.activeOrDeactive = activeOrDeactive
+exports.otp = otp
 
