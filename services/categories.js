@@ -47,7 +47,7 @@ const update = async (id, model, context) => {
     if (!isCategory) {
         throw new Error("category Not found");
     }
-    const category = await set(model, category, context);
+    const category = await set(model, isCategory, context);
     log.end();
     return category
 };

@@ -31,7 +31,7 @@ const update = async (req, res) => {
     try {
         const category = await service.update(req.params.id, req.body, req.context);
         log.end();
-        return response.data(res, userMapper.toModel(category));
+        return response.data(res, category);
     } catch (err) {
         log.error(err);
         log.end();
