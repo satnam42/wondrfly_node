@@ -58,6 +58,39 @@ module.exports = [
         }
     },
     {
+        url: "/search",
+        get: {
+            summary: "get category by search",
+            description: "category  by search",
+            parameters: [
+
+                {
+                    in: "query",
+                    type: "string",
+                    name: "name",
+                    description: "category name",
+                    required: true
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
+    {
         url: "/update/{id}",
         put: {
             summary: "Update",
@@ -66,7 +99,7 @@ module.exports = [
                 {
                     in: "path",
                     name: "id",
-                    description: "user id",
+                    description: "category id",
                     required: true,
                     type: "string"
                 },

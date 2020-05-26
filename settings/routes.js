@@ -155,6 +155,12 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.categories.list
   );
+  app.get(
+    "/api/categories/search",
+    permit.context.builder,
+    permit.context.requiresToken,
+    api.categories.search
+  );
   app.put(
     "/api/categories/update/:id",
     permit.context.requiresToken,

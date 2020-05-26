@@ -51,6 +51,17 @@ const update = async (id, model, context) => {
     log.end();
     return category
 };
+
+
+const search = async (query, context) => {
+    const log = context.logger.start(`services:categories:search`);
+    const category = await db.category.find({ name: { "$regex": '.*' + query.name + '.*', "$options": 'i' } }
+    ).limit(5);
+    log.end();
+    return category;
+};
+
 exports.create = create;
 exports.getAllcategories = getAllcategories;
 exports.update = update;
+exports.search = search;
