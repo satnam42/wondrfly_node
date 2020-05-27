@@ -2,7 +2,6 @@
 const service = require("../services/users");
 const response = require("../exchange/response");
 const userMapper = require("../mappers/user");
-const addressMapper = require("../mappers/address");
 
 const create = async (req, res) => {
   const log = req.context.logger.start(`api:users:create`);
@@ -18,45 +17,6 @@ const create = async (req, res) => {
   }
 };
 
-const addAddress = async (req, res) => {
-  const log = req.context.logger.start(`api:users:addAddress`);
-  try {
-    const address = await service.addAddress(req.body, req.context);
-    const message = "Address Added Successfully";
-    log.end();
-    return response.success(res, message, address);
-  } catch (err) {
-    log.error(err);
-    log.end();
-    return response.failure(res, err.message);
-  }
-};
-
-const addressList = async (req, res) => {
-  const log = req.context.logger.start(`api:users:getById:${req.params.id}`);
-  try {
-    const address = await service.getAddressById(req.params.id, req.context);
-    log.end();
-    return response.data(res, addressMapper.toSearchModel(address));
-  } catch (err) {
-    log.error(err);
-    log.end();
-    return response.failure(res, err.message);
-  }
-};
-
-const addressUpdate = async (req, res) => {
-  const log = req.context.logger.start(`api:users:addressUpdate:${req.params.id}`);
-  try {
-    const address = await service.addressUpdate(req.params.id, req.body, req.context);
-    log.end();
-    return response.data(res, addressMapper.toModel(address));
-  } catch (err) {
-    log.error(err);
-    log.end();
-    return response.failure(res, err.message);
-  }
-};
 
 const getById = async (req, res) => {
   const log = req.context.logger.start(`api:users:getById:${req.params.id}`);
@@ -245,9 +205,6 @@ exports.resetPassword = resetPassword;
 exports.getById = getById;
 exports.logout = logout;
 exports.uploadProfilePic = uploadProfilePic;
-exports.addAddress = addAddress;
-exports.addressList = addressList;
-exports.addressUpdate = addressUpdate;
 exports.getCount = getCount;
 exports.getRecentAdded = getRecentAdded;
 exports.recentAddedByRole = recentAddedByRole

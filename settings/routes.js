@@ -242,7 +242,22 @@ const configure = (app, logger) => {
     // validator.users.update,
     api.reviews.update
   );
-
+  //parent routes//
+  app.post(
+    "/api/parents/add",
+    permit.context.requiresToken,
+    api.parents.add
+  );
+  app.put(
+    "/api/parents/update/:id",
+    permit.context.requiresToken,
+    api.parents.update
+  );
+  app.put(
+    "/api/parents/delete",
+    permit.context.requiresToken,
+    api.parents.deleteParent
+  );
   log.end();
 };
 

@@ -12,11 +12,11 @@ module.exports = [
             categoryIds: {
                 type: 'array',
                 items: {
-                    type: 'array',
-                    // { type: "string", default: "" },
-                    properties: {
-                        id: { type: "string", default: "" },
-                    }
+                    // type: 'array',
+                    type: "string", default: ""
+                    // properties:
+                    //     { type: "string", default: "" },
+
                 }
             },
         }

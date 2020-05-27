@@ -1,4 +1,3 @@
-
 "use strict";
 const build = async (model, context) => {
     const { name, description, categoryIds } = model;
@@ -42,7 +41,7 @@ const create = async (model, context) => {
 };
 const getAlltags = async (context) => {
     const log = context.logger.start(`services:tags:getAlltags`);
-    const tags = await db.tag.find();
+    const tags = await db.tag.find({}).populate('categoryIds')
     log.end();
     return tags;
 };

@@ -19,13 +19,11 @@ const user = mongoose.Schema({
   lastLoggedIn: { type: Date, default: "" },
   loginLimit: { type: Number, default: 0 },
   ssn: { type: String, default: "" },
-  isDeleted: { type: String, default: "" },
-  lastModified: { type: String, default: "" },
+  isActivated: { type: Boolean, default: false },
+  isDeleted: { type: Boolean, default: false },
+  lastModifiedBy: { type: String, default: "" },
+  deletedBy: { type: String, default: "" },
   createdBy: { type: String, default: "" },
-  status: {
-    type: String, default: "active",
-    enum: ["active", "inActive"]
-  },
   role: { type: String, default: "" },
   deviceToken: { type: String, default: "" },
   createdOn: { type: Date, default: Date.now },
