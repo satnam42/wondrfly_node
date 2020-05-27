@@ -31,7 +31,7 @@ const update = async (req, res) => {
     try {
         const tag = await service.update(req.params.id, req.body, req.context);
         log.end();
-        return response.data(res, userMapper.toModel(tag));
+        return response.data(res, tag);
     } catch (err) {
         log.error(err);
         log.end();

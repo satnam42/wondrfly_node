@@ -52,9 +52,9 @@ const update = async (id, model, context) => {
     if (!istag) {
         throw new Error("invalid id");
     }
-    const tag = await set(model, tag, context);
+    const tag = await set(model, istag, context);
     log.end();
-    return user
+    return tag
 };
 exports.create = create;
 exports.getAlltags = getAlltags;
