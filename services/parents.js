@@ -115,21 +115,8 @@ const get = async (query, context) => {
     let pageNo = Number(query.pageNo) || 1;
     let pageSize = Number(query.pageSize) || 10;
     let skipCount = pageSize * (pageNo - 1);
-    let parents
-    if (query.role == 'all') {
-        parents = await db.parent
-            .find({})
-            .skip(skipCount)
-            .limit(pageSize);
-        parents.count = await db.parent.find({}).count();
-    }
-    else {
-        parents = await db.parent
-            .find({ role: query.role })
-            .skip(skipCount)
-            .limit(pageSize);
-        parents.count = await db.parent.find({ role: query.role }).count();
-    }
+    let parents = await db.user.find({ role: 'parent' }).skip(skipCount).limit(pageSize);
+    parents.count = await db.user.find({ role: 'parent' }).count();
 
     log.end();
     return parents;
@@ -170,25 +157,23 @@ const updateParent = async (id, model, context) => {
     return parent
 };
 
-const uploadProfilePic = async (req, context) => {
+const uploadProfilePic = async (id, file, context) => {
 
-    const id = context.parent.id
     const log = context.logger.start(`services:parents:update`);
-    let entity = await db.parent.findById(id);
-    let = model = entity
-    model.profilePic = req.file.filename
+    let parent = await db.parent.findById(id);
+
     if (!req.file) {
         throw new Error("image not found");
     }
-    if (!entity) {
-        throw new Error("invalid parent");
+    if (!parent) {
+        throw new Error("parent not found");
     }
-    const parent = await setparent(model, entity, context);
-
-    const picUrl = imageUrl + 'assets/images/' + model.profilePic
-    parent.profilePic = picUrl
-    return parent
+    const avatarImages = imageUrl + 'assets/images/' + model.profilePic
+    parent.avatarImages = avatarImages
+    parent.save();
     log.end();
+    return parent
+
 
 };
 
@@ -211,21 +196,23 @@ const deleteParent = async (context, id) => {
     return parent
 
 };
-const setparentStatus = async (context, id, status) => {
-    const log = context.logger.start(`services:parents:setparentStatus`);
+const activateAndDeactive = async (context, id, isActivated) => {
+    const log = context.logger.start(`services:parents:activateAndDeactive`);
     if (!id) {
         throw new Error("parentId is requried");
     }
-    if (!status) {
-        throw new Error("parent status requried");
+    if (!isActivated) {
+        throw new Error("parent isActivated requried");
     }
     let parent = await db.parent.findById(id);
     if (!parent) {
         throw new Error("parent not found");
     }
-    parent.status = status
+    parent.isActivated = isActivated
+    parent.lastModifiedBy = context.user.id
     parent.updatedOn = Date.now()
     parent.save()
+    log.end();
     return parent
 
 };
@@ -236,4 +223,4 @@ exports.resetPassword = resetPassword;
 exports.updateParent = updateParent;
 exports.uploadProfilePic = uploadProfilePic;
 exports.deleteParent = deleteParent
-exports.setparentStatus = setparentStatus
+exports.activateAndDeactive = activateAndDeactive

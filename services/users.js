@@ -338,58 +338,59 @@ const logout = async (model, context) => {
   return "logout successfully";
 };
 
-const uploadProfilePic = async (req, context) => {
+const uploadProfilePic = async (id, file, context) => {
+  const log = context.logger.start(`services:users:uploadProfilePic`);
+  let user = await db.user.findById(id);
 
-  const id = context.user.id
-  const log = context.logger.start(`services:users:update`);
-  let entity = await db.user.findById(id);
-  let = model = entity
-  model.profilePic = req.file.filename
-  if (!req.file) {
+  if (!file) {
     throw new Error("image not found");
   }
-  if (!entity) {
-    throw new Error("invalid user");
+  if (!user) {
+    throw new Error("user not found");
   }
-  const user = await setUser(model, entity, context);
-
-  const picUrl = imageUrl + 'assets/images/' + model.profilePic
-  user.profilePic = picUrl
-  return user
+  const avatarImages = imageUrl + 'assets/images/' + file.filename
+  user.avatarImages = avatarImages
+  await user.save();
   log.end();
+  return user
 
 };
 
 const deleteUser = async (context, id) => {
-  const log = context.logger.start(`services:users:deleteUser`);
+  const log = context.logger.start(`services:users:deleteparent`);
   if (!id) {
     throw new Error("userId is requried");
   }
   let user = await db.user.findById(id);
-  if (!user) {
+  if (!parent) {
     throw new Error("user not found");
   }
+
   user.isDeleted = true
   user.updatedOn = Date.now()
-  user.save()
+  user.deletedBy = context.user.id,
+    user.save()
+  log.end();
   return user
 
 };
-const setUserStatus = async (context, id, status) => {
-  const log = context.logger.start(`services:users:setUserStatus`);
+const activateAndDeactive = async (context, id, isActivated) => {
+  const log = context.logger.start(`services:parents:activateAndDeactive`);
   if (!id) {
-    throw new Error("userId is requried");
+    throw new Error("Id is requried");
   }
-  if (!status) {
-    throw new Error("user status requried");
+  if (!isActivated) {
+    throw new Error("isActivated requried");
   }
   let user = await db.user.findById(id);
-  if (!user) {
+  if (!parent) {
     throw new Error("user not found");
   }
-  user.status = status
+  user.isActivated = isActivated
+  user.lastModifiedBy = context.user.id
   user.updatedOn = Date.now()
   user.save()
+  log.end();
   return user
 
 };
@@ -409,5 +410,5 @@ exports.getCount = getCount;
 exports.getRecentAdded = getRecentAdded;
 exports.recentAddedByRole = recentAddedByRole;
 exports.deleteUser = deleteUser
-exports.setUserStatus = setUserStatus
+exports.activateAndDeactive = activateAndDeactive
 exports.otp = otp;

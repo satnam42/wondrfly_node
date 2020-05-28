@@ -123,7 +123,7 @@ const uploadProfilePic = async (req, res) => {
 
   const log = req.context.logger.start(`api:users:create`);
   try {
-    const user = await service.uploadProfilePic(req, req.context);
+    const user = await service.uploadProfilePic(req.query.id, req.file, req.context);
     const message = "Profile Picture Successfully";
     log.end();
     return response.success(res, message, user);
@@ -187,7 +187,7 @@ const deleteUser = async (req, res) => {
 const activeOrDeactive = async (req, res) => {
   const log = req.context.logger.start(`api:users:recentAddedByRole`);
   try {
-    const count = await service.setUserStatus(req.context, req.query.id, req.query.status);
+    const count = await service.activateAndDeactive(req.context, req.query.id, req.query.isActivated);
     log.end();
     return response.data(res, count);
   } catch (err) {

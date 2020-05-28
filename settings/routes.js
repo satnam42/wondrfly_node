@@ -253,10 +253,27 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.parents.update
   );
-  app.put(
-    "/api/parents/delete",
-    permit.context.requiresToken,
-    api.parents.deleteParent
+  // app.put(
+  //   "/api/parents/delete",
+  //   permit.context.requiresToken,
+  //   api.parents.deleteParent
+  // );
+  // app.put(
+  //   "/api/parents/activeOrDeactive",
+  //   permit.context.requiresToken,
+  //   api.parents.activeOrDeactive
+  // );
+  // app.post(
+  //   "/api/parents/uploadProfilePic",
+  //   permit.context.requiresToken,
+  //   upload.single('image'),
+  //   api.parents.uploadProfilePic
+  // );
+  app.get(
+    "/api/parents/list",
+    permit.context.builder,
+    // validator.users.get,
+    api.parents.list
   );
   log.end();
 };

@@ -210,6 +210,13 @@ module.exports = [
           required: true,
         },
         {
+          in: "query",
+          type: "string",
+          name: "id",
+          description: "user id",
+          required: true
+        },
+        {
           in: "header",
           name: "x-access-token",
           description: "token to access api",
@@ -281,8 +288,8 @@ module.exports = [
         {
           in: "query",
           type: "string",
-          name: "status",
-          description: "active,inacive",
+          name: "isActivated",
+          description: "true,false",
           required: true
         },
       ],

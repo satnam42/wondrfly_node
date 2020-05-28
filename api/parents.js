@@ -26,7 +26,7 @@ const list = async (req, res) => {
         return response.page(
             message,
             res,
-            parentMapper.toSearchModel(parents),
+            parents,
             Number(req.query.pageNo) || 1,
             Number(req.query.pageSize) || 10,
             parents.count
@@ -69,7 +69,7 @@ const uploadProfilePic = async (req, res) => {
 
     const log = req.context.logger.start(`api:parents:create`);
     try {
-        const parent = await service.uploadProfilePic(req, req.context);
+        const parent = await service.uploadProfilePic(req.query.id, req.file, req.context);
         const message = "Profile Picture Successfully";
         log.end();
         return response.success(res, message, parent);
@@ -96,9 +96,9 @@ const deleteParent = async (req, res) => {
 const activeOrDeactive = async (req, res) => {
     const log = req.context.logger.start(`api:parents:recentAddedByRole`);
     try {
-        const count = await service.setparentstatus(req.context, req.query.id, req.query.status);
+        const parent = await service.activateAndDeactive(req.context, req.query.id, req.query.isActivated);
         log.end();
-        return response.data(res, count);
+        return response.data(res, parent);
     } catch (err) {
         log.error(err);
         log.end();
