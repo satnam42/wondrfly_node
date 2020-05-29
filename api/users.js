@@ -6,7 +6,7 @@ const userMapper = require("../mappers/user");
 const create = async (req, res) => {
   const log = req.context.logger.start(`api:users:create`);
   try {
-    const user = await service.create(req.body, req.context);
+    const user = await service.register(req.body, req.context);
     const message = "User Resgiter Successfully";
     log.end();
     return response.success(res, message, user);
@@ -96,7 +96,7 @@ const update = async (req, res) => {
 const resetPassword = async (req, res) => {
   const log = req.context.logger.start("api:users:resetPassword");
   try {
-    const message = await service.resetPassword(req.body, req.context);
+    const message = await service.resetPassword(req.query.id, req.body, req.context);
     log.end();
     return response.success(res, message);
   } catch (err) {

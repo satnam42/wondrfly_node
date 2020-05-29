@@ -124,5 +124,4 @@ exports.login = login;
 exports.logout = logout;
 exports.create = create;
 exports.update = update;
-exports.addAddress = addAddress;
 exports.resetPassword = resetPassword;
