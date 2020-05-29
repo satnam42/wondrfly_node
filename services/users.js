@@ -7,8 +7,8 @@ const accountSid = 'AC5d73ce4cfa70158e5357a905e379af2b';
 // Your Account SID from www.twilio.com/console
 const authToken = 'd864b1037de18df6150de9b4bf97b200'
 // d864b1037de18df6150de9b4bf97b200;   // Your Auth Token from www.twilio.com/console
-
 var twilio = require('twilio');
+
 const setUser = (model, user, context) => {
   const log = context.logger.start("services:users:set");
   if (model.firstName !== "string" && model.firstName !== undefined) {
@@ -20,63 +20,15 @@ const setUser = (model, user, context) => {
   if (model.phoneNumber !== "string" && model.phoneNumber !== undefined) {
     user.phoneNumber = model.phoneNumber;
   }
-  // if (model.country !== "string" && model.country !== undefined) {
-  //   user.country = model.country;
-  // }
-  // if (model.address !== "string" && model.address !== undefined) {
-  //   user.address = model.address;
-  // }
-  // if (model.dob !== "string" && model.dob !== undefined) {
-  //   user.dob = model.dob;
-  // }
   if (model.role !== "string" && model.role !== undefined) {
     user.role = model.role;
   }
-  // if (model.anniversary !== "string" && model.anniversary !== undefined) {
-  //   user.anniversary = model.anniversary;
-  // }
-  // if (model.profiePic !== "string" && model.profiePic !== undefined) {
-  //   user.profiePic = model.profiePic;
-  // }
   log.end();
   user.save();
   return user;
 };
-
-const setAddress = (model, address, context) => {
-  const log = context.logger.start("services:users:set");
-  if (model.name !== "string" && model.name !== undefined) {
-    address.name = model.name;
-  }
-  if (model.address !== "string" && model.address !== undefined) {
-    address.address = model.address;
-  }
-  if (model.city !== "string" && model.city !== undefined) {
-    address.city = model.city;
-  }
-  if (model.state !== "string" && model.state !== undefined) {
-    address.state = model.state;
-  }
-  if (model.zipCode !== "string" && model.zipCode !== undefined) {
-    address.zipCode = model.zipCode;
-  }
-  if (model.specialInstruction !== "string" && model.specialInstruction !== undefined) {
-    address.specialInstruction = model.specialInstruction;
-  }
-  if (model.contactName !== "string" && model.contactName !== undefined) {
-    address.contactName = model.contactName;
-  }
-  if (model.contactNumber !== "string" && model.contactNumber !== undefined) {
-    address.contactNumber = model.contactNumber;
-  }
-  address.updateOn = new Date()
-  log.end();
-  address.save();
-  return address;
-};
-
 const buildUser = async (model, context) => {
-  const { firstName, lastName, phoneNumber, email, password } = model;
+  const { firstName, lastName, phoneNumber, email, password, role } = model;
   const log = context.logger.start(`services:users:build${model}`);
   const user = await new db.user({
     firstName: firstName,
@@ -84,34 +36,14 @@ const buildUser = async (model, context) => {
     phoneNumber: phoneNumber,
     email: email,
     password: password,
+    role: role,
     createdOn: new Date(),
     updateOn: new Date()
   }).save();
   log.end();
   return user;
 };
-
-const buildAddress = async (model, context) => {
-  const { name, address, city, state, zipCode, specialInstruction, contactName, contactNumber, status, userId } = model;
-  const log = context.logger.start(`services:users:build${model}`);
-  const userAddress = await new db.address({
-    name: name,
-    address: address,
-    city: city,
-    state: state,
-    zipCode: zipCode,
-    specialInstruction: specialInstruction,
-    contactName: contactName,
-    contactNumber: contactNumber,
-    userId: userId,
-    createdOn: new Date(),
-    updateOn: new Date(),
-  }).save();
-  log.end();
-  return userAddress;
-};
-
-const create = async (model, context) => {
+const register = async (model, context) => {
   const log = context.logger.start("services:users:create");
   const isEmail = await db.user.findOne({ email: { $eq: model.email } });
   if (isEmail) {
@@ -123,22 +55,6 @@ const create = async (model, context) => {
   return user;
 };
 
-
-const addAddress = async (model, context) => {
-
-  const log = context.logger.start("services:users:addAddress");
-  const address = buildAddress(model, context);
-  log.end();
-  return address;
-
-};
-
-const getAddressById = async (id, context) => {
-  const log = context.logger.start(`services:users:getAddressById:${id}`);
-  const address = await db.address.find({ userId: id });
-  log.end();
-  return address;
-};
 
 const getById = async (id, context) => {
   const log = context.logger.start(`services:users:getById:${id}`);
@@ -205,9 +121,9 @@ const getRecentAdded = async (context) => {
   return user;
 };
 
-const resetPassword = async (model, context) => {
+const resetPassword = async (id, model, context) => {
   const log = context.logger.start(`service/users/resetPassword: ${model}`);
-  const user = context.user;
+  const user = await db.user.findById(id);
   const isMatched = encrypt.compareHash(
     model.oldPassword,
     user.password,
@@ -217,6 +133,7 @@ const resetPassword = async (model, context) => {
     const newPassword = encrypt.getHash(model.newPassword, context);
     user.password = newPassword;
     user.updatedOn = new Date();
+    user.lastModifiedBy = context.user.id
     await user.save();
     log.end();
     return "Password Updated Successfully";
@@ -225,19 +142,7 @@ const resetPassword = async (model, context) => {
     throw new Error("Old Password Not Match");
   }
 };
-const adddressUpdate = async (id, model, context) => {
-  const log = context.logger.start(`services:users:update`);
 
-  let entity = await db.address.findById(id);
-  if (!entity) {
-    throw new Error("invalid  address id");
-  }
-
-  const user = await setAddress(model, entity, context);
-
-  log.end();
-  return user
-};
 
 const update = async (id, model, context) => {
   const log = context.logger.start(`services:users:update`);
@@ -358,24 +263,30 @@ const uploadProfilePic = async (id, file, context) => {
 
 const deleteUser = async (context, id) => {
   const log = context.logger.start(`services:users:deleteparent`);
+  if (context.user.role != 'superAdmin') {
+    throw new Error("you are not authorized to perform this operation");
+  }
   if (!id) {
     throw new Error("userId is requried");
   }
   let user = await db.user.findById(id);
-  if (!parent) {
+  if (!user) {
     throw new Error("user not found");
   }
 
   user.isDeleted = true
   user.updatedOn = Date.now()
-  user.deletedBy = context.user.id,
-    user.save()
+  user.deletedBy = context.user.id
+  user.save()
   log.end();
   return user
 
 };
 const activateAndDeactive = async (context, id, isActivated) => {
   const log = context.logger.start(`services:parents:activateAndDeactive`);
+  if (context.user.role != 'superAdmin') {
+    throw new Error("you are not authorized to perform this operation");
+  }
   if (!id) {
     throw new Error("Id is requried");
   }
@@ -395,7 +306,7 @@ const activateAndDeactive = async (context, id, isActivated) => {
 
 };
 
-exports.create = create;
+exports.register = register;
 exports.get = get;
 exports.login = login;
 exports.resetPassword = resetPassword;
@@ -403,9 +314,6 @@ exports.update = update;
 exports.getById = getById;
 exports.logout = logout;
 exports.uploadProfilePic = uploadProfilePic;
-exports.addAddress = addAddress;
-exports.getAddressById = getAddressById;
-exports.addressUpdate = adddressUpdate;
 exports.getCount = getCount;
 exports.getRecentAdded = getRecentAdded;
 exports.recentAddedByRole = recentAddedByRole;
