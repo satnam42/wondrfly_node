@@ -44,7 +44,7 @@ const update = async (req, res) => {
     try {
         const parent = await service.updateParent(req.params.id, req.body, req.context);
         log.end();
-        return response.data(res, parentMapper.toModel(parent));
+        return response.data(res, parent);
     } catch (err) {
         log.error(err);
         log.end();

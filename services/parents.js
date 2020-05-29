@@ -45,22 +45,15 @@ const setParent = (model, parent, context) => {
     if (model.stripeKey !== "string" && model.stripeKey !== undefined) {
         parent.stripeKey = model.stripeKey;
     }
-    if (model.stripeToken !== "string" && model.stripeToken !== undefined) {
-        parent.stripeToken = model.stripeToken;
-    }
-    if (model.stripeToken !== "string" && model.stripeToken !== undefined) {
-        parent.stripeToken = model.stripeToken;
-    }
-    if (model.stripeToken !== "string" && model.stripeToken !== undefined) {
-        parent.stripeToken = model.stripeToken;
-    }
-    parent.lastModifiedBy = context.user.id,
-        parent.updateOn = new Date()
+
+
+    parent.lastModifiedBy = context.user.id
+    parent.updateOn = new Date()
     let user = parent
     log.end();
 
     user.save();
-    return parent;
+    return user;
 };
 
 const buildParent = async (model, context) => {
@@ -146,7 +139,7 @@ const resetPassword = async (model, context) => {
 const updateParent = async (id, model, context) => {
     const log = context.logger.start(`services:parents:update`);
 
-    let entity = await db.parent.findById(id);
+    let entity = await db.user.findById(id);
     if (!entity) {
         throw new Error("Parent Not Found");
     }
@@ -183,17 +176,18 @@ const deleteParent = async (context, id) => {
     if (!id) {
         throw new Error("parentId is requried");
     }
-    let parent = await db.parent.findById(id);
+    let parent = await db.user.findById(id);
     if (!parent) {
         throw new Error("parent not found");
     }
 
     parent.isDeleted = true
     parent.updatedOn = Date.now()
-    parent.deletedBy = context.user.id,
-        parent.save()
+    parent.deletedBy = context.user.id
+    let user = parent
+    user.save()
     log.end();
-    return parent
+    return user
 
 };
 const activateAndDeactive = async (context, id, isActivated) => {
