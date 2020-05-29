@@ -3,7 +3,6 @@ const response = require("../exchange/response");
 
 const create = (req, res, next) => {
   const log = req.context.logger.start("validators:users:create");
-
   if (!req.body) {
     log.end();
     return response.failure(res, "body is equired");
@@ -16,9 +15,9 @@ const create = (req, res, next) => {
     log.end();
     return response.failure(res, "lastName is required");
   }
-  if (!req.body.phoneNumber) {
+  if (!req.body.role) {
     log.end();
-    return response.failure(res, "phone Number is required");
+    return response.failure(res, "role is required");
   }
   if (!req.body.email) {
     log.end();
@@ -32,48 +31,7 @@ const create = (req, res, next) => {
   return next();
 };
 
-const addAddress = (req, res, next) => {
-  const log = req.context.logger.start("validators:users:addAddress");
-  if (req.body) {
-    const { name, address, city, state, zipCode, specialInstruction, contactName, contactNumber, status, userId } = req.body;
 
-    if (!name) {
-      log.end();
-      return response.failure(res, "name is required");
-    }
-    if (!address) {
-      log.end();
-      return response.failure(res, "address is required");
-    }
-    if (!city) {
-      log.end();
-      return response.failure(res, "city is required");
-    }
-    if (!state) {
-      log.end();
-      return response.failure(res, "state is required");
-    }
-    if (!zipCode) {
-      log.end();
-      return response.failure(res, "zipCode is required");
-    }
-    if (!contactNumber) {
-      log.end();
-      return response.failure(res, "contactNumber is required");
-    }
-    if (!userId) {
-      log.end();
-      return response.failure(res, "userId is required");
-    }
-  }
-  else {
-    log.end();
-    return response.failure(res, "body is required");
-  }
-
-  log.end();
-  return next();
-};
 
 const login = (req, res, next) => {
   if (!req.body) {
@@ -131,6 +89,10 @@ const resetPassword = (req, res, next) => {
     return response.failure(res, "password is required");
   }
 
+  if (!req.body.oldPassword) {
+    log.end();
+    return response.failure(res, "oldPassword is required");
+  }
   log.end();
   return next();
 };

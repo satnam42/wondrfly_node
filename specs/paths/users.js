@@ -25,87 +25,87 @@ module.exports = [
       }
     }
   },
-  {
-    url: "/list",
-    get: {
-      summary: "get User List",
-      description: "get All Users",
-      parameters: [
-        {
-          in: "query",
-          type: "integer",
-          name: "pageNo",
-          description: "pageNo",
-          required: true
-        },
-        {
-          in: "query",
-          type: "integer",
-          name: "pageSize",
-          description: "pageSize",
-          required: true
-        },
-        {
-          in: "query",
-          type: "string",
-          name: "role",
-          description: "role",
-          default: 'all',
-          required: true
-        },
+  // {
+  //   url: "/list",
+  //   get: {
+  //     summary: "get User List",
+  //     description: "get All Users",
+  //     parameters: [
+  //       {
+  //         in: "query",
+  //         type: "integer",
+  //         name: "pageNo",
+  //         description: "pageNo",
+  //         required: true
+  //       },
+  //       {
+  //         in: "query",
+  //         type: "integer",
+  //         name: "pageSize",
+  //         description: "pageSize",
+  //         required: true
+  //       },
+  //       {
+  //         in: "query",
+  //         type: "string",
+  //         name: "role",
+  //         description: "role",
+  //         default: 'all',
+  //         required: true
+  //       },
 
-      ],
-      responses: {
-        default: {
-          description: "Unexpected error",
-          schema: {
-            $ref: "#/definitions/Error"
-          }
-        }
-      }
-    }
-  },
-  {
-    url: "/update/{id}",
-    put: {
-      summary: "Update",
-      description: "update user details",
-      parameters: [
-        {
-          in: "path",
-          name: "id",
-          description: "user id",
-          required: true,
-          type: "string"
-        },
-        {
-          in: "body",
-          name: "body",
-          description: "Model of user update",
-          required: true,
-          schema: {
-            $ref: "#/definitions/userUpdate"
-          }
-        },
-        {
-          in: "header",
-          name: "x-access-token",
-          description: "token to access api",
-          required: true,
-          type: "string"
-        }
-      ],
+  //     ],
+  //     responses: {
+  //       default: {
+  //         description: "Unexpected error",
+  //         schema: {
+  //           $ref: "#/definitions/Error"
+  //         }
+  //       }
+  //     }
+  //   }
+  // },
+  // {
+  //   url: "/update/{id}",
+  //   put: {
+  //     summary: "Update",
+  //     description: "update user details",
+  //     parameters: [
+  //       {
+  //         in: "path",
+  //         name: "id",
+  //         description: "user id",
+  //         required: true,
+  //         type: "string"
+  //       },
+  //       {
+  //         in: "body",
+  //         name: "body",
+  //         description: "Model of user update",
+  //         required: true,
+  //         schema: {
+  //           $ref: "#/definitions/userUpdate"
+  //         }
+  //       },
+  //       {
+  //         in: "header",
+  //         name: "x-access-token",
+  //         description: "token to access api",
+  //         required: true,
+  //         type: "string"
+  //       }
+  //     ],
 
-      responses: {
-        default: {
-          description: "Unexpected error",
-          schema: {
-            $ref: "#/definitions/Error"
-          }
-        }
-      }
-    }
-  },
+  //     responses: {
+  //       default: {
+  //         description: "Unexpected error",
+  //         schema: {
+  //           $ref: "#/definitions/Error"
+  //         }
+  //       }
+  //     }
+  //   }
+  // },
   {
     url: "/getById/{id}",
     get: {
@@ -173,6 +173,13 @@ module.exports = [
           in: "header",
           name: "x-access-token",
           description: "token to access api",
+          required: true,
+          type: "string"
+        },
+        {
+          in: "path",
+          name: "id",
+          description: "user id",
           required: true,
           type: "string"
         },

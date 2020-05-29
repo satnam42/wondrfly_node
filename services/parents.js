@@ -108,9 +108,8 @@ const get = async (query, context) => {
     let pageNo = Number(query.pageNo) || 1;
     let pageSize = Number(query.pageSize) || 10;
     let skipCount = pageSize * (pageNo - 1);
-    let parents = await db.user.find({ role: 'parent' }).skip(skipCount).limit(pageSize);
-    parents.count = await db.user.find({ role: 'parent' }).count();
-
+    let parents = await db.user.find({ $and: [{ role: 'parent' }, { isDeleted: false }] }).skip(skipCount).limit(pageSize);
+    parents.count = await db.user.find({ $and: [{ role: 'parent' }, { isDeleted: false }] }).count();
     log.end();
     return parents;
 };
