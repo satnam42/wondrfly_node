@@ -255,7 +255,7 @@ const uploadProfilePic = async (id, file, context) => {
   }
   const avatarImages = imageUrl + 'assets/images/' + file.filename
   user.avatarImages = avatarImages
-  user.save();
+  await user.save();
   log.end();
   return user
 
