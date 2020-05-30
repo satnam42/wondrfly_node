@@ -20,7 +20,7 @@ const user = mongoose.Schema({
   lastLoggedIn: { type: Date, default: "" },
   loginLimit: { type: Number, default: 0 },
   ssn: { type: String, default: "" },
-  isActivated: { type: Boolean, default: false },
+  isActivated: { type: Boolean, default: true },
   isDeleted: { type: Boolean, default: false },
   lastModifiedBy: { type: String, default: "" },
   deletedBy: { type: String, default: "" },
