@@ -204,8 +204,8 @@ module.exports = [
     }
   },
   {
-    url: "/uploadProfilePic",
-    post: {
+    url: "/uploadProfilePic/{id}",
+    put: {
       summary: "upload Profile Pic ",
       description: "upload Profile Pic ",
       parameters: [
@@ -217,7 +217,7 @@ module.exports = [
           required: true,
         },
         {
-          in: "query",
+          in: "path",
           type: "string",
           name: "id",
           description: "user id",

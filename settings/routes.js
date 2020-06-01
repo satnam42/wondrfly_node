@@ -9,6 +9,7 @@ const validator = require("../validators");
 var multer = require('multer');
 
 var storage = multer.diskStorage({
+
   destination: function (req, file, cb) {
     if (file.fieldname == 'csv') {
       cb(null, path.join(__dirname, '../', 'assets'));
@@ -43,6 +44,7 @@ const configure = (app, logger) => {
       res.send(data);
     });
   });
+
   app.get("/api/specs", function (req, res) {
     res.contentType("application/json");
     res.send(specs.get());
@@ -54,8 +56,8 @@ const configure = (app, logger) => {
     validator.users.create,
     api.users.create
   );
-  app.post(
-    "/api/users/uploadProfilePic",
+  app.put(
+    "/api/users/uploadProfilePic/:id",
     permit.context.requiresToken,
     upload.single('image'),
     api.users.uploadProfilePic
@@ -274,6 +276,23 @@ const configure = (app, logger) => {
     permit.context.builder,
     // validator.users.get,
     api.parents.list
+  );
+  //parent routes//
+  app.post(
+    "/api/child/add",
+    permit.context.requiresToken,
+    api.child.add
+  );
+  app.get(
+    "/api/child/list",
+    permit.context.requiresToken,
+    api.child.list
+  );
+  app.put(
+    "/api/child/update/:id",
+    permit.context.requiresToken,
+    // validator.users.update,
+    api.child.update
   );
   log.end();
 };

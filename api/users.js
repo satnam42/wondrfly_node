@@ -123,7 +123,7 @@ const uploadProfilePic = async (req, res) => {
 
   const log = req.context.logger.start(`api:users:create`);
   try {
-    const user = await service.uploadProfilePic(req.query.id, req.file, req.context);
+    const user = await service.uploadProfilePic(req.params.id, req.file, req.context);
     const message = "Profile Picture Successfully";
     log.end();
     return response.success(res, message, user);
