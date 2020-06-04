@@ -28,15 +28,14 @@ const setUser = (model, user, context) => {
   return user;
 };
 const buildUser = async (model, context) => {
-  const { firstName, lastName, phoneNumber, email, password, role } = model;
   const log = context.logger.start(`services:users:build${model}`);
   const user = await new db.user({
-    firstName: firstName,
-    lastName: lastName,
-    phoneNumber: phoneNumber,
-    email: email,
-    password: password,
-    role: role,
+    firstName: model.firstName,
+    lastName: model.lastName,
+    type: model.type || '',
+    email: model.email,
+    password: model.password,
+    role: model.role,
     createdOn: new Date(),
     updateOn: new Date()
   }).save();

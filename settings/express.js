@@ -23,7 +23,6 @@ const configure = async (app, logger) => {
 
   const root = path.normalize(__dirname + "./../");
   app.use(express.static(path.join(root, "public")));
-
   log.end();
 };
 

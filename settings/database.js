@@ -17,7 +17,7 @@ const configure = async logger => {
   } catch (err) {
     log.error(`unable to create mongo connection to ${dbConfig.url}`);
     throw new Error(err.message);
-    // log.error(err);
+    // log.error(err); 
 
   }
 };

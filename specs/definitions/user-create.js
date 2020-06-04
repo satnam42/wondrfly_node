@@ -12,7 +12,7 @@ module.exports = [
       email: {
         type: "string"
       },
-      phoneNumber: {
+      type: {
         type: "string"
       },
       password: {
