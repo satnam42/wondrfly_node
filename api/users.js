@@ -3,13 +3,14 @@ const service = require("../services/users");
 const response = require("../exchange/response");
 const userMapper = require("../mappers/user");
 
+
 const create = async (req, res) => {
   const log = req.context.logger.start(`api:users:create`);
   try {
     const user = await service.register(req.body, req.context);
     const message = "User Resgiter Successfully";
     log.end();
-    return response.success(res, message, user);
+    return response.success(res, message, userMapper.toModel(user));
   } catch (err) {
     log.error(err);
     log.end();
@@ -30,6 +31,7 @@ const getById = async (req, res) => {
     return response.failure(res, err.message);
   }
 };
+
 
 const list = async (req, res) => {
   const log = req.context.logger.start(`api:users:get`);
@@ -52,11 +54,11 @@ const list = async (req, res) => {
   }
 };
 
+
 const login = async (req, res) => {
   const log = req.context.logger.start("api:users:login");
   try {
     const user = await service.login(req.body, req.context);
-
     log.end();
     return response.authorized(res, userMapper.toModel(user), user.token);
   } catch (err) {
@@ -70,7 +72,6 @@ const otp = async (req, res) => {
   const log = req.context.logger.start("api:users:otp");
   try {
     const msg = await service.otp(req.query.mobileNo, req.context);
-
     log.end();
     return response.success(res, msg);
   } catch (err) {
@@ -132,6 +133,7 @@ const uploadProfilePic = async (req, res) => {
     log.end();
     return response.failure(res, err.message);
   }
+
 };
 
 const getCount = async (req, res) => {
