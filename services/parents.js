@@ -46,7 +46,6 @@ const setParent = (model, parent, context) => {
         parent.stripeKey = model.stripeKey;
     }
 
-
     parent.lastModifiedBy = context.user.id
     parent.updateOn = new Date()
     let user = parent

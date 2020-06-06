@@ -53,7 +53,93 @@ const register = async (model, context) => {
   log.end();
   return user;
 };
+// const forgotPassword = async (model, context) => {
+// const log = context.logger.start('services/users/forgotPassword')
+//   if (!model.otpVerifyToken) {
+//     log.end()
+//     throw new Error("otpVerifyToken is required.")
+//   }
+//   let user = await get({ otpVerifyToken: model.otpVerifyToken }, context)
+//   if (!user) {
+//     log.end()
+//     throw new Error("otpVerifyToken is wrong or expired.")
+//   }
+//   user.password = encrypt.getHash(model.newPassword, context)
+//   let token = auth.getToken(user.id, false, context)
+//   user.otpVerifyToken = null
+//   user.otp = null
+//   user.otpExpires = null
+//   user.token = token
+//   await user.save()
+//   log.end()
+//   return "Password changed Succesfully"
+// }
 
+// const otp = async (user, context) => {
+//   const log = context.logger.start('services/users/otp')
+//   // first email verifies, i.e email is "registered email" or not
+//   let otpExpires = moment().add(3, 'm').format("YYYY-MM-DDTHH:mm:ss")
+//   // four digit otp genration
+//   var digits = '0123456789';
+//   let OTP = '';
+//   for (let i = 0; i < 4; i++) {
+//     OTP += digits[Math.floor(Math.random() * 10)];
+//   }
+
+//   // email send to registered email
+//   var mailOptions = {
+//     from: 'LetsPlay',
+//     to: user.email,
+//     subject: "One Time Password",
+//     html: `Your 4 digit One Time Password:<br>${OTP}`
+//   };
+
+//   await sendMail(mailOptions)
+//   // otp and otpExpires time save to user table
+//   let otpVerifyToken = auth.getToken(user.id, false, context)
+//   user.otpVerifyToken = otpVerifyToken
+//   user.otp = auth.getToken(OTP, false, context)
+//   user.otpExpires = otpExpires
+//   user.save()
+//   log.end()
+//   return user.otpVerifyToken
+// }
+
+// const otpVerify = async (query, context) => {
+//   // verify otp
+//   const log = context.logger.start('services/users/otpVerified')
+//   let user = await get({ otpVerifyToken: query.otpVerifyToken }, context)
+//   if (!user) {
+//     throw new Error("otpVerifyToken is wrong.")
+//   }
+//   let date = moment()
+//   let data
+//   let isotpExpires = true
+//   if (query.otp === auth.extractToken(user.otp, context).id) {  // moment(date).diff(user.otpExpires, 'minutes')
+//     if ((moment(date).diff(user.otpExpires, 'minutes') < 3)) {
+//       data = {
+//         isotpExpires: false,
+//         message: "OTP verified"
+//       }
+//       log.end()
+//       return data
+//     } else {
+//       data = {
+//         isotpExpires: isotpExpires,
+//         message: "OTP Expire"
+//       }
+//       log.end()
+//       return data
+//     }
+//   } else {
+//     data = {
+//       isotpExpires: isotpExpires,
+//       message: "OTP did not match"
+//     }
+//     log.end()
+//     return data
+//   }
+// }
 
 const getById = async (id, context) => {
   const log = context.logger.start(`services:users:getById:${id}`);
