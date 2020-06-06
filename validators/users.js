@@ -11,10 +11,6 @@ const create = (req, res, next) => {
     log.end();
     return response.failure(res, "firstName is required");
   }
-  if (!req.body.lastName) {
-    log.end();
-    return response.failure(res, "lastName is required");
-  }
   if (!req.body.role) {
     log.end();
     return response.failure(res, "role is required");

@@ -31,7 +31,6 @@ const buildUser = async (model, context) => {
   const log = context.logger.start(`services:users:build${model}`);
   const user = await new db.user({
     firstName: model.firstName,
-    lastName: model.lastName,
     type: model.type || '',
     email: model.email,
     password: model.password,
@@ -41,15 +40,16 @@ const buildUser = async (model, context) => {
   }).save();
   log.end();
   return user;
+
 };
 const register = async (model, context) => {
   const log = context.logger.start("services:users:create");
   const isEmail = await db.user.findOne({ email: { $eq: model.email } });
   if (isEmail) {
-    return "Email already resgister";
+    throw new Error("Email already resgister");
   }
   model.password = encrypt.getHash(model.password, context);
-  const user = buildUser(model, context);
+  const user = await buildUser(model, context);
   log.end();
   return user;
 };
@@ -206,7 +206,6 @@ const login = async (model, context) => {
   }
   // console.log("permission", permission)
   const token = auth.getToken(user.id, false, context);
-
   user.lastLoggedIn = Date.now();
   user.token = token;
   user.save();

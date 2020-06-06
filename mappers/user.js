@@ -20,11 +20,11 @@ exports.toModel = entity => {
     ssn: entity.ssn,
     isActivated: entity.isActivated,
     lastModifiedBy: entity.lastModifiedBy,
-    createdBy: context.user.id,
+    createdBy: entity.createdBy,
     deviceToken: entity.deviceToken,
     role: entity.role,
     token: entity.token,
-    permissions: entity.permissions,
+    permissions: entity.permissions || [],
     updatedOn: entity.updatedOn,
     createdOn: entity.createdOn,
   };
