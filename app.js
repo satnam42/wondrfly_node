@@ -19,9 +19,9 @@ const app = express();
 // })
 
 var server = Http.createServer(app);
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
-});
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount)
+// });
 
 const boot = () => {
   const log = logger.start("app:boot");
