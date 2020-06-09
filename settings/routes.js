@@ -74,12 +74,18 @@ const configure = (app, logger) => {
     // validator.users.get,
     api.users.list
   );
-  // app.get(
-  //   "/api/users/otp",
-  //   permit.context.builder,
-  //   // validator.users.get,
-  //   api.users.otp
-  // );
+  app.get(
+    "/api/users/otp",
+    permit.context.builder,
+    // permit.context.requiresToken,
+    api.users.sendOtp
+  );
+  app.post(
+    "/api/users/otpVerify",
+    permit.context.builder,
+    // permit.context.requiresToken,
+    api.users.otpVerify
+  );
   app.get(
     "/api/users/count",
     permit.context.requiresToken,

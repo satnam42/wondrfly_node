@@ -4,6 +4,7 @@ const path = require("path");
 const imageUrl = require('config').get('image').url
 const ObjectId = require("mongodb").ObjectID;
 const accountSid = 'AC5d73ce4cfa70158e5357a905e379af2b';
+var nodemailer = require('nodemailer')
 // Your Account SID from www.twilio.com/console
 const authToken = 'd864b1037de18df6150de9b4bf97b200'
 // d864b1037de18df6150de9b4bf97b200;   // Your Auth Token from www.twilio.com/console
@@ -53,93 +54,91 @@ const register = async (model, context) => {
   log.end();
   return user;
 };
-// const forgotPassword = async (model, context) => {
-// const log = context.logger.start('services/users/forgotPassword')
-//   if (!model.otpVerifyToken) {
-//     log.end()
-//     throw new Error("otpVerifyToken is required.")
-//   }
-//   let user = await get({ otpVerifyToken: model.otpVerifyToken }, context)
-//   if (!user) {
-//     log.end()
-//     throw new Error("otpVerifyToken is wrong or expired.")
-//   }
-//   user.password = encrypt.getHash(model.newPassword, context)
-//   let token = auth.getToken(user.id, false, context)
-//   user.otpVerifyToken = null
-//   user.otp = null
-//   user.otpExpires = null
-//   user.token = token
-//   await user.save()
-//   log.end()
-//   return "Password changed Succesfully"
-// }
+const forgotPassword = async (model, context) => {
+  const log = context.logger.start('services/users/forgotPassword')
+  if (!model.otpVerifyToken) {
+    log.end()
+    throw new Error("otpVerifyToken is required.")
+  }
+  let user = await get({ otpVerifyToken: model.otpVerifyToken }, context)
+  if (!user) {
+    log.end()
+    throw new Error("otpVerifyToken is wrong or expired.")
+  }
+  user.password = encrypt.getHash(model.newPassword, context)
+  let token = auth.getToken(user.id, false, context)
+  user.otpVerifyToken = null
+  user.otp = null
+  user.otpExpires = null
+  user.token = token
+  await user.save()
+  log.end()
+  return "Password changed Succesfully"
+}
 
-// const otp = async (user, context) => {
-//   const log = context.logger.start('services/users/otp')
-//   // first email verifies, i.e email is "registered email" or not
-//   let otpExpires = moment().add(3, 'm').format("YYYY-MM-DDTHH:mm:ss")
-//   // four digit otp genration
-//   var digits = '0123456789';
-//   let OTP = '';
-//   for (let i = 0; i < 4; i++) {
-//     OTP += digits[Math.floor(Math.random() * 10)];
-//   }
+const sendOtp = async (email, context) => {
+  const log = context.logger.start('services/users/sendOtp')
+  const user = await db.user.findOne({ email: { $eq: email } });
+  if (!user) {
+    throw new Error("user not found");
+  }
+  // four digit otp genration logic
+  var digits = '0123456789';
+  let OTP = '';
+  for (let i = 0; i < 4; i++) {
+    OTP += digits[Math.floor(Math.random() * 10)];
+  }
 
-//   // email send to registered email
-//   var mailOptions = {
-//     from: 'LetsPlay',
-//     to: user.email,
-//     subject: "One Time Password",
-//     html: `Your 4 digit One Time Password:<br>${OTP}`
-//   };
+  var smtpTrans = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+      user: `javascript.mspl@gmail.com`,
+      pass: `g@m@da11`
+    }
+  });
+  // email send to registered email
+  var mailOptions = {
+    from: 'LetsPlay',
+    to: user.email,
+    subject: "One Time Password",
+    html: `Your 4 digit One Time Password:<br>${OTP}`
+  };
 
-//   await sendMail(mailOptions)
-//   // otp and otpExpires time save to user table
-//   let otpVerifyToken = auth.getToken(user.id, false, context)
-//   user.otpVerifyToken = otpVerifyToken
-//   user.otp = auth.getToken(OTP, false, context)
-//   user.otpExpires = otpExpires
-//   user.save()
-//   log.end()
-//   return user.otpVerifyToken
-// }
+  let mailSent = await smtpTrans.sendMail(mailOptions)
+  if (mailSent) {
+    console.log("Message sent: %s", mailSent.messageId);
+    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(mailSent));
+    // return mailSent
+  } else {
+    log.end()
+    throw new Error("Unable to send email try after sometime");
+  }
+  let otpToken = auth.getOtpToken(OTP, true, context)
+  let data = {
+    message: 'OTP successfully sent on register email',
+    otpToken: otpToken
+  }
+  log.end()
+  return data
+}
 
-// const otpVerify = async (query, context) => {
-//   // verify otp
-//   const log = context.logger.start('services/users/otpVerified')
-//   let user = await get({ otpVerifyToken: query.otpVerifyToken }, context)
-//   if (!user) {
-//     throw new Error("otpVerifyToken is wrong.")
-//   }
-//   let date = moment()
-//   let data
-//   let isotpExpires = true
-//   if (query.otp === auth.extractToken(user.otp, context).id) {  // moment(date).diff(user.otpExpires, 'minutes')
-//     if ((moment(date).diff(user.otpExpires, 'minutes') < 3)) {
-//       data = {
-//         isotpExpires: false,
-//         message: "OTP verified"
-//       }
-//       log.end()
-//       return data
-//     } else {
-//       data = {
-//         isotpExpires: isotpExpires,
-//         message: "OTP Expire"
-//       }
-//       log.end()
-//       return data
-//     }
-//   } else {
-//     data = {
-//       isotpExpires: isotpExpires,
-//       message: "OTP did not match"
-//     }
-//     log.end()
-//     return data
-//   }
-// }
+
+const otpVerify = async (model, context) => {
+  const log = context.logger.start('services/users/otpVerified')
+  const otp = await auth.extractToken(model.otpToken, context)
+  if (otp.name === "TokenExpiredError") {
+    throw new Error("otp expired");
+  }
+  if (otp.name === "JsonWebTokenError") {
+    throw new Error("otp is invalid");
+  }
+  let data = {
+    message: 'otp verify successfully',
+    otpVerifyToken: model.otpToken
+  }
+  log.end()
+  return data
+}
 
 const getById = async (id, context) => {
   const log = context.logger.start(`services:users:getById:${id}`);
@@ -403,4 +402,6 @@ exports.getRecentAdded = getRecentAdded;
 exports.recentAddedByRole = recentAddedByRole;
 exports.deleteUser = deleteUser
 exports.activateAndDeactive = activateAndDeactive
+exports.sendOtp = sendOtp
 exports.otp = otp;
+exports.otpVerify = otpVerify

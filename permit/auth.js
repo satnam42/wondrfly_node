@@ -21,6 +21,25 @@ const getToken = (id, isExpired, context) => {
   return token;
 };
 
+const getOtpToken = (id, isExpired, context) => {
+  const log = context.logger.start(`permit:auth:getToken:${id}`);
+
+  const extractFrom = {
+    id: id
+  };
+
+  const options = {};
+
+  if (isExpired) {
+    options.expiresIn = '4m';
+  }
+
+  const token = jwt.sign(extractFrom, authConfig.jwtKey, options);
+  log.end();
+  return token;
+};
+
+
 const extractToken = (token, context) => {
   const log = context.logger.start(`permit:auth:requiresToken:${token}`);
 
@@ -36,3 +55,4 @@ const extractToken = (token, context) => {
 
 exports.getToken = getToken;
 exports.extractToken = extractToken;
+exports.getOtpToken = getOtpToken;

@@ -389,28 +389,61 @@ module.exports = [
       }
     }
   },
-  // {
-  //   url: "/otp",
-  //   get: {
-  //     summary: "get otp",
-  //     description: "get otp",
-  //     parameters: [
-  //       {
-  //         in: "query",
-  //         type: "integer",
-  //         name: "mobileNo",
-  //         description: "mobileNo",
-  //         required: true
-  //       },
-  //     ],
-  //     responses: {
-  //       default: {
-  //         description: "Unexpected error",
-  //         schema: {
-  //           $ref: "#/definitions/Error"
-  //         }
-  //       }
-  //     }
-  //   }
-  // },
+  {
+    url: "/otp",
+    get: {
+      summary: "get otp",
+      description: "get otp",
+      parameters: [
+        {
+          in: "query",
+          type: "string",
+          name: "email",
+          description: "email",
+          required: true
+        },
+      ],
+      responses: {
+        default: {
+          description: "Unexpected error",
+          schema: {
+            $ref: "#/definitions/Error"
+          }
+        }
+      }
+    }
+  },
+  {
+    url: "/otpVerify",
+    post: {
+      summary: "Verify otp",
+      description: "Verify otp",
+      parameters: [
+        {
+          in: "body",
+          name: "body",
+          description: "Model of verifyToken",
+          required: true,
+          schema: {
+            $ref: "#/definitions/verifyToken"
+          }
+        }
+        // {
+        //   in: "header",
+        //   name: "x-access-token",
+        //   description: "token to access api",
+        //   required: true,
+        //   type: "string"
+        // },
+      ],
+      responses: {
+        default: {
+          description: "Unexpected error",
+          schema: {
+            $ref: "#/definitions/Error"
+          }
+        }
+      }
+    }
+  },
 ];
