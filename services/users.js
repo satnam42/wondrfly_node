@@ -54,91 +54,9 @@ const register = async (model, context) => {
   log.end();
   return user;
 };
-const forgotPassword = async (model, context) => {
-  const log = context.logger.start('services/users/forgotPassword')
-  if (!model.otpVerifyToken) {
-    log.end()
-    throw new Error("otpVerifyToken is required.")
-  }
-  let user = await get({ otpVerifyToken: model.otpVerifyToken }, context)
-  if (!user) {
-    log.end()
-    throw new Error("otpVerifyToken is wrong or expired.")
-  }
-  user.password = encrypt.getHash(model.newPassword, context)
-  let token = auth.getToken(user.id, false, context)
-  user.otpVerifyToken = null
-  user.otp = null
-  user.otpExpires = null
-  user.token = token
-  await user.save()
-  log.end()
-  return "Password changed Succesfully"
-}
-
-const sendOtp = async (email, context) => {
-  const log = context.logger.start('services/users/sendOtp')
-  const user = await db.user.findOne({ email: { $eq: email } });
-  if (!user) {
-    throw new Error("user not found");
-  }
-  // four digit otp genration logic
-  var digits = '0123456789';
-  let OTP = '';
-  for (let i = 0; i < 4; i++) {
-    OTP += digits[Math.floor(Math.random() * 10)];
-  }
-
-  var smtpTrans = nodemailer.createTransport({
-    service: 'Gmail',
-    auth: {
-      user: `javascript.mspl@gmail.com`,
-      pass: `g@m@da11`
-    }
-  });
-  // email send to registered email
-  var mailOptions = {
-    from: 'LetsPlay',
-    to: user.email,
-    subject: "One Time Password",
-    html: `Your 4 digit One Time Password:<br>${OTP}`
-  };
-
-  let mailSent = await smtpTrans.sendMail(mailOptions)
-  if (mailSent) {
-    console.log("Message sent: %s", mailSent.messageId);
-    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(mailSent));
-    // return mailSent
-  } else {
-    log.end()
-    throw new Error("Unable to send email try after sometime");
-  }
-  let otpToken = auth.getOtpToken(OTP, true, context)
-  let data = {
-    message: 'OTP successfully sent on register email',
-    otpToken: otpToken
-  }
-  log.end()
-  return data
-}
 
 
-const otpVerify = async (model, context) => {
-  const log = context.logger.start('services/users/otpVerified')
-  const otp = await auth.extractToken(model.otpToken, context)
-  if (otp.name === "TokenExpiredError") {
-    throw new Error("otp expired");
-  }
-  if (otp.name === "JsonWebTokenError") {
-    throw new Error("otp is invalid");
-  }
-  let data = {
-    message: 'otp verify successfully',
-    otpVerifyToken: model.otpToken
-  }
-  log.end()
-  return data
-}
+
 
 const getById = async (id, context) => {
   const log = context.logger.start(`services:users:getById:${id}`);
@@ -167,17 +85,17 @@ const get = async (query, context) => {
       .limit(pageSize);
     users.count = await db.user.find({ role: query.role }).count();
   }
-
   log.end();
   return users;
 };
+
 const getCount = async (context) => {
+
   const log = context.logger.start(`services:users:count`);
   const userCount = await db.user.find({}).count();
   const providerCount = await db.user.find({ role: 'provider' }).count();
   const parentCount = await db.user.find({ role: 'parent' }).count();
   const childrenCount = await db.user.find({ role: 'child' }).count();
-  // const programCount = await db.user.find({ role: query.role }).count();
 
   let count = {
     userCount: userCount,
@@ -189,6 +107,7 @@ const getCount = async (context) => {
   log.end();
   return count;
 };
+
 const recentAddedByRole = async (context, query) => {
   const log = context.logger.start(`services:users:getRecentAdded`);
   const user = await db.user.find({ role: query.role }).sort({ _id: -1 }).limit(5)
@@ -198,6 +117,7 @@ const recentAddedByRole = async (context, query) => {
   log.end();
   return user;
 };
+
 const getRecentAdded = async (context) => {
   const log = context.logger.start(`services:users:getRecentAdded`);
   const user = await db.user.find().sort({ _id: -1 }).limit(5)
@@ -227,7 +147,6 @@ const resetPassword = async (id, model, context) => {
   }
 };
 
-
 const update = async (id, model, context) => {
   const log = context.logger.start(`services:users:update`);
 
@@ -235,30 +154,23 @@ const update = async (id, model, context) => {
   if (!entity) {
     throw new Error("invalid user");
   }
-
   const user = await setUser(model, entity, context);
-
   log.end();
   return user
 };
 
 const login = async (model, context) => {
   const log = context.logger.start("services:users:login");
-
   const query = {};
-
   if (model.email) {
     query.email = model.email;
   }
-
   let user = await db.user.findOne(query);
-
   if (!user) {
     log.end();
     throw new Error("user not found");
   }
   const isMatched = encrypt.compareHash(model.password, user.password, context);
-
   if (!isMatched) {
     log.end();
     throw new Error("password mismatch");
@@ -273,12 +185,9 @@ const login = async (model, context) => {
         foreignField: "_id",
         as: "permissions"
       },
-      // { $match: { userId: ObjectId(user.id) } },
     },
     ]
-
   );
-
   if (data.length > 0) {
     data.forEach(item => {
       if (!item.isDeleted) {
@@ -289,7 +198,6 @@ const login = async (model, context) => {
 
     });
   }
-  // console.log("permission", permission)
   const token = auth.getToken(user.id, false, context);
   user.lastLoggedIn = Date.now();
   user.token = token;
@@ -297,28 +205,20 @@ const login = async (model, context) => {
   user.permissions = permissions
   log.end();
   return user;
-
 };
+
 const otp = async (mobileNo, context) => {
   var client = new twilio(accountSid, authToken);
-
   const msg = await client.messages.create({
     body: 'otp is 0000',
     to: `+91${mobileNo}`,  // Text this number
     from: '+15005550006' // From a valid Twilio number
   })
-
   console.log(msg.status)
-
-  // const log = context.logger.start("services:users:otp");
-  // user.lastLoggedIn = Date.now();
-  // user.token = token;
-  // user.save();
-  // user.permissions = permissions
-  // log.end();
   return msg;
 
 };
+
 const logout = async (model, context) => {
   const log = context.logger.start("services:users:logout");
   await context.user.save();
@@ -329,7 +229,6 @@ const logout = async (model, context) => {
 const uploadProfilePic = async (id, file, context) => {
   const log = context.logger.start(`services:users:uploadProfilePic`);
   let user = await db.user.findById(id);
-
   if (!file) {
     throw new Error("image not found");
   }
@@ -389,6 +288,89 @@ const activateAndDeactive = async (context, id, isActivated) => {
 
 };
 
+const sendOtp = async (email, context) => {
+  const log = context.logger.start('services/users/sendOtp')
+  const user = await db.user.findOne({ email: { $eq: email } });
+  if (!user) {
+    throw new Error("user not found");
+  }
+  // four digit otp genration logic
+  var digits = '0123456789';
+  let OTP = '';
+  for (let i = 0; i < 4; i++) {
+    OTP += digits[Math.floor(Math.random() * 10)];
+  }
+  var smtpTrans = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+      user: `javascript.mspl@gmail.com`,
+      pass: `g@m@da11`
+    }
+  });
+
+  // email send to registered email
+  var mailOptions = {
+    from: 'LetsPlay',
+    to: user.email,
+    subject: "One Time Password",
+    html: `Your 4 digit One Time Password:<br>${OTP}<br>
+    otp valid only 4 minutes`
+  };
+
+  let mailSent = await smtpTrans.sendMail(mailOptions)
+  if (mailSent) {
+    console.log("Message sent: %s", mailSent.messageId);
+    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(mailSent));
+    // return mailSent
+  } else {
+    log.end()
+    throw new Error("Unable to send email try after sometime");
+  }
+  let otpToken = auth.getOtpToken(OTP, true, context)
+  let data = {
+    message: 'OTP successfully sent on register email',
+    otpToken: otpToken
+  }
+  log.end()
+  return data
+}
+
+const otpVerify = async (model, context) => {
+  const log = context.logger.start('services/users/otpVerified')
+  const otp = await auth.extractToken(model.otpToken, context)
+  if (!model.otpToken) {
+    throw new Error("otpToken is required");
+  }
+  if (otp.name === "TokenExpiredError") {
+    throw new Error("otp expired");
+  }
+  if (otp.name === "JsonWebTokenError") {
+    throw new Error("otp is invalid");
+  }
+  let data = {
+    message: 'otp verify successfully',
+    otpVerifyToken: model.otpToken
+  }
+  log.end()
+  return data
+}
+
+const forgotPassword = async (model, context) => {
+  const log = context.logger.start('services/users/forgotPassword')
+  const user = await db.user.findOne({ email: { $eq: email } });
+  const otp = await auth.extractToken(model.otpToken, context)
+  if (otp.name === "TokenExpiredError") {
+    throw new Error("otp expired for forgot password");
+  }
+  if (otp.name === "JsonWebTokenError") {
+    throw new Error("invalid token");
+  }
+  user.password = encrypt.getHash(model.newPassword, context)
+  await user.save()
+  log.end()
+  return "Password changed Succesfully"
+}
+
 exports.register = register;
 exports.get = get;
 exports.login = login;
@@ -402,6 +384,7 @@ exports.getRecentAdded = getRecentAdded;
 exports.recentAddedByRole = recentAddedByRole;
 exports.deleteUser = deleteUser
 exports.activateAndDeactive = activateAndDeactive
-exports.sendOtp = sendOtp
 exports.otp = otp;
+exports.sendOtp = sendOtp
 exports.otpVerify = otpVerify
+exports.forgotPassword = forgotPassword

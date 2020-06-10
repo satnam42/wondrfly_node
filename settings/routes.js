@@ -74,18 +74,7 @@ const configure = (app, logger) => {
     // validator.users.get,
     api.users.list
   );
-  app.get(
-    "/api/users/otp",
-    permit.context.builder,
-    // permit.context.requiresToken,
-    api.users.sendOtp
-  );
-  app.post(
-    "/api/users/otpVerify",
-    permit.context.builder,
-    // permit.context.requiresToken,
-    api.users.otpVerify
-  );
+
   app.get(
     "/api/users/count",
     permit.context.requiresToken,
@@ -104,7 +93,7 @@ const configure = (app, logger) => {
     "/api/users/recentAddedByRole",
     permit.context.requiresToken,
     // permit.context.builder,
-    // validator.users.get,
+    // v0alidator.users.get,
     api.users.recentAddedByRole
   );
   app.put(
@@ -140,6 +129,23 @@ const configure = (app, logger) => {
     "/api/users/activeOrDeactive",
     permit.context.requiresToken,
     api.users.activeOrDeactive
+  );
+  app.get(
+    "/api/users/otp",
+    permit.context.builder,
+    // permit.context.requiresToken,
+    api.users.sendOtp
+  );
+  app.post(
+    "/api/users/otpVerify",
+    permit.context.builder,
+    api.users.otpVerify
+  );
+  app.post(
+    "/api/users/forgotPassword",
+    permit.context.builder,
+    validator.users.forgotPassword,
+    api.users.forgotPassword
   );
   //entity routes//
   // app.post(

@@ -80,31 +80,7 @@ const login = async (req, res) => {
 //     return response.failure(res, err.message);
 //   }
 // };
-const sendOtp = async (req, res) => {
-  const log = req.context.logger.start("api:users:otp");
-  try {
-    const data = await service.sendOtp(req.query.email, req.context);
-    log.end();
-    return response.success(res, data);
-  } catch (err) {
-    log.error(err);
-    log.end();
-    return response.failure(res, err.message);
-  }
-};
 
-const otpVerify = async (req, res) => {
-  const log = req.context.logger.start("api:users:otp");
-  try {
-    const data = await service.otpVerify(req.body, req.context);
-    log.end();
-    return response.success(res, data);
-  } catch (err) {
-    log.error(err);
-    log.end();
-    return response.failure(res, err.message);
-  }
-};
 
 const update = async (req, res) => {
   const log = req.context.logger.start(`api:users:update:${req.params.id}`);
@@ -225,6 +201,44 @@ const activeOrDeactive = async (req, res) => {
     return response.failure(res, err.message);
   }
 };
+const sendOtp = async (req, res) => {
+  const log = req.context.logger.start("api:users:otp");
+  try {
+    const data = await service.sendOtp(req.query.email, req.context);
+    log.end();
+    return response.success(res, data);
+  } catch (err) {
+    log.error(err);
+    log.end();
+    return response.failure(res, err.message);
+  }
+};
+
+const otpVerify = async (req, res) => {
+  const log = req.context.logger.start("api:users:otpVerify");
+  try {
+    const data = await service.otpVerify(req.body, req.context);
+    log.end();
+    return response.success(res, data);
+  } catch (err) {
+    log.error(err);
+    log.end();
+    return response.failure(res, err.message);
+  }
+};
+
+const forgotPassword = async (req, res) => {
+  const log = req.context.logger.start("api:users:forgotPassword");
+  try {
+    const data = await service.forgotPassword(req.body, req.context);
+    log.end();
+    return response.success(res, data);
+  } catch (err) {
+    log.error(err);
+    log.end();
+    return response.failure(res, err.message);
+  }
+};
 
 exports.create = create;
 exports.list = list;
@@ -241,3 +255,4 @@ exports.deleteUser = deleteUser
 exports.activeOrDeactive = activeOrDeactive
 exports.sendOtp = sendOtp
 exports.otpVerify = otpVerify
+exports.forgotPassword = forgotPassword

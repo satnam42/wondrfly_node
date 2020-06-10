@@ -30,12 +30,11 @@ const create = (req, res, next) => {
 
 
 const login = (req, res, next) => {
+  const log = req.context.logger.start("validators:users:login");
   if (!req.body) {
     log.end();
     return response.failure(res, "body is required");
   }
-  const log = req.context.logger.start("validators:users:login");
-
   if (!req.body.email) {
     log.end();
     return response.failure(res, "Email is required");
@@ -45,7 +44,6 @@ const login = (req, res, next) => {
     log.end();
     return response.failure(res, "Password is required");
   }
-
   log.end();
   return next();
 };
@@ -114,6 +112,27 @@ const logout = (req, res, next) => {
   log.end();
   return next();
 };
+const forgotPassword = (req, res, next) => {
+  const log = req.context.logger.start("validators:users:forgotPassword");
+  if (!req.body) {
+    log.end();
+    return response.failure(res, "body is required");
+  }
+  if (!req.body.otpToken) {
+    log.end();
+    return response.failure(res, "otpToken is required");
+  }
+  if (!req.body.email) {
+    log.end();
+    return response.failure(res, "email is required");
+  }
+  if (!req.body.newPassword) {
+    log.end();
+    return response.failure(res, "Password is required");
+  }
+  log.end();
+  return next();
+};
 
 exports.getById = getById;
 exports.login = login;
@@ -121,3 +140,4 @@ exports.logout = logout;
 exports.create = create;
 exports.update = update;
 exports.resetPassword = resetPassword;
+exports.forgotPassword = forgotPassword;

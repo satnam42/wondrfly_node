@@ -428,13 +428,32 @@ module.exports = [
             $ref: "#/definitions/verifyToken"
           }
         }
-        // {
-        //   in: "header",
-        //   name: "x-access-token",
-        //   description: "token to access api",
-        //   required: true,
-        //   type: "string"
-        // },
+      ],
+      responses: {
+        default: {
+          description: "Unexpected error",
+          schema: {
+            $ref: "#/definitions/Error"
+          }
+        }
+      }
+    }
+  },
+  {
+    url: "/forgotPassword",
+    post: {
+      summary: "forgotPassword",
+      description: "forgotPassword",
+      parameters: [
+        {
+          in: "body",
+          name: "body",
+          description: "Model of forgotPassword",
+          required: true,
+          schema: {
+            $ref: "#/definitions/forgotPassword"
+          }
+        }
       ],
       responses: {
         default: {
