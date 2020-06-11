@@ -164,7 +164,7 @@ module.exports = [
     }
   },
   {
-    url: "/resetPassword",
+    url: "/resetPassword/{id}",
     post: {
       summary: "Reset Password",
       description: "reset Password",

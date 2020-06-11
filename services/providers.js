@@ -1,5 +1,5 @@
-+
-    "use strict";
+
+"use strict";
 const fs = require('fs');
 const csv = require('csvtojson')
 const build = async (model, context) => {
@@ -46,10 +46,20 @@ const importProvider = async (file, context) => {
     rows.forEach(row => {
         build(row, context);
     });
+
     await fs.unlinkSync(file.path);
     return 'csv import successfully ';
 };
+
+
 const getAllProvider = async (context) => {
+    const log = context.logger.start(`services:providers:getAllProvider`);
+    const providers = await db.provider.find({})
+    log.end();
+    return providers;
+};
+
+const update = async (context) => {
     const log = context.logger.start(`services:providers:getAllProvider`);
     const providers = await db.provider.find({})
     log.end();
@@ -58,4 +68,5 @@ const getAllProvider = async (context) => {
 
 exports.importProvider = importProvider;
 exports.getAllProvider = getAllProvider;
+exports.update = update;
 

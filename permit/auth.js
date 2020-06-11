@@ -3,11 +3,12 @@
 const jwt = require("jsonwebtoken");
 const authConfig = require("config").get("auth");
 
-const getToken = (id, isExpired, context) => {
-  const log = context.logger.start(`permit:auth:getToken:${id}`);
+const getToken = (user, isExpired, context) => {
+  const log = context.logger.start(`permit:auth:getToken:${user}`);
 
   const extractFrom = {
-    id: id
+    id: user.id,
+    password: user.password
   };
 
   const options = {};

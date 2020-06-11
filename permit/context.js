@@ -50,6 +50,9 @@ const requiresToken = async (req, res, next) => {
   if (!user) {
     return response.failure(res, "invalid user");
   }
+  if (user.password != decodedUser.password) {
+    return response.failure(res, "invalid password");
+  }
   req.context.user = user;
   log.end();
   return next();

@@ -55,9 +55,6 @@ const register = async (model, context) => {
   return user;
 };
 
-
-
-
 const getById = async (id, context) => {
   const log = context.logger.start(`services:users:getById:${id}`);
   const user = await db.user.findById(id);
@@ -198,7 +195,7 @@ const login = async (model, context) => {
 
     });
   }
-  const token = auth.getToken(user.id, false, context);
+  const token = auth.getToken(user, false, context);
   user.lastLoggedIn = Date.now();
   user.token = token;
   user.save();

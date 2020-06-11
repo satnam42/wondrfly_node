@@ -98,7 +98,7 @@ const update = async (req, res) => {
 const resetPassword = async (req, res) => {
   const log = req.context.logger.start("api:users:resetPassword");
   try {
-    const message = await service.resetPassword(req.query.id, req.body, req.context);
+    const message = await service.resetPassword(req.params.id, req.body, req.context);
     log.end();
     return response.success(res, message);
   } catch (err) {

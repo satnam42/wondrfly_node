@@ -26,18 +26,19 @@ const list = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
-// const update = async (req, res) => {
-//     const log = req.context.logger.start(`api:tags:update:${req.params.id}`);
-//     try {
-//         const tag = await service.update(req.params.id, req.body, req.context);
-//         log.end();
-//         return response.data(res, userMapper.toModel(tag));
-//     } catch (err) {
-//         log.error(err);
-//         log.end();
-//         return response.failure(res, err.message);
-//     }
-// };
+const update = async (req, res) => {
+    const log = req.context.logger.start(`api:tags:update:${req.params.id}`);
+    try {
+        const tag = await service.update(req.params.id, req.body, req.context);
+        log.end();
+        return response.data(res, userMapper.toModel(tag));
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
 exports.create = create;
 exports.list = list;
+exports.update = update
 

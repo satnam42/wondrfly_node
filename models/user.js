@@ -25,6 +25,7 @@ const user = mongoose.Schema({
   isDeleted: { type: Boolean, default: false },
   lastModifiedBy: { type: String, default: "" },
   deletedBy: { type: String, default: "" },
+  token: { type: String, default: "" },
   createdBy: { type: String, default: "" },
   role: { type: String, default: "" },
   deviceToken: { type: String, default: "" },
