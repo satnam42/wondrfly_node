@@ -54,4 +54,44 @@ module.exports = [
             }
         }
     },
+    {
+        url: "/update/{id}",
+        put: {
+            summary: "Update",
+            description: "update provider details",
+            parameters: [
+                {
+                    in: "path",
+                    name: "id",
+                    description: "user id",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "body",
+                    name: "body",
+                    description: "Model of provider update",
+                    required: true,
+                    schema: {
+                        $ref: "#/definitions/providerUpdate"
+                    }
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    }
 ]

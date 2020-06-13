@@ -5,7 +5,10 @@ const provider = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
-    category: { type: String, default: "" },
+    category: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Category'
+    },
     description: { type: String, default: "" },
     facebook: { type: String, default: "" },
     fullAddress: { type: String, default: "" },
@@ -19,6 +22,7 @@ const provider = mongoose.Schema({
     twitter: { type: String, default: "" },
     website: { type: String, default: "" },
     youtube: { type: String, default: "" },
+    instagram: { type: String, default: "" },
     awards: { type: String, default: "" },
     taxNumber: { type: String, default: "" },
     workingFrom: { type: String, default: "" },

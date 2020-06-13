@@ -226,7 +226,7 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.permissions.list
   );
-
+  // provider routes //
   app.post(
     "/api/providers/import",
     permit.context.requiresToken,
@@ -237,6 +237,12 @@ const configure = (app, logger) => {
     "/api/providers/list",
     permit.context.requiresToken,
     api.providers.list
+  );
+  app.put(
+    "/api/providers/update/:id",
+    permit.context.requiresToken,
+    // validator.users.update,
+    api.providers.update
   );
   //review routes//
   app.post(
