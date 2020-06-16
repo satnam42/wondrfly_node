@@ -123,7 +123,7 @@ const logout = async (req, res) => {
 
 const uploadProfilePic = async (req, res) => {
 
-  const log = req.context.logger.start(`api:users:create`);
+  const log = req.context.logger.start(`api:users:uploadProfilePic`);
   try {
     const user = await service.uploadProfilePic(req.params.id, req.file, req.context);
     const message = "Profile Picture Successfully";

@@ -11,7 +11,9 @@ const authToken = 'd864b1037de18df6150de9b4bf97b200'
 var twilio = require('twilio');
 
 const setUser = (model, user, context) => {
+
   const log = context.logger.start("services:users:set");
+
   if (model.firstName !== "string" && model.firstName !== undefined) {
     user.firstName = model.firstName;
   }
@@ -28,7 +30,9 @@ const setUser = (model, user, context) => {
   user.save();
   return user;
 };
+
 const buildUser = async (model, context) => {
+
   const log = context.logger.start(`services:users:build${model}`);
   const user = await new db.user({
     firstName: model.firstName,
@@ -43,8 +47,10 @@ const buildUser = async (model, context) => {
   return user;
 
 };
+
 const register = async (model, context) => {
-  const log = context.logger.start("services:users:create");
+
+  const log = context.logger.start("services:users:register");
   const isEmail = await db.user.findOne({ email: { $eq: model.email } });
   if (isEmail) {
     throw new Error("Email already resgister");
@@ -53,21 +59,26 @@ const register = async (model, context) => {
   const user = await buildUser(model, context);
   log.end();
   return user;
+
 };
 
 const getById = async (id, context) => {
+
   const log = context.logger.start(`services:users:getById:${id}`);
   const user = await db.user.findById(id);
   log.end();
   return user;
+
 };
 
 const get = async (query, context) => {
+
   const log = context.logger.start(`services:users:get`);
   let pageNo = Number(query.pageNo) || 1;
   let pageSize = Number(query.pageSize) || 10;
   let skipCount = pageSize * (pageNo - 1);
   let users
+
   if (query.role == 'all') {
     users = await db.user
       .find({})
@@ -75,6 +86,7 @@ const get = async (query, context) => {
       .limit(pageSize);
     users.count = await db.user.find({}).count();
   }
+
   else {
     users = await db.user
       .find({ role: query.role })
@@ -82,18 +94,20 @@ const get = async (query, context) => {
       .limit(pageSize);
     users.count = await db.user.find({ role: query.role }).count();
   }
+
   log.end();
   return users;
+
 };
 
 const getCount = async (context) => {
 
-  const log = context.logger.start(`services:users:count`);
+  const log = context.logger.start(`services:users:getCount`);
+
   const userCount = await db.user.find({}).count();
   const providerCount = await db.user.find({ role: 'provider' }).count();
   const parentCount = await db.user.find({ role: 'parent' }).count();
   const childrenCount = await db.user.find({ role: 'child' }).count();
-
   let count = {
     userCount: userCount,
     providerCount: providerCount,
@@ -106,13 +120,17 @@ const getCount = async (context) => {
 };
 
 const recentAddedByRole = async (context, query) => {
-  const log = context.logger.start(`services:users:getRecentAdded`);
+
+  const log = context.logger.start(`services:users:recentAddedByRole`);
   const user = await db.user.find({ role: query.role }).sort({ _id: -1 }).limit(5)
+
   if (!user) {
     throw new Error("user not found");
   }
+
   log.end();
   return user;
+
 };
 
 const getRecentAdded = async (context) => {
@@ -146,11 +164,11 @@ const resetPassword = async (id, model, context) => {
 
 const update = async (id, model, context) => {
   const log = context.logger.start(`services:users:update`);
-
   let entity = await db.user.findById(id);
   if (!entity) {
     throw new Error("invalid user");
   }
+
   const user = await setUser(model, entity, context);
   log.end();
   return user
@@ -192,9 +210,9 @@ const login = async (model, context) => {
           permissions.push(permission.type)
         })
       }
-
     });
   }
+
   const token = auth.getToken(user, false, context);
   user.lastLoggedIn = Date.now();
   user.token = token;
@@ -213,7 +231,6 @@ const otp = async (mobileNo, context) => {
   })
   console.log(msg.status)
   return msg;
-
 };
 
 const logout = async (model, context) => {
@@ -237,7 +254,6 @@ const uploadProfilePic = async (id, file, context) => {
   await user.save();
   log.end();
   return user
-
 };
 
 const deleteUser = async (context, id) => {
@@ -245,10 +261,13 @@ const deleteUser = async (context, id) => {
   if (context.user.role != 'superAdmin') {
     throw new Error("you are not authorized to perform this operation");
   }
+
   if (!id) {
     throw new Error("userId is requried");
   }
+
   let user = await db.user.findById(id);
+
   if (!user) {
     throw new Error("user not found");
   }
