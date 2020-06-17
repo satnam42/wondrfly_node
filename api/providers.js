@@ -3,6 +3,7 @@ const service = require("../services/providers");
 const response = require("../exchange/response");
 
 const create = async (req, res) => {
+
     const log = req.context.logger.start(`api:provider:create`);
     try {
         const tag = await service.importProvider(req.file, req.context);
@@ -13,7 +14,9 @@ const create = async (req, res) => {
         log.end();
         return response.failure(res, err.message);
     }
+
 };
+
 const list = async (req, res) => {
     const log = req.context.logger.start(`api:providers:list`);
     try {
@@ -26,6 +29,7 @@ const list = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
+
 const update = async (req, res) => {
     const log = req.context.logger.start(`api:tags:update:${req.params.id}`);
     try {
@@ -38,7 +42,24 @@ const update = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
+
+const uploadBannerPic = async (req, res) => {
+
+    const log = req.context.logger.start(`api:provider:uploadBannerPic`);
+    try {
+        const user = await service.uploadBannerPic(req.params.id, req.file, req.context);
+        const message = "upload Banner Successfully";
+        log.end();
+        return response.success(res, message, user);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 exports.create = create;
 exports.list = list;
-exports.update = update
+exports.update = update;
+exports.uploadBannerPic = uploadBannerPic;
 

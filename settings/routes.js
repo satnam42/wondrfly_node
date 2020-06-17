@@ -227,6 +227,7 @@ const configure = (app, logger) => {
     api.permissions.list
   );
   // provider routes //
+
   app.post(
     "/api/providers/import",
     permit.context.requiresToken,
@@ -244,12 +245,20 @@ const configure = (app, logger) => {
     // validator.users.update,
     api.providers.update
   );
+  app.put(
+    "/api/providers/uploadBannerPic/:id",
+    permit.context.requiresToken,
+    upload.array('image', 5),
+    // upload.single('image'),
+    api.providers.uploadBannerPic
+  );
   //review routes//
   app.post(
     "/api/reviews/add",
     permit.context.requiresToken,
     api.reviews.create
   );
+
   app.get(
     "/api/reviews/byProgramId",
     permit.context.requiresToken,
@@ -262,6 +271,7 @@ const configure = (app, logger) => {
     // validator.users.update,
     api.reviews.update
   );
+
   //parent routes//
   app.post(
     "/api/parents/add",

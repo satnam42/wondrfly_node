@@ -2,6 +2,7 @@
 "use strict";
 const fs = require('fs');
 const csv = require('csvtojson')
+const imageUrl = require('config').get('image').url
 const build = async (model, context) => {
     const log = context.logger.start(`services:providers:build${model}`);
     const provider = await new db.provider({
@@ -173,8 +174,29 @@ const updateProvider = async (id, model, context) => {
     log.end();
     return providerDetail
 };
+const uploadBannerPic = async (id, files, context) => {
+    const log = context.logger.start(`services:provider:uploadBannerPic`);
+    let bannerImages = []
+    let bannerUrl = ''
+    let user = await db.user.findById(id);
+    if (files.length < 0) {
+        throw new Error("image not found");
+    }
+    if (!user) {
+        throw new Error("user not found");
+    }
+    files.forEach(file => {
+        bannerUrl = imageUrl + 'assets/images/' + file.filename
+    });
+    bannerImages.push(bannerUrl)
+    provider.banners = avatarImages
+    await provider.save();
+    log.end();
+    return provider
+};
 
 exports.importProvider = importProvider;
 exports.getAllProvider = getAllProvider;
 exports.updateProvider = updateProvider;
+exports.uploadBannerPic = uploadBannerPic;
 

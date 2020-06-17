@@ -17,6 +17,7 @@ const provider = mongoose.Schema({
     merchantVerified: { type: String },
     linkedin: { type: String, default: "" },
     listingURL: { type: String, default: "" },
+    banners: [{ type: String, default: "" }],
     rating: { type: String, default: "" },
     reviews: { type: String, default: "" },
     twitter: { type: String, default: "" },

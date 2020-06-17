@@ -29,6 +29,7 @@ const setUser = (model, user, context) => {
   log.end();
   user.save();
   return user;
+
 };
 
 const buildUser = async (model, context) => {
