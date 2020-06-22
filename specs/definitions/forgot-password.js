@@ -2,7 +2,7 @@ module.exports = [
     {
         name: "forgotPassword",
         properties: {
-            oldToken: {
+            otpToken: {
                 type: "string"
             },
             email: {
