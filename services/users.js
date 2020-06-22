@@ -321,7 +321,7 @@ const sendOtp = async (email, context) => {
     service: 'Gmail',
     auth: {
       user: `javascript.mspl@gmail.com`,
-      pass: `g@m@da11`
+      pass: `yesterday@4321`
     }
   });
 
