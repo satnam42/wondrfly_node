@@ -374,7 +374,7 @@ const otpVerify = async (model, context) => {
 
 const forgotPassword = async (model, context) => {
   const log = context.logger.start('services/users/forgotPassword')
-  const user = await db.user.findOne({ email: { $eq: email } });
+  const user = await db.user.findOne({ email: { $eq: model.email } });
   const otp = await auth.extractToken(model.otpToken, context)
   if (otp.name === "TokenExpiredError") {
     throw new Error("otp expired for forgot password");
