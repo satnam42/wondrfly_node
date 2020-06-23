@@ -132,6 +132,18 @@ const setBasicInfo = (model, user, context) => {
 
     return user;
 };
+const buildBanner = async (provider, files) => {
+    let bannerImages = []
+    let bannerUrl = ''
+
+    await files.forEach(file => {
+        bannerUrl = imageUrl + 'assets/images/' + file.filename
+        bannerImages.push(bannerUrl)
+    });
+
+
+    return bannerImages
+}
 
 const importProvider = async (file, context) => {
     if (file.fieldname != 'csv') {
@@ -174,22 +186,18 @@ const updateProvider = async (id, model, context) => {
     log.end();
     return providerDetail
 };
+
 const uploadBannerPic = async (id, files, context) => {
     const log = context.logger.start(`services:provider:uploadBannerPic`);
-    let bannerImages = []
-    let bannerUrl = ''
-    let user = await db.user.findById(id);
+    const provider = await db.provider.findOne({ user: { $eq: id } });
     if (files.length < 0) {
         throw new Error("image not found");
     }
-    if (!user) {
-        throw new Error("user not found");
+    if (!provider) {
+        throw new Error("provider not found");
     }
-    files.forEach(file => {
-        bannerUrl = imageUrl + 'assets/images/' + file.filename
-    });
-    bannerImages.push(bannerUrl)
-    provider.banners = avatarImages
+    let banners = await buildBanner(provider, files)
+    provider.banners = banners
     await provider.save();
     log.end();
     return provider

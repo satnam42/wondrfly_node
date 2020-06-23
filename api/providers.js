@@ -47,7 +47,7 @@ const uploadBannerPic = async (req, res) => {
 
     const log = req.context.logger.start(`api:provider:uploadBannerPic`);
     try {
-        const user = await service.uploadBannerPic(req.params.id, req.file, req.context);
+        const user = await service.uploadBannerPic(req.params.id, req.files, req.context);
         const message = "upload Banner Successfully";
         log.end();
         return response.success(res, message, user);

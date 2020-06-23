@@ -58,6 +58,13 @@ const register = async (model, context) => {
   }
   model.password = encrypt.getHash(model.password, context);
   const user = await buildUser(model, context);
+  if (user.role == 'provider') {
+    await new db.provider({
+      user: user._id,
+      createdOn: new Date(),
+      updateOn: new Date()
+    }).save();
+  }
   log.end();
   return user;
 
@@ -357,6 +364,9 @@ const otpVerify = async (model, context) => {
   const otp = await auth.extractToken(model.otpToken, context)
   if (!model.otpToken) {
     throw new Error("otpToken is required");
+  }
+  if (otp.id != model.otp) {
+    throw new Error("please enter valid otp");;
   }
   if (otp.name === "TokenExpiredError") {
     throw new Error("otp expired");
