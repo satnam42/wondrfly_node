@@ -305,7 +305,7 @@ const configure = (app, logger) => {
     // validator.users.get,
     api.parents.list
   );
-  //parent routes//
+  //child routes//
   app.post(
     "/api/child/add",
     permit.context.requiresToken,
@@ -323,6 +323,27 @@ const configure = (app, logger) => {
     api.child.update
   );
   log.end();
+
+  //guardian routes
+  app.post(
+    "/api/guardians/add",
+    permit.context.requiresToken,
+    api.guardians.add
+  );
+  app.get(
+    "/api/guardians/list",
+    permit.context.requiresToken,
+    api.guardians.list
+  );
+  app.put(
+    "/api/guardians/update/:id",
+    permit.context.requiresToken,
+    // validator.users.update,
+    api.guardians.update
+  );
+  log.end();
 };
+
+
 
 exports.configure = configure
