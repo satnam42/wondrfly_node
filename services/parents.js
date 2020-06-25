@@ -102,7 +102,7 @@ const addParent = async (model, context) => {
 };
 
 
-const get = async (query, context) => {
+const getList = async (query, context) => {
     const log = context.logger.start(`services:parents:get`);
     let pageNo = Number(query.pageNo) || 1;
     let pageSize = Number(query.pageSize) || 10;
@@ -209,10 +209,28 @@ const activateAndDeactive = async (context, id, isActivated) => {
 
 };
 
+const getParent = async (id, context) => {
+
+    const log = context.logger.start(`services:parents:update`);
+
+    if (!id) {
+        throw new Error("parent id is required");
+    }
+
+    let parent = await db.user.findById(id);
+
+    if (!parent) {
+        throw new Error("Parent Not Found");
+    }
+    log.end();
+    return parent
+};
+
 exports.addParent = addParent;
-exports.get = get;
+exports.getList = getList;
 exports.resetPassword = resetPassword;
 exports.updateParent = updateParent;
 exports.uploadProfilePic = uploadProfilePic;
 exports.deleteParent = deleteParent
 exports.activateAndDeactive = activateAndDeactive
+exports.getParent = getParent

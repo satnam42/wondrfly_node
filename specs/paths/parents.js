@@ -113,6 +113,38 @@ module.exports = [
             }
         }
     },
+    {
+        url: "/getById/{id}",
+        get: {
+            summary: "getById",
+            description: "parent by id details",
+            parameters: [
+                {
+                    in: "path",
+                    name: "id",
+                    description: "parent id",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
     // {
     //   url: "/resetPassword",
     //   post: {

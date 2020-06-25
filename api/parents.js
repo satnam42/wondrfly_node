@@ -38,6 +38,18 @@ const list = async (req, res) => {
     }
 };
 
+const get = async (req, res) => {
+    const log = req.context.logger.start(`api:parents:get:${req.params.id}`);
+    try {
+        const parent = await service.getParent(req.params.id, req.context);
+        log.end();
+        return response.data(res, parent);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
 
 const update = async (req, res) => {
     const log = req.context.logger.start(`api:parents:update:${req.params.id}`);
@@ -111,5 +123,6 @@ exports.list = list;
 exports.update = update;
 exports.resetPassword = resetPassword;
 exports.uploadProfilePic = uploadProfilePic;
-exports.deleteParent = deleteParent
-exports.activeOrDeactive = activeOrDeactive
+exports.deleteParent = deleteParent;
+exports.activeOrDeactive = activeOrDeactive;
+exports.get = get

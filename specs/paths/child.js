@@ -100,6 +100,38 @@ module.exports = [
             }
         }
     },
+    {
+        url: "/byParentId/{id}",
+        get: {
+            summary: "get children by parent id",
+            description: "get children by parent id",
+            parameters: [
+                {
+                    in: "path",
+                    name: "id",
+                    description: "child id",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
     // {
     //   url: "/resetPassword",
     //   post: {

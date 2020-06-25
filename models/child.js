@@ -9,7 +9,7 @@ const childSchema = mongoose.Schema({
     age: { type: String, default: "", required: true },
     sex: { type: String, default: "", required: true },
     avtar: { type: String, default: "", },
-    contact_other_info: { type: String, default: "", },
+    contactOtherInfo: { type: String, default: "", },
     schoolinfo: { type: String, default: "", },
     interestinfo: { type: String, default: "", },
     dislikes: { type: String, default: "", },
@@ -23,11 +23,10 @@ const childSchema = mongoose.Schema({
         enum: ['active', 'inactive'],
         default: 'active'
     },
-    user: {
+    parent: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
-    postedOn: { type: Date, default: Date.now },
     updatedOn: { type: Date, default: Date.now },
     createdOn: { type: Date, default: Date.now },
 },

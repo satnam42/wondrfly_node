@@ -4,7 +4,7 @@ const response = require("../exchange/response");
 
 
 const add = async (req, res) => {
-    const log = req.context.logger.start(`api:parents:add`);
+    const log = req.context.logger.start(`api:child:add`);
     try {
         const parent = await service.addParent(req.body, req.context);
         const message = "child added Successfully";
@@ -18,18 +18,18 @@ const add = async (req, res) => {
 };
 
 const list = async (req, res) => {
-    const log = req.context.logger.start(`api:parents:get`);
+    const log = req.context.logger.start(`api:child:get`);
     try {
-        const parents = await service.get(req.query, req.context);
-        let message = parents.count ? parents.count : 0 + " " + "parent Got";
+        const child = await service.getList(req.query, req.context);
+        let message = child.count ? child.count : 0 + " " + "parent Got";
         log.end();
         return response.page(
             message,
             res,
-            parents,
+            child,
             Number(req.query.pageNo) || 1,
             Number(req.query.pageSize) || 10,
-            parents.count
+            child.count
         );
     } catch (err) {
         log.error(err);
@@ -38,13 +38,25 @@ const list = async (req, res) => {
     }
 };
 
+const childByParentId = async (req, res) => {
+    const log = req.context.logger.start(`api:child:update:${req.params.id}`);
+    try {
+        const children = await service.childByParentId(req.params.id, req.context);
+        log.end();
+        return response.data(res, children);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
 
 const update = async (req, res) => {
-    const log = req.context.logger.start(`api:parents:update:${req.params.id}`);
+    const log = req.context.logger.start(`api:child:update:${req.params.id}`);
     try {
-        const parent = await service.updateParent(req.params.id, req.body, req.context);
+        const child = await service.updateChild(req.params.id, req.body, req.context);
         log.end();
-        return response.data(res, parent);
+        return response.data(res, child);
     } catch (err) {
         log.error(err);
         log.end();
@@ -54,3 +66,4 @@ const update = async (req, res) => {
 exports.add = add;
 exports.list = list;
 exports.update = update;
+exports.childByParentId = childByParentId;

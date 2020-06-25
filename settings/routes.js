@@ -283,6 +283,11 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.parents.update
   );
+  app.get(
+    "/api/parents/getById/:id",
+    permit.context.requiresToken,
+    api.parents.get
+  );
   // app.put(
   //   "/api/parents/delete",
   //   permit.context.requiresToken,
@@ -321,6 +326,12 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     // validator.users.update,
     api.child.update
+  );
+  app.get(
+    "/api/child/byParentId/:id",
+    permit.context.requiresToken,
+    // validator.users.update,
+    api.child.childByParentId
   );
   log.end();
 

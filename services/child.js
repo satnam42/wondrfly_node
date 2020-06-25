@@ -55,7 +55,7 @@ const buildChild = async (model, context) => {
         interestInfo: model.interestInfo,
         dislikes: model.dislikes,
         alergies: model.alergies,
-        user: model.parentId,
+        parent: model.parentId,
         parentNotes: model.parentNotes,
         createdBy: context.user.id,
         createdOn: new Date(),
@@ -95,6 +95,18 @@ const updateChild = async (id, model, context) => {
     log.end();
     return child
 };
+const childByParentId = async (id, context) => {
+    const log = context.logger.start(`services:childs:update`);
+
+    let children = await db.child.find({ parent: id })
+    if (!children) {
+        throw new Error("child Not Found");
+    }
+
+    log.end();
+    return children
+};
 exports.addChild = addChild;
 exports.get = get;
 exports.updateChild = updateChild;
+exports.childByParentId = childByParentId;
