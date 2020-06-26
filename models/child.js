@@ -1,14 +1,12 @@
-
-
-
 "use strict";
 const mongoose = require("mongoose");
 
 const childSchema = mongoose.Schema({
-    firstName: { type: String, default: "", required: true },
-    age: { type: String, default: "", required: true },
+    name: { type: String, default: "", required: true },
+    dob: { type: String, default: "", required: true },
     sex: { type: String, default: "", required: true },
     avtar: { type: String, default: "", },
+    relationToChild: { type: String, default: "", },
     contactOtherInfo: { type: String, default: "", },
     schoolinfo: { type: String, default: "", },
     interestinfo: { type: String, default: "", },

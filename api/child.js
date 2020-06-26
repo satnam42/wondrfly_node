@@ -6,10 +6,10 @@ const response = require("../exchange/response");
 const add = async (req, res) => {
     const log = req.context.logger.start(`api:child:add`);
     try {
-        const parent = await service.addParent(req.body, req.context);
+        const child = await service.addChild(req.body, req.context);
         const message = "child added Successfully";
         log.end();
-        return response.success(res, message, parent);
+        return response.success(res, message, child);
     } catch (err) {
         log.error(err);
         log.end();
@@ -21,7 +21,7 @@ const list = async (req, res) => {
     const log = req.context.logger.start(`api:child:get`);
     try {
         const child = await service.getList(req.query, req.context);
-        let message = child.count ? child.count : 0 + " " + "parent Got";
+        let message = child.count ? child.count : 0 + " " + "child Got";
         log.end();
         return response.page(
             message,

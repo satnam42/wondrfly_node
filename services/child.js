@@ -47,7 +47,7 @@ const buildChild = async (model, context) => {
     const log = context.logger.start(`services:childs:build${model}`);
     const child = await new db.child({
         firstName: model.firstName,
-        age: model.age,
+        dob: model.dob,
         avtar: model.avtar,
         sex: model.sex,
         contactOtherInfo: model.contactOtherInfo,

@@ -2,7 +2,13 @@ module.exports = [
     {
         name: "childAdd",
         properties: {
-            firstName: {
+            name: {
+                type: "string"
+            },
+            dob: {
+                type: "string"
+            },
+            relationToChild: {
                 type: "string"
             },
             sex: {
