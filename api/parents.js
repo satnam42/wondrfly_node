@@ -20,7 +20,7 @@ const add = async (req, res) => {
 const list = async (req, res) => {
     const log = req.context.logger.start(`api:parents:get`);
     try {
-        const parents = await service.get(req.query, req.context);
+        const parents = await service.getList(req.query, req.context);
         let message = parents.count ? parents.count : 0 + " " + "parent Got";
         log.end();
         return response.page(
