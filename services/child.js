@@ -6,8 +6,8 @@ const ObjectId = require("mongodb").ObjectID;
 
 const setChild = (model, child, context) => {
     const log = context.logger.start("services:childs:set");
-    if (model.firstName !== "string" && model.firstName !== undefined) {
-        child.firstName = model.firstName;
+    if (model.name !== "string" && model.name !== undefined) {
+        child.name = model.name;
     }
     if (model.dob !== "string" && model.dob !== undefined) {
         child.dob = model.dob;
@@ -46,7 +46,7 @@ const setChild = (model, child, context) => {
 const buildChild = async (model, context) => {
     const log = context.logger.start(`services:childs:build${model}`);
     const child = await new db.child({
-        firstName: model.firstName,
+        name: model.name,
         dob: model.dob,
         avtar: model.avtar,
         sex: model.sex,
@@ -66,7 +66,6 @@ const buildChild = async (model, context) => {
     return child;
 };
 
-
 const addChild = async (model, context) => {
     const log = context.logger.start("services:childs:create");
     const child = buildChild(model, context);
@@ -75,7 +74,7 @@ const addChild = async (model, context) => {
 };
 
 
-const get = async (query, context) => {
+const getList = async (query, context) => {
     const log = context.logger.start(`services:childs:get`);
     let childs = await db.child.find({})
     log.end();
@@ -108,6 +107,6 @@ const childByParentId = async (id, context) => {
     return children
 };
 exports.addChild = addChild;
-exports.get = get;
+exports.getList = getList;
 exports.updateChild = updateChild;
 exports.childByParentId = childByParentId;
