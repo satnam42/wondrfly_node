@@ -6,6 +6,7 @@ exports.toModel = entity => {
     firstName: entity.firstName,
     lastName: entity.lastName,
     phoneNumber: entity.phoneNumber,
+    avatarImages: entity.avatarImages,
     email: entity.email,
     sex: entity.sex,
     addressLine1: entity.addressLine1,
