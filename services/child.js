@@ -9,8 +9,8 @@ const setChild = (model, child, context) => {
     if (model.firstName !== "string" && model.firstName !== undefined) {
         child.firstName = model.firstName;
     }
-    if (model.age !== "string" && model.age !== undefined) {
-        child.age = model.age;
+    if (model.dob !== "string" && model.dob !== undefined) {
+        child.dob = model.dob;
     }
     if (model.avtar !== "string" && model.avtar !== undefined) {
         child.avtar = model.avtar;
@@ -50,6 +50,7 @@ const buildChild = async (model, context) => {
         dob: model.dob,
         avtar: model.avtar,
         sex: model.sex,
+        relationToChild: model.relationToChild,
         contactOtherInfo: model.contactOtherInfo,
         schoolInfo: model.schoolInfo,
         interestInfo: model.interestInfo,
