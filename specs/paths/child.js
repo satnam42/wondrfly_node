@@ -203,37 +203,68 @@ module.exports = [
     //         }
     //     }
     // },
-    // {
-    //     url: "/delete",
-    //     put: {
-    //         summary: "delete child",
-    //         description: "delete child by id",
-    //         parameters: [
-    //             {
-    //                 in: "header",
-    //                 name: "x-access-token",
-    //                 description: "token to access api",
-    //                 required: true,
-    //                 type: "string"
-    //             },
-    //             {
-    //                 in: "query",
-    //                 type: "string",
-    //                 name: "id",
-    //                 description: "child id",
-    //                 required: true
-    //             },
-    //         ],
-    //         responses: {
-    //             default: {
-    //                 description: "Unexpected error",
-    //                 schema: {
-    //                     $ref: "#/definitions/Error"
-    //                 }
-    //             }
-    //         }
-    //     }
-    // },
+    {
+        url: "/delete/{id}",
+        put: {
+            summary: "delete child",
+            description: "delete child by id",
+            parameters: [
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "path",
+                    type: "string",
+                    name: "id",
+                    description: "child id",
+                    required: true
+                },
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
+    {
+        url: "/uploadChildPic",
+        post: {
+            summary: "upload child Pic ",
+            description: "upload child Pic ",
+            parameters: [
+                {
+                    in: "formData",
+                    name: "image",
+                    type: "file",
+                    description: "The file to upload.",
+                    required: true,
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
     // {
     //   url: "/activeOrDeactive",
     //   put: {

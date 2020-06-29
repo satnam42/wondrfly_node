@@ -227,7 +227,6 @@ const configure = (app, logger) => {
     api.permissions.list
   );
   // provider routes //
-
   app.post(
     "/api/providers/import",
     permit.context.requiresToken,
@@ -258,20 +257,17 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.reviews.create
   );
-
   app.get(
     "/api/reviews/byProgramId",
     permit.context.requiresToken,
     api.reviews.reviewsByProgramId
   );
-
   app.put(
     "/api/reviews/update/:id",
     permit.context.requiresToken,
     // validator.users.update,
     api.reviews.update
   );
-
   //parent routes//
   app.post(
     "/api/parents/add",
@@ -307,7 +303,6 @@ const configure = (app, logger) => {
   app.get(
     "/api/parents/list",
     permit.context.builder,
-    // validator.users.get,
     api.parents.list
   );
   //child routes//
@@ -324,17 +319,25 @@ const configure = (app, logger) => {
   app.put(
     "/api/child/update/:id",
     permit.context.requiresToken,
-    // validator.users.update,
     api.child.update
   );
   app.get(
     "/api/child/byParentId/:id",
     permit.context.requiresToken,
-    // validator.users.update,
     api.child.childByParentId
   );
+  app.put(
+    "/api/child/delete/:id",
+    permit.context.requiresToken,
+    api.child.deleteChild
+  );
+  app.post(
+    "/api/child/uploadChildPic",
+    permit.context.requiresToken,
+    upload.single('image'),
+    api.child.uploadChildPic
+  );
   log.end();
-
   //guardian routes
   app.post(
     "/api/guardians/add",
@@ -349,12 +352,14 @@ const configure = (app, logger) => {
   app.put(
     "/api/guardians/update/:id",
     permit.context.requiresToken,
-    // validator.users.update,
     api.guardians.update
+  );
+  app.get(
+    "/api/guardians/byParentId/:id",
+    permit.context.requiresToken,
+    api.guardians.getGuardianByParentId
   );
   log.end();
 };
-
-
 
 exports.configure = configure

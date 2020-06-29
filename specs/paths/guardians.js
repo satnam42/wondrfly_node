@@ -6,8 +6,6 @@ module.exports = [
             description: "add guardian",
             parameters: [
                 {
-
-
                     in: "body",
                     name: "body",
                     description: "Model of guardian creation",
@@ -47,7 +45,6 @@ module.exports = [
                     required: true,
                     type: "string"
                 },
-
             ],
             responses: {
                 default: {
@@ -89,7 +86,6 @@ module.exports = [
                     type: "string"
                 }
             ],
-
             responses: {
                 default: {
                     description: "Unexpected error",
@@ -100,145 +96,35 @@ module.exports = [
             }
         }
     },
-    // {
-    //   url: "/resetPassword",
-    //   post: {
-    //     summary: "Reset Password",
-    //     description: "reset Password",
-    //     parameters: [
-    //       {
-    //         in: "header",
-    //         name: "x-access-token",
-    //         description: "token to access api",
-    //         required: true,
-    //         type: "string"
-    //       },
-    //       {
-    //         in: "body",
-    //         name: "body",
-    //         description: "Model of resetPassword user",
-    //         required: true,
-    //         schema: {
-    //           $ref: "#/definitions/resetPassword"
-    //         }
-    //       }
-    //     ],
-    //     responses: {
-    //       default: {
-    //         description: "Unexpected error",
-    //         schema: {
-    //           $ref: "#/definitions/Error"
-    //         }
-    //       }
-    //     }
-    //   }
-    // },
-    // {
-    //     url: "/uploadProfilePic",
-    //     post: {
-    //         summary: "upload Profile Pic ",
-    //         description: "upload Profile Pic ",
-    //         parameters: [
-    //             {
-    //                 in: "formData",
-    //                 name: "image",
-    //                 type: "file",
-    //                 description: "The file to upload.",
-    //                 required: true,
-    //             },
-    //             {
-    //                 in: "query",
-    //                 type: "string",
-    //                 name: "id",
-    //                 description: "user id",
-    //                 required: true
-    //             },
-    //             {
-    //                 in: "header",
-    //                 name: "x-access-token",
-    //                 description: "token to access api",
-    //                 required: true,
-    //                 type: "string"
-    //             }
-    //         ],
-    //         responses: {
-    //             default: {
-    //                 description: "Unexpected error",
-    //                 schema: {
-    //                     $ref: "#/definitions/Error"
-    //                 }
-    //             }
-    //         }
-    //     }
-    // },
-    // {
-    //     url: "/delete",
-    //     put: {
-    //         summary: "delete guardian",
-    //         description: "delete guardian by id",
-    //         parameters: [
-    //             {
-    //                 in: "header",
-    //                 name: "x-access-token",
-    //                 description: "token to access api",
-    //                 required: true,
-    //                 type: "string"
-    //             },
-    //             {
-    //                 in: "query",
-    //                 type: "string",
-    //                 name: "id",
-    //                 description: "guardian id",
-    //                 required: true
-    //             },
-    //         ],
-    //         responses: {
-    //             default: {
-    //                 description: "Unexpected error",
-    //                 schema: {
-    //                     $ref: "#/definitions/Error"
-    //                 }
-    //             }
-    //         }
-    //     }
-    // },
-    // {
-    //   url: "/activeOrDeactive",
-    //   put: {
-    //     summary: "activeOrDeactive ",
-    //     description: "activeOrDeactive user by id",
-    //     parameters: [
-    //       {
-    //         in: "header",
-    //         name: "x-access-token",
-    //         description: "token to access api",
-    //         required: true,
-    //         type: "string"
-    //       },
-    //       {
-    //         in: "query",
-    //         type: "string",
-    //         name: "id",
-    //         description: "user id",
-    //         required: true
-    //       },
-    //       {
-    //         in: "query",
-    //         type: "string",
-    //         name: "status",
-    //         description: "active,inacive",
-    //         required: true
-    //       },
-    //     ],
-    //     responses: {
-    //       default: {
-    //         description: "Unexpected error",
-    //         schema: {
-    //           $ref: "#/definitions/Error"
-    //         }
-    //       }
-    //     }
-    //   }
-    // },
-
-];
+    {
+        url: "/byParentId/{id}",
+        get: {
+            summary: "byParentId",
+            description: "get guardian by parent id",
+            parameters: [
+                {
+                    in: "path",
+                    name: "id",
+                    description: "guardian id",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
+]

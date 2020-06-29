@@ -8,6 +8,16 @@ module.exports = [
             dob: {
                 type: "string"
             },
+            interestInfo: {
+                type: 'array',
+                items: {
+                    // type: 'array',
+                    type: "string", default: ""
+                    // properties:
+                    //     { type: "string", default: "" },
+
+                }
+            },
             relationToChild: {
                 type: "string"
             },

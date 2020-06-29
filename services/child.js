@@ -89,9 +89,7 @@ const updateChild = async (id, model, context) => {
     if (!entity) {
         throw new Error("child Not Found");
     }
-
     const child = await setChild(model, entity, context);
-
     log.end();
     return child
 };
@@ -106,7 +104,40 @@ const childByParentId = async (id, context) => {
     log.end();
     return children
 };
+
+const deleteChild = async (context, id) => {
+    const log = context.logger.start(`services:child:deleteChild`);
+    if (!id) {
+        throw new Error("childId is requried");
+    }
+
+    let child = await db.child.findById(id);
+
+    if (!child) {
+        throw new Error("child not found");
+    }
+    child.isDeleted = true
+    child.updatedOn = Date.now()
+    child.deletedBy = context.user.id
+    child.save()
+    log.end();
+    return child
+
+};
+
+const uploadChildPic = async (file, context) => {
+    const log = context.logger.start(`services:child:uploadChildPic`);
+    if (!file) {
+        throw new Error("image not found");
+    }
+    const avatarImages = imageUrl + 'assets/images/' + file.filename
+    log.end();
+    return avatarImages
+};
+
 exports.addChild = addChild;
 exports.getList = getList;
 exports.updateChild = updateChild;
 exports.childByParentId = childByParentId;
+exports.deleteChild = deleteChild
+exports.uploadChildPic = uploadChildPic

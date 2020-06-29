@@ -67,8 +67,7 @@ const register = async (model, context) => {
   }
   log.end();
   return user;
-
-};
+};  
 
 const getById = async (id, context) => {
 

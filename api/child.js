@@ -18,7 +18,7 @@ const add = async (req, res) => {
 };
 
 const list = async (req, res) => {
-    const log = req.context.logger.start(`api:child:get`);
+    const log = req.context.logger.start(`api:child:list`);
     try {
         const child = await service.getList(req.query, req.context);
         let message = child.count ? child.count : 0 + " " + "child Got";
@@ -39,7 +39,7 @@ const list = async (req, res) => {
 };
 
 const childByParentId = async (req, res) => {
-    const log = req.context.logger.start(`api:child:update:${req.params.id}`);
+    const log = req.context.logger.start(`api:child:childByParentId:${req.params.id}`);
     try {
         const children = await service.childByParentId(req.params.id, req.context);
         log.end();
@@ -63,7 +63,35 @@ const update = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
+const deleteChild = async (req, res) => {
+    const log = req.context.logger.start(`api:child:deleteChild`);
+    try {
+        const child = await service.deleteChild(req.context, req.query.id);
+        log.end();
+        return response.data(res, child);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+const uploadChildPic = async (req, res) => {
+    const log = req.context.logger.start(`api:child:uploadChildPic`);
+    try {
+        const child = await service.uploadChildPic(req.file, req.context);
+        log.end();
+        return response.data(res, child);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+
+};
 exports.add = add;
 exports.list = list;
 exports.update = update;
 exports.childByParentId = childByParentId;
+exports.deleteChild = deleteChild;
+exports.uploadChildPic = uploadChildPic;
+

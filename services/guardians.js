@@ -67,6 +67,19 @@ const updateGuardian = async (id, model, context) => {
     log.end();
     return guardian
 };
+const getGuardianByParentId = async (id, model, context) => {
+    const log = context.logger.start(`services:guardians:getGuardianByParentId`);
+    if (!id) {
+        throw new Error("parentId Not Found");
+    }
+    let guardians = await db.guardian.find({ parent: id });
+    if (!entity) {
+        throw new Error("guardian Not Found");
+    }
+    log.end();
+    return guardians
+};
 exports.addGuardian = addGuardian;
 exports.get = get;
 exports.updateGuardian = updateGuardian;
+exports.getGuardianByParentId = getGuardianByParentId;

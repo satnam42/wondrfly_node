@@ -177,7 +177,7 @@ const recentAddedByRole = async (req, res) => {
 };
 
 const deleteUser = async (req, res) => {
-  const log = req.context.logger.start(`api:users:recentAddedByRole`);
+  const log = req.context.logger.start(`api:users:deleteUser`);
   try {
     const user = await service.deleteUser(req.context, req.query.id);
     log.end();
@@ -190,7 +190,7 @@ const deleteUser = async (req, res) => {
 };
 
 const activeOrDeactive = async (req, res) => {
-  const log = req.context.logger.start(`api:users:recentAddedByRole`);
+  const log = req.context.logger.start(`api:users:activeOrDeactive`);
   try {
     const count = await service.activateAndDeactive(req.context, req.query.id, req.query.isActivated);
     log.end();
@@ -202,7 +202,7 @@ const activeOrDeactive = async (req, res) => {
   }
 };
 const sendOtp = async (req, res) => {
-  const log = req.context.logger.start("api:users:otp");
+  const log = req.context.logger.start("api:users:sendOtp");
   try {
     const data = await service.sendOtp(req.query.email, req.context);
     log.end();

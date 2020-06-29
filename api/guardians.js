@@ -17,8 +17,11 @@ const add = async (req, res) => {
     }
 };
 
+
+
+
 const list = async (req, res) => {
-    const log = req.context.logger.start(`api:guardians:get`);
+    const log = req.context.logger.start(`api:guardians:list`);
     try {
         const guardians = await service.get(req.query, req.context);
         let message = guardians.count ? guardians.count : 0 + " " + "guardians Got";
@@ -37,8 +40,6 @@ const list = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
-
-
 const update = async (req, res) => {
     const log = req.context.logger.start(`api:guardians:update:${req.params.id}`);
     try {
@@ -52,6 +53,20 @@ const update = async (req, res) => {
     }
 };
 
+const getGuardianByParentId = async (req, res) => {
+    const log = req.context.logger.start(`api:guardians:getGuardianByParentId:${req.params.id}`);
+    try {
+        const parent = await service.getGuardianByParentId(req.params.id, req.context);
+        log.end();
+        return response.data(res, parent);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 exports.add = add;
 exports.list = list;
 exports.update = update;
+exports.getGuardianByParentId = getGuardianByParentId;
