@@ -115,17 +115,17 @@ const getList = async (query, context) => {
 
 const resetPassword = async (model, context) => {
     const log = context.logger.start(`service/parents/resetPassword: ${model}`);
-    const parent = context.parent;
+    let user = context.user;
     const isMatched = encrypt.compareHash(
         model.oldPassword,
-        parent.password,
+        user.password,
         context
     );
     if (isMatched) {
         const newPassword = encrypt.getHash(model.newPassword, context);
-        parent.password = newPassword;
-        parent.updatedOn = new Date();
-        await parent.save();
+        user.password = newPassword;
+        user.updatedOn = new Date();
+        await user.save();
         log.end();
         return "Password Updated Successfully";
     } else {

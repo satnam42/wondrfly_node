@@ -11,10 +11,8 @@ module.exports = [
             interestInfo: {
                 type: 'array',
                 items: {
-                    // type: 'array',
+
                     type: "string", default: ""
-                    // properties:
-                    //     { type: "string", default: "" },
 
                 }
             },

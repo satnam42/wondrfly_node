@@ -3,7 +3,6 @@ const service = require("../services/providers");
 const response = require("../exchange/response");
 
 const create = async (req, res) => {
-
     const log = req.context.logger.start(`api:provider:create`);
     try {
         const tag = await service.importProvider(req.file, req.context);
@@ -14,7 +13,6 @@ const create = async (req, res) => {
         log.end();
         return response.failure(res, err.message);
     }
-
 };
 
 const list = async (req, res) => {
@@ -44,7 +42,6 @@ const update = async (req, res) => {
 };
 
 const uploadBannerPic = async (req, res) => {
-
     const log = req.context.logger.start(`api:provider:uploadBannerPic`);
     try {
         const user = await service.uploadBannerPic(req.params.id, req.files, req.context);
