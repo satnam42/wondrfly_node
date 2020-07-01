@@ -165,7 +165,7 @@ module.exports = [
   },
   {
     url: "/resetPassword/{id}",
-    post: {
+    put: {
       summary: "Reset Password",
       description: "reset Password",
       parameters: [

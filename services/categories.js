@@ -1,4 +1,5 @@
 
+
 "use strict";
 const build = async (model, context) => {
     const { name, description } = model;
@@ -12,6 +13,7 @@ const build = async (model, context) => {
     log.end();
     return category;
 };
+
 const set = (model, category, context) => {
     const log = context.logger.start("services:categories:set");
     if (model.name !== "string" && model.name !== undefined) {
@@ -25,6 +27,7 @@ const set = (model, category, context) => {
     category.save();
     return category;
 };
+
 const create = async (model, context) => {
     const log = context.logger.start("services:categories:create");
     const isCategoryExist = await db.category.findOne({ name: { $eq: model.name } });
@@ -35,12 +38,14 @@ const create = async (model, context) => {
     log.end();
     return category;
 };
+
 const getAllcategories = async (context) => {
     const log = context.logger.start(`services:categories:getAllcategories`);
     const categories = await db.category.find();
     log.end();
     return categories;
 };
+
 const update = async (id, model, context) => {
     const log = context.logger.start(`services:categories:update`);
     let isCategory = await db.category.findById(id);

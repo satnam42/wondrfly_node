@@ -114,8 +114,8 @@ const configure = (app, logger) => {
     // validator.users.logout,
     api.users.logout
   );
-  app.post(
-    "/api/users/resetPassword",
+  app.put(
+    "/api/users/resetPassword/:id",
     permit.context.requiresToken,
     validator.users.resetPassword,
     api.users.resetPassword
