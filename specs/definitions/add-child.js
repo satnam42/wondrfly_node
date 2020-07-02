@@ -8,12 +8,13 @@ module.exports = [
             dob: {
                 type: "string"
             },
+            age: {
+                type: "string"
+            },
             interestInfo: {
                 type: 'array',
                 items: {
-
                     type: "string", default: ""
-
                 }
             },
             relationToChild: {

@@ -12,6 +12,9 @@ const setChild = (model, child, context) => {
     if (model.dob !== "string" && model.dob !== undefined) {
         child.dob = model.dob;
     }
+    if (model.age !== "string" && model.age !== undefined) {
+        child.age = model.age;
+    }
     if (model.avtar !== "string" && model.avtar !== undefined) {
         child.avtar = model.avtar;
     }
@@ -48,6 +51,7 @@ const buildChild = async (model, context) => {
     const child = await new db.child({
         name: model.name,
         dob: model.dob,
+        age: model.age,
         avtar: model.avtar,
         sex: model.sex,
         relationToChild: model.relationToChild,

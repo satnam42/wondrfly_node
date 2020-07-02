@@ -5,6 +5,7 @@ const childSchema = mongoose.Schema({
     name: { type: String, default: "", required: true },
     dob: { type: String, default: "", },
     sex: { type: String, default: "", },
+    age: { type: String, default: "", },
     avtar: { type: String, default: "", },
     relationToChild: { type: String, default: "", },
     contactOtherInfo: { type: String, default: "", },
@@ -24,7 +25,8 @@ const childSchema = mongoose.Schema({
     },
     parent: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true
     },
     updatedOn: { type: Date, default: Date.now },
     createdOn: { type: Date, default: Date.now },
