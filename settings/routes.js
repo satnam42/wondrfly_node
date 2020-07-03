@@ -359,7 +359,20 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.guardians.getGuardianByParentId
   );
+  //program routes//
+  app.post(
+    "/api/programs/add",
+    permit.context.requiresToken,
+    api.programs.create
+  );
+  app.get(
+    "/api/programs/list",
+    permit.context.requiresToken,
+    api.programs.list
+  );
   log.end();
 };
+
+
 
 exports.configure = configure

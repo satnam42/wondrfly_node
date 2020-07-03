@@ -71,6 +71,10 @@ const buildChild = async (model, context) => {
 };
 
 const addChild = async (model, context) => {
+    let isChild = await db.child.find({ $and: [{ parent: model.parentId }, { name: { "$regex": '.*' + model.name + '.*', "$options": 'i' } }] });
+    if (isChild) {
+        throw new Error("child already exits with this name");
+    }
     const log = context.logger.start("services:childs:create");
     const child = buildChild(model, context);
     log.end();

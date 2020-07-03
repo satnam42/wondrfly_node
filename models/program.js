@@ -47,9 +47,9 @@ const programSchema = mongoose.Schema({
         numberOfSeats: { type: String, default: "" },
         location: { type: String, default: "" },
     }],
-    provider: {
+    user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Provider',
+        ref: 'User',
         required: true
     },
     addresses: [{ type: String, default: '' }],
