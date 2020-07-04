@@ -365,9 +365,19 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.programs.create
   );
+  app.put(
+    "/api/programs/update/:id",
+    permit.context.requiresToken,
+    api.programs.update
+  );
+  app.get(
+    "/api/programs/getById/:id",
+    permit.context.requiresToken,
+    api.programs.getById
+  );
   app.get(
     "/api/programs/list",
-    permit.context.requiresToken,
+    permit.context.builder,
     api.programs.list
   );
   log.end();

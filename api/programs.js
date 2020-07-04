@@ -18,7 +18,28 @@ const create = async (req, res) => {
 const list = async (req, res) => {
     const log = req.context.logger.start(`api:programs:list`);
     try {
-        const programs = await service.getAllprograms(req.context);
+        const programs = await service.getList(req.query, req.context);
+        let message = programs.count ? programs.count : 0 + " " + "programs Got";
+        log.end();
+        return response.page(
+            message,
+            res,
+            programs,
+            Number(req.query.pageNo) || 1,
+            Number(req.query.pageSize) || 10,
+            programs.count
+        );
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
+const getById = async (req, res) => {
+    const log = req.context.logger.start(`api:programs:getById:${req.params.id}`);
+    try {
+        const programs = await service.getById(req.params.id, req.body, req.context);
         log.end();
         return response.data(res, programs);
     } catch (err) {
@@ -28,18 +49,18 @@ const list = async (req, res) => {
     }
 };
 
-// const update = async (req, res) => {
-//     const log = req.context.logger.start(`api:programs:update:${req.params.id}`);
-//     try {
-//         const program = await service.update(req.params.id, req.body, req.context);
-//         log.end();
-//         return response.data(res, program);
-//     } catch (err) {
-//         log.error(err);
-//         log.end();
-//         return response.failure(res, err.message);
-//     }
-// };
+const update = async (req, res) => {
+    const log = req.context.logger.start(`api:programs:update:${req.params.id}`);
+    try {
+        const program = await service.update(req.params.id, req.body, req.context);
+        log.end();
+        return response.data(res, program);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
 
 // const search = async (req, res) => {
 //     const log = req.context.logger.start(`api:programs:search`);
@@ -55,5 +76,6 @@ const list = async (req, res) => {
 // };
 exports.create = create;
 exports.list = list;
-// exports.update = update;
+exports.update = update;
+exports.getById = getById;
 // exports.search = search;

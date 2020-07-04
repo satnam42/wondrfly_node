@@ -5,7 +5,6 @@ const programSchema = mongoose.Schema({
     description: { type: String, default: "" },
     type: { type: String, default: "" },
     price: { type: String, default: "" },
-    time: { type: String, default: "" },
     code: { type: String, default: "" },
     location: { type: String, default: "" },
     ageGroup: {
