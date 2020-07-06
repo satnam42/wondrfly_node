@@ -1,6 +1,8 @@
 
 
 "use strict";
+const imageUrl = require('config').get('image').url
+
 const build = async (model, context) => {
     const { name, description } = model;
     const log = context.logger.start(`services:categories:build${model}`);
@@ -66,7 +68,38 @@ const search = async (query, context) => {
     return category;
 };
 
+const uploadPic = async (id, file, context) => {
+    const log = context.logger.start(`services:categories:uploadPic`);
+    let category = await db.category.findById(id);
+    if (!file) {
+        throw new Error("image not found");
+    }
+    if (!category) {
+        throw new Error("user not found");
+    }
+    const picUrl = imageUrl + 'assets/images/' + file.filename
+    category.imageUrl = picUrl
+    await category.save();
+    log.end();
+    return category
+};
+
+const removeById = async (id, model, context) => {
+    const log = context.logger.start(`services:categories:removeById`);
+    if (!id) {
+        throw new Error("category id not found");
+    }
+    let isDeleted = await db.category.deleteOne({ _id: id })
+    if (!isDeleted) {
+        throw new Error("something went wrong");
+    }
+    log.end();
+    return 'category deleted succesfully'
+};
+
 exports.create = create;
 exports.getAllcategories = getAllcategories;
 exports.update = update;
 exports.search = search;
+exports.uploadPic = uploadPic;
+exports.removeById = removeById

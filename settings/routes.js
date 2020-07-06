@@ -181,6 +181,18 @@ const configure = (app, logger) => {
     // validator.users.update,
     api.categories.update
   );
+  app.put(
+    "/api/categories/uploadPic/:id",
+    permit.context.requiresToken,
+    upload.single('image'),
+    api.categories.uploadPic
+  );
+  app.delete(
+    "/api/categories/delete/:id",
+    permit.context.requiresToken,
+    upload.single('image'),
+    api.categories.remove
+  );
 
   //tag routes //
   app.post(

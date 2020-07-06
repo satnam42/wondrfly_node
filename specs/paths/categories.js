@@ -129,5 +129,74 @@ module.exports = [
                 }
             }
         }
-    }
+    },
+    {
+        url: "/uploadPic/{id}",
+        put: {
+            summary: "upload category Pic ",
+            description: "upload category Pic ",
+            parameters: [
+                {
+                    in: "formData",
+                    name: "image",
+                    type: "file",
+                    description: "The file to upload.",
+                    required: true,
+                },
+                {
+                    in: "path",
+                    type: "string",
+                    name: "id",
+                    description: "user id",
+                    required: true
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
+    {
+        url: "/delete/{id}",
+        delete: {
+            summary: "delete",
+            description: "delete category by id",
+            parameters: [
+                {
+                    in: "path",
+                    name: "id",
+                    description: "category id",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
 ]

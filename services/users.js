@@ -1,6 +1,5 @@
 const encrypt = require("../permit/crypto.js");
 const auth = require("../permit/auth");
-const path = require("path");
 const imageUrl = require('config').get('image').url
 const ObjectId = require("mongodb").ObjectID;
 const accountSid = 'AC5d73ce4cfa70158e5357a905e379af2b';
@@ -67,7 +66,7 @@ const register = async (model, context) => {
   }
   log.end();
   return user;
-};  
+};
 
 const getById = async (id, context) => {
 
