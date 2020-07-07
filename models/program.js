@@ -1,12 +1,13 @@
 "use strict";
 const mongoose = require("mongoose");
 const programSchema = mongoose.Schema({
-    name: { type: String, default: "", required: true },
+    name: { type: String, default: "", },
     description: { type: String, default: "" },
-    type: { type: String, default: "" },
+    type: { type: String, default: "", required: true },
     price: { type: String, default: "" },
     code: { type: String, default: "" },
     location: { type: String, default: "" },
+    timelinePics: [{ type: String, default: "" }],
     ageGroup: {
         from: { type: String, default: '' },
         to: { type: String, default: "" }
@@ -51,6 +52,7 @@ const programSchema = mongoose.Schema({
         ref: 'User',
         required: true
     },
+
     addresses: [{ type: String, default: '' }],
     category: {
         type: mongoose.Schema.Types.ObjectId,

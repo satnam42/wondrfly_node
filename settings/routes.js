@@ -190,7 +190,6 @@ const configure = (app, logger) => {
   app.delete(
     "/api/categories/delete/:id",
     permit.context.requiresToken,
-    upload.single('image'),
     api.categories.remove
   );
 
@@ -256,6 +255,7 @@ const configure = (app, logger) => {
     // validator.users.update,
     api.providers.update
   );
+
   app.put(
     "/api/providers/uploadBannerPic/:id",
     permit.context.requiresToken,
@@ -263,6 +263,7 @@ const configure = (app, logger) => {
     // upload.single('image'),
     api.providers.uploadBannerPic
   );
+
   //review routes//
   app.post(
     "/api/reviews/add",
@@ -391,6 +392,18 @@ const configure = (app, logger) => {
     "/api/programs/list",
     permit.context.builder,
     api.programs.list
+  );
+  app.delete(
+    "/api/programs/delete/:id",
+    permit.context.requiresToken,
+    api.programs.remove
+  );
+  app.put(
+    "/api/programs/uploadTimeLinePics/:id",
+    permit.context.requiresToken,
+    upload.array('image', 5),
+    // upload.single('image'),
+    api.programs.uploadTimeLinePics
   );
   log.end();
 };

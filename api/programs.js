@@ -62,6 +62,32 @@ const update = async (req, res) => {
     }
 };
 
+const remove = async (req, res) => {
+    const log = req.context.logger.start(`api:programs:remove:${req.params.id}`);
+    try {
+        const programs = await service.removeById(req.params.id, req.body, req.context);
+        log.end();
+        return response.data(res, programs);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+const uploadTimelinePics = async (req, res) => {
+    const log = req.context.logger.start(`api:programs:uploadTimelinePics`);
+    try {
+        const user = await service.uploadTimelinePics(req.params.id, req.files, req.context);
+        const message = "uploaded TimeLine Successfully";
+        log.end();
+        return response.success(res, message, user);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 // const search = async (req, res) => {
 //     const log = req.context.logger.start(`api:programs:search`);
 //     try {
@@ -78,4 +104,7 @@ exports.create = create;
 exports.list = list;
 exports.update = update;
 exports.getById = getById;
+exports.remove = remove;
+exports.uploadTimelinePics = uploadTimelinePics;
+
 // exports.search = search;

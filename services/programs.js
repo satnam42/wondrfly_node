@@ -33,6 +33,18 @@ const build = async (model, context) => {
     log.end();
     return program;
 };
+const buildTimelineUrl = async (files) => {
+    let bannerImages = []
+    let bannerUrl = ''
+
+    await files.forEach(file => {
+        bannerUrl = imageUrl + 'assets/images/' + file.filename
+        bannerImages.push(bannerUrl)
+    });
+
+
+    return bannerImages
+}
 
 const set = (model, program, context) => {
     const log = context.logger.start("services:programs:set");
@@ -151,6 +163,34 @@ const update = async (id, model, context) => {
     log.end();
     return program
 };
+const removeById = async (id, model, context) => {
+    const log = context.logger.start(`services:programs:removeById`);
+    if (!id) {
+        throw new Error("programs id not found");
+    }
+    let isDeleted = await db.program.deleteOne({ _id: id })
+    if (!isDeleted) {
+        throw new Error("something went wrong");
+    }
+    log.end();
+    return 'program deleted succesfully'
+};
+const uploadTimeLinePics = async (id, files, context) => {
+    const log = context.logger.start(`services:programs:uploadTimeLinePics`);
+    const program = await db.program.findOne({ _id: id });
+    if (files.length < 0) {
+        throw new Error("image not found");
+    }
+    if (!program) {
+        throw new Error("program not found");
+    }
+    let pics = await buildTimelineUrl(files)
+    program.timelinePics = pics
+    await program.save();
+    log.end();
+    return program
+};
+
 
 
 // const search = async (query, context) => {
@@ -165,4 +205,7 @@ exports.create = create;
 exports.getAllprograms = getAllprograms;
 exports.update = update;
 exports.getById = getById;
+exports.removeById = removeById;
+exports.uploadTimeLinePics = uploadTimeLinePics;
+
 // exports.search = search;
