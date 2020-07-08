@@ -118,6 +118,7 @@ const logout = async (req, res) => {
     log.error(err);
     log.end();
     return response.failure(res, err.message);
+
   }
 };
 
@@ -218,6 +219,7 @@ const otpVerify = async (req, res) => {
   const log = req.context.logger.start("api:users:otpVerify");
   try {
     const data = await service.otpVerify(req.body, req.context);
+
     log.end();
     return response.success(res, data);
   } catch (err) {
