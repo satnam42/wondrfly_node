@@ -23,6 +23,7 @@ const create = async (model, context) => {
     log.end();
     return entity;
 };
+
 const getAllEntities = async (context) => {
     const log = context.logger.start(`services:entity:getAllEntities`);
     const entities = await db.entity.find();

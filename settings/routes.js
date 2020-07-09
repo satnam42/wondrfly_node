@@ -405,6 +405,21 @@ const configure = (app, logger) => {
     // upload.single('image'),
     api.programs.uploadTimeLinePics
   );
+  app.post(
+    "/api/favourites/add",
+    permit.context.requiresToken,
+    api.favourites.create
+  );
+  app.get(
+    "/api/favourites/list",
+    permit.context.builder,
+    api.favourites.list
+  );
+  app.delete(
+    "/api/favourites/delete/:id",
+    permit.context.requiresToken,
+    api.programs.remove
+  );
   log.end();
 };
 
