@@ -4,6 +4,7 @@ const imageUrl = require('config').get('image').url
 const ObjectId = require("mongodb").ObjectID;
 const accountSid = 'AC5d73ce4cfa70158e5357a905e379af2b';
 var nodemailer = require('nodemailer')
+const fs = require('fs');
 // Your Account SID from www.twilio.com/console
 const authToken = 'd864b1037de18df6150de9b4bf97b200'
 // d864b1037de18df6150de9b4bf97b200;   // Your Auth Token from www.twilio.com/console
@@ -16,15 +17,19 @@ const setUser = (model, user, context) => {
   if (model.firstName !== "string" && model.firstName !== undefined) {
     user.firstName = model.firstName;
   }
+
   if (model.lastName !== "string" && model.lastName !== undefined) {
     user.lastName = model.lastName;
   }
+
   if (model.phoneNumber !== "string" && model.phoneNumber !== undefined) {
     user.phoneNumber = model.phoneNumber;
   }
+
   if (model.role !== "string" && model.role !== undefined) {
     user.role = model.role;
   }
+
   log.end();
   user.save();
   return user;
@@ -254,6 +259,16 @@ const uploadProfilePic = async (id, file, context) => {
   }
   if (!user) {
     throw new Error("user not found");
+  }
+  if (user.avatarImages != "" && user.avatarImages !== undefined) {
+
+    let picUrl = user.avatarImages.replace(`${imageUrl}`, '');
+    try {
+      await fs.unlinkSync(`${picUrl}`)
+      console.log('File unlinked!');
+    } catch (err) {
+      console.log(err)
+    }
   }
   const avatarImages = imageUrl + 'assets/images/' + file.filename
   user.avatarImages = avatarImages

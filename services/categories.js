@@ -2,7 +2,7 @@
 
 "use strict";
 const imageUrl = require('config').get('image').url
-
+const fs = require('fs');
 const build = async (model, context) => {
     const { name, description } = model;
     const log = context.logger.start(`services:categories:build${model}`);
@@ -75,8 +75,20 @@ const uploadPic = async (id, file, context) => {
         throw new Error("image not found");
     }
     if (!category) {
-        throw new Error("user not found");
+        throw new Error("category not found");
     }
+    if (category.imageUrl != "" && category.imageUrl !== undefined) {
+
+        let image = category.imageUrl.replace(`${imageUrl}`, '');
+        try {
+            await fs.unlinkSync(`${image}`)
+            console.log('File unlinked!');
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+
     const picUrl = imageUrl + 'assets/images/' + file.filename
     category.imageUrl = picUrl
     await category.save();

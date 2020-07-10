@@ -1,9 +1,6 @@
-const encrypt = require("../permit/crypto.js");
-const auth = require("../permit/auth");
-const path = require("path");
 const imageUrl = require('config').get('image').url
 const ObjectId = require("mongodb").ObjectID;
-
+const fs = require('fs');
 const setChild = (model, child, context) => {
     const log = context.logger.start("services:childs:set");
     if (model.name !== "string" && model.name !== undefined) {
@@ -16,6 +13,15 @@ const setChild = (model, child, context) => {
         child.age = model.age;
     }
     if (model.avtar !== "string" && model.avtar !== undefined) {
+        if (model.avtar !== child.avtar) {
+            let picUrl = child.avtar.replace(`${imageUrl}`, '');
+            try {
+                await fs.unlinkSync(`${picUrl}`)
+                console.log('File unlinked!');
+            } catch (err) {
+                console.log(err)
+            }
+        }
         child.avtar = model.avtar;
     }
     if (model.sex !== "string" && model.sex !== undefined) {
@@ -138,6 +144,7 @@ const uploadChildPic = async (file, context) => {
     if (!file) {
         throw new Error("image not found");
     }
+
     const avatarImages = imageUrl + 'assets/images/' + file.filename
     log.end();
     return avatarImages
