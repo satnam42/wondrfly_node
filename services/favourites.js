@@ -1,4 +1,4 @@
-zz
+
 
 "use strict";
 
@@ -47,7 +47,7 @@ const removeById = async (id, context) => {
     return 'favourite deleted succesfully'
 };
 
-0
+
 exports.create = create;
 exports.getAllfavourites = getAllfavourites;
 exports.removeById = removeById

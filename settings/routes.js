@@ -402,8 +402,7 @@ const configure = (app, logger) => {
     "/api/programs/uploadTimeLinePics/:id",
     permit.context.requiresToken,
     upload.array('image', 5),
-    // upload.single('image'),
-    api.programs.uploadTimeLinePics
+    api.programs.uploadTimelinePics
   );
   app.post(
     "/api/favourites/add",
