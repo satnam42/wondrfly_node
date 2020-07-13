@@ -1,7 +1,7 @@
 const imageUrl = require('config').get('image').url
 const ObjectId = require("mongodb").ObjectID;
 const fs = require('fs');
-const setChild = (model, child, context) => {
+const setChild = async (model, child, context) => {
     const log = context.logger.start("services:childs:set");
     if (model.name !== "string" && model.name !== undefined) {
         child.name = model.name;
@@ -77,7 +77,7 @@ const buildChild = async (model, context) => {
 };
 
 const addChild = async (model, context) => {
-    let isChild = await db.child.find({ $and: [{ parent: model.parentId }, { name: { "$regex": '.*' + model.name + '.*', "$options": 'i' } }] });
+    let isChild = await db.child.findOne({ $and: [{ parent: model.parentId }, { name: { "$regex": '^' + model.name, "$options": 'i' } }] });
     if (isChild) {
         throw new Error("child already exits with this name");
     }
