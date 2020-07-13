@@ -204,6 +204,11 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.tags.list
   );
+  app.get(
+    "/api/tags/byCategoryId",
+    permit.context.requiresToken,
+    api.tags.tagByCategoryId
+  );
 
   app.put(
     "/api/tags/update/:id",

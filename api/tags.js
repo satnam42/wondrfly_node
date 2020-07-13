@@ -26,6 +26,18 @@ const list = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
+const tagByCategoryId = async (req, res) => {
+    const log = req.context.logger.start(`api:tags:list`);
+    try {
+        const tags = await service.tagByCategoryId(req.query.ids, req.context);
+        log.end();
+        return response.data(res, tags);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
 const update = async (req, res) => {
     const log = req.context.logger.start(`api:tags:update:${req.params.id}`);
     try {
@@ -41,3 +53,4 @@ const update = async (req, res) => {
 exports.create = create;
 exports.list = list;
 exports.update = update;
+exports.tagByCategoryId = tagByCategoryId;

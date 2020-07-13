@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 
 const childSchema = mongoose.Schema({
     name: { type: String, default: "", required: true },
+
     dob: { type: String, default: "", },
     sex: { type: String, default: "", },
     age: { type: String, default: "", },
@@ -10,7 +11,9 @@ const childSchema = mongoose.Schema({
     relationToChild: { type: String, default: "", },
     contactOtherInfo: { type: String, default: "", },
     schoolinfo: { type: String, default: "", },
-    interestinfo: [{ type: String, default: "" }],
+    interestinfo: [{
+        tagId: { type: String, default: '' }
+    }],
     dislikes: { type: String, default: "", },
     alergies: { type: String, default: "" },
     parentNotes: { type: String, default: "", },

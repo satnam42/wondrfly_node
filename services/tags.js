@@ -45,6 +45,14 @@ const getAlltags = async (context) => {
     log.end();
     return tags;
 };
+const tagByCategoryId = async (categoryIds, context) => {
+    if (!categoryIds.lenght > 0) {
+        throw new Error("category id not found");
+    } const log = context.logger.start(`services:tags:getAlltags`);
+    const tags = await db.tag.find({ categoryIds: { $in: categoryIds } }).populate('categoryIds')
+    log.end();
+    return tags;
+};
 const update = async (id, model, context) => {
     const log = context.logger.start(`services:tags:update`);
     let istag = await db.tag.findById(id);
@@ -58,3 +66,4 @@ const update = async (id, model, context) => {
 exports.create = create;
 exports.getAlltags = getAlltags;
 exports.update = update;
+exports.tagByCategoryId = tagByCategoryId

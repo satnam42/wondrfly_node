@@ -77,6 +77,8 @@ const buildChild = async (model, context) => {
 };
 
 const addChild = async (model, context) => {
+
+
     let isChild = await db.child.findOne({ $and: [{ parent: model.parentId }, { name: { "$regex": '^' + model.name, "$options": 'i' } }] });
     if (isChild) {
         throw new Error("child already exits with this name");
@@ -109,12 +111,13 @@ const updateChild = async (id, model, context) => {
 };
 const childByParentId = async (id, context) => {
     const log = context.logger.start(`services:childs:update`);
-
     let children = await db.child.find({ parent: id })
+    //todo
+    //add tag res 
+    // const tags = await db.tag.find({ categoryIds: { $in: children.interestInfo } }).populate('categoryIds')
     if (!children) {
         throw new Error("child Not Found");
     }
-
     log.end();
     return children
 };
@@ -140,6 +143,7 @@ const deleteChild = async (context, id) => {
 };
 
 const uploadChildPic = async (file, context) => {
+    1
     const log = context.logger.start(`services:child:uploadChildPic`);
     if (!file) {
         throw new Error("image not found");

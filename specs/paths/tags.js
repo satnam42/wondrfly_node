@@ -57,6 +57,37 @@ module.exports = [
         }
     },
     {
+        url: "/byCategoryId",
+        get: {
+            summary: "get tag by categoryId",
+            description: "get tag by categoryId",
+            parameters: [
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "query",
+                    name: "catrgoryIds",
+                    description: "catrgoryIds",
+                    required: true,
+                    type: "array"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
+    {
         url: "/update/{id}",
         put: {
             summary: "Update",
