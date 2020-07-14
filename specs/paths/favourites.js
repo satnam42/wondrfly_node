@@ -88,4 +88,36 @@ module.exports = [
             }
         }
     },
+    {
+        url: "/getByParentId",
+        get: {
+            url: "/getByParentId",
+            summary: "get favourites by parentid",
+            description: "get favourites list by parentid",
+            parameters: [
+                {
+                    in: "query",
+                    name: "parentId",
+                    description: "parentId",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                },
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
 ]

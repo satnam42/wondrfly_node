@@ -415,9 +415,9 @@ const configure = (app, logger) => {
     api.favourites.create
   );
   app.get(
-    "/api/favourites/list",
+    "/api/favourites/getByParentId",
     permit.context.builder,
-    api.favourites.list
+    api.favourites.listByUserId
   );
   app.delete(
     "/api/favourites/delete/:id",

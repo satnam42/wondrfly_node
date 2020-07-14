@@ -27,7 +27,18 @@ const list = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
-
+const listByUserId = async (req, res) => {
+    const log = req.context.logger.start(`api:favourites:listByUserId`);
+    try {
+        const favourites = await service.getFavouritesByUserId(req.query, req.context);
+        log.end();
+        return response.data(res, favourites);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
 
 const remove = async (req, res) => {
     const log = req.context.logger.start(`api:favourites:remove:${req.params.id}`);
@@ -45,3 +56,4 @@ const remove = async (req, res) => {
 exports.create = create;
 exports.list = list;
 exports.remove = remove;
+exports.listByUserId = listByUserId;

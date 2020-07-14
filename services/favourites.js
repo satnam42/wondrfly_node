@@ -17,8 +17,8 @@ const build = async (model, context) => {
 
 const create = async (model, context) => {
     const log = context.logger.start("services:favourites:create");
-    const isFavouritesExist = await db.favourite.find({ $and: [{ user: model.userId }, { program: model.programId }] });
-    if (isFavouritesExist) {
+    const Favourites = await db.favourite.find({ $and: [{ user: model.userId }, { program: model.programId }] })
+    if (Favourites.length > 0) {
         return "favourite already exist";
     }
     const favourite = build(model, context);
@@ -28,13 +28,28 @@ const create = async (model, context) => {
 
 const getAllfavourites = async (context) => {
     const log = context.logger.start(`services:favourites:getAllfavourites`);
-    const favourites = await db.favourite.find();
+    const Favourites = await db.favourite.find({}).populate('program');
+    if (Favourites.length < 0) {
+        throw new Error("Favourites not found");
+    }
+    log.end();
+    return Favourites;
+};
+
+const getFavouritesByUserId = async (query, context) => {
+    const log = context.logger.start(`services:favourites:getFavouritesByParentId`);
+    if (!query.userId) {
+        throw new Error("userId not found");
+    }
+    const Favourites = await db.favourite.find({ user: query.userId }).populate('program');
+    if (Favourites.length < 0) {
+        throw new Error("Favourites not found");
+    }
     log.end();
     return favourites;
 };
 
 const removeById = async (id, context) => {
-
     const log = context.logger.start(`services:favourites:removeById`);
     if (!id) {
         throw new Error("favourite id not found");
@@ -51,3 +66,4 @@ const removeById = async (id, context) => {
 exports.create = create;
 exports.getAllfavourites = getAllfavourites;
 exports.removeById = removeById
+exports.getFavouritesByUserId = getFavouritesByUserId
