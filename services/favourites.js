@@ -41,8 +41,8 @@ const getFavouritesByUserId = async (query, context) => {
     if (!query.parentId) {
         throw new Error("userId not found");
     }
-    const Favourites = await db.favourite.find({ user: query.userId }).populate('program');
-    if (Favourites.length < 0) {
+    const favourites = await db.favourite.find({ user: query.userId }).populate('program');
+    if (favourites.length < 0) {
         throw new Error("Favourites not found");
     }
     log.end();
