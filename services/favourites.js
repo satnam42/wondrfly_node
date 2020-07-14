@@ -38,7 +38,7 @@ const getAllfavourites = async (context) => {
 
 const getFavouritesByUserId = async (query, context) => {
     const log = context.logger.start(`services:favourites:getFavouritesByParentId`);
-    if (!query.userId) {
+    if (!query.parentId) {
         throw new Error("userId not found");
     }
     const Favourites = await db.favourite.find({ user: query.userId }).populate('program');
