@@ -19,6 +19,7 @@ const user = mongoose.Schema({
   stripeToken: { type: String, default: "" },
   stripeKey: { type: String, default: "" },
   lastLoggedIn: { type: Date, default: "" },
+  personalNote: { type: String, default: "" },
   loginLimit: { type: Number, default: 0 },
   ssn: { type: String, default: "" },
   isActivated: { type: Boolean, default: true },

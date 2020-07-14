@@ -62,7 +62,6 @@ const removeById = async (id, context) => {
     return 'favourite deleted succesfully'
 };
 
-
 exports.create = create;
 exports.getAllfavourites = getAllfavourites;
 exports.removeById = removeById

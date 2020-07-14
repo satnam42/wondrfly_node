@@ -23,24 +23,36 @@ const setGuardian = (model, guardian, context) => {
 
 const buildGuardian = async (model, context) => {
     const log = context.logger.start(`services:guardians:build${model}`);
-    const guardian = await new db.guardian({
-        name: model.firstName,
-        age: model.age,
+    const user = await new db.user({
+        firstName: model.firstName,
         avtar: model.avtar,
+        email: model.email,
         sex: model.sex,
-        parent: model.parentId,
+        password: '123456',
+        role: 'guardian',
         personalNote: model.personalNote,
         createdOn: new Date(),
-        updateOn: new Date()
+        updatedOn: new Date()
     }).save();
     log.end();
-    return guardian;
+    return user;
 };
-
 
 const addGuardian = async (model, context) => {
     const log = context.logger.start("services:guardians:create");
-    const guardian = buildGuardian(model, context);
+    const isEmail = await db.user.findOne({ email: { $eq: model.email } });
+    if (isEmail) {
+        throw new Error("Email already resgister");
+    }
+    const guardian = await buildGuardian(model, context);
+    if (guardian) {
+        await new db.guardian({
+            parent: model.parentId,
+            user: guardian.id,
+            createdOn: new Date(),
+            updatedOn: new Date()
+        }).save();
+    }
     log.end();
     return guardian;
 };
@@ -48,7 +60,7 @@ const addGuardian = async (model, context) => {
 
 const get = async (query, context) => {
     const log = context.logger.start(`services:guardians:get`);
-    let guardians = await db.guardian.find({})
+    let guardians = await db.guardian.find({}).populate('user')
     log.end();
     return guardians;
 };
@@ -57,7 +69,7 @@ const get = async (query, context) => {
 const updateGuardian = async (id, model, context) => {
     const log = context.logger.start(`services:guardians:update`);
 
-    let entity = await db.guardian.findById(id);
+    let entity = await db.user.findById(id);
     if (!entity) {
         throw new Error("guardian Not Found");
     }
@@ -67,13 +79,14 @@ const updateGuardian = async (id, model, context) => {
     log.end();
     return guardian
 };
-const getGuardianByParentId = async (id, model, context) => {
+const getGuardianByParentId = async (id, context) => {
     const log = context.logger.start(`services:guardians:getGuardianByParentId`);
     if (!id) {
         throw new Error("parentId Not Found");
     }
-    let guardians = await db.guardian.find({ parent: id });
-    if (!entity) {
+
+    let guardians = await db.guardian.find({ parent: id }).populate('user')
+    if (guardians.length < 0) {
         throw new Error("guardian Not Found");
     }
     log.end();

@@ -2,10 +2,13 @@ module.exports = [
     {
         name: "guardianAdd",
         properties: {
-            name: {
+            firstName: {
                 type: "string"
             },
             sex: {
+                type: "string"
+            },
+            email: {
                 type: "string"
             },
             avtar: {
