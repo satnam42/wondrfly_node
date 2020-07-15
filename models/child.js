@@ -10,9 +10,14 @@ const childSchema = mongoose.Schema({
     relationToChild: { type: String, default: "", },
     contactOtherInfo: { type: String, default: "", },
     schoolinfo: { type: String, default: "", },
-    interestinfo: [{
+    interestInfo: [{
         tagId: { type: String, default: '' }
-    }],
+
+    },
+    {
+        id: false
+    }
+    ],
     dislikes: { type: String, default: "", },
     alergies: { type: String, default: "" },
     parentNotes: { type: String, default: "", },
