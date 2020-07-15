@@ -46,10 +46,11 @@ const getAlltags = async (context) => {
     return tags;
 };
 const tagByCategoryId = async (categoryIds, context) => {
-    if (!categoryIds.length > 0) {
+    let ids = JSON.parse(categoryIds)// array like  "['1','2']"
+    if (ids.length < 0) {
         throw new Error("category id not found");
     } const log = context.logger.start(`services:tags:getAlltags`);
-    const tags = await db.tag.find({ categoryIds: { $in: categoryIds } }).populate('categoryIds')
+    const tags = await db.tag.find({ categoryIds: { $in: ids } })
     log.end();
     return tags;
 };

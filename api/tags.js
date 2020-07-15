@@ -29,7 +29,7 @@ const list = async (req, res) => {
 const tagByCategoryId = async (req, res) => {
     const log = req.context.logger.start(`api:tags:list`);
     try {
-        const tags = await service.tagByCategoryId(req.query.ids, req.context);
+        const tags = await service.tagByCategoryId(req.query.catrgoryIds, req.context);
         log.end();
         return response.data(res, tags);
     } catch (err) {

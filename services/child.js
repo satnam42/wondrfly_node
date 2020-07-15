@@ -77,8 +77,6 @@ const buildChild = async (model, context) => {
 };
 
 const addChild = async (model, context) => {
-
-
     let isChild = await db.child.findOne({ $and: [{ parent: model.parentId }, { name: { "$regex": '^' + model.name, "$options": 'i' } }] });
     if (isChild) {
         throw new Error("child already exits with this name");
@@ -97,10 +95,8 @@ const getList = async (query, context) => {
     return childs;
 };
 
-
 const updateChild = async (id, model, context) => {
     const log = context.logger.start(`services:childs:update`);
-
     let entity = await db.child.findById(id);
     if (!entity) {
         throw new Error("child Not Found");
@@ -112,9 +108,14 @@ const updateChild = async (id, model, context) => {
 const childByParentId = async (id, context) => {
     const log = context.logger.start(`services:childs:update`);
     let children = await db.child.find({ parent: id })
+    let tags = []
+    await children.forEach(async child => {
+        let tag = await db.tag.find({ categoryIds: { $in: child.interestInfo } }).populate('categoryIds')
+        tags.push(tag)
+    });
     //todo
     //add tag res 
-    // const tags = await db.tag.find({ categoryIds: { $in: children.interestInfo } }).populate('categoryIds')
+
     if (!children) {
         throw new Error("child Not Found");
     }

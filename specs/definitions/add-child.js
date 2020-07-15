@@ -14,11 +14,7 @@ module.exports = [
             interestInfo: {
                 type: 'array',
                 items: {
-                    properties: {
-                        tagId: {
-                            type: "string"
-                        },
-                    }
+                    type: "string", default: ""
                 }
             },
             relationToChild: {
