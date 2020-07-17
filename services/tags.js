@@ -45,8 +45,8 @@ const getAlltags = async (context) => {
     log.end();
     return tags;
 };
-const tagByCategoryId = async (categoryIds, context) => {
-    let ids = JSON.parse(categoryIds)// array like  "['1','2']"
+const tagByCategoryId = async (categoriesId, context) => {
+    let ids = JSON.parse(categoriesId)// array like  "['1','2']"
     if (ids.length < 0) {
         throw new Error("category id not found");
     } const log = context.logger.start(`services:tags:getAlltags`);
@@ -54,6 +54,7 @@ const tagByCategoryId = async (categoryIds, context) => {
     log.end();
     return tags;
 };
+
 const update = async (id, model, context) => {
     const log = context.logger.start(`services:tags:update`);
     let istag = await db.tag.findById(id);

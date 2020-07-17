@@ -337,32 +337,12 @@ const sendOtp = async (email, context) => {
   for (let i = 0; i < 4; i++) {
     OTP += digits[Math.floor(Math.random() * 10)];
   }
-  var smtpTrans = nodemailer.createTransport({
-    service: 'Gmail',
-    auth: {
-      user: `javascript.mspl@gmail.com`,
-      pass: `vll@#$!meander`
-    }
-  });
+  let message = `Your 4 digit One Time Password:<br>${OTP}<br>
+otp valid only 4 minutes`
+  let = subject = "One Time Password"
 
-  // email send to registered email
-  var mailOptions = {
-    from: 'LetsPlay',
-    to: user.email,
-    subject: "One Time Password",
-    html: `Your 4 digit One Time Password:<br>${OTP}<br>
-    otp valid only 4 minutes`
-  };
+  await sendMail(email, message, subject)
 
-  let mailSent = await smtpTrans.sendMail(mailOptions)
-  if (mailSent) {
-    console.log("Message sent: %s", mailSent.messageId);
-    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(mailSent));
-    // return mailSent
-  } else {
-    log.end()
-    throw new Error("Unable to send email try after sometime");
-  }
   let otpToken = auth.getOtpToken(OTP, true, context)
   let data = {
     message: 'OTP successfully sent on register email',
@@ -411,6 +391,47 @@ const forgotPassword = async (model, context) => {
   return "Password changed Succesfully"
 }
 
+const sendMail = async (email, message, subject) => {
+  var smtpTrans = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+      user: `javascript.mspl@gmail.com`,
+      pass: `vll@#$!meander`
+    }
+  });
+  // email send to registered email
+  var mailOptions = {
+    from: 'LetsPlay',
+    to: email,
+    subject: subject,
+    html: message
+  };
+
+  let mailSent = await smtpTrans.sendMail(mailOptions)
+  if (mailSent) {
+    console.log("Message sent: %s", mailSent.messageId);
+    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(mailSent));
+    return
+  } else {
+    log.end()
+    throw new Error("Unable to send email try after sometime");
+  }
+}
+const tellAFriend = async (model, context) => {
+  const log = context.logger.start('services/users/sendOtp')
+  if (!model.email) {
+    throw new Error("email not found");
+  }
+  let message = `${model.userName} invite you to join letsplays`
+  subject = 'invitation'
+  await sendMail(model.email, message, subject)
+
+  log.end()
+  return
+}
+
+
+
 exports.register = register;
 exports.get = get;
 exports.login = login;
@@ -428,3 +449,4 @@ exports.otp = otp;
 exports.sendOtp = sendOtp
 exports.otpVerify = otpVerify
 exports.forgotPassword = forgotPassword
+exports.tellAFriend = tellAFriend

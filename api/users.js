@@ -88,7 +88,7 @@ const update = async (req, res) => {
     const user = await service.update(req.params.id, req.body, req.context);
     log.end();
     return response.data(res, userMapper.toModel(user));
-  }catch (err) {
+  } catch (err) {
     log.error(err);
     log.end();
     return response.failure(res, err.message);
@@ -241,6 +241,19 @@ const forgotPassword = async (req, res) => {
     return response.failure(res, err.message);
   }
 };
+const tellAFriend = async (req, res) => {
+  const log = req.context.logger.start(`api:users:create`);
+  try {
+    const user = await service.tellAFriend(req.body, req.context);
+    const message = "Message sent Successfully";
+    log.end();
+    return response.success(res, message);
+  } catch (err) {
+    log.error(err);
+    log.end();
+    return response.failure(res, err.message);
+  }
+};
 
 exports.create = create;
 exports.list = list;
@@ -258,3 +271,4 @@ exports.activeOrDeactive = activeOrDeactive
 exports.sendOtp = sendOtp
 exports.otpVerify = otpVerify
 exports.forgotPassword = forgotPassword
+exports.tellAFriend = tellAFriend
