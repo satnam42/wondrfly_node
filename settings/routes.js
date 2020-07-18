@@ -159,6 +159,11 @@ const configure = (app, logger) => {
     validator.users.feedback,
     api.users.feedback
   );
+  app.get(
+    "/api/users/getProfileProgress",
+    permit.context.builder,
+    api.users.getProfileProgress
+  );
   //entity routes//
   // app.post(
   //   "/api/entities/add",

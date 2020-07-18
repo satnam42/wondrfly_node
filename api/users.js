@@ -242,7 +242,7 @@ const forgotPassword = async (req, res) => {
   }
 };
 const tellAFriend = async (req, res) => {
-  const log = req.context.logger.start(`api:users:create`);
+  const log = req.context.logger.start(`api:users:tellAFriend`);
   try {
     const user = await service.tellAFriend(req.body, req.context);
     const message = "Message sent Successfully";
@@ -256,11 +256,24 @@ const tellAFriend = async (req, res) => {
 };
 
 const feedback = async (req, res) => {
-  const log = req.context.logger.start(`api:users:create`);
+  const log = req.context.logger.start(`api:users:feedback`);
   try {
     const user = await service.feedback(req.body, req.context);
     log.end();
     return response.success(res, user);
+  } catch (err) {
+    log.error(err);
+    log.end();
+    return response.failure(res, err.message);
+  }
+};
+
+const getProfileProgress = async (req, res) => {
+  const log = req.context.logger.start(`api:users:getProfieProgress`);
+  try {
+    const progress = await service.getProfileProgress(req.query, req.context);
+    log.end();
+    return response.data(res, progress);
   } catch (err) {
     log.error(err);
     log.end();
@@ -278,12 +291,13 @@ exports.logout = logout;
 exports.uploadProfilePic = uploadProfilePic;
 exports.getCount = getCount;
 exports.getRecentAdded = getRecentAdded;
-exports.recentAddedByRole = recentAddedByRole
-exports.deleteUser = deleteUser
-exports.activeOrDeactive = activeOrDeactive
-exports.sendOtp = sendOtp
-exports.otpVerify = otpVerify
-exports.forgotPassword = forgotPassword
-exports.tellAFriend = tellAFriend
-exports.feedback = feedback
+exports.recentAddedByRole = recentAddedByRole;
+exports.deleteUser = deleteUser;
+exports.activeOrDeactive = activeOrDeactive;
+exports.sendOtp = sendOtp;
+exports.otpVerify = otpVerify;
+exports.forgotPassword = forgotPassword;
+exports.tellAFriend = tellAFriend;
+exports.feedback = feedback;
+exports.getProfileProgress = getProfileProgress;
 

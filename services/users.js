@@ -110,7 +110,6 @@ const get = async (query, context) => {
   return users;
 
 };
-
 const getCount = async (context) => {
 
   const log = context.logger.start(`services:users:getCount`);
@@ -129,7 +128,6 @@ const getCount = async (context) => {
   log.end();
   return count;
 };
-
 const recentAddedByRole = async (context, query) => {
 
   const log = context.logger.start(`services:users:recentAddedByRole`);
@@ -143,14 +141,12 @@ const recentAddedByRole = async (context, query) => {
   return user;
 
 };
-
 const getRecentAdded = async (context) => {
   const log = context.logger.start(`services:users:getRecentAdded`);
   const user = await db.user.find().sort({ _id: -1 }).limit(5)
   log.end();
   return user;
 };
-
 const resetPassword = async (id, model, context) => {
   const log = context.logger.start(`service/users/resetPassword: ${model}`);
   const user = await db.user.findById(id);
@@ -172,7 +168,6 @@ const resetPassword = async (id, model, context) => {
     throw new Error("Old Password Not Match");
   }
 };
-
 const update = async (id, model, context) => {
   const log = context.logger.start(`services:users:update`);
   let entity = await db.user.findById(id);
@@ -184,7 +179,6 @@ const update = async (id, model, context) => {
   log.end();
   return user
 };
-
 const login = async (model, context) => {
   const log = context.logger.start("services:users:login");
   const query = {};
@@ -232,7 +226,6 @@ const login = async (model, context) => {
   log.end();
   return user;
 };
-
 const otp = async (mobileNo, context) => {
   var client = new twilio(accountSid, authToken);
   const msg = await client.messages.create({
@@ -243,14 +236,12 @@ const otp = async (mobileNo, context) => {
   console.log(msg.status)
   return msg;
 };
-
 const logout = async (model, context) => {
   const log = context.logger.start("services:users:logout");
   await context.user.save();
   log.end();
   return "logout successfully";
 };
-
 const uploadProfilePic = async (id, file, context) => {
   const log = context.logger.start(`services:users:uploadProfilePic`);
   let user = await db.user.findById(id);
@@ -276,7 +267,6 @@ const uploadProfilePic = async (id, file, context) => {
   log.end();
   return user
 };
-
 const deleteUser = async (context, id) => {
   const log = context.logger.start(`services:users:deleteparent`);
   if (context.user.role != 'superAdmin') {
@@ -303,9 +293,9 @@ const deleteUser = async (context, id) => {
 };
 const activateAndDeactive = async (context, id, isActivated) => {
   const log = context.logger.start(`services:parents:activateAndDeactive`);
-  if (context.user.role != 'superAdmin') {
-    throw new Error("you are not authorized to perform this operation");
-  }
+  // if (context.user.role != 'superAdmin') {
+  //   throw new Error("you are not authorized to perform this operation");
+  // }
   if (!id) {
     throw new Error("Id is requried");
   }
@@ -325,7 +315,6 @@ const activateAndDeactive = async (context, id, isActivated) => {
   return user
 
 };
-
 const sendOtp = async (email, context) => {
   const log = context.logger.start('services/users/sendOtp')
   const user = await db.user.findOne({ email: { $eq: email } });
@@ -352,7 +341,6 @@ const sendOtp = async (email, context) => {
   log.end()
   return data
 }
-
 const otpVerify = async (model, context) => {
   const log = context.logger.start('services/users/otpVerified')
   const otp = await auth.extractToken(model.otpToken, context)
@@ -375,7 +363,6 @@ const otpVerify = async (model, context) => {
   log.end()
   return data
 }
-
 const forgotPassword = async (model, context) => {
   const log = context.logger.start('services/users/forgotPassword')
   const user = await db.user.findOne({ email: { $eq: model.email } });
@@ -391,7 +378,6 @@ const forgotPassword = async (model, context) => {
   log.end()
   return "Password changed Succesfully"
 }
-
 const sendMail = async (email, message, subject) => {
   var smtpTrans = nodemailer.createTransport({
     service: 'Gmail',
@@ -418,7 +404,6 @@ const sendMail = async (email, message, subject) => {
     throw new Error("Unable to send email try after sometime");
   }
 }
-
 const tellAFriend = async (model, context) => {
   const log = context.logger.start('services/users/tellAFriend')
   if (!model.email) {
@@ -430,7 +415,6 @@ const tellAFriend = async (model, context) => {
   log.end()
   return
 }
-
 const feedback = async (model, context) => {
   const log = context.logger.start('services/users/feedback')
   let user = await db.user.findById(model.id);
@@ -446,6 +430,65 @@ const feedback = async (model, context) => {
   log.end();
   return
 }
+const getProfileProgress = async (query, context) => {
+  const log = context.logger.start('services/users/getProfieProgress')
+  if (!query.id) {
+    throw new Error("user id not found");
+  }
+  if (!query.role) {
+    throw new Error("user role not found");
+  }
+  let progress = 20;
+  let user = await db.user.findById(query.id);
+  if (user.phoneNumber !== "string" && user.phoneNumber !== undefined && user.phoneNumber !== "") {
+    progress += 10
+  }
+  if (user.avatarImages !== "string" && user.avatarImages !== undefined && user.avatarImages !== "") {
+    progress += 10
+  }
+  if (user.addressLine1 !== "string" && user.addressLine1 !== undefined && user.addressLine1 !== "") {
+    progress += 10
+  }
+  if (query.role == 'parent') {
+    let children = await db.child.find({ parent: user.id })
+    if (children.length > 1) {
+      let childCount = 1
+
+      children.forEach(child => {
+        while (childCount < 3) {
+          if (child.name !== "string" && child.name !== undefined && child.name !== "") {
+            progress += 2
+          }
+          if (child.age !== "string" && child.age !== undefined && child.age !== "") {
+            progress += 2
+          }
+          if (child.schoolinfo !== "string" && child.schoolinfo !== undefined && child.schoolinfo !== "") {
+            progress += 1
+          }
+          if (child.avtar !== "string" && child.avtar !== undefined && child.avtar !== "") {
+            progress += 1
+          }
+          if (child.sex !== "string" && child.sex !== undefined && child.sex !== "") {
+            progress += 1
+          }
+          if (child.relationToChild !== "string" && child.relationToChild !== undefined && child.relationToChild !== "") {
+            progress += 1
+          }
+          if (child.interestInfo.length > 1) {
+            progress += 2
+          }
+          childCount++
+        }
+      });
+    }
+  }
+  log.end();
+
+  let data = {
+    profileProgress: progress
+  }
+  return data;
+};
 
 exports.register = register;
 exports.get = get;
@@ -466,3 +509,4 @@ exports.otpVerify = otpVerify
 exports.forgotPassword = forgotPassword
 exports.tellAFriend = tellAFriend
 exports.feedback = feedback
+exports.getProfileProgress = getProfileProgress
