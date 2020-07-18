@@ -316,6 +316,7 @@ const activateAndDeactive = async (context, id, isActivated) => {
   if (!parent) {
     throw new Error("user not found");
   }
+
   user.isActivated = isActivated
   user.lastModifiedBy = context.user.id
   user.updatedOn = Date.now()
@@ -417,23 +418,34 @@ const sendMail = async (email, message, subject) => {
     throw new Error("Unable to send email try after sometime");
   }
 }
-const tellAFriend = async (model, context) => {
-  const log = context.logger.start('services/users/sendOtp')
 
+const tellAFriend = async (model, context) => {
+  const log = context.logger.start('services/users/tellAFriend')
   if (!model.email) {
     throw new Error("email not found");
   }
-
   let message = `hi ${model.fullName}, <br> ${model.parentName} invite you to join letsplays  <br> ${model.personalNote}`
   subject = 'invitation'
-
   await sendMail(model.email, message, subject)
-
   log.end()
   return
 }
 
-
+const feedback = async (model, context) => {
+  const log = context.logger.start('services/users/feedback')
+  let user = await db.user.findById(model.id);
+  if (!user) {
+    throw new Error("user not found");
+  }
+  await new db.feedback({
+    feedback: model.feedback,
+    user: model.id || '',
+    createdOn: new Date(),
+    updateOn: new Date()
+  }).save();
+  log.end();
+  return
+}
 
 exports.register = register;
 exports.get = get;
@@ -453,3 +465,4 @@ exports.sendOtp = sendOtp
 exports.otpVerify = otpVerify
 exports.forgotPassword = forgotPassword
 exports.tellAFriend = tellAFriend
+exports.feedback = feedback

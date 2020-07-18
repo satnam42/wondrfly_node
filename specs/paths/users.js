@@ -491,4 +491,37 @@ module.exports = [
       }
     }
   },
+  {
+    url: "/feedback",
+    post: {
+      summary: "feedback",
+      description: "add feedback",
+      parameters: [
+        {
+          in: "body",
+          name: "body",
+          description: "Model of feedback ",
+          required: true,
+          schema: {
+            $ref: "#/definitions/addFeedback"
+          }
+        },
+        {
+          in: "header",
+          name: "x-access-token",
+          description: "token to access api",
+          required: true,
+          type: "string"
+        },
+      ],
+      responses: {
+        default: {
+          description: "Unexpected error",
+          schema: {
+            $ref: "#/definitions/Error"
+          }
+        }
+      }
+    }
+  },
 ];

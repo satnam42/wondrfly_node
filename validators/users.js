@@ -137,7 +137,7 @@ const tellAFriend = (req, res, next) => {
   const log = req.context.logger.start("validators:users:create");
   if (!req.body) {
     log.end();
-    return response.failure(res, "body is equired");
+    return response.failure(res, "body is required");
   }
   if (!req.body.fullName) {
     log.end();
@@ -154,6 +154,23 @@ const tellAFriend = (req, res, next) => {
   log.end();
   return next();
 };
+const feedback = (req, res, next) => {
+  const log = req.context.logger.start("validators:users:create");
+  if (!req.body) {
+    log.end();
+    return response.failure(res, "body is required");
+  }
+  if (!req.body.id) {
+    log.end();
+    return response.failure(res, "id is required");
+  }
+  if (!req.body.feedback) {
+    log.end();
+    return response.failure(res, "feedback is required");
+  }
+  log.end();
+  return next();
+};
 
 exports.getById = getById;
 exports.login = login;
@@ -163,3 +180,4 @@ exports.update = update;
 exports.resetPassword = resetPassword;
 exports.forgotPassword = forgotPassword;
 exports.tellAFriend = tellAFriend;
+exports.feedback = feedback;

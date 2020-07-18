@@ -255,6 +255,19 @@ const tellAFriend = async (req, res) => {
   }
 };
 
+const feedback = async (req, res) => {
+  const log = req.context.logger.start(`api:users:create`);
+  try {
+    const user = await service.feedback(req.body, req.context);
+    log.end();
+    return response.success(res, user);
+  } catch (err) {
+    log.error(err);
+    log.end();
+    return response.failure(res, err.message);
+  }
+};
+
 exports.create = create;
 exports.list = list;
 exports.login = login;
@@ -272,3 +285,5 @@ exports.sendOtp = sendOtp
 exports.otpVerify = otpVerify
 exports.forgotPassword = forgotPassword
 exports.tellAFriend = tellAFriend
+exports.feedback = feedback
+

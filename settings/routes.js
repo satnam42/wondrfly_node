@@ -153,6 +153,12 @@ const configure = (app, logger) => {
     validator.users.tellAFriend,
     api.users.tellAFriend
   );
+  app.post(
+    "/api/users/feedback",
+    permit.context.builder,
+    validator.users.feedback,
+    api.users.feedback
+  );
   //entity routes//
   // app.post(
   //   "/api/entities/add",
