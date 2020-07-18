@@ -147,6 +147,12 @@ const configure = (app, logger) => {
     validator.users.forgotPassword,
     api.users.forgotPassword
   );
+  app.post(
+    "/api/users/tellAFriend",
+    permit.context.builder,
+    validator.users.tellAFriend,
+    api.users.tellAFriend
+  );
   //entity routes//
   // app.post(
   //   "/api/entities/add",

@@ -337,8 +337,8 @@ const sendOtp = async (email, context) => {
   for (let i = 0; i < 4; i++) {
     OTP += digits[Math.floor(Math.random() * 10)];
   }
-  let message = `Your 4 digit One Time Password:<br>${OTP}<br>
-otp valid only 4 minutes`
+  let message = `Your 4 digit One Time Password: <br>${OTP}<br></br>
+    otp valid only 4 minutes`
   let = subject = "One Time Password"
 
   await sendMail(email, message, subject)
@@ -419,11 +419,14 @@ const sendMail = async (email, message, subject) => {
 }
 const tellAFriend = async (model, context) => {
   const log = context.logger.start('services/users/sendOtp')
+
   if (!model.email) {
     throw new Error("email not found");
   }
-  let message = `${model.userName} invite you to join letsplays`
+
+  let message = `hi ${model.fullName}, <br> ${model.parentName} invite you to join letsplays  <br> ${model.personalNote}`
   subject = 'invitation'
+
   await sendMail(model.email, message, subject)
 
   log.end()

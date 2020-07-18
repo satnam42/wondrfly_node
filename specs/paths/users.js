@@ -465,4 +465,30 @@ module.exports = [
       }
     }
   },
+  {
+    url: "/tellAFriend",
+    post: {
+      summary: "tellAFriend",
+      description: "tell A Friend",
+      parameters: [
+        {
+          in: "body",
+          name: "body",
+          description: "Model of tellAFriend ",
+          required: true,
+          schema: {
+            $ref: "#/definitions/tellAFriend"
+          }
+        }
+      ],
+      responses: {
+        default: {
+          description: "Unexpected error",
+          schema: {
+            $ref: "#/definitions/Error"
+          }
+        }
+      }
+    }
+  },
 ];

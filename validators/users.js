@@ -133,6 +133,27 @@ const forgotPassword = (req, res, next) => {
   log.end();
   return next();
 };
+const tellAFriend = (req, res, next) => {
+  const log = req.context.logger.start("validators:users:create");
+  if (!req.body) {
+    log.end();
+    return response.failure(res, "body is equired");
+  }
+  if (!req.body.fullName) {
+    log.end();
+    return response.failure(res, "fullName is required");
+  }
+  if (!req.body.email) {
+    log.end();
+    return response.failure(res, "email is required");
+  }
+  if (!req.body.parentName) {
+    log.end();
+    return response.failure(res, "ParentName is required");
+  }
+  log.end();
+  return next();
+};
 
 exports.getById = getById;
 exports.login = login;
@@ -141,3 +162,4 @@ exports.create = create;
 exports.update = update;
 exports.resetPassword = resetPassword;
 exports.forgotPassword = forgotPassword;
+exports.tellAFriend = tellAFriend;
