@@ -88,23 +88,22 @@ const uploadTimelinePics = async (req, res) => {
     }
 };
 
-// const search = async (req, res) => {
-//     const log = req.context.logger.start(`api:programs:search`);
-//     try {
-//         const program = await service.search(req.query, req.context);
-//         log.end();
-//         return response.data(res, program);
-//     } catch (err) {
-//         log.error(err);
-//         log.end();
-//         return response.failure(res, err.message);
-//     }
-// };
+const search = async (req, res) => {
+    const log = req.context.logger.start(`api:programs:search`);
+    try {
+        const program = await service.search(req.query, req.context);
+        log.end();
+        return response.data(res, program);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
 exports.create = create;
 exports.list = list;
 exports.update = update;
 exports.getById = getById;
 exports.remove = remove;
 exports.uploadTimelinePics = uploadTimelinePics;
-
-// exports.search = search;
+exports.search = search;

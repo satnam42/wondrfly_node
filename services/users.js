@@ -37,8 +37,7 @@ const setUser = (model, user, context) => {
 };
 
 const buildUser = async (model, context) => {
-
-  const log = context.logger.start(`services:users:build${model}`);
+  const log = context.logger.start(`services:users:buildUser${model}`);
   const user = await new db.user({
     firstName: model.firstName,
     type: model.type || '',
@@ -50,7 +49,6 @@ const buildUser = async (model, context) => {
   }).save();
   log.end();
   return user;
-
 };
 
 const register = async (model, context) => {
@@ -72,7 +70,6 @@ const register = async (model, context) => {
   log.end();
   return user;
 };
-
 const getById = async (id, context) => {
 
   const log = context.logger.start(`services:users:getById:${id}`);
@@ -81,7 +78,6 @@ const getById = async (id, context) => {
   return user;
 
 };
-
 const get = async (query, context) => {
 
   const log = context.logger.start(`services:users:get`);
@@ -178,6 +174,7 @@ const update = async (id, model, context) => {
   const user = await setUser(model, entity, context);
   log.end();
   return user
+  0
 };
 const login = async (model, context) => {
   const log = context.logger.start("services:users:login");
@@ -303,10 +300,9 @@ const activateAndDeactive = async (context, id, isActivated) => {
     throw new Error("isActivated requried");
   }
   let user = await db.user.findById(id);
-  if (!parent) {
+  if (!user) {
     throw new Error("user not found");
   }
-
   user.isActivated = isActivated
   user.lastModifiedBy = context.user.id
   user.updatedOn = Date.now()
@@ -453,7 +449,6 @@ const getProfileProgress = async (query, context) => {
     let children = await db.child.find({ parent: user.id })
     if (children.length > 1) {
       let childCount = 1
-
       children.forEach(child => {
         while (childCount < 3) {
           if (child.name !== "string" && child.name !== undefined && child.name !== "") {
@@ -481,9 +476,13 @@ const getProfileProgress = async (query, context) => {
         }
       });
     }
+  } else {
+    const program = await db.program.find({ user: query.id });
+    if (program.length > 1) {
+      progress += 40
+    }
   }
   log.end();
-
   let data = {
     profileProgress: progress
   }

@@ -1,11 +1,9 @@
 const encrypt = require("../permit/crypto.js");
-const auth = require("../permit/auth");
-const path = require("path");
 const imageUrl = require('config').get('image').url
 const ObjectId = require("mongodb").ObjectID;
 
 const setParent = (model, parent, context) => {
-    const log = context.logger.start("services:parents:set");
+    const log = context.logger.start("services:parents:setParent");
     if (model.firstName !== "string" && model.firstName !== undefined) {
         parent.firstName = model.firstName;
     }
@@ -56,7 +54,7 @@ const setParent = (model, parent, context) => {
 };
 
 const buildParent = async (model, context) => {
-    const log = context.logger.start(`services:parents:build${model}`);
+    const log = context.logger.start(`services:parents:buildParent${model}`);
     const parent = await new db.user({
         firstName: model.firstName,
         lastName: model.lastName,
@@ -90,7 +88,7 @@ const buildParent = async (model, context) => {
 
 
 const addParent = async (model, context) => {
-    const log = context.logger.start("services:parents:create");
+    const log = context.logger.start("services:parents:addParent");
     const isEmail = await db.user.findOne({ email: { $eq: model.email } });
     if (isEmail) {
         return "Email already resgister";
@@ -103,7 +101,9 @@ const addParent = async (model, context) => {
 
 
 const getList = async (query, context) => {
-    const log = context.logger.start(`services:parents:get`);
+
+    const log = context.logger.start(`services:parents:getList`);
+
     let pageNo = Number(query.pageNo) || 1;
     let pageSize = Number(query.pageSize) || 10;
     let skipCount = pageSize * (pageNo - 1);
@@ -135,7 +135,7 @@ const resetPassword = async (model, context) => {
 };
 
 const updateParent = async (id, model, context) => {
-    const log = context.logger.start(`services:parents:update`);
+    const log = context.logger.start(`services:parents:updateParent`);
 
     let entity = await db.user.findById(id);
     if (!entity) {
@@ -150,7 +150,7 @@ const updateParent = async (id, model, context) => {
 
 const uploadProfilePic = async (id, file, context) => {
 
-    const log = context.logger.start(`services:parents:update`);
+    const log = context.logger.start(`services:parents:uploadProfilePic`);
     let parent = await db.parent.findById(id);
 
     if (!req.file) {

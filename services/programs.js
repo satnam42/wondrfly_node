@@ -1,8 +1,6 @@
 
-
 "use strict";
 const build = async (model, context) => {
-    model;
     const log = context.logger.start(`services:programs:build${model}`);
     const program = await new db.program({
         name: model.name,
@@ -17,7 +15,7 @@ const build = async (model, context) => {
         bookingCancelledIn: model.bookingCancelledIn,
         duration: model.duration,
         isPaid: model.isPaid,
-        pricePerParticipant: model.priceForSiblings,
+        pricePerParticipant: model.pricePerParticipant,
         priceForSiblings: model.priceForSiblings,
         specialInstructions: model.specialInstructions,
         adultAssistanceIsRequried: model.adultAssistanceIsRequried,
@@ -33,17 +31,16 @@ const build = async (model, context) => {
     log.end();
     return program;
 };
+
 const buildTimelineUrl = async (files) => {
     let bannerImages = []
     let bannerUrl = ''
-
     await files.forEach(file => {
         bannerUrl = imageUrl + 'assets/images/' + file.filename
         bannerImages.push(bannerUrl)
     });
-
-
     return bannerImages
+
 }
 
 const set = (model, program, context) => {
@@ -119,6 +116,9 @@ const set = (model, program, context) => {
 
 const create = async (model, context) => {
     const log = context.logger.start("services:programs:create");
+    if (context.user.role == 'parent') {
+        throw new Error("you are not authorized to perform this operation");
+    }
     // const isprogramExist = await db.program.findOne({ name: { $eq: model.name } });
     // if (isprogramExist) {
     //     return "program already exist";
@@ -126,6 +126,7 @@ const create = async (model, context) => {
     const program = build(model, context);
     log.end();
     return program;
+
 };
 
 const getAllprograms = async (query, context) => {
@@ -138,10 +139,12 @@ const getAllprograms = async (query, context) => {
     log.end();
     return programs;
 };
+
 const getById = async (id, context) => {
     if (!id) {
         throw new Error("id not found");
     }
+
     const log = context.logger.start(`services:programs:update`);
     let program = await db.program.findById(id);
     if (!program) {
@@ -150,10 +153,14 @@ const getById = async (id, context) => {
     log.end();
     return program
 };
+
 const update = async (id, model, context) => {
     const log = context.logger.start(`services:programs:update`);
     if (!id) {
         throw new Error("id Not found");
+    }
+    if (context.user.role == 'parent') {
+        throw new Error("you are not authorized to perform this operation");
     }
     let isProgram = await db.program.findById(id);
     if (!isProgram) {
@@ -163,6 +170,7 @@ const update = async (id, model, context) => {
     log.end();
     return program
 };
+
 const removeById = async (id, model, context) => {
     const log = context.logger.start(`services:programs:removeById`);
     if (!id) {
@@ -175,6 +183,7 @@ const removeById = async (id, model, context) => {
     log.end();
     return 'program deleted succesfully'
 };
+
 const uploadTimeLinePics = async (id, files, context) => {
     const log = context.logger.start(`services:programs:uploadTimeLinePics`);
     const program = await db.program.findOne({ _id: id });
@@ -191,15 +200,13 @@ const uploadTimeLinePics = async (id, files, context) => {
     return program
 };
 
-
-
-// const search = async (query, context) => {
-//     const log = context.logger.start(`services:programs:search`);
-//     const program = await db.program.find({ name: { "$regex": '.*' + query.name + '.*', "$options": 'i' } }
-//     ).limit(5);
-//     log.end();
-//     return program;
-// };
+const search = async (query, context) => {
+    const log = context.logger.start(`services:programs:search`);
+    const program = await db.program.find({ name: { "$regex": '.*' + query.name + '.*', "$options": 'i' } }
+    ).limit(5);
+    log.end();
+    return program;
+};
 
 exports.create = create;
 exports.getAllprograms = getAllprograms;
@@ -207,5 +214,6 @@ exports.update = update;
 exports.getById = getById;
 exports.removeById = removeById;
 exports.uploadTimeLinePics = uploadTimeLinePics;
+exports.search = search;
 
-// exports.search = search;
+

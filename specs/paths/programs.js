@@ -6,8 +6,6 @@ module.exports = [
             description: "add program",
             parameters: [
                 {
-
-
                     in: "body",
                     name: "body",
                     description: "Model of program creation",
@@ -165,6 +163,38 @@ module.exports = [
                     type: "string"
                 }
             ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
+    {
+        url: "/search",
+        get: {
+            summary: "search",
+            description: "program search  ",
+            parameters: [
+                {
+                    in: "query",
+                    name: "name",
+                    description: "program name",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+
             responses: {
                 default: {
                     description: "Unexpected error",

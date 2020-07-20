@@ -426,6 +426,12 @@ const configure = (app, logger) => {
     upload.array('image', 5),
     api.programs.uploadTimelinePics
   );
+  app.get(
+    "/api/programs/search",
+    permit.context.builder,
+    permit.context.requiresToken,
+    api.programs.search
+  );
   app.post(
     "/api/favourites/add",
     permit.context.requiresToken,
