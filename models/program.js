@@ -56,7 +56,7 @@ const programSchema = mongoose.Schema({
     addresses: [{ type: String, default: '' }],
     category: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category',
+        ref: 'category',
         required: true
     },
     createdOn: { type: Date, default: Date.now },

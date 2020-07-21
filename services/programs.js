@@ -2,6 +2,7 @@
 "use strict";
 const build = async (model, context) => {
     const log = context.logger.start(`services:programs:build${model}`);
+
     const program = await new db.program({
         name: model.name,
         description: model.description,
@@ -28,11 +29,14 @@ const build = async (model, context) => {
         createdOn: new Date(),
         updateOn: new Date(),
     }).save();
+
     log.end();
+
     return program;
 };
 
 const buildTimelineUrl = async (files) => {
+
     let bannerImages = []
     let bannerUrl = ''
     await files.forEach(file => {
@@ -40,7 +44,6 @@ const buildTimelineUrl = async (files) => {
         bannerImages.push(bannerUrl)
     });
     return bannerImages
-
 }
 
 const set = (model, program, context) => {
@@ -87,6 +90,7 @@ const set = (model, program, context) => {
     if (model.priceForSiblings !== "string" && model.priceForSiblings !== undefined) {
         program.priceForSiblings = model.priceForSiblings;
     }
+
     if (model.specialInstructions !== "string" && model.specialInstructions !== undefined) {
         program.specialInstructions = model.specialInstructions;
     }
@@ -96,19 +100,25 @@ const set = (model, program, context) => {
     if (model.capacity !== "string" && model.capacity !== undefined) {
         program.capacity = model.capacity;
     }
+
     if (model.emails.lenght > 1) {
         program.emails = model.emails;
     }
+
     if (model.batches.lenght > 1) {
         program.batches = model.batches;
     }
+
     if (model.addresses.lenght > 1) {
         program.addresses = model.addresses;
     }
+
     if (model.category !== "string" && model.category !== undefined) {
         program.category = model.category;
     }
+
     program.updateOn = new Date()
+
     log.end();
     program.save();
     return program;
@@ -134,24 +144,24 @@ const getAllprograms = async (query, context) => {
     let pageNo = Number(query.pageNo) || 1;
     let pageSize = Number(query.pageSize) || 10;
     let skipCount = pageSize * (pageNo - 1);
-    let programs = await db.program.find().skip(skipCount).limit(pageSize);
+    let programs = await db.program.find().populate('category').skip(skipCount).limit(pageSize);
     programs.count = await db.program.find().count();
     log.end();
     return programs;
 };
 
 const getById = async (id, context) => {
+    const log = context.logger.start(`services:programs:getById`);
     if (!id) {
         throw new Error("id not found");
     }
-
-    const log = context.logger.start(`services:programs:update`);
     let program = await db.program.findById(id);
     if (!program) {
         throw new Error("program not found");
     }
     log.end();
     return program
+
 };
 
 const update = async (id, model, context) => {
@@ -163,10 +173,13 @@ const update = async (id, model, context) => {
         throw new Error("you are not authorized to perform this operation");
     }
     let isProgram = await db.program.findById(id);
+
     if (!isProgram) {
         throw new Error("program Not found");
     }
+
     const program = await set(model, isprogram, context);
+
     log.end();
     return program
 };
@@ -187,23 +200,27 @@ const removeById = async (id, model, context) => {
 const uploadTimeLinePics = async (id, files, context) => {
     const log = context.logger.start(`services:programs:uploadTimeLinePics`);
     const program = await db.program.findOne({ _id: id });
+
     if (files.length < 0) {
         throw new Error("image not found");
     }
+
     if (!program) {
         throw new Error("program not found");
     }
+
     let pics = await buildTimelineUrl(files)
     program.timelinePics = pics
     await program.save();
     log.end();
     return program
+
 };
 
 const search = async (query, context) => {
     const log = context.logger.start(`services:programs:search`);
     const program = await db.program.find({ name: { "$regex": '.*' + query.name + '.*', "$options": 'i' } }
-    ).limit(5);
+    ).populate('category').limit(5);
     log.end();
     return program;
 };
@@ -215,5 +232,3 @@ exports.getById = getById;
 exports.removeById = removeById;
 exports.uploadTimeLinePics = uploadTimeLinePics;
 exports.search = search;
-
-

@@ -69,6 +69,7 @@ const uploadPic = async (req, res) => {
     }
 
 };
+
 const remove = async (req, res) => {
     const log = req.context.logger.start(`api:categories:remove:${req.params.id}`);
     try {

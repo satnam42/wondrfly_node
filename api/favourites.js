@@ -27,6 +27,7 @@ const list = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
+
 const listByUserId = async (req, res) => {
     const log = req.context.logger.start(`api:favourites:listByUserId`);
     try {

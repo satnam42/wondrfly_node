@@ -18,7 +18,7 @@ const create = async (req, res) => {
 const list = async (req, res) => {
     const log = req.context.logger.start(`api:programs:list`);
     try {
-        const programs = await service.getList(req.query, req.context);
+        const programs = await service.getAllprograms(req.query, req.context);
         let message = programs.count ? programs.count : 0 + " " + "programs Got";
         log.end();
         return response.page(

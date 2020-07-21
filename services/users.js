@@ -146,11 +146,13 @@ const getRecentAdded = async (context) => {
 const resetPassword = async (id, model, context) => {
   const log = context.logger.start(`service/users/resetPassword: ${model}`);
   const user = await db.user.findById(id);
+
   const isMatched = encrypt.compareHash(
     model.oldPassword,
     user.password,
     context
   );
+
   if (isMatched) {
     const newPassword = encrypt.getHash(model.newPassword, context);
     user.password = newPassword;
@@ -500,12 +502,12 @@ exports.uploadProfilePic = uploadProfilePic;
 exports.getCount = getCount;
 exports.getRecentAdded = getRecentAdded;
 exports.recentAddedByRole = recentAddedByRole;
-exports.deleteUser = deleteUser
-exports.activateAndDeactive = activateAndDeactive
+exports.deleteUser = deleteUser;
+exports.activateAndDeactive = activateAndDeactive;
 exports.otp = otp;
-exports.sendOtp = sendOtp
-exports.otpVerify = otpVerify
-exports.forgotPassword = forgotPassword
-exports.tellAFriend = tellAFriend
-exports.feedback = feedback
+exports.sendOtp = sendOtp;
+exports.otpVerify = otpVerify;
+exports.forgotPassword = forgotPassword;
+exports.tellAFriend = tellAFriend;
+exports.feedback = feedback;
 exports.getProfileProgress = getProfileProgress

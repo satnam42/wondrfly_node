@@ -25,11 +25,13 @@ const childSchema = mongoose.Schema({
         enum: ['active', 'inactive'],
         default: 'active'
     },
+
     parent: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
     },
+
     updatedOn: { type: Date, default: Date.now },
     createdOn: { type: Date, default: Date.now },
 },

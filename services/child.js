@@ -105,14 +105,18 @@ const updateChild = async (id, model, context) => {
     log.end();
     return child
 };
+
 const childByParentId = async (id, context) => {
     const log = context.logger.start(`services:childs:update`);
     let children = await db.child.find({ parent: id })
     let tags = []
+
     await children.forEach(async child => {
         let tag = await db.tag.find({ categoryIds: { $in: child.interestInfo } }).populate('categoryIds')
         tags.push(tag)
     });
+
+
     //todo
     //add tag res 
 
