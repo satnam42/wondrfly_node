@@ -63,22 +63,25 @@ const update = async (id, model, context) => {
 const search = async (query, context) => {
     const log = context.logger.start(`services:categories:search`);
     const category = await db.category.find({ name: { "$regex": '.*' + query.name + '.*', "$options": 'i' } }
-    ).limit(5);
+    ).limit(5).sort({ name: 1 });
     log.end();
     return category;
+
 };
 
 const uploadPic = async (id, file, context) => {
     const log = context.logger.start(`services:categories:uploadPic`);
     let category = await db.category.findById(id);
+
     if (!file) {
         throw new Error("image not found");
     }
+
     if (!category) {
         throw new Error("category not found");
     }
-    if (category.imageUrl != "" && category.imageUrl !== undefined) {
 
+    if (category.imageUrl != "" && category.imageUrl !== undefined) {
         let image = category.imageUrl.replace(`${imageUrl}`, '');
         try {
             await fs.unlinkSync(`${image}`)
@@ -87,8 +90,6 @@ const uploadPic = async (id, file, context) => {
             console.log(err)
         }
     }
-
-
     const picUrl = imageUrl + 'assets/images/' + file.filename
     category.imageUrl = picUrl
     await category.save();

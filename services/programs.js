@@ -100,28 +100,23 @@ const set = (model, program, context) => {
     if (model.capacity !== "string" && model.capacity !== undefined) {
         program.capacity = model.capacity;
     }
-
     if (model.emails.lenght > 1) {
         program.emails = model.emails;
     }
-
     if (model.batches.lenght > 1) {
         program.batches = model.batches;
     }
-
     if (model.addresses.lenght > 1) {
         program.addresses = model.addresses;
     }
-
     if (model.category !== "string" && model.category !== undefined) {
         program.category = model.category;
     }
-
     program.updateOn = new Date()
-
     log.end();
     program.save();
     return program;
+
 };
 
 const create = async (model, context) => {

@@ -11,7 +11,11 @@ const childSchema = mongoose.Schema({
     contactOtherInfo: { type: String, default: "", },
     schoolinfo: { type: String, default: "", },
     interestInfo: [
-        { type: String, default: '' }
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'category',
+            required: true
+        },
     ],
     dislikes: { type: String, default: "", },
     alergies: { type: String, default: "" },
