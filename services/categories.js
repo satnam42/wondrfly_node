@@ -3,6 +3,7 @@
 "use strict";
 const imageUrl = require('config').get('image').url
 const fs = require('fs');
+
 const build = async (model, context) => {
     const { name, description } = model;
     const log = context.logger.start(`services:categories:build${model}`);
@@ -70,6 +71,7 @@ const search = async (query, context) => {
 };
 
 const uploadPic = async (id, file, context) => {
+
     const log = context.logger.start(`services:categories:uploadPic`);
     let category = await db.category.findById(id);
 

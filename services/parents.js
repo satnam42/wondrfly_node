@@ -1,7 +1,7 @@
 const encrypt = require("../permit/crypto.js");
 const imageUrl = require('config').get('image').url
 const ObjectId = require("mongodb").ObjectID;
-
+const auth = require("../permit/auth");
 const setParent = (model, parent, context) => {
     const log = context.logger.start("services:parents:setParent");
     if (model.firstName !== "string" && model.firstName !== undefined) {
@@ -43,12 +43,10 @@ const setParent = (model, parent, context) => {
     if (model.stripeKey !== "string" && model.stripeKey !== undefined) {
         parent.stripeKey = model.stripeKey;
     }
-
     parent.lastModifiedBy = context.user.id
     parent.updateOn = new Date()
     let user = parent
     log.end();
-
     user.save();
     return user;
 };
@@ -101,9 +99,7 @@ const addParent = async (model, context) => {
 
 
 const getList = async (query, context) => {
-
     const log = context.logger.start(`services:parents:getList`);
-
     let pageNo = Number(query.pageNo) || 1;
     let pageSize = Number(query.pageSize) || 10;
     let skipCount = pageSize * (pageNo - 1);
@@ -125,9 +121,15 @@ const resetPassword = async (model, context) => {
         const newPassword = encrypt.getHash(model.newPassword, context);
         user.password = newPassword;
         user.updatedOn = new Date();
+
+        const token = auth.getToken(user, false, context);
         await user.save();
+        let data = {
+            toke: token,
+            message: "Password Updated Successfully"
+        }
         log.end();
-        return "Password Updated Successfully";
+        return data;
     } else {
         log.end();
         throw new Error("Old Password Not Match");
@@ -136,23 +138,18 @@ const resetPassword = async (model, context) => {
 
 const updateParent = async (id, model, context) => {
     const log = context.logger.start(`services:parents:updateParent`);
-
     let entity = await db.user.findById(id);
     if (!entity) {
         throw new Error("Parent Not Found");
     }
-
     const parent = await setParent(model, entity, context);
-
     log.end();
     return parent
 };
 
 const uploadProfilePic = async (id, file, context) => {
-
     const log = context.logger.start(`services:parents:uploadProfilePic`);
     let parent = await db.parent.findById(id);
-
     if (!req.file) {
         throw new Error("image not found");
     }

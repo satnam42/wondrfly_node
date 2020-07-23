@@ -11,9 +11,7 @@ const authToken = 'd864b1037de18df6150de9b4bf97b200'
 var twilio = require('twilio');
 
 const setUser = (model, user, context) => {
-
   const log = context.logger.start("services:users:set");
-
   if (model.firstName !== "string" && model.firstName !== undefined) {
     user.firstName = model.firstName;
   }
@@ -52,7 +50,6 @@ const buildUser = async (model, context) => {
 };
 
 const register = async (model, context) => {
-
   const log = context.logger.start("services:users:register");
   const isEmail = await db.user.findOne({ email: { $eq: model.email } });
   if (isEmail) {
@@ -180,21 +177,29 @@ const update = async (id, model, context) => {
 };
 const login = async (model, context) => {
   const log = context.logger.start("services:users:login");
+
   const query = {};
+
   if (model.email) {
     query.email = model.email;
   }
+
   let user = await db.user.findOne(query);
+
   if (!user) {
     log.end();
     throw new Error("user not found");
   }
+
   const isMatched = encrypt.compareHash(model.password, user.password, context);
+
   if (!isMatched) {
     log.end();
     throw new Error("password mismatch");
   }
+
   let permissions = []
+
   let data = await db.permission.aggregate(
     [{ $match: { userId: ObjectId(user.id) } },
     {
@@ -216,12 +221,20 @@ const login = async (model, context) => {
       }
     });
   }
-
+  if (user.role == 'parent') {
+    let children = await db.child.find({ parent: user.id })
+    if (children.length >= 1) {
+      user.isOnBoardingDone = true
+    }
+    else {
+      user.isOnBoardingDone = false
+    }
+  }
   const token = auth.getToken(user, false, context);
   user.lastLoggedIn = Date.now();
   user.token = token;
   user.save();
-  user.permissions = permissions
+  user.permissions = permissions;
   log.end();
   return user;
 };

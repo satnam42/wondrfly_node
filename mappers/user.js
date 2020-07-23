@@ -8,6 +8,7 @@ exports.toModel = entity => {
     phoneNumber: entity.phoneNumber,
     avatarImages: entity.avatarImages,
     email: entity.email,
+    isOnBoardingDone: entity.isOnBoardingDone,
     sex: entity.sex,
     addressLine1: entity.addressLine1,
     addressLine2: entity.addressLine2,

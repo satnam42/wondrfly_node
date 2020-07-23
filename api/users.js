@@ -122,7 +122,6 @@ const logout = async (req, res) => {
 };
 
 const uploadProfilePic = async (req, res) => {
-
   const log = req.context.logger.start(`api:users:uploadProfilePic`);
   try {
     const user = await service.uploadProfilePic(req.params.id, req.file, req.context);
@@ -219,7 +218,6 @@ const otpVerify = async (req, res) => {
   const log = req.context.logger.start("api:users:otpVerify");
   try {
     const data = await service.otpVerify(req.body, req.context);
-
     log.end();
     return response.success(res, data);
   } catch (err) {
@@ -241,6 +239,7 @@ const forgotPassword = async (req, res) => {
     return response.failure(res, err.message);
   }
 };
+
 const tellAFriend = async (req, res) => {
   const log = req.context.logger.start(`api:users:tellAFriend`);
   try {

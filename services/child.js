@@ -1,6 +1,7 @@
 const imageUrl = require('config').get('image').url
 const ObjectId = require("mongodb").ObjectID;
 const fs = require('fs');
+
 const setChild = async (model, child, context) => {
     const log = context.logger.start("services:childs:set");
     if (model.name !== "string" && model.name !== undefined) {
@@ -121,7 +122,6 @@ const deleteChild = async (context, id) => {
     if (!id) {
         throw new Error("childId is requried");
     }
-
     let child = await db.child.findById(id);
 
     if (!child) {
@@ -137,12 +137,10 @@ const deleteChild = async (context, id) => {
 };
 
 const uploadChildPic = async (file, context) => {
-    1
     const log = context.logger.start(`services:child:uploadChildPic`);
     if (!file) {
         throw new Error("image not found");
     }
-
     const avatarImages = imageUrl + 'assets/images/' + file.filename
     log.end();
     return avatarImages
