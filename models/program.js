@@ -52,7 +52,6 @@ const programSchema = mongoose.Schema({
         ref: 'user',
         required: true
     },
-
     addresses: [{ type: String, default: '' }],
     category: {
         type: mongoose.Schema.Types.ObjectId,

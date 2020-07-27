@@ -9,7 +9,7 @@ const childSchema = mongoose.Schema({
     avtar: { type: String, default: "", },
     relationToChild: { type: String, default: "", },
     contactOtherInfo: { type: String, default: "", },
-    schoolinfo: { type: String, default: "", },
+    schoolInfo: { type: String, default: "", },
     interestInfo: [
         {
             type: mongoose.Schema.Types.ObjectId,
