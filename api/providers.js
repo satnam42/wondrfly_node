@@ -29,11 +29,11 @@ const list = async (req, res) => {
 };
 
 const update = async (req, res) => {
-    const log = req.context.logger.start(`api:tags:update:${req.params.id}`);
+    const log = req.context.logger.start(`api:providers:update:${req.params.id}`);
     try {
-        const tag = await service.updateProvider(req.params.id, req.body, req.context);
+        const provider = await service.updateProvider(req.params.id, req.body, req.context);
         log.end();
-        return response.data(res, userMapper.toModel(tag));
+        return response.data(res, provider);
     } catch (err) {
         log.error(err);
         log.end();
