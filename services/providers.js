@@ -80,7 +80,7 @@ const setProviderDetail = (model, provider, context) => {
     provider.save();
     // const provider = await setproviderDetail(model, entity, context);
 
-    return user;
+    return provider;
 
 }
 const setBasicInfo = (model, user, context) => {
@@ -174,7 +174,6 @@ const getAllProvider = async (context) => {
 
 const updateProvider = async (id, model, context) => {
     const log = context.logger.start(`services:providers:update`);
-
     let user = await db.user.findById(id);
 
     let provider = await db.provider.findOne({ user: user.id });
