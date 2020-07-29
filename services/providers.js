@@ -38,6 +38,9 @@ const setProviderDetail = (model, provider, context) => {
     if (model.categoryId !== "string" && model.categoryId !== undefined) {
         provider.category = model.categoryId;
     }
+    if (model.about !== "string" && model.about !== undefined) {
+        provider.about = model.about;
+    }
     if (model.description !== "string" && model.description !== undefined) {
         provider.description = model.description;
     }

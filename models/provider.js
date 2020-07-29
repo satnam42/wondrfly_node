@@ -10,6 +10,7 @@ const provider = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category'
     },
+    about: { type: String, default: "" },
     description: { type: String, default: "" },
     facebook: { type: String, default: "" },
     fullAddress: { type: String, default: "" },

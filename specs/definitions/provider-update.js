@@ -32,6 +32,9 @@ module.exports = [
             addressLine1: {
                 type: 'string'
             },
+            about: {
+                type: 'string'
+            },
             city: { type: 'string', },
             country: { type: 'string', },
             zipCode: { type: 'string', },

@@ -30,7 +30,10 @@ const programSchema = mongoose.Schema({
     priceForSiblings: { type: String, default: "" },
     specialInstructions: { type: String, default: "" },
     adultAssistanceIsRequried: { type: Boolean, default: false },
-    capacity: { type: String, default: "" },
+    capacity: {
+        min: { type: String, default: "" },
+        mix: { type: String, default: "" }
+    },
     emails: [
         { type: String, default: '' }],
     batches: [{
@@ -56,7 +59,7 @@ const programSchema = mongoose.Schema({
     category: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'category',
-        required: true
+        // required: true
     },
     createdOn: { type: Date, default: Date.now },
     updatedOn: { type: Date, default: Date.now }

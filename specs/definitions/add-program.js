@@ -39,7 +39,6 @@ module.exports = [
                 }
             },
             bookingCancelledIn: {
-
                 properties: {
                     day: { type: "string" },
                     hours: { type: "string" }
@@ -62,6 +61,12 @@ module.exports = [
             },
             adultAssistanceIsRequried: {
                 type: "boolean"
+            },
+            capacity: {
+                properties: {
+                    days: { type: "string" },
+                    hours: { type: "string" }
+                }
             },
             capacity: {
                 type: "string"
