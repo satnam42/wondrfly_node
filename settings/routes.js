@@ -280,7 +280,7 @@ const configure = (app, logger) => {
     // validator.users.update,
     api.providers.update
   );
-  app.put(
+  app.get(
     "/api/providers/getById/:id",
     permit.context.requiresToken,
     // validator.users.update,
