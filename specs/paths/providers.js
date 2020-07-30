@@ -162,7 +162,7 @@ module.exports = [
     },
     {
         url: "/getById/{id}",
-        put: {
+        get: {
             summary: "getById",
             description: "getById provider details",
             parameters: [
