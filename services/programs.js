@@ -134,6 +134,7 @@ const create = async (model, context) => {
 
 };
 
+
 const getAllprograms = async (query, context) => {
     const log = context.logger.start(`services:programs:getAllprograms`);
     let pageNo = Number(query.pageNo) || 1;
@@ -220,6 +221,20 @@ const search = async (query, context) => {
     return program;
 };
 
+const getProgramsByPpovider = async (query, context) => {
+    const log = context.logger.start(`services:programs:getAllprograms`);
+    let pageNo = Number(query.pageNo) || 1;
+    let pageSize = Number(query.pageSize) || 10;
+    let skipCount = pageSize * (pageNo - 1);
+    if (query.userId) {
+        throw new Error("program not found");
+    }
+    let programs = await db.program.find({ user: query.userId }).populate('category').skip(skipCount).limit(pageSize);
+    programs.count = await db.program.find().count();
+    log.end();
+    return programs;
+};
+
 exports.create = create;
 exports.getAllprograms = getAllprograms;
 exports.update = update;
@@ -227,3 +242,4 @@ exports.getById = getById;
 exports.removeById = removeById;
 exports.uploadTimeLinePics = uploadTimeLinePics;
 exports.search = search;
+exports.getProgramsByPpovider = getProgramsByPpovider

@@ -100,6 +100,20 @@ const search = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
+const programsByPpovider = async (req, res) => {
+    const log = req.context.logger.start(`api:programs:programsByPpovider:${req.params.id}`);
+    try {
+        const programs = await service.getProgramsByPpovider(req.params.id, req.body, req.context);
+        log.end();
+        return response.data(res, programs);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
+
 exports.create = create;
 exports.list = list;
 exports.update = update;
@@ -107,3 +121,4 @@ exports.getById = getById;
 exports.remove = remove;
 exports.uploadTimelinePics = uploadTimelinePics;
 exports.search = search;
+exports.programsByPpovider = programsByPpovider

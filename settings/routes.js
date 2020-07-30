@@ -8,9 +8,7 @@ const path = require("path");
 const validator = require("../validators");
 var multer = require('multer');
 try {
-
   var storage = multer.diskStorage({
-
     destination: function (req, file, cb) {
       if (file.fieldname == 'csv') {
         cb(null, path.join(__dirname, '../', 'assets'));
@@ -28,10 +26,9 @@ try {
       }
     }
   });
-
   var upload = multer({ storage: storage, limits: { fileSize: 1024 * 1024 * 50 } });
-} catch{
-
+} catch (err) {
+  console.log('errrrrrrrrr', err)
 
 }
 
@@ -381,7 +378,7 @@ const configure = (app, logger) => {
   app.post(
     "/api/child/uploadChildPic",
     permit.context.requiresToken,
-    upload.single('childImage'),
+    upload.single('image'),
     api.child.uploadChildPic
   );
   log.end();
