@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const provider = mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'user'
     },
     category: {
         type: mongoose.Schema.Types.ObjectId,
@@ -25,6 +25,10 @@ const provider = mongoose.Schema({
     twitter: { type: String, default: "" },
     website: { type: String, default: "" },
     youtube: { type: String, default: "" },
+    instagram: { type: String, default: "" },
+    website: { type: String, default: "" },
+    facebook: { type: String, default: "" },
+    twitter: { type: String, default: "" },
     instagram: { type: String, default: "" },
     awards: { type: String, default: "" },
     taxNumber: { type: String, default: "" },

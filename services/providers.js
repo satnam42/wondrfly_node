@@ -204,9 +204,16 @@ const uploadBannerPic = async (id, files, context) => {
     log.end();
     return provider
 };
+const getProvideById = async (id, context) => {
+    const log = context.logger.start(`services:providers:getAllProvider`);
+    const providers = await db.provider.findOne({ user: id }).populate('user')
+    log.end();
+    return providers;
+};
 
 exports.importProvider = importProvider;
 exports.getAllProvider = getAllProvider;
 exports.updateProvider = updateProvider;
 exports.uploadBannerPic = uploadBannerPic;
+exports.getProvideById = getProvideById;
 

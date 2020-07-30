@@ -1,6 +1,7 @@
 "use strict";
 const service = require("../services/providers");
 const response = require("../exchange/response");
+const mapper = require("../mappers/provider")
 
 const create = async (req, res) => {
     const log = req.context.logger.start(`api:provider:create`);
@@ -41,6 +42,8 @@ const update = async (req, res) => {
     }
 };
 
+
+
 const uploadBannerPic = async (req, res) => {
     const log = req.context.logger.start(`api:provider:uploadBannerPic`);
     try {
@@ -54,9 +57,23 @@ const uploadBannerPic = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
+const getById = async (req, res) => {
+    const log = req.context.logger.start(`api:providers:getById:${req.params.id}`);
+    try {
+        const provider = await service.getProvideById(req.params.id, req.context);
+        log.end();
+        return response.data(res, mapper.toModel(provider));
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
 
 exports.create = create;
 exports.list = list;
 exports.update = update;
 exports.uploadBannerPic = uploadBannerPic;
+exports.getById = getById;
+
 

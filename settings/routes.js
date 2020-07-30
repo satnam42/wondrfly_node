@@ -7,28 +7,34 @@ const permit = require("../permit")
 const path = require("path");
 const validator = require("../validators");
 var multer = require('multer');
+try {
 
-var storage = multer.diskStorage({
+  var storage = multer.diskStorage({
 
-  destination: function (req, file, cb) {
-    if (file.fieldname == 'csv') {
-      cb(null, path.join(__dirname, '../', 'assets'));
+    destination: function (req, file, cb) {
+      if (file.fieldname == 'csv') {
+        cb(null, path.join(__dirname, '../', 'assets'));
+      }
+      else {
+        cb(null, path.join(__dirname, '../', 'assets/images'));
+      }
+    },
+    filename: function (req, file, cb) {
+      if (file.fieldname == 'csv') {
+        cb(null, file.originalname);
+      }
+      else {
+        cb(null, Date.now() + file.originalname);
+      }
     }
-    else {
-      cb(null, path.join(__dirname, '../', 'assets/images'));
-    }
-  },
-  filename: function (req, file, cb) {
-    if (file.fieldname == 'csv') {
-      cb(null, file.originalname);
-    }
-    else {
-      cb(null, Date.now() + file.originalname);
-    }
-  }
-});
+  });
 
-var upload = multer({ storage: storage, limits: { fileSize: 1024 * 1024 * 50 } });
+  var upload = multer({ storage: storage, limits: { fileSize: 1024 * 1024 * 50 } });
+} catch{
+
+
+}
+
 
 const configure = (app, logger) => {
   const log = logger.start("settings:routes:configure");
@@ -277,6 +283,12 @@ const configure = (app, logger) => {
     // validator.users.update,
     api.providers.update
   );
+  app.put(
+    "/api/providers/getById/:id",
+    permit.context.requiresToken,
+    // validator.users.update,
+    api.providers.getById
+  );
 
   app.put(
     "/api/providers/uploadBannerPic/:id",
@@ -369,7 +381,7 @@ const configure = (app, logger) => {
   app.post(
     "/api/child/uploadChildPic",
     permit.context.requiresToken,
-    upload.single('image'),
+    upload.single('childImage'),
     api.child.uploadChildPic
   );
   log.end();
@@ -431,6 +443,11 @@ const configure = (app, logger) => {
     permit.context.builder,
     permit.context.requiresToken,
     api.programs.search
+  );
+  app.get(
+    "/api/programs/byProvider",
+    permit.context.requiresToken,
+    api.programs.programsByPpovider
   );
   app.post(
     "/api/favourites/add",
