@@ -112,6 +112,58 @@ const programsByPpovider = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
+const addClick = async (req, res) => {
+    const log = req.context.logger.start(`api:programs:addClick`);
+    try {
+        const click = await service.increaseClickCount(req.body, req.context);
+        log.end();
+        return response.data(res, click);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
+const addView = async (req, res) => {
+    const log = req.context.logger.start(`api:programs:addView`);
+    try {
+        const view = await service.increaseViewCount(req.body, req.context);
+        log.end();
+        return response.data(res, view);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+const viewsByUserId = async (req, res) => {
+    const log = req.context.logger.start(`api:programs:viewsByProgramId:${req.query.userId}`);
+    try {
+        const views = await service.getViewCount(req.query, req.context);
+        log.end();
+        return response.data(res, views);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
+
+const programCountByUserId = async (req, res) => {
+    const log = req.context.logger.start(`api:programs:clicksByProgramId:${req.query.id}`);
+    try {
+        const clicks = await service.getProgramCount(req.query, req.context);
+        log.end();
+        return response.data(res, clicks);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 
 
 exports.create = create;
@@ -121,4 +173,8 @@ exports.getById = getById;
 exports.remove = remove;
 exports.uploadTimelinePics = uploadTimelinePics;
 exports.search = search;
-exports.programsByPpovider = programsByPpovider
+exports.programsByPpovider = programsByPpovider;
+exports.addView = addView;
+exports.addClick = addClick;
+exports.viewsByUserId = viewsByUserId;
+exports.programCountByUserId = programCountByUserId;

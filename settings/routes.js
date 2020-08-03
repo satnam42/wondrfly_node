@@ -447,6 +447,28 @@ const configure = (app, logger) => {
     api.programs.programsByPpovider
   );
   app.post(
+    "/api/programs/addClick",
+    permit.context.requiresToken,
+    api.programs.addClick
+  );
+  app.post(
+    "/api/programs/addView",
+    permit.context.requiresToken,
+    api.programs.addView
+  );
+  app.get(
+    "/api/programs/count",
+    permit.context.requiresToken,
+    api.programs.programCountByUserId
+  );
+  app.get(
+    "/api/programs/getViewsCount",
+    permit.context.requiresToken,
+    api.programs.viewsByUserId
+  );
+
+
+  app.post(
     "/api/favourites/add",
     permit.context.requiresToken,
     api.favourites.create

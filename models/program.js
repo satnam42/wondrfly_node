@@ -7,6 +7,11 @@ const programSchema = mongoose.Schema({
     price: { type: String, default: "" },
     code: { type: String, default: "" },
     location: { type: String, default: "" },
+    status: {
+        type: String,
+        enum: ['active', 'inactive'],
+        default: 'active'
+    },
     timelinePics: [{ type: String, default: "" }],
     ageGroup: {
         from: { type: String, default: '' },
@@ -25,9 +30,13 @@ const programSchema = mongoose.Schema({
         hours: { type: String, default: "" }
     },
     duration: { type: String, default: "" },
-    isPaid: { type: String, default: "" },
+    isFree: { type: String, default: "" },
     pricePerParticipant: { type: String, default: "" },
     priceForSiblings: { type: String, default: "" },
+    specialInstructions: { type: String, default: "" },
+    totalViews: { type: Number, default: "" },
+    clicks: { type: Number, default: "" },
+    saves: { type: Number, default: "" },
     specialInstructions: { type: String, default: "" },
     adultAssistanceIsRequried: { type: Boolean, default: false },
     capacity: {

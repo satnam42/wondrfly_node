@@ -251,5 +251,135 @@ module.exports = [
             }
         }
     },
+    {
+        url: "/addClick",
+        post: {
+            summary: "addClick",
+            description: "add Click",
+            parameters: [
+                {
+                    in: "body",
+                    name: "body",
+                    description: "Model of click creation",
+                    required: true,
+                    schema: {
+                        $ref: "#/definitions/clickAdd"
+                    }
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                },
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
+    {
+        url: "/addView",
+        post: {
+            summary: "addView",
+            description: "add view",
+            parameters: [
+                {
+                    in: "body",
+                    name: "body",
+                    description: "Model of view creation",
+                    required: true,
+                    schema: {
+                        $ref: "#/definitions/viewAdd"
+                    }
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                },
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
+    {
+        url: "/getViewsCount",
+        get: {
+            summary: "getViewsCount",
+            description: "program view count ",
+            parameters: [
+                {
+                    in: "query",
+                    name: "userId",
+                    description: "user id",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
+    {
+        url: "/count",
+        get: {
+            summary: "count",
+            description: "provider program  count ",
+            parameters: [
+                {
+                    in: "query",
+                    name: "userId",
+                    description: "user id",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
 
 ];

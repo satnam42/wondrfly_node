@@ -1,5 +1,6 @@
 
 "use strict";
+const ObjectId = require("mongodb").ObjectID;
 const build = async (model, context) => {
     const log = context.logger.start(`services:programs:build${model}`);
 
@@ -227,14 +228,104 @@ const getProgramsByPpovider = async (query, context) => {
     let pageSize = Number(query.pageSize) || 10;
     let skipCount = pageSize * (pageNo - 1);
     if (query.userId) {
-        throw new Error("program not found");
+        throw new Error("userId is  required");
     }
     let programs = await db.program.find({ user: query.userId }).populate('category').skip(skipCount).limit(pageSize);
-    programs.count = await db.program.find().count();
+    programs.count = await db.program.find({ user: query.userId }).count();
     log.end();
     return programs;
 };
 
+const increaseViewCount = async (model, context) => {
+    const log = context.logger.start("services:programs:increaseViewCount");
+    let view
+    if (!model.programId) {
+        throw new Error("program id is requried");
+    }
+    view = await db.view.findOne({ $and: [{ user: context.user.id, }, { program: model.programId }] })
+    if (view) {
+        view.count = model.count += view.count
+        await view.save()
+    }
+    else {
+        view = await new db.view({
+            count: model.count,
+            program: model.programId,
+            user: context.user.id,
+            createdOn: new Date(),
+            updateOn: new Date(),
+        }).save();
+    }
+
+    log.end();
+    return view;
+};
+
+const increaseClickCount = async (model, context) => {
+    const log = context.logger.start("services:programs:increaseClickCount");
+    let click
+    if (!model.programId) {
+        throw new Error("program id is requried");
+    }
+
+    click = await db.click.findOne({ $and: [{ user: context.user.id, }, { program: programId }] })
+
+    if (click) {
+        click.count = model.count = +  click.count
+        await click.save()
+    }
+    else {
+        click = await new db.click({
+            count: model.count,
+            program: model.programId,
+            user: context.user.id,
+            createdOn: new Date(),
+            updateOn: new Date(),
+        }).save();
+    }
+
+    log.end();
+    return click;
+};
+const getViewCount = async (query, context) => {
+    const log = context.logger.start(`services:programs:getViewCount`);
+    if (!query.userId) {
+        throw new Error("userId not found");
+    }
+    const viewCount = await db.view.aggregate([
+        {
+            $lookup: {
+                from: "programs",
+                localField: "program",
+                foreignField: "_id",
+                as: "program"
+
+            }
+        },
+        {
+            $match: {
+                "program.user": ObjectId(query.userId)
+            },
+        },
+
+        { $group: { _id: null, count: { $sum: "$count" } } }
+    ])
+
+    log.end();
+    return viewCount[0];
+};
+
+
+
+const getProgramCount = async (query, context) => {
+    const log = context.logger.start(`services:programs:getProgramCount`);
+    if (query.userId) {
+        throw new Error("userId is requried");
+    }
+    const count = await db.program.find({ $and: [{ user: query.userId }, { status: 'active' }] }).count();
+    log.end();
+    return count;
+};
 exports.create = create;
 exports.getAllprograms = getAllprograms;
 exports.update = update;
@@ -243,3 +334,7 @@ exports.removeById = removeById;
 exports.uploadTimeLinePics = uploadTimeLinePics;
 exports.search = search;
 exports.getProgramsByPpovider = getProgramsByPpovider
+exports.increaseViewCount = increaseViewCount
+exports.increaseClickCount = increaseClickCount
+exports.getViewCount = getViewCount
+exports.getProgramCount = getProgramCount
