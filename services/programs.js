@@ -319,7 +319,7 @@ const getViewCount = async (query, context) => {
 
 const getProgramCount = async (query, context) => {
     const log = context.logger.start(`services:programs:getProgramCount`);
-    if (query.userId) {
+    if (!query.userId) {
         throw new Error("userId is requried");
     }
     const count = await db.program.find({ $and: [{ user: query.userId }, { status: 'active' }] }).count();
