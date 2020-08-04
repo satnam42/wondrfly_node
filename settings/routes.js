@@ -236,6 +236,12 @@ const configure = (app, logger) => {
     // validator.users.update,
     api.tags.update
   );
+  app.get(
+    "/api/tags/search",
+    permit.context.builder,
+    permit.context.requiresToken,
+    api.tags.search
+  );
 
   //permission routes //
 

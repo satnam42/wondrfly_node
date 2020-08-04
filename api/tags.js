@@ -50,7 +50,20 @@ const update = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
+const search = async (req, res) => {
+    const log = req.context.logger.start(`api:tags:search`);
+    try {
+        const tags = await service.search(req.query, req.context);
+        log.end();
+        return response.data(res, tags);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
 exports.create = create;
 exports.list = list;
 exports.update = update;
 exports.tagByCategoryId = tagByCategoryId;
+exports.search = search;

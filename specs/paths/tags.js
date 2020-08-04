@@ -126,5 +126,38 @@ module.exports = [
                 }
             }
         }
-    }
+    },
+    {
+        url: "/search",
+        get: {
+            summary: "get tags by search",
+            description: "tags  by search",
+            parameters: [
+
+                {
+                    in: "query",
+                    type: "string",
+                    name: "name",
+                    description: "tags name",
+                    required: true
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
 ]
