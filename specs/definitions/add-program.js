@@ -69,7 +69,10 @@ module.exports = [
                 }
             },
             capacity: {
-                type: "string"
+                properties: {
+                    min: { type: "string" },
+                    mix: { type: "string" }
+                }
             },
             emails: {
                 type: 'array',

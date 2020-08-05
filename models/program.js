@@ -41,7 +41,7 @@ const programSchema = mongoose.Schema({
     adultAssistanceIsRequried: { type: Boolean, default: false },
     capacity: {
         min: { type: String, default: "" },
-        mix: { type: String, default: "" }
+        max: { type: String, default: "" }
     },
     emails: [
         { type: String, default: '' }],
