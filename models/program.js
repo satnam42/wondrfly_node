@@ -65,11 +65,11 @@ const programSchema = mongoose.Schema({
         required: true
     },
     addresses: [{ type: String, default: '' }],
-    category: {
+    tags: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'category',
-        // required: true
-    },
+        ref: 'tag',
+        required: true
+    }],
     createdOn: { type: Date, default: Date.now },
     updatedOn: { type: Date, default: Date.now }
 });

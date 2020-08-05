@@ -16,7 +16,7 @@ const build = async (model, context) => {
         time: model.time,
         bookingCancelledIn: model.bookingCancelledIn,
         duration: model.duration,
-        isPaid: model.isPaid,
+        isFree: model.isFree,
         pricePerParticipant: model.pricePerParticipant,
         priceForSiblings: model.priceForSiblings,
         specialInstructions: model.specialInstructions,
@@ -26,7 +26,7 @@ const build = async (model, context) => {
         batches: model.batches,
         user: model.userId,
         addresses: model.addresses,
-        category: model.categoryId,
+        tags: model.tags,
         createdOn: new Date(),
         updateOn: new Date(),
     }).save();
@@ -82,8 +82,8 @@ const set = (model, program, context) => {
     if (model.duration !== "string" && model.duration !== undefined) {
         program.duration = model.duration;
     }
-    if (model.isPaid !== "string" && model.isPaid !== undefined) {
-        program.isPaid = model.isPaid;
+    if (model.isFree !== "string" && model.isFree !== undefined) {
+        program.isFree = model.isFree;
     }
     if (model.pricePerParticipant !== "string" && model.pricePerParticipant !== undefined) {
         program.pricePerParticipant = model.pricePerParticipant;
@@ -110,8 +110,8 @@ const set = (model, program, context) => {
     if (model.addresses.lenght > 1) {
         program.addresses = model.addresses;
     }
-    if (model.category !== "string" && model.category !== undefined) {
-        program.category = model.category;
+    if (model.tags.lenght > 1) {
+        program.tags = model.tags;
     }
     program.updateOn = new Date()
     log.end();

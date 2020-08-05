@@ -36,6 +36,8 @@ module.exports = [
                 type: 'string'
             },
             city: { type: 'string', },
+            securityQuestion: { type: 'string', },
+            answer: { type: 'string', },
             country: { type: 'string', },
             zipCode: { type: 'string', },
             lat: { type: 'string', },

@@ -47,7 +47,7 @@ module.exports = [
             duration: {
                 type: "string"
             },
-            isPaid: {
+            isFree: {
                 type: "boolean"
             },
             pricePerParticipant: {
@@ -105,8 +105,11 @@ module.exports = [
                     type: "string"
                 }
             },
-            categoryId: {
-                type: "string"
+            tags: {
+                type: 'array',
+                items: {
+                    type: "string"
+                }
             },
         }
     }

@@ -127,6 +127,12 @@ const setBasicInfo = (model, user, context) => {
     if (model.stripeKey !== "string" && model.stripeKey !== undefined) {
         user.stripeKey = model.stripeKey;
     }
+    if (model.securityQuestion !== "string" && model.securityQuestion !== undefined) {
+        user.securityQuestion = model.securityQuestion;
+    }
+    if (model.answer !== "string" && model.answer !== undefined) {
+        user.answer = model.answer;
+    }
     user.lastModifiedBy = context.user.id
     user.updateOn = new Date()
     log.end()

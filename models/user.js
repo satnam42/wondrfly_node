@@ -22,6 +22,8 @@ const user = mongoose.Schema({
   lastLoggedIn: { type: Date, default: "" },
   personalNote: { type: String, default: "" },
   loginLimit: { type: Number, default: 0 },
+  securityQuestion: { type: String, default: "" },
+  answer: { type: String, default: "" },
   inviteBy: { type: String, default: "" },
   ssn: { type: String, default: "" },
   isActivated: { type: Boolean, default: true },
