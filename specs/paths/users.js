@@ -563,4 +563,44 @@ module.exports = [
       }
     }
   },
+  {
+    url: "/verifySecuirtyAns/{id}",
+    put: {
+      summary: "verify Secuirty Ans",
+      description: "verify Secuirty Ans by userId",
+      parameters: [
+        {
+          in: "header",
+          name: "x-access-token",
+          description: "token to access api",
+          required: true,
+          type: "string"
+        },
+        {
+          in: "path",
+          name: "id",
+          description: "user id",
+          required: true,
+          type: "string"
+        },
+        {
+          in: "body",
+          name: "body",
+          description: "Model of securityAns user",
+          required: true,
+          schema: {
+            $ref: "#/definitions/securityAns"
+          }
+        }
+      ],
+      responses: {
+        default: {
+          description: "Unexpected error",
+          schema: {
+            $ref: "#/definitions/Error"
+          }
+        }
+      }
+    }
+  },
 ];

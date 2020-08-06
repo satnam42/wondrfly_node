@@ -279,6 +279,18 @@ const getProfileProgress = async (req, res) => {
     return response.failure(res, err.message);
   }
 };
+const verifySecuirtyAns = async (req, res) => {
+  const log = req.context.logger.start("api:users:verifySecuirtyAns");
+  try {
+    const message = await service.verifyAnswer(req.params.id, req.body, req.context);
+    log.end();
+    return response.success(res, message);
+  } catch (err) {
+    log.error(err);
+    log.end();
+    return response.failure(res, err.message);
+  }
+};
 
 exports.create = create;
 exports.list = list;
@@ -299,4 +311,5 @@ exports.forgotPassword = forgotPassword;
 exports.tellAFriend = tellAFriend;
 exports.feedback = feedback;
 exports.getProfileProgress = getProfileProgress;
+exports.verifySecuirtyAns = verifySecuirtyAns;
 

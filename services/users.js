@@ -503,6 +503,17 @@ const getProfileProgress = async (query, context) => {
   }
   return data;
 };
+const verifyAnswer = async (id, model, context) => {
+  const log = context.logger.start(`service/users/verifyAnswer: ${model}`);
+  const user = await db.user.findById(id);
+
+  if (user.answer == model.answer) {
+    return "Answer Verify Successfully";
+  } else {
+    log.end();
+    throw new Error("Answer Not Match");
+  }
+};
 
 exports.register = register;
 exports.get = get;
@@ -524,3 +535,4 @@ exports.forgotPassword = forgotPassword;
 exports.tellAFriend = tellAFriend;
 exports.feedback = feedback;
 exports.getProfileProgress = getProfileProgress
+exports.verifyAnswer = verifyAnswer

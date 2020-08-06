@@ -167,6 +167,11 @@ const configure = (app, logger) => {
     permit.context.builder,
     api.users.getProfileProgress
   );
+  app.put(
+    "/api/users/verifySecuirtyAns/:id",
+    permit.context.requiresToken,
+    api.users.verifySecuirtyAns
+  );
   //entity routes//
   // app.post(
   //   "/api/entities/add",
