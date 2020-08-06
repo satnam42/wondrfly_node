@@ -65,7 +65,16 @@ const update = async (id, model, context) => {
     log.end();
     return tag
 };
+const search = async (query, context) => {
+    const log = context.logger.start(`services:tags:search`);
+    const tags = await db.tag.find({ name: { "$regex": '.*' + query.name + '.*', "$options": 'i' } }
+    ).limit(5).sort({ name: 1 });
+    log.end();
+    return tags;
+
+};
 exports.create = create;
 exports.getAlltags = getAlltags;
 exports.update = update;
 exports.tagByCategoryId = tagByCategoryId
+exports.search = search
