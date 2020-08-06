@@ -24,6 +24,7 @@ const build = async (model, context) => {
         capacity: model.capacity,
         emails: model.emails,
         batches: model.batches,
+        status: model.status || 'active',
         user: model.userId,
         addresses: model.addresses,
         tags: model.tags,
@@ -169,13 +170,13 @@ const update = async (id, model, context) => {
     if (context.user.role == 'parent') {
         throw new Error("you are not authorized to perform this operation");
     }
-    let isProgram = await db.program.findById(id);
+    let programDetail = await db.program.findById(id);
 
-    if (!isProgram) {
+    if (!programDetail) {
         throw new Error("program Not found");
     }
 
-    const program = await set(model, isprogram, context);
+    const program = await set(model, programDetail, context);
 
     log.end();
     return program
