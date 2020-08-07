@@ -75,23 +75,10 @@ const deleteChild = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
-const uploadChildPic = async (req, res) => {
-    const log = req.context.logger.start(`api:child:uploadChildPic`);
-    try {
-        const child = await service.uploadChildPic(req.file, req.context);
-        log.end();
-        return response.data(res, child);
-    } catch (err) {
-        log.error(err);
-        log.end();
-        return response.failure(res, err.message);
-    }
 
-};
 exports.add = add;
 exports.list = list;
 exports.update = update;
 exports.childByParentId = childByParentId;
 exports.deleteChild = deleteChild;
-exports.uploadChildPic = uploadChildPic;
 

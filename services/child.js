@@ -136,19 +136,8 @@ const deleteChild = async (context, id) => {
 
 };
 
-const uploadChildPic = async (file, context) => {
-    const log = context.logger.start(`services:child:uploadChildPic`);
-    if (!file) {
-        throw new Error("image not found");
-    }
-    const avatarImages = imageUrl + 'assets/images/' + file.filename
-    log.end();
-    return avatarImages
-};
-
 exports.addChild = addChild;
 exports.getList = getList;
 exports.updateChild = updateChild;
 exports.childByParentId = childByParentId;
 exports.deleteChild = deleteChild
-exports.uploadChildPic = uploadChildPic

@@ -142,7 +142,7 @@ const getAllprograms = async (query, context) => {
     let pageNo = Number(query.pageNo) || 1;
     let pageSize = Number(query.pageSize) || 10;
     let skipCount = pageSize * (pageNo - 1);
-    let programs = await db.program.find().populate('category').skip(skipCount).limit(pageSize);
+    let programs = await db.program.find().populate('tags').skip(skipCount).limit(pageSize);
     programs.count = await db.program.find().count();
     log.end();
     return programs;
@@ -153,7 +153,7 @@ const getById = async (id, context) => {
     if (!id) {
         throw new Error("id not found");
     }
-    let program = await db.program.findById(id);
+    let program = await db.program.findById(id).populate('tags');
     if (!program) {
         throw new Error("program not found");
     }
@@ -218,7 +218,7 @@ const uploadTimeLinePics = async (id, files, context) => {
 const search = async (query, context) => {
     const log = context.logger.start(`services:programs:search`);
     const program = await db.program.find({ name: { "$regex": '.*' + query.name + '.*', "$options": 'i' } }
-    ).populate('category').limit(5);
+    ).populate('tags').limit(5);
     log.end();
     return program;
 };
@@ -231,7 +231,7 @@ const getProgramsByPpovider = async (query, context) => {
     if (query.userId) {
         throw new Error("userId is  required");
     }
-    let programs = await db.program.find({ user: query.userId }).populate('category').skip(skipCount).limit(pageSize);
+    let programs = await db.program.find({ user: query.userId }).populate('tags').skip(skipCount).limit(pageSize);
     programs.count = await db.program.find({ user: query.userId }).count();
     log.end();
     return programs;
@@ -327,6 +327,22 @@ const getProgramCount = async (query, context) => {
     log.end();
     return count;
 };
+const setActiveOrDecactive = async (query, context) => {
+    const log = context.logger.start(`services:programs:getProgramCount`);
+    if (!query.id) {
+        throw new Error("program id is requried");
+    }
+    if (!query.status) {
+        throw new Error("program status is requried");
+    }
+    let program = await db.program.findById(id)
+    program.status = query.status
+    await program.save()
+    log.end();
+    return program;
+};
+
+
 exports.create = create;
 exports.getAllprograms = getAllprograms;
 exports.update = update;
@@ -339,3 +355,4 @@ exports.increaseViewCount = increaseViewCount
 exports.increaseClickCount = increaseClickCount
 exports.getViewCount = getViewCount
 exports.getProgramCount = getProgramCount
+exports.setActiveOrDecactive = setActiveOrDecactive

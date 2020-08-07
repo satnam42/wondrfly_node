@@ -302,7 +302,6 @@ const configure = (app, logger) => {
     "/api/providers/uploadBannerPic/:id",
     permit.context.requiresToken,
     upload.array('image', 5),
-    // upload.single('image'),
     api.providers.uploadBannerPic
   );
 
@@ -386,13 +385,6 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.child.deleteChild
   );
-  app.post(
-    "/api/child/uploadChildPic",
-    permit.context.requiresToken,
-    upload.single('image'),
-    api.child.uploadChildPic
-  );
-  log.end();
   //guardian routes
   app.post(
     "/api/guardians/add",
@@ -478,7 +470,13 @@ const configure = (app, logger) => {
     api.programs.viewsByUserId
   );
 
+  app.put(
+    "/api/programs/activeOrDecactive",
+    permit.context.requiresToken,
+    api.programs.activeOrDecactive
+  );
 
+  // favourites api//
   app.post(
     "/api/favourites/add",
     permit.context.requiresToken,
@@ -494,7 +492,16 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.programs.remove
   );
+
+  // uploads api//
+  app.post(
+    "/api/uploads/getPicUrl",
+    permit.context.requiresToken,
+    upload.single('image'),
+    api.uploads.getPicUrl
+  );
   log.end();
+
 };
 
 

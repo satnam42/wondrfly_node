@@ -39,9 +39,9 @@ const list = async (req, res) => {
 const getById = async (req, res) => {
     const log = req.context.logger.start(`api:programs:getById:${req.params.id}`);
     try {
-        const programs = await service.getById(req.params.id, req.body, req.context);
+        const program = await service.getById(req.params.id, req.context);
         log.end();
-        return response.data(res, programs);
+        return response.data(res, program);
     } catch (err) {
         log.error(err);
         log.end();
@@ -149,8 +149,6 @@ const viewsByUserId = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
-
-
 const programCountByUserId = async (req, res) => {
     const log = req.context.logger.start(`api:programs:clicksByProgramId:${req.query.id}`);
     try {
@@ -163,7 +161,18 @@ const programCountByUserId = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
-
+const activeOrDecactive = async (req, res) => {
+    const log = req.context.logger.start(`api:programs:setActiveOrDecactive:${req.params.id}`);
+    try {
+        const program = await service.setActiveOrDecactive(req.params.id, req.context);
+        log.end();
+        return response.data(res, program);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
 
 
 exports.create = create;
@@ -178,3 +187,4 @@ exports.addView = addView;
 exports.addClick = addClick;
 exports.viewsByUserId = viewsByUserId;
 exports.programCountByUserId = programCountByUserId;
+exports.activeOrDecactive = activeOrDecactive;

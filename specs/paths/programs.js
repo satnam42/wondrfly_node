@@ -381,5 +381,43 @@ module.exports = [
             }
         }
     },
+    {
+        url: "/activeOrDecactive",
+        put: {
+            summary: "activeOrDecactive",
+            description: "set program status active or inactive ",
+            parameters: [
+                {
+                    in: "query",
+                    name: "id",
+                    description: "program id",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "query",
+                    name: "status",
+                    description: "active/inactive",
+                    required: true,
+                    type: "string"
+                },
 
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
 ];
