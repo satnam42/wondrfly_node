@@ -52,6 +52,8 @@ const configure = (app, logger) => {
     res.contentType("application/json");
     res.send(specs.get());
   });
+
+
   // user routes
   app.post(
     "/api/users/register",
@@ -501,9 +503,6 @@ const configure = (app, logger) => {
     api.uploads.getPicUrl
   );
   log.end();
-
 };
-
-
 
 exports.configure = configure

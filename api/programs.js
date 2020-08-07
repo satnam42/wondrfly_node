@@ -162,9 +162,9 @@ const programCountByUserId = async (req, res) => {
     }
 };
 const activeOrDecactive = async (req, res) => {
-    const log = req.context.logger.start(`api:programs:setActiveOrDecactive:${req.params.id}`);
+    const log = req.context.logger.start(`api:programs:setActiveOrDecactive:${req.query.id}`);
     try {
-        const program = await service.setActiveOrDecactive(req.params.id, req.context);
+        const program = await service.setActiveOrDecactive(query, req.context);
         log.end();
         return response.data(res, program);
     } catch (err) {

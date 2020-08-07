@@ -335,7 +335,7 @@ const setActiveOrDecactive = async (query, context) => {
     if (!query.status) {
         throw new Error("program status is requried");
     }
-    let program = await db.program.findById(id)
+    let program = await db.program.findById(query.id)
     program.status = query.status
     await program.save()
     log.end();
