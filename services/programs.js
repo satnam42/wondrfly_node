@@ -223,12 +223,12 @@ const search = async (query, context) => {
     return program;
 };
 
-const getProgramsByPpovider = async (query, context) => {
+const getProgramsByProvider = async (query, context) => {
     const log = context.logger.start(`services:programs:getAllprograms`);
     let pageNo = Number(query.pageNo) || 1;
     let pageSize = Number(query.pageSize) || 10;
     let skipCount = pageSize * (pageNo - 1);
-    if (query.userId) {
+    if (!query.userId) {
         throw new Error("userId is  required");
     }
     let programs = await db.program.find({ user: query.userId }).populate('tags').skip(skipCount).limit(pageSize);
@@ -288,6 +288,7 @@ const increaseClickCount = async (model, context) => {
     log.end();
     return click;
 };
+
 const getViewCount = async (query, context) => {
     const log = context.logger.start(`services:programs:getViewCount`);
     if (!query.userId) {
@@ -316,8 +317,6 @@ const getViewCount = async (query, context) => {
     return viewCount[0];
 };
 
-
-
 const getProgramCount = async (query, context) => {
     const log = context.logger.start(`services:programs:getProgramCount`);
     if (!query.userId) {
@@ -327,6 +326,7 @@ const getProgramCount = async (query, context) => {
     log.end();
     return count;
 };
+
 const setActiveOrDecactive = async (query, context) => {
     const log = context.logger.start(`services:programs:getProgramCount`);
     if (!query.id) {
@@ -350,7 +350,7 @@ exports.getById = getById;
 exports.removeById = removeById;
 exports.uploadTimeLinePics = uploadTimeLinePics;
 exports.search = search;
-exports.getProgramsByPpovider = getProgramsByPpovider
+exports.getProgramsByProvider = getProgramsByProvider
 exports.increaseViewCount = increaseViewCount
 exports.increaseClickCount = increaseClickCount
 exports.getViewCount = getViewCount

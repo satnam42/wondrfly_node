@@ -100,10 +100,10 @@ const search = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
-const programsByPpovider = async (req, res) => {
-    const log = req.context.logger.start(`api:programs:programsByPpovider:${req.query.userId}`);
+const programsByProvider = async (req, res) => {
+    const log = req.context.logger.start(`api:programs:programsByProvider:${req.query.userId}`);
     try {
-        const programs = await service.getProgramsByPpovider(req.query, req.context);
+        const programs = await service.getProgramsByProvider(req.query, req.context);
         log.end();
         return response.data(res, programs);
     } catch (err) {
@@ -182,7 +182,7 @@ exports.getById = getById;
 exports.remove = remove;
 exports.uploadTimelinePics = uploadTimelinePics;
 exports.search = search;
-exports.programsByPpovider = programsByPpovider;
+exports.programsByProvider = programsByProvider;
 exports.addView = addView;
 exports.addClick = addClick;
 exports.viewsByUserId = viewsByUserId;

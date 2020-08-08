@@ -449,7 +449,7 @@ const configure = (app, logger) => {
   app.get(
     "/api/programs/byProvider",
     permit.context.requiresToken,
-    api.programs.programsByPpovider
+    api.programs.programsByProvider
   );
   app.post(
     "/api/programs/addClick",
