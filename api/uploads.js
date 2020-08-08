@@ -1,5 +1,5 @@
 "use strict";
-const service = require("../services/child");
+const service = require("../services/uploads");
 const response = require("../exchange/response");
 
 const getPicUrl = async (req, res) => {
