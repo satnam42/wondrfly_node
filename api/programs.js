@@ -101,9 +101,9 @@ const search = async (req, res) => {
     }
 };
 const programsByPpovider = async (req, res) => {
-    const log = req.context.logger.start(`api:programs:programsByPpovider:${req.params.id}`);
+    const log = req.context.logger.start(`api:programs:programsByPpovider:${req.query.userId}`);
     try {
-        const programs = await service.getProgramsByPpovider(req.params.id, req.body, req.context);
+        const programs = await service.getProgramsByPpovider(req.query, req.context);
         log.end();
         return response.data(res, programs);
     } catch (err) {

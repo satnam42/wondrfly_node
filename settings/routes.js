@@ -443,7 +443,7 @@ const configure = (app, logger) => {
   app.get(
     "/api/programs/search",
     permit.context.builder,
-    permit.context.requiresToken,
+    // permit.context.requiresToken,
     api.programs.search
   );
   app.get(
