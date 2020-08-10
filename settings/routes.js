@@ -452,14 +452,9 @@ const configure = (app, logger) => {
     api.programs.programsByProvider
   );
   app.post(
-    "/api/programs/addClick",
+    "/api/programs/addProgramAction",
     permit.context.requiresToken,
-    api.programs.addClick
-  );
-  app.post(
-    "/api/programs/addView",
-    permit.context.requiresToken,
-    api.programs.addView
+    api.programs.addProgramAction
   );
   app.get(
     "/api/programs/count",
@@ -476,6 +471,12 @@ const configure = (app, logger) => {
     "/api/programs/activeOrDecactive",
     permit.context.requiresToken,
     api.programs.activeOrDecactive
+  );
+  app.get(
+    "/api/programs/getGraphData",
+    permit.context.builder,
+    // permit.context.requiresToken,
+    api.programs.graphData
   );
 
   // favourites api//

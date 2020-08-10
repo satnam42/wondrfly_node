@@ -36,7 +36,6 @@ const build = async (model, context) => {
 
     return program;
 };
-
 const buildTimelineUrl = async (files) => {
 
     let bannerImages = []
@@ -47,7 +46,6 @@ const buildTimelineUrl = async (files) => {
     });
     return bannerImages
 }
-
 const set = (model, program, context) => {
     const log = context.logger.start("services:programs:set");
     if (model.name !== "string" && model.name !== undefined) {
@@ -102,16 +100,16 @@ const set = (model, program, context) => {
     if (model.capacity !== "string" && model.capacity !== undefined) {
         program.capacity = model.capacity;
     }
-    if (model.emails.lenght > 1) {
+    if (model.emails.lenght > count) {
         program.emails = model.emails;
     }
-    if (model.batches.lenght > 1) {
+    if (model.batches.lenght > count) {
         program.batches = model.batches;
     }
-    if (model.addresses.lenght > 1) {
+    if (model.addresses.lenght > count) {
         program.addresses = model.addresses;
     }
-    if (model.tags.lenght > 1) {
+    if (model.tags.lenght > count) {
         program.tags = model.tags;
     }
     program.updateOn = new Date()
@@ -120,7 +118,6 @@ const set = (model, program, context) => {
     return program;
 
 };
-
 const create = async (model, context) => {
     const log = context.logger.start("services:programs:create");
     if (context.user.role == 'parent') {
@@ -135,19 +132,16 @@ const create = async (model, context) => {
     return program;
 
 };
-
-
 const getAllprograms = async (query, context) => {
     const log = context.logger.start(`services:programs:getAllprograms`);
-    let pageNo = Number(query.pageNo) || 1;
-    let pageSize = Number(query.pageSize) || 10;
-    let skipCount = pageSize * (pageNo - 1);
+    let pageNo = Number(query.pageNo) || count;
+    let pageSize = Number(query.pageSize) || count0;
+    let skipCount = pageSize * (pageNo - count);
     let programs = await db.program.find().populate('tags').skip(skipCount).limit(pageSize);
     programs.count = await db.program.find().count();
     log.end();
     return programs;
 };
-
 const getById = async (id, context) => {
     const log = context.logger.start(`services:programs:getById`);
     if (!id) {
@@ -161,7 +155,6 @@ const getById = async (id, context) => {
     return program
 
 };
-
 const update = async (id, model, context) => {
     const log = context.logger.start(`services:programs:update`);
     if (!id) {
@@ -181,7 +174,6 @@ const update = async (id, model, context) => {
     log.end();
     return program
 };
-
 const removeById = async (id, model, context) => {
     const log = context.logger.start(`services:programs:removeById`);
     if (!id) {
@@ -194,7 +186,6 @@ const removeById = async (id, model, context) => {
     log.end();
     return 'program deleted succesfully'
 };
-
 const uploadTimeLinePics = async (id, files, context) => {
     const log = context.logger.start(`services:programs:uploadTimeLinePics`);
     const program = await db.program.findOne({ _id: id });
@@ -214,7 +205,6 @@ const uploadTimeLinePics = async (id, files, context) => {
     return program
 
 };
-
 const search = async (query, context) => {
     const log = context.logger.start(`services:programs:search`);
     const program = await db.program.find({ name: { "$regex": '.*' + query.name + '.*', "$options": 'i' } }
@@ -222,12 +212,11 @@ const search = async (query, context) => {
     log.end();
     return program;
 };
-
 const getProgramsByProvider = async (query, context) => {
     const log = context.logger.start(`services:programs:getAllprograms`);
-    let pageNo = Number(query.pageNo) || 1;
-    let pageSize = Number(query.pageSize) || 10;
-    let skipCount = pageSize * (pageNo - 1);
+    let pageNo = Number(query.pageNo) || count;
+    let pageSize = Number(query.pageSize) || count0;
+    let skipCount = pageSize * (pageNo - count);
     if (!query.userId) {
         throw new Error("userId is  required");
     }
@@ -236,65 +225,70 @@ const getProgramsByProvider = async (query, context) => {
     log.end();
     return programs;
 };
-
-const increaseViewCount = async (model, context) => {
+const addProgramAction = async (model, context) => {
     const log = context.logger.start("services:programs:increaseViewCount");
-    let view
+    let programActionCounter
     if (!model.programId) {
         throw new Error("program id is requried");
     }
-    view = await db.view.findOne({ $and: [{ user: context.user.id, }, { program: model.programId }] })
-    if (view) {
-        view.count = model.count += view.count
-        await view.save()
+    programActionCounter = await db.programActionCounter.findOne({ $and: [{ user: context.user.id, }, { program: model.programId }] })
+    let count = 1
+    if (model.action == 'view') {
+        if (programActionCounter != null & programActionCounter != undefined) {
+            programActionCounter.view = count += programActionCounter.view
+            await programActionCounter.save()
+        }
+        else {
+            programActionCounter = await new db.programActionCounter({
+                view: count,
+                program: model.programId,
+                user: context.user.id,
+                createdOn: new Date(),
+                updateOn: new Date(),
+            }).save();
+        }
     }
-    else {
-        view = await new db.view({
-            count: model.count,
-            program: model.programId,
-            user: context.user.id,
-            createdOn: new Date(),
-            updateOn: new Date(),
-        }).save();
-    }
+    else if (model.action == 'click') {
+        if (programActionCounter != null && programActionCounter != undefined) {
+            programActionCounter.click = count += programActionCounter.click
+            await programActionCounter.save()
+        }
+        else {
+            programActionCounter = await new db.programActionCounter({
+                click: count,
+                program: model.programId,
+                user: context.user.id,
+                createdOn: new Date(),
+                updateOn: new Date(),
+            }).save();
+        }
 
+    }
+    else if (model.action == 'favourite') {
+        if (programActionCounter != null && programActionCounter != undefined) {
+            programActionCounter.favourite = count += programActionCounter.favourite
+            await programActionCounter.save()
+        }
+        else {
+            click = await new db.programActionCounter({
+                favourite: count,
+                program: model.programId,
+                user: context.user.id,
+                createdOn: new Date(),
+                updateOn: new Date(),
+            }).save();
+        }
+
+    }
     log.end();
-    return view;
+    return programActionCounter;
 };
-
-const increaseClickCount = async (model, context) => {
-    const log = context.logger.start("services:programs:increaseClickCount");
-    let click
-    if (!model.programId) {
-        throw new Error("program id is requried");
-    }
-
-    click = await db.click.findOne({ $and: [{ user: context.user.id, }, { program: programId }] })
-
-    if (click) {
-        click.count = model.count = +  click.count
-        await click.save()
-    }
-    else {
-        click = await new db.click({
-            count: model.count,
-            program: model.programId,
-            user: context.user.id,
-            createdOn: new Date(),
-            updateOn: new Date(),
-        }).save();
-    }
-
-    log.end();
-    return click;
-};
-
 const getViewCount = async (query, context) => {
     const log = context.logger.start(`services:programs:getViewCount`);
     if (!query.userId) {
         throw new Error("userId not found");
     }
-    const viewCount = await db.view.aggregate([
+    const viewCount = await db.programActionCounter.aggregate([
         {
             $lookup: {
                 from: "programs",
@@ -314,9 +308,8 @@ const getViewCount = async (query, context) => {
     ])
 
     log.end();
-    return viewCount[0];
+    return viewCount;
 };
-
 const getProgramCount = async (query, context) => {
     const log = context.logger.start(`services:programs:getProgramCount`);
     if (!query.userId) {
@@ -326,7 +319,6 @@ const getProgramCount = async (query, context) => {
     log.end();
     return count;
 };
-
 const setActiveOrDecactive = async (query, context) => {
     const log = context.logger.start(`services:programs:getProgramCount`);
     if (!query.id) {
@@ -341,8 +333,56 @@ const setActiveOrDecactive = async (query, context) => {
     log.end();
     return program;
 };
+const getGraphData = async (query, context) => {
+    const log = context.logger.start(`services:programs:getGraphData`);
+    if (!query.id) {
+        throw new Error("userId is requried");
+    }
+    const programActions = await db.programActionCounter.aggregate([
+        {
+            $lookup: {
+                from: "programs",
+                localField: "program",
+                foreignField: "_id",
+                as: "program"
+            }
+        },
+        {
+            $match: {
+                "program.user": ObjectId(query.id)
+            },
+        },
+        {
+            $group: {
+                _id: "$program.name",
+                view: { $sum: "$view" },
+                click: { $sum: "$click" },
+                favourite: { $sum: "$favourite" }
+            }
+        },
+        {
+            $sort: {
+                _id: -1
+            }
+        }
+    ]).limit(5);
 
 
+    let model = {
+        lables: [],
+        views: [],
+        clicks: [],
+        favourites: [],
+    }
+    programActions.forEach(programAction => {
+        model.lables.push(programAction._id[0])
+        model.views.push(programAction.view)
+        model.clicks.push(programAction.click)
+        model.favourites.push(programAction.favourite)
+    });
+    log.end();
+    return model;
+};
 exports.create = create;
 exports.getAllprograms = getAllprograms;
 exports.update = update;
@@ -351,8 +391,8 @@ exports.removeById = removeById;
 exports.uploadTimeLinePics = uploadTimeLinePics;
 exports.search = search;
 exports.getProgramsByProvider = getProgramsByProvider
-exports.increaseViewCount = increaseViewCount
-exports.increaseClickCount = increaseClickCount
+exports.addProgramAction = addProgramAction
 exports.getViewCount = getViewCount
 exports.getProgramCount = getProgramCount
 exports.setActiveOrDecactive = setActiveOrDecactive
+exports.getGraphData = getGraphData

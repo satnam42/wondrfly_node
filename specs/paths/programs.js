@@ -285,10 +285,10 @@ module.exports = [
         }
     },
     {
-        url: "/addView",
+        url: "/addProgramAction",
         post: {
-            summary: "addView",
-            description: "add view",
+            summary: "addProgramAction ",
+            description: "add Program Action like click ,view favourite",
             parameters: [
                 {
                     in: "body",
@@ -296,7 +296,7 @@ module.exports = [
                     description: "Model of view creation",
                     required: true,
                     schema: {
-                        $ref: "#/definitions/viewAdd"
+                        $ref: "#/definitions/programActionCounterAdd"
                     }
                 },
                 {
@@ -409,6 +409,37 @@ module.exports = [
                     required: true,
                     type: "string"
                 }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
+    {
+        url: "/getGraphData",
+        get: {
+            summary: "activeOrDecactive",
+            description: "set program status active or inactive ",
+            parameters: [
+                {
+                    in: "query",
+                    name: "id",
+                    description: "provider id",
+                    required: true,
+                    type: "string"
+                },
+                // {
+                //     in: "header",
+                //     name: "x-access-token",
+                //     description: "token to access api",
+                //     required: true,
+                //     type: "string"
+                // }
             ],
             responses: {
                 default: {

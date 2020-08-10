@@ -1,10 +1,11 @@
 module.exports = [
 
     {
-        name: "clickAdd",
+        name: "programActionCounterAdd",
         properties: {
-            count: {
-                type: "string"
+            action: {
+                type: "string",
+                enum: ["view", "click", "favourite"]
             },
             programId: {
                 type: "string"

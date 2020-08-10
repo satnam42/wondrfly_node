@@ -1,6 +1,7 @@
 "use strict";
 const service = require("../services/programs");
 const response = require("../exchange/response");
+const mapper = require("../mappers/GraphData")
 
 const create = async (req, res) => {
     const log = req.context.logger.start(`api:programs:create`);
@@ -112,23 +113,11 @@ const programsByProvider = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
-const addClick = async (req, res) => {
-    const log = req.context.logger.start(`api:programs:addClick`);
-    try {
-        const click = await service.increaseClickCount(req.body, req.context);
-        log.end();
-        return response.data(res, click);
-    } catch (err) {
-        log.error(err);
-        log.end();
-        return response.failure(res, err.message);
-    }
-};
 
-const addView = async (req, res) => {
-    const log = req.context.logger.start(`api:programs:addView`);
+const addProgramAction = async (req, res) => {
+    const log = req.context.logger.start(`api:programs:addProgramAction`);
     try {
-        const view = await service.increaseViewCount(req.body, req.context);
+        const view = await service.addProgramAction(req.body, req.context);
         log.end();
         return response.data(res, view);
     } catch (err) {
@@ -161,6 +150,7 @@ const programCountByUserId = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
+
 const activeOrDecactive = async (req, res) => {
     const log = req.context.logger.start(`api:programs:setActiveOrDecactive:${req.query.id}`);
     try {
@@ -173,7 +163,18 @@ const activeOrDecactive = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
-
+const graphData = async (req, res) => {
+    const log = req.context.logger.start(`api:programs:graphData:${req.query.userId}`);
+    try {
+        const data = await service.getGraphData(req.query, req.context);
+        log.end();
+        return response.data(res, data);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
 
 exports.create = create;
 exports.list = list;
@@ -183,8 +184,8 @@ exports.remove = remove;
 exports.uploadTimelinePics = uploadTimelinePics;
 exports.search = search;
 exports.programsByProvider = programsByProvider;
-exports.addView = addView;
-exports.addClick = addClick;
+exports.addProgramAction = addProgramAction;
 exports.viewsByUserId = viewsByUserId;
 exports.programCountByUserId = programCountByUserId;
 exports.activeOrDecactive = activeOrDecactive;
+exports.graphData = graphData;
