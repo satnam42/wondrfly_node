@@ -5,9 +5,9 @@
 const build = async (model, context) => {
     const log = context.logger.start(`services:claims:build${model}`);
     const claim = await new db.claim({
-        requestBy: model.providerId,
-        approvedrBy: model.userId,
-        requestOn: model.programId,
+        providerId: model.providerId,
+        userId: model.userId,
+        programId: model.programId,
         status: 'in-progress',
         createdOn: new Date(),
     }).save();
@@ -16,8 +16,8 @@ const build = async (model, context) => {
 };
 
 const createRequest = async (model, context) => {
-    const log = context.logger.start("services:claims:create");
-    const claimRequest = await db.claim.findOne({ $and: [{ requestBy: model.providerId }, { requestOn: model.programId }] })
+    const log = context.logger.start("services:claims:createRequest");
+    const claimRequest = await db.claim.findOne({ $and: [{ providerId: model.providerId }, { programId: model.programId }] })
     if (claimRequest) {
         return "claim already done";
     }
@@ -27,7 +27,7 @@ const createRequest = async (model, context) => {
 };
 
 const getRequestList = async (context) => {
-    const log = context.logger.start(`services:claims:getAllclaims`);
+    const log = context.logger.start(`services:claims:getRequestList`);
     const claimRequests = await db.claim.find({}).populate('program');
     if (claimRequests.length < 0) {
         throw new Error("claim Requests not found");
@@ -41,7 +41,7 @@ const getRequestListByProvider = async (query, context) => {
     if (!query.id) {
         throw new Error("userId not found");
     }
-    const claimsRequests = await db.claim.find({ requestBy: query.userId }).populate('program');
+    const claimsRequests = await db.claim.find({ providerId: query.userId }).populate('program');
     if (claimsRequests.length < 0) {
         throw new Error("claims Requests not found");
     }
@@ -49,20 +49,20 @@ const getRequestListByProvider = async (query, context) => {
     return claimsRequests;
 };
 
-const actionOnRequest = async (query, context) => {
+const actionOnRequest = async (id, model, context) => {
     const log = context.logger.start(`services:claims:removeById`);
     if (!id) {
         throw new Error("claim id not found");
     }
-    let claim = await db.claim.findById(query.claimId)
+    let claim = await db.claim.findById(id)
     let program = await db.program.findById(query.programI)
     if (!program) {
         throw new Error("Program  not found");
 
     }
-    if (query.claimStatus == 'approve') {
+    if (model.status == 'approve') {
         claim.status = 'approve'
-        program.user = query.userId
+        program.user = model.providerId
         await program.save()
         await claim.save()
     }

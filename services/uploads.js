@@ -8,6 +8,7 @@ const getPicUrl = async (file, context) => {
         throw new Error("image not found");
     }
     const url = imageUrl + 'assets/images/' + file.filename
+
     log.end();
     return url
 };

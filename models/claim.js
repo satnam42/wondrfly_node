@@ -5,15 +5,15 @@
 const mongoose = require("mongoose");
 
 const claim = mongoose.Schema({
-    requestBy: {
+    providerId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
     },
-    approvedrBy: {
+    userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
     },
-    requestOn: {
+    programId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'program'
     },

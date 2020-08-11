@@ -22,20 +22,20 @@ module.exports = [
             },
             time: {
                 properties: {
-                    to: { type: "string" },
-                    from: { type: "string" }
+                    to: { type: "date" },
+                    from: { type: "date" }
                 }
             },
             date: {
                 properties: {
-                    to: { type: "string" },
-                    from: { type: "string" }
+                    to: { type: "date" },
+                    from: { type: "date" }
                 }
             },
             ageGroup: {
                 properties: {
-                    to: { type: "string" },
-                    from: { type: "string" }
+                    to: { type: "number" },
+                    from: { type: "number" }
                 }
             },
             bookingCancelledIn: {
@@ -64,14 +64,8 @@ module.exports = [
             },
             capacity: {
                 properties: {
-                    days: { type: "string" },
-                    hours: { type: "string" }
-                }
-            },
-            capacity: {
-                properties: {
-                    min: { type: "string" },
-                    mix: { type: "string" }
+                    min: { type: "number" },
+                    mix: { type: "number" }
                 }
             },
             emails: {
@@ -85,10 +79,10 @@ module.exports = [
                 items: {
                     properties: {
                         name: { type: 'string', },
-                        startDate: { type: 'string', },
-                        endDate: { type: 'string', },
-                        startTime: { type: 'string', },
-                        endTime: { type: 'string', },
+                        startDate: { type: 'date', },
+                        endDate: { type: 'date', },
+                        startTime: { type: 'date', },
+                        endTime: { type: 'date', },
                         isPaid: { type: 'string', },
                         endTime: { type: 'string', },
                         pricePerParticipant: { type: 'string', },

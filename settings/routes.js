@@ -472,10 +472,11 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.programs.activeOrDecactive
   );
+
   app.get(
     "/api/programs/getGraphData",
     permit.context.builder,
-    // permit.context.requiresToken,
+    permit.context.requiresToken,
     api.programs.graphData
   );
 
@@ -485,11 +486,13 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.favourites.create
   );
+
   app.get(
     "/api/favourites/getByParentId",
     permit.context.builder,
     api.favourites.listByUserId
   );
+
   app.delete(
     "/api/favourites/delete/:id",
     permit.context.requiresToken,
@@ -503,6 +506,32 @@ const configure = (app, logger) => {
     upload.single('image'),
     api.uploads.getPicUrl
   );
+
+  // claims api//
+  app.post(
+    "/api/claims/request",
+    permit.context.requiresToken,
+    api.claims.request
+  );
+
+  app.get(
+    "/api/claims/requestList",
+    permit.context.requiresToken,
+    api.claims.requestList
+  );
+
+  app.get(
+    "/api/claims/requestListByProvider",
+    permit.context.requiresToken,
+    api.claims.requestListByProvider
+  );
+
+  app.put(
+    "/api/claims/action/:id",
+    permit.context.requiresToken,
+    api.claims.action
+  );
+
   log.end();
 };
 

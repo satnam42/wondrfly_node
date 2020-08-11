@@ -14,16 +14,16 @@ const programSchema = mongoose.Schema({
     },
     timelinePics: [{ type: String, default: "" }],
     ageGroup: {
-        from: { type: String, default: '' },
-        to: { type: String, default: "" }
+        from: { type: Number, default: 0 },
+        to: { type: Number, default: 0 }
     },
     date: {
-        from: { type: String, default: '' },
-        to: { type: String, default: "" }
+        from: { type: Date, default: '' },
+        to: { type: Date, default: '' },
     },
     time: {
-        from: { type: String, default: '' },
-        to: { type: String, default: "" }
+        from: { type: Date, default: '' },
+        to: { type: Date, default: '' },
     },
     bookingCancelledIn: {
         days: { type: String, default: '' },
@@ -34,25 +34,21 @@ const programSchema = mongoose.Schema({
     pricePerParticipant: { type: String, default: "" },
     priceForSiblings: { type: String, default: "" },
     specialInstructions: { type: String, default: "" },
-    totalViews: { type: Number, default: "" },
-    clicks: { type: Number, default: "" },
-    saves: { type: Number, default: "" },
     specialInstructions: { type: String, default: "" },
     adultAssistanceIsRequried: { type: Boolean, default: false },
     capacity: {
-        min: { type: String, default: "" },
-        max: { type: String, default: "" }
+        min: { type: Number, default: 0 },
+        max: { type: Number, default: 0 }
     },
     emails: [
         { type: String, default: '' }],
     batches: [{
         name: { type: String, default: '' },
-        startDate: { type: String, default: "" },
-        endDate: { type: String, default: "" },
-        startTime: { type: String, default: "" },
-        endTime: { type: String, default: "" },
+        startDate: { type: Date, default: '' },
+        endDate: { type: Date, default: '' },
+        startTime: { type: Date, default: '' },
+        endTime: { type: Date, default: '' },
         isPaid: { type: String, default: "" },
-        endTime: { type: String, default: "" },
         pricePerParticipant: { type: String, default: "" },
         priceForSiblings: { type: String, default: "" },
         instructor: { type: String, default: "" },

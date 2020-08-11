@@ -383,6 +383,23 @@ const getGraphData = async (query, context) => {
     log.end();
     return model;
 };
+// const getFilterProgram = async (query, context) => {
+
+//     let filter = {}
+//     filter.ageGroup.to = query.ageTo
+//     filter.ageGroup.from = query.ageFrom
+//     filter.date.to = query.dateTo
+//     filter.date.from = query.dateFrom
+//     filter.time.to = query.timeTo
+//     filter.time.from = query.timeFrom
+
+//     const log = context.logger.start(`services:programs:getGraphData`);
+//     let programs = await db.program.find({ user: query.userId }).populate('tags').skip(skipCount).limit(pageSize);
+//     programs.count = await db.program.find({ user: query.userId }).count();
+
+//     log.end();
+//     return model;
+// };
 exports.create = create;
 exports.getAllprograms = getAllprograms;
 exports.update = update;
@@ -396,3 +413,4 @@ exports.getViewCount = getViewCount
 exports.getProgramCount = getProgramCount
 exports.setActiveOrDecactive = setActiveOrDecactive
 exports.getGraphData = getGraphData
+// exports.getFilterProgram = getFilterProgram

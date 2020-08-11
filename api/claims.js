@@ -41,10 +41,10 @@ const requestListByProvider = async (req, res) => {
     }
 };
 
-const actionOnRequest = async (req, res) => {
+const action = async (req, res) => {
     const log = req.context.logger.start(`api:claims:actionOnRequest`);
     try {
-        const favourite = await service.actionOnRequest(req.body, req.context);
+        const favourite = await service.actionOnRequest(req.params.id, req.body, req.context);
         log.end();
         return response.data(res, favourite);
     } catch (err) {
@@ -58,4 +58,4 @@ const actionOnRequest = async (req, res) => {
 exports.request = request;
 exports.requestList = requestList;
 exports.requestListByProvider = requestListByProvider;
-exports.actionOnRequest = actionOnRequest;
+exports.action = action;
