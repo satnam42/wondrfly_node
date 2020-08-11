@@ -214,9 +214,9 @@ const search = async (query, context) => {
 };
 const getProgramsByProvider = async (query, context) => {
     const log = context.logger.start(`services:programs:getAllprograms`);
-    let pageNo = Number(query.pageNo) || count;
-    let pageSize = Number(query.pageSize) || count0;
-    let skipCount = pageSize * (pageNo - count);
+    let pageNo = Number(query.pageNo) || 1;
+    let pageSize = Number(query.pageSize) || 10;
+    let skipCount = pageSize * (pageNo - 1);
     if (!query.userId) {
         throw new Error("userId is  required");
     }
