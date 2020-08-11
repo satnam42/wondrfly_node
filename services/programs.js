@@ -100,16 +100,16 @@ const set = (model, program, context) => {
     if (model.capacity !== "string" && model.capacity !== undefined) {
         program.capacity = model.capacity;
     }
-    if (model.emails.lenght > count) {
+    if (model.emails.lenght > 1) {
         program.emails = model.emails;
     }
-    if (model.batches.lenght > count) {
+    if (model.batches.lenght > 1) {
         program.batches = model.batches;
     }
-    if (model.addresses.lenght > count) {
+    if (model.addresses.lenght > 1) {
         program.addresses = model.addresses;
     }
-    if (model.tags.lenght > count) {
+    if (model.tags.lenght > 1) {
         program.tags = model.tags;
     }
     program.updateOn = new Date()
@@ -134,9 +134,9 @@ const create = async (model, context) => {
 };
 const getAllprograms = async (query, context) => {
     const log = context.logger.start(`services:programs:getAllprograms`);
-    let pageNo = Number(query.pageNo) || count;
-    let pageSize = Number(query.pageSize) || count0;
-    let skipCount = pageSize * (pageNo - count);
+    let pageNo = Number(query.pageNo) || 1;
+    let pageSize = Number(query.pageSize) || 10;
+    let skipCount = pageSize * (pageNo - 1);
     let programs = await db.program.find().populate('tags').skip(skipCount).limit(pageSize);
     programs.count = await db.program.find().count();
     log.end();
