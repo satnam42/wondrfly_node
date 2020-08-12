@@ -41,8 +41,8 @@ const getRequestListByProvider = async (query, context) => {
     if (!query.id) {
         throw new Error("userId not found");
     }
-    const claimsRequests = await db.claim.find({ providerId: query.userId }).populate('program');
-    if (claimsRequests.length < 0) {
+    const claimsRequests = await db.claim.find({ providerId: query.id }).populate('programId');
+    if (!claimsRequests.length) {
         throw new Error("claims Requests not found");
     }
     log.end();
