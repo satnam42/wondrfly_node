@@ -370,15 +370,20 @@ const getGraphData = async (query, context) => {
 
     let model = {
         lables: [],
-        views: [],
-        clicks: [],
-        favourites: [],
+        graphData: [
+
+            {
+                label: '', data: []
+
+            }
+        ]
+
     }
     programActions.forEach(programAction => {
         model.lables.push(programAction._id[0])
-        model.views.push(programAction.view)
-        model.clicks.push(programAction.click)
-        model.favourites.push(programAction.favourite)
+        model.graphData.push({ label: 'Views', data: programAction.view })
+        model.graphData.push({ label: 'Clicks', data: programAction.click })
+        model.graphData.push({ label: 'Favourites', data: programAction.favourite })
     });
     log.end();
     return model;
