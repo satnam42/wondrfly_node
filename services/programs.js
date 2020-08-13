@@ -373,7 +373,8 @@ const getGraphData = async (query, context) => {
         graphData: [
 
             {
-                label: '', data: []
+                label: '',
+                data: []
 
             }
         ]
@@ -381,9 +382,9 @@ const getGraphData = async (query, context) => {
     }
     programActions.forEach(programAction => {
         model.lables.push(programAction._id[0])
-        model.graphData.push({ label: 'Views', data: programAction.view })
-        model.graphData.push({ label: 'Clicks', data: programAction.click })
-        model.graphData.push({ label: 'Favourites', data: programAction.favourite })
+        model.graphData.push({ label: 'Views', data: [programAction.view] })
+        model.graphData.push({ label: 'Clicks', data: [programAction.click] })
+        model.graphData.push({ label: 'Favourites', data: [programAction.favourite] })
     });
     log.end();
     return model;
