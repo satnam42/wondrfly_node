@@ -472,12 +472,18 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.programs.activeOrDecactive
   );
-
   app.get(
     "/api/programs/getGraphData",
     permit.context.builder,
     permit.context.requiresToken,
     api.programs.graphData
+  );
+
+  app.get(
+    "/api/programs/byFilter",
+    permit.context.builder,
+    permit.context.requiresToken,
+    api.programs.filter
   );
 
   // favourites api//

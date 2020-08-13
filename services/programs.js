@@ -1,6 +1,7 @@
 
 "use strict";
 const ObjectId = require("mongodb").ObjectID;
+var moment = require('moment'); // require for date formating
 const build = async (model, context) => {
     const log = context.logger.start(`services:programs:build${model}`);
 
@@ -278,7 +279,6 @@ const addProgramAction = async (model, context) => {
                 updateOn: new Date(),
             }).save();
         }
-
     }
     log.end();
     return programActionCounter;
@@ -383,23 +383,42 @@ const getGraphData = async (query, context) => {
     log.end();
     return model;
 };
-// const getFilterProgram = async (query, context) => {
+const getFilterProgram = async (model, context) => {
+    const log = context.logger.start(`services:programs:getFilterProgram`);
+    let pageNo = Number(model.pageNo) || 1;
+    let pageSize = Number(model.pageSize) || 10;
+    let skipCount = pageSize * (pageNo - 1);
+    let query = {
 
-//     let filter = {}
-//     filter.ageGroup.to = query.ageTo
-//     filter.ageGroup.from = query.ageFrom
-//     filter.date.to = query.dateTo
-//     filter.date.from = query.dateFrom
-//     filter.time.to = query.timeTo
-//     filter.time.from = query.timeFrom
+    }
 
-//     const log = context.logger.start(`services:programs:getGraphData`);
-//     let programs = await db.program.find({ user: query.userId }).populate('tags').skip(skipCount).limit(pageSize);
-//     programs.count = await db.program.find({ user: query.userId }).count();
+    if (model.ageFrom && model.ageTo) {
+        query["ageGroup.from"] = { $gte: Number(model.ageFrom) }
+        query["ageGroup.to"] = { $lte: Number(model.ageTo) }
+    }
 
-//     log.end();
-//     return model;
-// };
+    if (model.fromDate && model.toDate) {
+        query["date.from"] = { $gte: model.fromDate }
+        query["date.to"] = { $lte: model.toDate }
+    }
+
+    if (model.toTime && model.fromTime) {
+        query["time.from"] = { $gte: new Date(model.fromTime).getTime() }
+        query["date.to"] = { $lte: new Date(model.toTime).getTime() }
+    }
+    if (model.userId) {
+        query.user = model.userId
+    }
+    let programs = await db.program.find(
+        query
+    ).populate('tags').skip(skipCount).limit(pageSize);
+    programs.count = await db.program.find({ user: query.userId }).count();
+
+    log.end();
+    return programs;
+};
+
+
 exports.create = create;
 exports.getAllprograms = getAllprograms;
 exports.update = update;
@@ -413,4 +432,4 @@ exports.getViewCount = getViewCount
 exports.getProgramCount = getProgramCount
 exports.setActiveOrDecactive = setActiveOrDecactive
 exports.getGraphData = getGraphData
-// exports.getFilterProgram = getFilterProgram
+exports.getFilterProgram = getFilterProgram

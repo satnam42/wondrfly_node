@@ -174,18 +174,19 @@ const graphData = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
-// const filter = async (req, res) => {
-//     const log = req.context.logger.start(`api:programs:filter`);
-//     try {
-//         const data = await service.getFilterProgram(req.query, req.context);
-//         log.end();
-//         return response.data(res, data);
-//     } catch (err) {
-//         log.error(err);
-//         log.end();
-//         return response.failure(res, err.message);
-//     }
-// };
+const filter = async (req, res) => {
+    const log = req.context.logger.start(`api:programs:filter`);
+    try {
+        const data = await service.getFilterProgram(req.query, req.context);
+        log.end();
+        return response.data(res, data);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 
 exports.create = create;
 exports.list = list;
@@ -200,4 +201,5 @@ exports.viewsByUserId = viewsByUserId;
 exports.programCountByUserId = programCountByUserId;
 exports.activeOrDecactive = activeOrDecactive;
 exports.graphData = graphData;
-// exports.filter = filter;
+exports.filter = filter;
+

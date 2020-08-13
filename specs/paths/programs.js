@@ -1,4 +1,5 @@
 module.exports = [
+
     {
         url: "/add",
         post: {
@@ -451,4 +452,89 @@ module.exports = [
             }
         }
     },
+    {
+        url: "/byFilter",
+        get: {
+            summary: "filter",
+            description: "get programd bby filter ",
+            parameters: [
+                {
+                    in: "query",
+                    name: "userId",
+                    description: "userId",
+                    // required: true,
+                    type: "date"
+                },
+
+                {
+                    in: "query",
+                    name: "fromDate",
+                    description: "fromDate",
+                    // required: true,
+                    type: "date"
+                },
+                {
+                    in: "query",
+                    name: "toDate",
+                    description: "toDate",
+                    // required: true,
+                    type: "date"
+                },
+                {
+                    in: "query",
+                    name: "toTime",
+                    description: "toTime",
+                    // required: true,
+                    type: "date"
+                },
+                {
+                    in: "query",
+                    name: "fromTime",
+                    description: "fromTime",
+                    // required: true,
+                    type: "date"
+                },
+                {
+                    in: "query",
+                    name: "ageFrom",
+                    description: "ageFrom",
+                    type: "integer"
+                },
+                {
+                    in: "query",
+                    name: "ageTo",
+                    description: "ageTo",
+                    type: "integer"
+                },
+                {
+                    in: "query",
+                    name: "pageSize",
+                    description: "pageSize",
+                    type: "integer"
+                },
+                {
+                    in: "query",
+                    name: "pageNo",
+                    description: "pageNo",
+                    type: "integer"
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    // required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
+
 ];
