@@ -2,15 +2,211 @@
 "use strict";
 const ObjectId = require("mongodb").ObjectID;
 var moment = require('moment'); // require for date formating
-const build = async (model, context) => {
-    const log = context.logger.start(`services:programs:build${model}`);
+const csv = require('csvtojson')
+const fs = require('fs');
+const buildImportProgram = async (model, context) => {
+    const log = context.logger.start(`services:programs:buildImportProgram${model}`);
+    let age = {
+        from: 0,
+        to: 0
+    }
 
+    if (model.AgeRange !== "" && model.AgeRange !== "-" && model.AgeRange !== undefined && model.AgeRange !== null) {
+        if (model.AgeRange.includes('above') || model.AgeRange.includes('under') || model.AgeRange.includes('all') || model.AgeRange.includes('+')) {
+
+            if (model.AgeRange.includes('above')) {
+                let ageRange = model.AgeRange.match(/\d+/g).map(Number);
+                if (!ageRange) {
+                    age.from = 0
+                    age.to = 0
+                }
+                else {
+                    age.from = ageRange[0]
+                    age.to = 100
+                }
+
+            };
+            if (model.AgeRange.includes('under')) {
+                let ageRange = model.AgeRange.match(/\d+/g).map(Number);
+                if (!ageRange) {
+                    age.from = 0
+                    age.to = 0
+                }
+                else {
+                    age.from = ageRange[0]
+                    age.to = 0
+                }
+            };
+            if (model.AgeRange.includes('all')) {
+                age.from = 0
+                age.to = 100
+            };
+            if (model.AgeRange.includes('+')) {
+                let ageRange = model.AgeRange.match(/\d+/g).map(Number);
+                if (!ageRange) {
+                    age.from = 0
+                    age.to = 0
+                }
+                else {
+                    age.from = ageRange[0]
+                    age.to = 100
+                }
+            };
+
+        }
+        else {
+            let isMonths = model.AgeRange.includes('months')
+            if (isMonths) {
+                age.from = 0
+                age.to = 0
+            }
+            else {
+                // set age range
+                let ageRange = model.AgeRange.match(/\d+/g).map(Number);
+                if (ageRange.length == 2) {
+                    age.from = ageRange[0]
+                    age.to = ageRange[1]
+                }
+            }
+
+        }
+    }
+
+    let category
+    let tag
+    let categoryId
+    let categories = []
+    let tagByCategoryId
+    let tags = []
+    let date = {
+        from: '',
+        to: ''
+    }
+    let time = {
+        from: '',
+        to: ''
+    }
+    console.log("StartDateIsValid", moment(model.StartDate).isValid())
+    if (model.StartDate !== "" && model.StartDate !== "-" && model.StartDate !== undefined && model.StartDate !== null && moment(model.StartDate).isValid()) {
+        date.from = moment(model.StartDate);
+        log.info('date.from', date.from)
+        console.log('date.from', date.from)
+    }
+
+    else {
+        date.from = new Date()
+    }
+    console.log("EndDateIsValid", moment(model.StartDate).isValid())
+    if (model.EndDate !== "" && model.EndDate !== "-" && model.EndDate !== undefined && model.EndDate !== null && moment(model.EndDate).isValid()) {
+        date.to = moment(model.EndDate);
+        log.info('date.to', date.to)
+        console.log('date.to', date.to)
+
+    } else {
+        time.to = new Date()
+    }
+
+    console.log("timeFromIsValid", moment(model.StartDate + " " + model.StarTime).isValid())
+
+    if (model.StarTime !== "" && model.StarTime !== "-" && model.StarTime !== undefined && model.StarTime !== null && moment(model.StartDate + " " + model.StarTime).isValid()) {
+        time.from = moment(model.StartDate + " " + model.StarTime);
+        log.info('time.from', time.from)
+        console.log('time.from', time.from)
+
+    }
+
+    else {
+        time.from = new Date()
+    }
+
+    console.log("timeTOIsValid", moment(model.EndDate + " " + model.EndTime).isValid())
+
+    if (model.EndTime !== "" && model.EndTime !== "-" && model.EndTime !== undefined && model.EndTime !== null && moment(model.EndDate + " " + model.EndTime).isValid()) {
+        time.to = moment(model.EndDate + " " + model.EndTime);
+        log.info('time.to', time.to)
+        console.log('time.to', time.to)
+
+    } else {
+        time.to = new Date()
+    }
+
+    category = await db.category.findOne({ name: { $eq: model.Catogory } });
+
+    if (!category) {
+        category = await new db.category({
+            name: model.Catogory ? model.Catogory : 'undefine',
+            description: 'csv file data',
+            createdOn: new Date(),
+            updateOn: new Date(),
+        }).save();
+        categoryId = category.id
+        await categories.push(categoryId)
+    }
+
+    else {
+        categoryId = category.id
+        console.log('category.id', category.id)
+        await categories.push(categoryId)
+        tagByCategoryId = await db.tag.findOne({ categoryIds: ObjectId(categoryId) }, { name: model.SubCategory })
+    }
+
+    if (!tagByCategoryId) {
+
+        tag = await new db.tag({
+            name: model.SubCategory ? model.SubCategory : 'undefine',
+            description: 'csv file data',
+            categoryIds: categories,
+            createdOn: new Date(),
+            updateOn: new Date(),
+        }).save();
+        console.log('tagID', tag.id)
+        tags.push(tag.id)
+
+    }
+
+    else {
+        console.log('tagID', tagByCategoryId.id)
+        tags.push(tagByCategoryId.id)
+    }
+
+    let user = await db.user.findOne({ firstName: { "$regex": '.*' + model.Reference + '.*', "$options": 'i' } })
+
+    if (!user) {
+        user = await db.user.findOne({ firstName: model.Reference })
+    }
+
+    console.log('userID', user.id)
+    console.log('userID', user.id)
+
+    await new db.program({
+        name: model.ProgramName,
+        description: model.Description,
+        price: model.Price,
+        ageGroup: age,
+        date: date,
+        time: time,
+        status: model.status || 'active',
+        user: user.id,
+        tags: tags,
+        createdOn: new Date(),
+        updateOn: new Date(),
+    }).save();
+
+    return
+    log.end();
+}
+
+
+const build = async (model, context) => {
+
+    const log = context.logger.start(`services:programs:build${model}`);
     const program = await new db.program({
         name: model.name,
         description: model.description,
         type: model.type,
         price: model.price,
         code: model.code,
+        programCoverPic: model.programCoverPic,
         location: model.location,
         ageGroup: model.ageGroup,
         date: model.date,
@@ -36,6 +232,7 @@ const build = async (model, context) => {
     log.end();
 
     return program;
+
 };
 const buildTimelineUrl = async (files) => {
 
@@ -60,6 +257,9 @@ const set = (model, program, context) => {
     }
     if (model.price !== "string" && model.price !== undefined) {
         program.price = model.price;
+    }
+    if (model.programCoverPic !== "string" && model.programCoverPic !== undefined) {
+        program.programCoverPic = model.programCoverPic;
     }
     if (model.code !== "string" && model.code !== undefined) {
         program.code = model.code;
@@ -424,6 +624,34 @@ const getFilterProgram = async (model, context) => {
     return programs;
 };
 
+const importProgram = async (file, context) => {
+    const log = context.logger.start("services:program:importProgram");
+    if (file.fieldname != 'csv') {
+        throw new Error("please provide csv file");
+    }
+
+    const rows = await csv().fromFile(file.path);
+    if (rows.length < 1) {
+        throw new Error("csv file is empty !please provide some data ");
+    }
+
+    // if (rows.length > 1000) {
+    //     throw new Error("csv file have too data");
+    // }
+
+    let count = 0
+    for (let row of rows) {
+        if (row.ProgramName !== "" && row.ProgramName !== null && row.ProgramName !== undefined) {
+            count++
+            await buildImportProgram(row, context);
+        }
+    }
+    // console.log(`total record inserted ${count}`)
+    log.info(`${count} record inserted `)
+    await fs.unlinkSync(file.path);
+    return `total record inserted ${count}`;
+};
+
 
 exports.create = create;
 exports.getAllprograms = getAllprograms;
@@ -439,3 +667,4 @@ exports.getProgramCount = getProgramCount
 exports.setActiveOrDecactive = setActiveOrDecactive
 exports.getGraphData = getGraphData
 exports.getFilterProgram = getFilterProgram
+exports.importProgram = importProgram

@@ -2,8 +2,8 @@ module.exports = [
     {
         url: "/import",
         post: {
-            summary: "upload  provider csv ",
-            description: "upload provider csv ",
+            summary: "upload  provider xlsx ",
+            description: "upload provider xlsx ",
             parameters: [
                 {
                     in: "formData",
@@ -12,13 +12,13 @@ module.exports = [
                     description: "The file to upload.",
                     required: true,
                 },
-                {
-                    in: "header",
-                    name: "x-access-token",
-                    description: "token to access api",
-                    required: true,
-                    type: "string"
-                }
+                // {
+                //     in: "header",
+                //     name: "x-access-token",
+                //     description: "token to access api",
+                //     required: true,
+                //     type: "string"
+                // }
             ],
             responses: {
                 default: {

@@ -137,6 +137,7 @@ const viewsByUserId = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
+
 const programCountByUserId = async (req, res) => {
     const log = req.context.logger.start(`api:programs:clicksByProgramId:${req.query.id}`);
     try {
@@ -162,6 +163,7 @@ const activeOrDecactive = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
+
 const graphData = async (req, res) => {
     const log = req.context.logger.start(`api:programs:graphData:${req.query.userId}`);
     try {
@@ -174,12 +176,25 @@ const graphData = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
+
 const filter = async (req, res) => {
     const log = req.context.logger.start(`api:programs:filter`);
     try {
         const data = await service.getFilterProgram(req.query, req.context);
         log.end();
         return response.data(res, data);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+const importProgram = async (req, res) => {
+    const log = req.context.logger.start(`api:programs:create`);
+    try {
+        const program = await service.importProgram(req.file, req.context);
+        log.end();
+        return response.data(res, program);
     } catch (err) {
         log.error(err);
         log.end();
@@ -202,4 +217,5 @@ exports.programCountByUserId = programCountByUserId;
 exports.activeOrDecactive = activeOrDecactive;
 exports.graphData = graphData;
 exports.filter = filter;
+exports.importProgram = importProgram;
 

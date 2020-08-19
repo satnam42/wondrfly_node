@@ -278,7 +278,8 @@ const configure = (app, logger) => {
   // provider routes //
   app.post(
     "/api/providers/import",
-    permit.context.requiresToken,
+    permit.context.builder,
+    // permit.context.requiresToken,
     upload.single('csv'),
     api.providers.create
   );
@@ -484,6 +485,14 @@ const configure = (app, logger) => {
     permit.context.builder,
     permit.context.requiresToken,
     api.programs.filter
+  );
+
+  app.post(
+    "/api/programs/import",
+    permit.context.builder,
+    // permit.context.requiresToken,
+    upload.single('csv'),
+    api.programs.importProgram
   );
 
   // favourites api//

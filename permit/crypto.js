@@ -2,9 +2,9 @@
 
 const bcrypt = require("bcrypt");
 
-const getHash = (password, context) => {
+const getHash = async (password, context) => {
   const log = context.logger.start("permit:crypto:getHash");
-  const hash = bcrypt.hashSync(password, 10);
+  const hash = await bcrypt.hashSync(password, 10);
   log.end();
   return hash;
 };

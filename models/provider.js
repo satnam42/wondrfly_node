@@ -6,10 +6,10 @@ const provider = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
     },
-    category: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category'
-    },
+    // category: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Category'
+    // },
     about: { type: String, default: "" },
     description: { type: String, default: "" },
     facebook: { type: String, default: "" },
@@ -35,7 +35,7 @@ const provider = mongoose.Schema({
     notes: { type: String, default: "" },
     adminNotes: { type: String, default: "" },
     notes: { type: String, default: "" },
-    isActivated: { type: String, default: "" },
+
     proivide_logo: { type: String, default: "" },
     createdOn: { type: Date, default: Date.now },
     updatedOn: { type: Date, default: Date.now }

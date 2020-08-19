@@ -3,10 +3,11 @@ const mongoose = require("mongoose");
 const programSchema = mongoose.Schema({
     name: { type: String, default: "", },
     description: { type: String, default: "" },
-    type: { type: String, default: "", required: true },
+    type: { type: String, default: "", },
     price: { type: String, default: "" },
     code: { type: String, default: "" },
     location: { type: String, default: "" },
+    programCoverPic: { type: String, default: "" },
     status: {
         type: String,
         enum: ['active', 'inactive'],
@@ -30,7 +31,7 @@ const programSchema = mongoose.Schema({
         hours: { type: String, default: "" }
     },
     duration: { type: String, default: "" },
-    isFree: { type: String, default: "" },
+    isFree: { type: Boolean, default: false },
     pricePerParticipant: { type: String, default: "" },
     priceForSiblings: { type: String, default: "" },
     specialInstructions: { type: String, default: "" },
@@ -48,7 +49,7 @@ const programSchema = mongoose.Schema({
         endDate: { type: Date, default: '' },
         startTime: { type: Date, default: '' },
         endTime: { type: Date, default: '' },
-        isPaid: { type: String, default: "" },
+        isFree: { type: Boolean, default: false },
         pricePerParticipant: { type: String, default: "" },
         priceForSiblings: { type: String, default: "" },
         instructor: { type: String, default: "" },

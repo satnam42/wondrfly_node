@@ -59,6 +59,9 @@ module.exports = [
             specialInstructions: {
                 type: "string"
             },
+            programCoverPic: {
+                type: "string"
+            },
             adultAssistanceIsRequried: {
                 type: "boolean"
             },
@@ -83,7 +86,7 @@ module.exports = [
                         endDate: { type: 'date', },
                         startTime: { type: 'date', },
                         endTime: { type: 'date', },
-                        isPaid: { type: 'string', },
+                        isFree: { type: "boolean" },
                         endTime: { type: 'string', },
                         pricePerParticipant: { type: 'string', },
                         priceForSiblings: { type: 'string', },

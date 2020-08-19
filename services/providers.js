@@ -2,34 +2,63 @@
 "use strict";
 const fs = require('fs');
 const csv = require('csvtojson')
+const encrypt = require("../permit/crypto.js");
+const auth = require("../permit/auth");
 const imageUrl = require('config').get('image').url
 const build = async (model, context) => {
     const log = context.logger.start(`services:providers:build${model}`);
-    const provider = await new db.provider({
-        name: model.Name,
+    let password = await encrypt.getHash('321@LetsPlay!@#$%', context);
+    if (model.Email == "") {
+        let sNo = model.Sno.toString()
+        model.Email = sNo + 'letsplay.us'
+    }
+    const user = await new db.user({
+        firstName: model.Name,
         phone: model.Phone,
-        category: model.Category,
-        description: model.Description,
         email: model.Email,
-        facebook: model.Facebook,
-        fullAddress: model.Ful_Address,
-        hours: model.Hours,
-        instagram: model.Instagram,
-        lat: model.Lat,
-        long: model.Long,
-        linkedin: model.Linkedin,
-        rating: model.Rating,
-        reviews: model.Reviews,
-        twitter: model.Twitter,
-        website: model.Website,
-        youtube: model.Youtube,
-        merchantVerified: model.Merchant_Verified,
-        listingURL: model.Listing_URL,
-        imageURL: model.Image_URL,
-        createdOn: new Date(),
-        updateOn: new Date(),
-    }).save();
-    log.end();
+        addressLine1: model.Address,
+        password: password,
+        role: 'provider'
+    }).save()
+
+    if (user) {
+        const provider = await new db.provider({
+            user: user._id
+        }).save()
+        log.end();
+        return provider;
+    }
+    else (
+        log.info(`user id Not Found for record no ${model.Sno}`)
+    )
+
+
+
+    // const provider = await new db.provider({
+    //     name: model.Name,
+    //     phone: model.Phone,
+    //     category: model.Category,
+    //     description: model.Description,
+    //     email: model.Email,
+    //     facebook: model.Facebook,
+    //     fullAddress: model.Ful_Address,
+    //     hours: model.Hours,
+    //     instagram: model.Instagram,
+    //     lat: model.Lat,
+    //     long: model.Long,
+    //     linkedin: model.Linkedin,
+    //     rating: model.Rating,
+    //     reviews: model.Reviews,
+    //     twitter: model.Twitter,
+    //     website: model.Website,
+    //     youtube: model.Youtube,
+    //     merchantVerified: model.Merchant_Verified,
+    //     listingURL: model.Listing_URL,
+    //     imageURL: model.Image_URL,
+    //     createdOn: new Date(),
+    //     updateOn: new Date(),
+    // }).save();
+    // log.end();
     // return provider;
 };
 
@@ -141,6 +170,7 @@ const setBasicInfo = (model, user, context) => {
 
     return user;
 };
+
 const buildBanner = async (provider, files) => {
     let bannerImages = []
     let bannerUrl = ''
@@ -150,27 +180,34 @@ const buildBanner = async (provider, files) => {
         bannerImages.push(bannerUrl)
     });
 
-
     return bannerImages
 }
 
 const importProvider = async (file, context) => {
+    const log = context.logger.start("services:providers:setBasicInfo");
     if (file.fieldname != 'csv') {
-        throw new Error("please provide csv file ");
+        throw new Error("please provide csv file");
     }
+
     const rows = await csv().fromFile(file.path);
     if (rows.length < 1) {
-        throw new Error("csv is empty !please provide some data ");
+        throw new Error("csv file is empty !please provide some data ");
     }
-    if (rows.length > 1000) {
-        throw new Error("csv file have too data");
-    }
-    rows.forEach(row => {
-        build(row, context);
-    });
 
+    // if (rows.length > 1000) {
+    //     throw new Error("csv file have too data");
+    // }
+    let count = 0
+    for (let row of rows) {
+        if (row.Name !== "") {
+            count++
+            await build(row, context);
+        }
+    }
+    // console.log(`total record inserted ${count}`)
+    log.info(`${count} record inserted `)
     await fs.unlinkSync(file.path);
-    return 'csv import successfully ';
+    return `total record inserted ${count}`;
 };
 
 

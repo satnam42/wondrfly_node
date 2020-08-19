@@ -2,7 +2,7 @@
 const mongoose = require("mongoose");
 const tag = mongoose.Schema({
     name: { type: String, default: "", required: true },
-    description: { type: String, default: "", required: true },
+    description: { type: String, default: "" },
     // categoryIds: [{ id: { type: String, default: "" } }],
     categoryIds: [{
         type: mongoose.Schema.Types.ObjectId,

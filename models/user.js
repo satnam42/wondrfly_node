@@ -1,12 +1,11 @@
 "use strict";
 const mongoose = require("mongoose");
 const user = mongoose.Schema({
-  firstName: { type: String, default: "", required: true },
+  firstName: { type: String, default: "", },
   lastName: { type: String, default: "", },
   sex: { type: String, default: "" },
   email: { type: String, default: "", required: true },
   password: { type: String, default: "", required: true },
-  pofileCompleted: { type: Number, default: 20, required: true },
   type: { type: String, default: "" },
   avatarImages: { type: String, default: "" },
   phoneNumber: { type: String, default: "" },

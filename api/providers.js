@@ -42,8 +42,6 @@ const update = async (req, res) => {
     }
 };
 
-
-
 const uploadBannerPic = async (req, res) => {
     const log = req.context.logger.start(`api:provider:uploadBannerPic`);
     try {
