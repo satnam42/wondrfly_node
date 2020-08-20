@@ -55,7 +55,7 @@ const register = async (model, context) => {
   if (isEmail) {
     throw new Error("Email already resgister");
   }
-  model.password = encrypt.getHash(model.password, context);
+  model.password = await encrypt.getHash(model.password, context);
   const user = await buildUser(model, context);
   if (user.role == 'provider') {
     await new db.provider({
