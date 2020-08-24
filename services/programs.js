@@ -24,8 +24,8 @@ const buildImportProgram = async (model, context) => {
                     age.from = ageRange[0]
                     age.to = 100
                 }
-
             };
+
             if (model.AgeRange.includes('under')) {
                 let ageRange = model.AgeRange.match(/\d+/g).map(Number);
                 if (!ageRange) {
@@ -570,14 +570,7 @@ const getGraphData = async (query, context) => {
 
     let model = {
         lables: [],
-        graphData: [
-
-            {
-                label: '',
-                data: []
-
-            }
-        ]
+        graphData: []
 
     }
     programActions.forEach(programAction => {
