@@ -3,12 +3,12 @@ const mongoose = require("mongoose");
 const favourite = mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'user',
         required: true
     },
     program: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Program',
+        ref: 'program',
         required: true
     },
     createdOn: { type: Date, default: Date.now },
