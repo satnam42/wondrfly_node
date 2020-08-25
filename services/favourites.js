@@ -1,7 +1,7 @@
 
 
 "use strict";
-
+const ObjectId = require("mongodb").ObjectID;
 const build = async (model, context) => {
     const { userId, programId } = model;
     const log = context.logger.start(`services:favourites:build${model}`);
@@ -56,7 +56,7 @@ const removeById = async (id, context) => {
         throw new Error("favourite id not found");
     }
 
-    let isDeleted = await db.favourite.deleteOne({ _id: id })
+    let isDeleted = await db.favourite.deleteOne({ "program": ObjectId(id) })
 
     if (!isDeleted) {
         throw new Error("something went wrong");
