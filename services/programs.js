@@ -582,14 +582,13 @@ const getGraphData = async (query, context) => {
     log.end();
     return model;
 };
+
 const getFilterProgram = async (model, context) => {
     const log = context.logger.start(`services:programs:getFilterProgram`);
     let pageNo = Number(model.pageNo) || 1;
     let pageSize = Number(model.pageSize) || 10;
     let skipCount = pageSize * (pageNo - 1);
-    let query = {
-
-    }
+    let query = {}
 
     if (model.ageFrom && model.ageTo) {
         query["ageGroup.from"] = { $gte: Number(model.ageFrom) }
@@ -605,12 +604,12 @@ const getFilterProgram = async (model, context) => {
         query["time.from"] = { $gte: new Date(model.fromTime).getTime() }
         query["date.to"] = { $lte: new Date(model.toTime).getTime() }
     }
+
     if (model.userId) {
         query.user = model.userId
     }
-    let programs = await db.program.find(
-        query
-    ).populate('tags').skip(skipCount).limit(pageSize);
+
+    let programs = await db.program.find(query).populate('tags').skip(skipCount).limit(pageSize);
     programs.count = await db.program.find({ user: query.userId }).count();
 
     log.end();

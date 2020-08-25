@@ -511,7 +511,7 @@ const configure = (app, logger) => {
   app.delete(
     "/api/favourites/delete/:id",
     permit.context.requiresToken,
-    api.programs.remove
+    api.favourites.remove
   );
 
   // uploads api//

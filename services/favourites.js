@@ -51,15 +51,19 @@ const getFavouritesByUserId = async (query, context) => {
 
 const removeById = async (id, context) => {
     const log = context.logger.start(`services:favourites:removeById`);
+
     if (!id) {
         throw new Error("favourite id not found");
     }
+
     let isDeleted = await db.favourite.deleteOne({ _id: id })
+
     if (!isDeleted) {
         throw new Error("something went wrong");
     }
+
     log.end();
-    return 'favourite deleted succesfully'
+    return 'favourite removed succesfully'
 };
 
 exports.create = create;

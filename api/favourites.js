@@ -44,7 +44,7 @@ const listByUserId = async (req, res) => {
 const remove = async (req, res) => {
     const log = req.context.logger.start(`api:favourites:remove:${req.params.id}`);
     try {
-        const favourite = await service.removeById(req.params.id, req.body, req.context);
+        const favourite = await service.removeById(req.params.id, req.context);
         log.end();
         return response.data(res, favourite);
     } catch (err) {
