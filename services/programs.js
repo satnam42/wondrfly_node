@@ -504,11 +504,19 @@ const getViewCount = async (query, context) => {
             },
         },
 
-        { $group: { _id: null, count: { $sum: "$count" } } }
+        { $group: { _id: null, view: { $sum: "$view" }, } }
     ])
+    let data = {}
+    if (viewCount.length) {
+        data.count = viewCount[0].view
+
+    } else {
+        data.message = 'somethng went wrong'
+    }
+
 
     log.end();
-    return viewCount;
+    return data;
 };
 const getProgramCount = async (query, context) => {
     const log = context.logger.start(`services:programs:getProgramCount`);

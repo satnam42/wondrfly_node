@@ -66,7 +66,7 @@ module.exports = [
                 {
                     in: "path",
                     name: "id",
-                    description: "favourite id",
+                    description: "program id",
                     required: true,
                     type: "string"
                 },
