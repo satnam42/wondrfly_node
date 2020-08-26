@@ -427,7 +427,7 @@ const configure = (app, logger) => {
   );
   app.get(
     "/api/programs/list",
-    permit.context.builder,
+    permit.context.requiresToken,
     api.programs.list
   );
   app.delete(

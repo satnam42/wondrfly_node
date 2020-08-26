@@ -32,6 +32,7 @@ const programSchema = mongoose.Schema({
     },
     duration: { type: String, default: "" },
     isFree: { type: Boolean, default: false },
+    isFav: { type: Boolean, default: false },
     pricePerParticipant: { type: String, default: "" },
     priceForSiblings: { type: String, default: "" },
     specialInstructions: { type: String, default: "" },

@@ -319,6 +319,7 @@ const set = (model, program, context) => {
     return program;
 
 };
+
 const create = async (model, context) => {
     const log = context.logger.start("services:programs:create");
     if (context.user.role == 'parent') {
@@ -333,6 +334,7 @@ const create = async (model, context) => {
     return program;
 
 };
+
 const getAllprograms = async (query, context) => {
     const log = context.logger.start(`services:programs:getAllprograms`);
     let pageNo = Number(query.pageNo) || 1;
@@ -340,9 +342,25 @@ const getAllprograms = async (query, context) => {
     let skipCount = pageSize * (pageNo - 1);
     let programs = await db.program.find().populate('tags').skip(skipCount).limit(pageSize);
     programs.count = await db.program.find().count();
+    const favourites = await db.favourite.find({ user: context.user.id }).populate('program')
+    if (favourites) {
+        // add fav in program
+        for (var p = 0; p < programs.length; p++) {
+            for (var f = 0; f < favourites.length; f++) {
+                if (favourites[f].program !== null && favourites[f].program !== undefined) {
+                    if (programs[p].id === favourites[f].program.id) {
+                        programs[p].isFav = true
+                    }
+                }
+
+            }
+        }
+    }
+
     log.end();
     return programs;
 };
+
 const getById = async (id, context) => {
     const log = context.logger.start(`services:programs:getById`);
     if (!id) {
@@ -356,6 +374,7 @@ const getById = async (id, context) => {
     return program
 
 };
+
 const update = async (id, model, context) => {
     const log = context.logger.start(`services:programs:update`);
     if (!id) {
@@ -375,6 +394,7 @@ const update = async (id, model, context) => {
     log.end();
     return program
 };
+
 const removeById = async (id, model, context) => {
     const log = context.logger.start(`services:programs:removeById`);
     if (!id) {
@@ -387,6 +407,7 @@ const removeById = async (id, model, context) => {
     log.end();
     return 'program deleted succesfully'
 };
+
 const uploadTimeLinePics = async (id, files, context) => {
     const log = context.logger.start(`services:programs:uploadTimeLinePics`);
     const program = await db.program.findOne({ _id: id });
@@ -422,6 +443,15 @@ const getProgramsByProvider = async (query, context) => {
         throw new Error("userId is  required");
     }
     let programs = await db.program.find({ user: query.userId }).populate('tags').skip(skipCount).limit(pageSize);
+
+
+    // for (let program of programs) {
+    //     for (let favourite of favourites) {
+    //         if (program.id == favourite.program) {
+
+    //         }
+    //     }
+
     programs.count = await db.program.find({ user: query.userId }).count();
     log.end();
     return programs;
