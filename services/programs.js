@@ -582,7 +582,7 @@ const getGraphData = async (query, context) => {
     if (!query.id) {
         throw new Error("userId is requried");
     }
-    const programActions = await db.programActionCounter.aggregate([
+    const data = await db.programActionCounter.aggregate([
         {
             $lookup: {
                 from: "programs",
@@ -612,20 +612,59 @@ const getGraphData = async (query, context) => {
     ]).limit(5);
 
 
-    let model = {
-        lables: [],
-        graphData: []
 
+    // {
+    //     label: "view",
+    //         backgroundColor: '#777CEA',
+    //             data: 'clcik'[1, 4, 7,]
+    // }, {
+    //     label: "click",
+    //         backgroundColor: '#F15C20',
+    //             data: 'viwe'[2, 5, 8,]
+    // },
+    // {
+    //     label: "fav",
+    //         backgroundColor: ' #FFB206',
+    //             data: 'fav'[3, 6, 9,]
+    // }
+    let barChartRes = {
+        barChartLabels: [],
+        barChartData: [{
+            label: 'Views',
+            data: []
+        }, {
+            label: 'Clicks',
+            data: []
+        }, {
+            label: 'Favourites',
+            data: []
+        }]
     }
-    programActions.forEach(programAction => {
-        model.lables.push(programAction._id[0])
+    try {
+        data.forEach(item => {
+            barChartRes.barChartLabels.push(item._id[0])
+            barChartRes.barChartData.forEach(ChartData => {
+                if (ChartData.label == 'Views') {
+                    ChartData.data.push(item.view)
+                }
+                else if (ChartData.label == 'Clicks') {
+                    ChartData.data.push(item.click)
+                }
+                else if (ChartData.label == 'Favourites') {
+                    ChartData.data.push(item.favourite)
+                }
+            })
 
-        model.graphData.push({ label: 'Views', data: [programAction.view] })
-        model.graphData.push({ label: 'Clicks', data: [programAction.click] })
-        model.graphData.push({ label: 'Favourites', data: [programAction.favourite] })
-    });
+        });
+    }
+    catch (err) {
+        throw new Error('barChartData mapping failed');
+    }
+
+
     log.end();
-    return model;
+    return barChartRes
+
 };
 
 const getFilterProgram = async (model, context) => {
