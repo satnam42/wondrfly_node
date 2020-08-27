@@ -301,16 +301,16 @@ const set = (model, program, context) => {
     if (model.capacity !== "string" && model.capacity !== undefined) {
         program.capacity = model.capacity;
     }
-    if (model.emails.lenght > 1) {
+    if (model.emails.length > 1) {
         program.emails = model.emails;
     }
-    if (model.batches.lenght > 1) {
+    if (model.batches.length > 1) {
         program.batches = model.batches;
     }
-    if (model.addresses.lenght > 1) {
+    if (model.addresses.length > 1) {
         program.addresses = model.addresses;
     }
-    if (model.tags.lenght > 1) {
+    if (model.tags.length > 1) {
         program.tags = model.tags;
     }
     program.updateOn = new Date()
@@ -457,13 +457,19 @@ const getProgramsByProvider = async (query, context) => {
     return programs;
 };
 const addProgramAction = async (model, context) => {
+
+
     const log = context.logger.start("services:programs:increaseViewCount");
     let programActionCounter
+
     if (!model.programId) {
         throw new Error("program id is requried");
     }
+
     programActionCounter = await db.programActionCounter.findOne({ $and: [{ user: context.user.id, }, { program: model.programId }] })
+
     let count = 1
+
     if (model.action == 'view') {
         if (programActionCounter != null & programActionCounter != undefined) {
             programActionCounter.view = count += programActionCounter.view
@@ -613,6 +619,7 @@ const getGraphData = async (query, context) => {
     }
     programActions.forEach(programAction => {
         model.lables.push(programAction._id[0])
+
         model.graphData.push({ label: 'Views', data: [programAction.view] })
         model.graphData.push({ label: 'Clicks', data: [programAction.click] })
         model.graphData.push({ label: 'Favourites', data: [programAction.favourite] })
