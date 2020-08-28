@@ -332,7 +332,6 @@ const create = async (model, context) => {
     const program = build(model, context);
     log.end();
     return program;
-
 };
 
 const getAllprograms = async (query, context) => {
@@ -342,7 +341,11 @@ const getAllprograms = async (query, context) => {
     let skipCount = pageSize * (pageNo - 1);
     let programs = await db.program.find().populate('tags').skip(skipCount).limit(pageSize);
     programs.count = await db.program.find().count();
-    const favourites = await db.favourite.find({ user: context.user.id }).populate('program')
+    let favourites
+    if (context.user !== undefined) {
+        favourites = await db.favourite.find({ user: context.user.id }).populate('program')
+
+    }
     if (favourites) {
         // add fav in program
         for (var p = 0; p < programs.length; p++) {

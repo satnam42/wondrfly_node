@@ -2,12 +2,24 @@
 const auth = require("./auth");
 const response = require("../exchange/response");
 
-const builder = (req, res, next) => {
+const builder = async (req, res, next) => {
   const context = {
     logger: require("@open-age/logger")("permit:context:builder")
   };
-
-  req.context = context;
+  const token = req.headers["x-access-token"];
+  if (!token) {
+    req.context = context;
+  } else {
+    const decodedUser = auth.extractToken(token, context);
+    const user = await db.user.findById(decodedUser.id);
+    if (!user) {
+      return response.failure(res, "invalid user");
+    }
+    if (user.password != decodedUser.password) {
+      return response.failure(res, "invalid password");
+    }
+    req.context.user = user;
+  }
   if (next) {
     return next();
   }
