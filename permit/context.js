@@ -7,6 +7,7 @@ const builder = async (req, res, next) => {
     logger: require("@open-age/logger")("permit:context:builder")
   };
   const token = req.headers["x-access-token"];
+  req.context = context;
   if (!token) {
     req.context = context;
   } else {

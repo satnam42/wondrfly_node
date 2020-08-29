@@ -682,12 +682,12 @@ const getFilterProgram = async (model, context) => {
         query["ageGroup.to"] = { $lte: Number(model.ageTo) }
     }
 
-    if (model.fromDate && model.toDate) {
+    if (model.fromDate !== "undefined" && model.toDate !== "undefined" && model.fromDate !== "" && model.toDate !== "" && model.fromDate !== null && model.toDate !== null) {
         query["date.from"] = { $gte: model.fromDate }
         query["date.to"] = { $lte: model.toDate }
     }
 
-    if (model.toTime && model.fromTime) {
+    if (model.toTime !== "undefined" && model.fromTime !== "undefined" && model.toTime !== "" && model.fromTime !== "" && model.toTime !== null && model.fromTime !== null) {
         query["time.from"] = { $gte: new Date(model.fromTime).getTime() }
         query["date.to"] = { $lte: new Date(model.toTime).getTime() }
     }
