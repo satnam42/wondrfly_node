@@ -88,9 +88,11 @@ const buildParent = async (model, context) => {
 const addParent = async (model, context) => {
     const log = context.logger.start("services:parents:addParent");
     const isEmail = await db.user.findOne({ email: { $eq: model.email } });
+
     if (isEmail) {
         return "Email already resgister";
     }
+
     model.password = encrypt.getHash('123456', context);
     const parent = buildParent(model, context);
     log.end();
@@ -171,20 +173,19 @@ const deleteParent = async (context, id) => {
     if (!id) {
         throw new Error("parentId is requried");
     }
+    await db.user.deleteOne({ _id: id })
     let parent = await db.user.findById(id);
-    if (!parent) {
-        throw new Error("parent not found");
+    await db.child.deleteOne({ parent: parent.id })
+    await db.user.deleteOne({ _id: id })
+    parent = await db.user.findById(id);
+    if (parent) {
+        throw new Error("something went wrong");
     }
-
-    parent.isDeleted = true
-    parent.updatedOn = Date.now()
-    parent.deletedBy = context.user.id
-    let user = parent
-    user.save()
     log.end();
-    return user
+    return 'parent deleted succesfully'
 
 };
+
 const activateAndDeactive = async (context, id, isActivated) => {
     const log = context.logger.start(`services:parents:activateAndDeactive`);
     if (!id) {

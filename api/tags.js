@@ -62,6 +62,7 @@ const search = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
+
 exports.create = create;
 exports.list = list;
 exports.update = update;
