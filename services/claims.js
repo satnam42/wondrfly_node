@@ -28,7 +28,7 @@ const createRequest = async (model, context) => {
 
 const getRequestList = async (context) => {
     const log = context.logger.start(`services:claims:getRequestList`);
-    const claimRequests = await db.claim.find({}).populate('program');
+    const claimRequests = await db.claim.find({}).populate('programId').populate('userId');
     if (claimRequests.length < 0) {
         throw new Error("claim Requests not found");
     }

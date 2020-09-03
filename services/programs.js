@@ -398,7 +398,7 @@ const update = async (id, model, context) => {
     return program
 };
 
-const removeById = async (id, model, context) => {
+const removeById = async (id, context) => {
     const log = context.logger.start(`services:programs:removeById`);
     if (!id) {
         throw new Error("programs id not found");

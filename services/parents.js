@@ -168,12 +168,10 @@ const uploadProfilePic = async (id, file, context) => {
 };
 
 const deleteParent = async (context, id) => {
-
     const log = context.logger.start(`services:parents:deleteparent`);
     if (!id) {
         throw new Error("parentId is requried");
     }
-    await db.user.deleteOne({ _id: id })
     let parent = await db.user.findById(id);
     await db.child.deleteOne({ parent: parent.id })
     await db.user.deleteOne({ _id: id })

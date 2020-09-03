@@ -66,7 +66,7 @@ const update = async (req, res) => {
 const deleteChild = async (req, res) => {
     const log = req.context.logger.start(`api:child:deleteChild`);
     try {
-        const child = await service.deleteChild(req.context, req.query.id);
+        const child = await service.deleteChild(req.params.id, req.context);
         log.end();
         return response.data(res, child);
     } catch (err) {
