@@ -279,28 +279,42 @@ const uploadProfilePic = async (id, file, context) => {
   log.end();
   return user
 };
-const deleteUser = async (context, id) => {
+const deleteUser = async (id, context) => {
   const log = context.logger.start(`services:users:deleteparent`);
   if (context.user.role != 'superAdmin') {
     throw new Error("you are not authorized to perform this operation");
   }
-
   if (!id) {
-    throw new Error("userId is requried");
+    throw new Error("Id is requried");
   }
 
   let user = await db.user.findById(id);
 
-  if (!user) {
+  if (user.role == 'parent' && user !== undefined) {
+    await db.child.deleteOne({ parent: id })
+    await db.user.deleteOne({ _id: id })
+    let parent = await db.user.findById(id);
+    if (parent) {
+      throw new Error("something went wrong");
+    }
+  }
+
+  else if (user.role == 'provider' && user !== undefined) {
+    await db.program.deleteOne({ user: id })
+    await db.provider.deleteOne({ _id: id })
+    await db.user.deleteOne({ user: id })
+    let provider = await db.user.findById(id);
+    if (provider) {
+      throw new Error("something went wrong");
+    }
+  }
+
+  else {
     throw new Error("user not found");
   }
 
-  user.isDeleted = true
-  user.updatedOn = Date.now()
-  user.deletedBy = context.user.id
-  user.save()
   log.end();
-  return user
+  return 'user delete successfully'
 
 };
 const activateAndDeactive = async (context, id, isActivated) => {

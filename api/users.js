@@ -178,7 +178,7 @@ const recentAddedByRole = async (req, res) => {
 const deleteUser = async (req, res) => {
   const log = req.context.logger.start(`api:users:deleteUser`);
   try {
-    const user = await service.deleteUser(req.context, req.query.id);
+    const user = await service.deleteUser(req.query.id, req.context);
     log.end();
     return response.data(res, user);
   } catch (err) {

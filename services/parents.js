@@ -167,23 +167,6 @@ const uploadProfilePic = async (id, file, context) => {
 
 };
 
-const deleteParent = async (context, id) => {
-    const log = context.logger.start(`services:parents:deleteparent`);
-    if (!id) {
-        throw new Error("parentId is requried");
-    }
-    let parent = await db.user.findById(id);
-    await db.child.deleteOne({ parent: parent.id })
-    await db.user.deleteOne({ _id: id })
-    parent = await db.user.findById(id);
-    if (parent) {
-        throw new Error("something went wrong");
-    }
-    log.end();
-    return 'parent deleted succesfully'
-
-};
-
 const activateAndDeactive = async (context, id, isActivated) => {
     const log = context.logger.start(`services:parents:activateAndDeactive`);
     if (!id) {
@@ -227,6 +210,5 @@ exports.getList = getList;
 exports.resetPassword = resetPassword;
 exports.updateParent = updateParent;
 exports.uploadProfilePic = uploadProfilePic;
-exports.deleteParent = deleteParent
 exports.activateAndDeactive = activateAndDeactive
 exports.getParent = getParent
