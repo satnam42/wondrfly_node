@@ -5,9 +5,8 @@
 const build = async (model, context) => {
     const log = context.logger.start(`services:claims:build${model}`);
     const claim = await new db.claim({
-        providerId: model.providerId,
-        userId: model.userId,
-        programId: model.programId,
+        requestOn: model.requestOn,
+        requestBy: model.requestBy,
         status: 'in-progress',
         createdOn: new Date(),
     }).save();
@@ -17,9 +16,9 @@ const build = async (model, context) => {
 
 const createRequest = async (model, context) => {
     const log = context.logger.start("services:claims:createRequest");
-    const claimRequest = await db.claim.findOne({ $and: [{ providerId: model.providerId }, { programId: model.programId }] })
+    const claimRequest = await db.claim.findOne({ requestOn: model.requestOn, requestBy: model.requestBy })
     if (claimRequest) {
-        return "claim already done";
+        return "claim request already done";
     }
     const claim = build(model, context);
     log.end();
@@ -28,7 +27,7 @@ const createRequest = async (model, context) => {
 
 const getRequestList = async (context) => {
     const log = context.logger.start(`services:claims:getRequestList`);
-    const claimRequests = await db.claim.find({}).populate('programId').populate('userId');
+    const claimRequests = await db.claim.find({}).populate('requestOn');
     if (claimRequests.length < 0) {
         throw new Error("claim Requests not found");
     }
@@ -41,7 +40,7 @@ const getRequestListByProvider = async (query, context) => {
     if (!query.id) {
         throw new Error("userId not found");
     }
-    const claimsRequests = await db.claim.find({ providerId: query.id }).populate('programId');
+    const claimsRequests = await db.claim.find({ requestBy: query.id }).populate('requestOn');
     if (!claimsRequests.length) {
         throw new Error("claims Requests not found");
     }
@@ -50,21 +49,39 @@ const getRequestListByProvider = async (query, context) => {
 };
 
 const actionOnRequest = async (id, model, context) => {
-    const log = context.logger.start(`services:claims:removeById`);
+    const log = context.logger.start(`services:claims:actionOnRequest`);
     if (!id) {
         throw new Error("claim id not found");
     }
     let claim = await db.claim.findById(id)
-    let program = await db.program.findById(query.programI)
-    if (!program) {
-        throw new Error("Program  not found");
-
+    if (!claim) {
+        throw new Error("claim request not found");
     }
+    const user = db.user.findById(claim.requestOn)
+    if (!user) {
+        throw new Error("claim on provider not found");
+    }
+    const requestedUser = db.user.findById(claim.requestBy)
+
+    if (requestedUser) {
+        user.email = requestedUser.email
+        user.password = requestedUser.password
+    }
+    else {
+        throw new Error("requested user  id not found");
+    }
+
     if (model.status == 'approve') {
+        await db.user.deleteOne({ _id: claim.userId })
+        let isRequestedUser = await db.child.findById(claim.requestBy);
+        if (isRequestedUser) {
+            throw new Error("something went wrong");
+        }
         claim.status = 'approve'
-        program.user = model.providerId
+        claim.updatedOn = new Date()
         await program.save()
         await claim.save()
+        await user.save()
     }
     else {
         claim.status = 'reject'

@@ -2,14 +2,11 @@ module.exports = [
     {
         name: "claimRequest",
         properties: {
-            providerId: {
+            requestOn: {
                 type: "string"
             },
-            userId: {
+            requestBy: {
                 type: "string"
-            },
-            programId: {
-                type: 'string'
             },
             status: {
                 type: "string",

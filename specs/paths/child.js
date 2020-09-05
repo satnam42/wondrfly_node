@@ -109,7 +109,7 @@ module.exports = [
                 {
                     in: "path",
                     name: "id",
-                    description: "child id",
+                    description: "parent id",
                     required: true,
                     type: "string"
                 },
