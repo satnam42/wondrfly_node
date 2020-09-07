@@ -57,11 +57,11 @@ const actionOnRequest = async (id, model, context) => {
     if (!claim) {
         throw new Error("claim request not found");
     }
-    const user = db.user.findById(claim.requestOn)
+    let user = await db.user.findById(model.requestOn)
     if (!user) {
         throw new Error("claim on provider not found");
     }
-    const requestedUser = db.user.findById(claim.requestBy)
+    const requestedUser = await db.user.findById(model.requestBy)
 
     if (requestedUser) {
         user.email = requestedUser.email
@@ -72,12 +72,12 @@ const actionOnRequest = async (id, model, context) => {
     }
 
     if (model.status == 'approve') {
-        await db.user.deleteOne({ _id: claim.requestBy })
-        let isRequestedUser = await db.child.findById(claim.requestBy);
+        await db.user.deleteOne({ _id: model.requestBy })
+        let isRequestedUser = await db.user.findById(model.requestBy);
         if (isRequestedUser) {
             throw new Error("something went wrong");
         }
-        claim.requestOn = claim.requestBy
+        claim.requestOn = model.requestBy
         claim.status = 'approve'
         claim.updatedOn = new Date()
         await claim.save()
