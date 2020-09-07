@@ -72,11 +72,12 @@ const actionOnRequest = async (id, model, context) => {
     }
 
     if (model.status == 'approve') {
-        await db.user.deleteOne({ _id: claim.userId })
+        await db.user.deleteOne({ _id: claim.requestBy })
         let isRequestedUser = await db.child.findById(claim.requestBy);
         if (isRequestedUser) {
             throw new Error("something went wrong");
         }
+        claim.requestOn = claim.requestBy
         claim.status = 'approve'
         claim.updatedOn = new Date()
         await program.save()

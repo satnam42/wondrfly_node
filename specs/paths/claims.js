@@ -90,7 +90,7 @@ module.exports = [
     },
     {
         url: "/action/{id}",
-        post: {
+        put: {
             summary: "action On claim",
             description: "action On claim request",
             parameters: [

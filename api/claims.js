@@ -44,9 +44,9 @@ const requestListByProvider = async (req, res) => {
 const action = async (req, res) => {
     const log = req.context.logger.start(`api:claims:actionOnRequest`);
     try {
-        const favourite = await service.actionOnRequest(req.params.id, req.body, req.context);
+        const claim = await service.actionOnRequest(req.params.id, req.body, req.context);
         log.end();
-        return response.data(res, favourite);
+        return response.data(res, claim);
     } catch (err) {
         log.error(err);
         log.end();
