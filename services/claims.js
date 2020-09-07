@@ -80,7 +80,6 @@ const actionOnRequest = async (id, model, context) => {
         claim.requestOn = claim.requestBy
         claim.status = 'approve'
         claim.updatedOn = new Date()
-        await program.save()
         await claim.save()
         await user.save()
     }
