@@ -68,7 +68,7 @@ const actionOnRequest = async (id, model, context) => {
         user.password = requestedUser.password
     }
     else {
-        throw new Error("requested user  id not found");
+        throw new Error("requested user  not found");
     }
 
     if (model.status == 'approve') {
