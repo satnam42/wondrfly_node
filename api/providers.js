@@ -84,7 +84,7 @@ const searchProvider = async (req, res) => {
     try {
         const providers = await service.search(req.query.name, req.context);
         log.end();
-        return response.data(res, provider);
+        return response.data(res, providers);
     } catch (err) {
         log.error(err);
         log.end();
