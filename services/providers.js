@@ -270,6 +270,9 @@ const search = async (query, context) => {
     const log = context.logger.start(`services:provider:search`);
     const providers = await db.user.find({ firstName: { "$regex": '.*' + query.name + '.*', "$options": 'i' } }
     ).limit(5);
+    if (providers.length < 1) {
+        throw new Error("provider not found");
+    }
     log.end();
     return providers;
 };
