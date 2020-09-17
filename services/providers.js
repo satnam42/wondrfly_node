@@ -266,9 +266,12 @@ const getProvideByEmail = async (email, context) => {
     log.end();
     return user;
 };
-const search = async (query, context) => {
+const search = async (name, context) => {
     const log = context.logger.start(`services:provider:search`);
-    const providers = await db.user.find({ firstName: { "$regex": '.*' + query.name + '.*', "$options": 'i' } }
+    if (!name) {
+        throw new Error("name is required");
+    }
+    const providers = await db.user.find({ firstName: { "$regex": '.*' + name + '.*', "$options": 'i' } }
     ).limit(5);
     if (providers.length < 1) {
         throw new Error("provider not found");
