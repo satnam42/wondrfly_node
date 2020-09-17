@@ -277,6 +277,13 @@ const configure = (app, logger) => {
   );
   // provider routes //
   app.post(
+    "/api/providers/add",
+    permit.context.builder,
+    permit.context.requiresToken,
+    // upload.single('csv'),
+    api.providers.add
+  );
+  app.post(
     "/api/providers/import",
     permit.context.builder,
     // permit.context.requiresToken,

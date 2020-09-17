@@ -5,6 +5,23 @@ const csv = require('csvtojson')
 const encrypt = require("../permit/crypto.js");
 const auth = require("../permit/auth");
 const imageUrl = require('config').get('image').url
+const buildUser = async (model, context) => {
+    const log = context.logger.start(`services:users:buildUser${model}`);
+    const user = await new db.user({
+        firstName: model.firstName,
+        type: model.type || '',
+        email: model.email,
+        password: model.password,
+        role: 'provider',
+        city: model.city,
+        note: model.note,
+        country: model.city,
+        createdOn: new Date(),
+        updateOn: new Date()
+    }).save();
+    log.end();
+    return user;
+};
 const build = async (model, context) => {
     const log = context.logger.start(`services:providers:build${model}`);
     let password = await encrypt.getHash('321@LetsPlay!@#$%', context);
@@ -267,7 +284,7 @@ const getProvideByEmail = async (email, context) => {
     return user;
 };
 const search = async (name, context) => {
-    const log = context.logger.start(`services:provider:search`);
+    const log = context.logger.start(`services:providers:search`);
     if (!name) {
         throw new Error("name is required");
     }
@@ -279,7 +296,25 @@ const search = async (name, context) => {
     log.end();
     return providers;
 };
+const addProvider = async (model, context) => {
+    const log = context.logger.start("services:providers:addProvider");
+    const isEmail = await db.user.findOne({ email: { $eq: model.email } });
+    if (isEmail) {
+        throw new Error("Email already resgister");
+    }
 
+    model.password = await encrypt.getHash('321@LetsPlay!@#$%', context);
+    const user = await buildUser(model, context);
+    if (user.role == 'provider') {
+        await new db.provider({
+            user: user._id,
+            createdOn: new Date(),
+            updateOn: new Date()
+        }).save();
+    }
+    log.end();
+    return user;
+};
 exports.importProvider = importProvider;
 exports.getAllProvider = getAllProvider;
 exports.updateProvider = updateProvider;
@@ -287,4 +322,5 @@ exports.uploadBannerPic = uploadBannerPic;
 exports.getProvideById = getProvideById;
 exports.getProvideByEmail = getProvideByEmail;
 exports.search = search;
+exports.addProvider = addProvider;
 

@@ -31,6 +31,7 @@ const user = mongoose.Schema({
   deletedBy: { type: String, default: "" },
   token: { type: String, default: "" },
   createdBy: { type: String, default: "" },
+  note: { type: String, default: "" },
   role: { type: String, default: "" },
   deviceToken: { type: String, default: "" },
   createdOn: { type: Date, default: Date.now },

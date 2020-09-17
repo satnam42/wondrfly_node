@@ -15,6 +15,18 @@ const create = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
+const add = async (req, res) => {
+    const log = req.context.logger.start(`api:provider:addProvider`);
+    try {
+        const provider = await service.addProvider(req.body, req.context);
+        log.end();
+        return response.data(res, provider);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
 
 const list = async (req, res) => {
     const log = req.context.logger.start(`api:providers:list`);
@@ -99,5 +111,6 @@ exports.uploadBannerPic = uploadBannerPic;
 exports.getById = getById;
 exports.providerByEmailId = providerByEmailId;
 exports.searchProvider = searchProvider;
+exports.add = add;
 
 

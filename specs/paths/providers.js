@@ -253,4 +253,37 @@ module.exports = [
             }
         }
     },
+    {
+        url: "/add",
+        post: {
+            summary: "add Provider",
+            description: "add Provider",
+            parameters: [
+                {
+                    in: "body",
+                    name: "body",
+                    description: "Model of  Provider",
+                    required: true,
+                    schema: {
+                        $ref: "#/definitions/providerCreate"
+                    }
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                },
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
 ]
