@@ -18,6 +18,15 @@ module.exports = [
             country: {
                 type: "string"
             },
+            street: {
+                type: "string"
+            },
+            phoneNumber: {
+                type: "string"
+            },
+            source: {
+                type: "string"
+            },
             note: {
                 type: "string"
             },

@@ -32,10 +32,7 @@ const provider = mongoose.Schema({
     isAssociate: { type: String, default: "" },
     // tier: { type: String, default: "" },
     createdBy: { type: String, default: "" },
-    notes: { type: String, default: "" },
     adminNotes: { type: String, default: "" },
-    notes: { type: String, default: "" },
-
     proivide_logo: { type: String, default: "" },
     createdOn: { type: Date, default: Date.now },
     updatedOn: { type: Date, default: Date.now }
