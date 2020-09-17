@@ -288,6 +288,16 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.providers.list
   );
+  app.get(
+    "/api/providers/byEmialId",
+    permit.context.requiresToken,
+    api.providers.providerByEmailId
+  );
+  app.get(
+    "/api/providers/search",
+    permit.context.requiresToken,
+    api.providers.searchProvider
+  );
   app.put(
     "/api/providers/update/:id",
     permit.context.requiresToken,

@@ -86,13 +86,12 @@ module.exports = [
                         endDate: { type: 'date', },
                         startTime: { type: 'date', },
                         endTime: { type: 'date', },
-                        isFree: { type: "boolean" },
+                        // isFree: { type: "boolean" },
                         endTime: { type: 'string', },
                         pricePerParticipant: { type: 'string', },
-                        priceForSiblings: { type: 'string', },
-                        instructor: { type: 'string', },
+                        // priceForSiblings: { type: 'string', },
                         numberOfSeats: { type: 'string', },
-                        location: { type: 'string', },
+                        //          location: { type: 'string', },
                     }
                 }
             },

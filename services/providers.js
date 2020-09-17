@@ -254,9 +254,31 @@ const getProvideById = async (id, context) => {
     return providers;
 };
 
+const getProvideByEmail = async (email, context) => {
+    const log = context.logger.start(`services:providers:getProvideByEmail`);
+    if (!email) {
+        throw new Error("emial id is requried");
+    }
+    const user = await db.user.findOne({ email: { $eq: email } });
+    if (!user) {
+        throw new Error("provider not found");
+    }
+    log.end();
+    return user;
+};
+const search = async (query, context) => {
+    const log = context.logger.start(`services:provider:search`);
+    const providers = await db.user.find({ firstName: { "$regex": '.*' + query.name + '.*', "$options": 'i' } }
+    ).limit(5);
+    log.end();
+    return providers;
+};
+
 exports.importProvider = importProvider;
 exports.getAllProvider = getAllProvider;
 exports.updateProvider = updateProvider;
 exports.uploadBannerPic = uploadBannerPic;
 exports.getProvideById = getProvideById;
+exports.getProvideByEmail = getProvideByEmail;
+exports.search = search;
 

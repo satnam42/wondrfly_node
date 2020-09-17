@@ -191,4 +191,66 @@ module.exports = [
             }
         }
     },
+    {
+        url: "/search",
+        get: {
+            summary: "search",
+            description: "search provider by name ",
+            parameters: [
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "query",
+                    name: "name",
+                    description: "name",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
+    {
+        url: "/byEmialId",
+        get: {
+            summary: "get provider by email",
+            description: "get provider",
+            parameters: [
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "query",
+                    name: "email",
+                    description: "email",
+                    required: true,
+                    type: "string"
+                },
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
 ]

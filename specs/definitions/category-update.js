@@ -8,6 +8,9 @@ module.exports = [
             description: {
                 type: "string"
             },
+            imageUrl: {
+                type: "string"
+            },
         }
     }
 ];
