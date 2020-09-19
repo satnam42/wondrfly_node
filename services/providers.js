@@ -16,10 +16,10 @@ const buildUser = async (model, context) => {
         role: 'provider',
         street: model.street,
         state: model.state,
-        source: model.street,
+        source: model.source,
         city: model.city,
+        country: model.country,
         note: model.note,
-        country: model.city,
         createdOn: new Date(),
         updateOn: new Date()
     }).save();
