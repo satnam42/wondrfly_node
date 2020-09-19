@@ -15,6 +15,7 @@ const buildUser = async (model, context) => {
         password: model.password,
         role: 'provider',
         street: model.street,
+        state: model.state,
         source: model.street,
         city: model.city,
         note: model.note,
@@ -233,7 +234,7 @@ const importProvider = async (file, context) => {
 
 const getAllProvider = async (context) => {
     const log = context.logger.start(`services:providers:getAllProvider`);
-    const providers = await db.provider.find({})
+    const providers = await db.provider.find({}).sort({ date: -1 })
     log.end();
     return providers;
 };

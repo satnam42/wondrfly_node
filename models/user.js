@@ -12,6 +12,7 @@ const user = mongoose.Schema({
   addressLine1: { type: String, default: "" },
   addressLine2: { type: String, default: "" },
   street: { type: String, default: "" },
+  state: { type: String, default: "" },
   city: { type: String, default: "" },
   country: { type: String, default: "" },
   source: { type: String, default: "" },

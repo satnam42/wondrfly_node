@@ -21,6 +21,9 @@ module.exports = [
             street: {
                 type: "string"
             },
+            state: {
+                type: "string"
+            },
             phoneNumber: {
                 type: "string"
             },
