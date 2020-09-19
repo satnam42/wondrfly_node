@@ -219,6 +219,8 @@ const build = async (model, context) => {
         specialInstructions: model.specialInstructions,
         adultAssistanceIsRequried: model.adultAssistanceIsRequried,
         capacity: model.capacity,
+        joiningLink: model.joiningLink,
+        presenter: model.presenter,
         emails: model.emails,
         batches: model.batches,
         status: model.status || 'active',
@@ -257,6 +259,12 @@ const set = (model, program, context) => {
     }
     if (model.price !== "string" && model.price !== undefined) {
         program.price = model.price;
+    }
+    if (model.joiningLink !== "string" && model.joiningLink !== undefined) {
+        program.joiningLink = model.joiningLink;
+    }
+    if (model.presenter !== "string" && model.presenter !== undefined) {
+        program.presenter = model.presenter;
     }
     if (model.programCoverPic !== "string" && model.programCoverPic !== undefined) {
         program.programCoverPic = model.programCoverPic;
