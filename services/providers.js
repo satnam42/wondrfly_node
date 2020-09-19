@@ -162,6 +162,18 @@ const setBasicInfo = (model, user, context) => {
     if (model.country !== "string" && model.country !== undefined) {
         user.country = model.country;
     }
+    if (model.state !== "string" && model.state !== undefined) {
+        user.state = model.state;
+    }
+    if (model.street !== "string" && model.street !== undefined) {
+        user.street = model.street;
+    }
+    if (model.source !== "string" && model.source !== undefined) {
+        user.source = model.source;
+    }
+    if (model.note !== "string" && model.note !== undefined) {
+        user.note = model.note;
+    }
     if (model.zipCode !== "string" && model.zipCode !== undefined) {
         user.zipCode = model.zipCode;
     }
