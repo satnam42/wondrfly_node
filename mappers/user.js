@@ -23,8 +23,6 @@ exports.toModel = entity => {
     isActivated: entity.isActivated,
     lastModifiedBy: entity.lastModifiedBy,
     source: entity.source,
-    city: entity.city,
-    country: entity.country,
     state: entity.state,
     createdBy: entity.createdBy,
     deviceToken: entity.deviceToken,
