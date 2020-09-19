@@ -339,7 +339,7 @@ const getAllprograms = async (query, context) => {
     let pageNo = Number(query.pageNo) || 1;
     let pageSize = Number(query.pageSize) || 10;
     let skipCount = pageSize * (pageNo - 1);
-    let programs = await db.program.find().populate('tags').skip(skipCount).limit(pageSize);
+    let programs = await db.program.find().populate('tags').sort({ _id: -1 }).skip(skipCount).limit(pageSize);
     programs.count = await db.program.find().count();
     let favourites
     if (context.user !== undefined) {
@@ -445,7 +445,7 @@ const getProgramsByProvider = async (query, context) => {
     if (!query.userId) {
         throw new Error("userId is  required");
     }
-    let programs = await db.program.find({ user: query.userId }).populate('tags').skip(skipCount).limit(pageSize);
+    let programs = await db.program.find({ user: query.userId }).populate('tags').sort({ _id: -1 }).skip(skipCount).limit(pageSize);
 
 
     // for (let program of programs) {

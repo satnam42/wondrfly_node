@@ -85,7 +85,7 @@ const get = async (query, context) => {
 
   if (query.role == 'all') {
     users = await db.user
-      .find({})
+      .find({}).sort({ _id: -1 })
       .skip(skipCount)
       .limit(pageSize);
     users.count = await db.user.find({}).count();
@@ -93,7 +93,7 @@ const get = async (query, context) => {
 
   else {
     users = await db.user
-      .find({ role: query.role })
+      .find({ role: query.role }).sort({ _id: -1 })
       .skip(skipCount)
       .limit(pageSize);
     users.count = await db.user.find({ role: query.role }).count();
