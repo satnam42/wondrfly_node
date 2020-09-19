@@ -11,7 +11,7 @@ const buildUser = async (model, context) => {
         firstName: model.firstName,
         type: model.type || '',
         email: model.email,
-        phone: model.Phone,
+        phoneNumber: model.Phone,
         password: model.password,
         role: 'provider',
         street: model.street,
