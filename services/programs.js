@@ -237,7 +237,6 @@ const build = async (model, context) => {
 
 };
 const buildTimelineUrl = async (files) => {
-
     let bannerImages = []
     let bannerUrl = ''
     await files.forEach(file => {
@@ -347,7 +346,7 @@ const getAllprograms = async (query, context) => {
     let pageNo = Number(query.pageNo) || 1;
     let pageSize = Number(query.pageSize) || 10;
     let skipCount = pageSize * (pageNo - 1);
-    let programs = await db.program.find().sort({ _id: -1 }).populate('tags').skip(skipCount).limit(pageSize);
+    let programs = await db.program.find().sort({ createdOn: -1 }).populate('tags').skip(skipCount).limit(pageSize);
     programs.count = await db.program.find().count();
     let favourites
     if (context.user !== undefined) {
@@ -453,7 +452,7 @@ const getProgramsByProvider = async (query, context) => {
     if (!query.userId) {
         throw new Error("userId is  required");
     }
-    let programs = await db.program.find({ user: query.userId }).sort({ _id: -1 }).populate('tags').skip(skipCount).limit(pageSize);
+    let programs = await db.program.find({ user: query.userId }).sort({ createdOn: -1 }).populate('tags').skip(skipCount).limit(pageSize);
 
 
     // for (let program of programs) {
