@@ -191,9 +191,9 @@ const buildImportProgram = async (model, context) => {
         createdOn: new Date(),
         updateOn: new Date(),
     }).save();
-
-    return
     log.end();
+    return
+
 }
 
 
@@ -347,7 +347,7 @@ const getAllprograms = async (query, context) => {
     let pageNo = Number(query.pageNo) || 1;
     let pageSize = Number(query.pageSize) || 10;
     let skipCount = pageSize * (pageNo - 1);
-    let programs = await db.program.find().populate('tags').sort({ _id: -1 }).skip(skipCount).limit(pageSize);
+    let programs = await db.program.find().sort({ _id: -1 }).populate('tags').skip(skipCount).limit(pageSize);
     programs.count = await db.program.find().count();
     let favourites
     if (context.user !== undefined) {
@@ -453,7 +453,7 @@ const getProgramsByProvider = async (query, context) => {
     if (!query.userId) {
         throw new Error("userId is  required");
     }
-    let programs = await db.program.find({ user: query.userId }).populate('tags').sort({ _id: -1 }).skip(skipCount).limit(pageSize);
+    let programs = await db.program.find({ user: query.userId }).sort({ _id: -1 }).populate('tags').skip(skipCount).limit(pageSize);
 
 
     // for (let program of programs) {
@@ -721,10 +721,6 @@ const importProgram = async (file, context) => {
     if (rows.length < 1) {
         throw new Error("csv file is empty !please provide some data ");
     }
-
-    // if (rows.length > 1000) {
-    //     throw new Error("csv file have too data");
-    // }
 
     let count = 0
     for (let row of rows) {
