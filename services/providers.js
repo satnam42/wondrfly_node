@@ -209,7 +209,7 @@ const buildBanner = async (provider, files) => {
     let bannerUrl = ''
 
     await files.forEach(file => {
-        bannerUrl = imageUrl + 'assets/images/' + file.filename
+        bannerUrl = imageUrl + file.filename
         bannerImages.push(bannerUrl)
     });
 

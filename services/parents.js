@@ -158,7 +158,7 @@ const uploadProfilePic = async (id, file, context) => {
     if (!parent) {
         throw new Error("parent not found");
     }
-    const avatarImages = imageUrl + 'assets/images/' + model.profilePic
+    const avatarImages = imageUrl + model.profilePic
     parent.avatarImages = avatarImages
     parent.save();
     log.end();

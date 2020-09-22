@@ -7,7 +7,7 @@ const getPicUrl = async (file, context) => {
     if (!file) {
         throw new Error("image not found");
     }
-    const url = imageUrl + 'assets/images/' + file.filename
+    const url = imageUrl + file.filename
 
     log.end();
     return url

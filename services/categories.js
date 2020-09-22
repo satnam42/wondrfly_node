@@ -92,7 +92,7 @@ const uploadPic = async (id, file, context) => {
             console.log(err)
         }
     }
-    const picUrl = imageUrl + 'assets/images/' + file.filename
+    const picUrl = imageUrl + file.filename
     category.imageUrl = picUrl
     await category.save();
     log.end();
