@@ -151,7 +151,7 @@ const resetPassword = async (id, model, context) => {
   );
 
   if (isMatched) {
-    const newPassword = encrypt.getHash(model.newPassword, context);
+    const newPassword = await encrypt.getHash(model.newPassword, context);
     user.password = newPassword;
     user.updatedOn = new Date();
     user.lastModifiedBy = context.user.id
@@ -221,6 +221,7 @@ const login = async (model, context) => {
       }
     });
   }
+
   if (user.role == 'parent') {
     let children = await db.child.find({ parent: user.id })
     if (children.length >= 1) {
@@ -230,6 +231,7 @@ const login = async (model, context) => {
       user.isOnBoardingDone = false
     }
   }
+
   const token = auth.getToken(user, false, context);
   user.lastLoggedIn = Date.now();
   user.token = token;
