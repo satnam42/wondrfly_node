@@ -337,7 +337,7 @@ const getReport = async (query, context) => {
     if (query.fromDate && query.toDate) {
         data = await db.user.aggregate([
             {
-                $match: { "createdOn": { $gte: new ISODate(query.toDate), $lt: new ISODate(query.fromDate) } }
+                $match: { "createdOn": { $gte: query.toDate, $lt: query.fromDate } }
             },
             {
                 $group: {
@@ -364,59 +364,64 @@ const getReport = async (query, context) => {
         labels: [],
         data: []
     }
+    if (data.length) {
+        data.forEach(item => {
+            if (item._id == "" && item._id == null && item._id == undefined && item.count > 0) {
+                response += item.count
+                response.labels.push('Other')
+                response.data.push(item.count)
+            }
+            else if (item._id == 'Facebook') {
+                response += item.count
+                response.labels.push('Facebook')
+                response.data.push(item.count)
+            }
+            else if (item._id == 'Library') {
+                response += item.count
+                response.labels.push('Library')
+                response.data.push(item.count)
+            }
+            else if (item._id == 'Recreation') {
+                response += item.count
+                response.labels.push('Recreation')
+                response.data.push(item.count)
+            }
+            else if (item._id == 'Instagram') {
+                response += item.count
+                response.labels.push('Instagram')
+                response.data.push(item.count)
+            }
+            else if (item._id == 'Linkedin') {
+                response += item.count
+                response.labels.push('Linkedin')
+                response.data.push(item.count)
+            }
+            else if (item._id == 'Indeed') {
+                response += item.count
+                response.labels.push('Indeed')
+                response.data.push(item.count)
+            }
+            else if (item._id == 'Craiglist') {
+                response += item.count
+                response.labels.push('Craiglist')
+                response.data.push(item.count)
+            }
+            else if (item._id == 'Combined') {
+                response += item.count
+                response.labels.push('Combined')
+                response.data.push(item.count)
+            }
+            else if (item._id == 'Google') {
+                response += item.count
+                response.labels.push('Google')
+                response.data.push(item.count)
+            }
+        });
+    }
+    else {
+        throw new Error("No record found");
+    }
 
-    data.forEach(item => {
-        if (item._id == "" && item._id == null && item._id == undefined) {
-            response += item.count
-            response.labels.push('Other')
-            response.data.push(item.count)
-        }
-        else if (item._id == 'Facebook') {
-            response += item.count
-            response.labels.push('Facebook')
-            response.data.push(item.count)
-        }
-        else if (item._id == 'Library') {
-            response += item.count
-            response.labels.push('Library')
-            response.data.push(item.count)
-        }
-        else if (item._id == 'Recreation') {
-            response += item.count
-            response.labels.push('Recreation')
-            response.data.push(item.count)
-        }
-        else if (item._id == 'Instagram') {
-            response += item.count
-            response.labels.push('Instagram')
-            response.data.push(item.count)
-        }
-        else if (item._id == 'Linkedin') {
-            response += item.count
-            response.labels.push('Linkedin')
-            response.data.push(item.count)
-        }
-        else if (item._id == 'Indeed') {
-            response += item.count
-            response.labels.push('Indeed')
-            response.data.push(item.count)
-        }
-        else if (item._id == 'Craiglist') {
-            response += item.count
-            response.labels.push('Craiglist')
-            response.data.push(item.count)
-        }
-        else if (item._id == 'Combined') {
-            response += item.count
-            response.labels.push('Combined')
-            response.data.push(item.count)
-        }
-        else if (item._id == 'Google') {
-            response += item.count
-            response.labels.push('Google')
-            response.data.push(item.count)
-        }
-    });
 
     log.end();
     return response
