@@ -26,6 +26,7 @@ const buildUser = async (model, context) => {
     log.end();
     return user;
 };
+
 const build = async (model, context) => {
     const log = context.logger.start(`services:providers:build${model}`);
     let password = await encrypt.getHash('321@LetsPlay!@#$%', context);
@@ -33,6 +34,7 @@ const build = async (model, context) => {
         let sNo = model.Sno.toString()
         model.Email = sNo + 'letsplay.us'
     }
+
     const user = await new db.user({
         firstName: model.Name,
         phone: model.Phone,
@@ -49,6 +51,7 @@ const build = async (model, context) => {
         log.end();
         return provider;
     }
+
     else (
         log.info(`user id Not Found for record no ${model.Sno}`)
     )
@@ -366,53 +369,53 @@ const getReport = async (query, context) => {
     }
     if (data.length) {
         data.forEach(item => {
-            if (item._id == "" && item._id == null && item._id == undefined && item.count > 0) {
-                response += item.count
+            if (item._id == "" || item._id == null || item._id == undefined) {
+                response.totalProvider += item.count
                 response.labels.push('Other')
                 response.data.push(item.count)
             }
             else if (item._id == 'Facebook') {
-                response += item.count
+                response.totalProvider += item.count
                 response.labels.push('Facebook')
                 response.data.push(item.count)
             }
             else if (item._id == 'Library') {
-                response += item.count
+                response.totalProvider += item.count
                 response.labels.push('Library')
                 response.data.push(item.count)
             }
             else if (item._id == 'Recreation') {
-                response += item.count
+                response.totalProvider += item.count
                 response.labels.push('Recreation')
                 response.data.push(item.count)
             }
             else if (item._id == 'Instagram') {
-                response += item.count
+                response.totalProvider += item.count
                 response.labels.push('Instagram')
                 response.data.push(item.count)
             }
             else if (item._id == 'Linkedin') {
-                response += item.count
+                response.totalProvider += item.count
                 response.labels.push('Linkedin')
                 response.data.push(item.count)
             }
             else if (item._id == 'Indeed') {
-                response += item.count
+                response.totalProvider += item.count
                 response.labels.push('Indeed')
                 response.data.push(item.count)
             }
             else if (item._id == 'Craiglist') {
-                response += item.count
+                response.totalProvider += item.count
                 response.labels.push('Craiglist')
                 response.data.push(item.count)
             }
             else if (item._id == 'Combined') {
-                response += item.count
+                response.totalProvider += item.count
                 response.labels.push('Combined')
                 response.data.push(item.count)
             }
             else if (item._id == 'Google') {
-                response += item.count
+                response.totalProvider += item.count
                 response.labels.push('Google')
                 response.data.push(item.count)
             }

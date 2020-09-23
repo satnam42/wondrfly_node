@@ -400,7 +400,7 @@ const forgotPassword = async (model, context) => {
   if (otp.name === "JsonWebTokenError") {
     throw new Error("invalid token");
   }
-  user.password = encrypt.getHash(model.newPassword, context)
+  user.password = await encrypt.getHash(model.newPassword, context)
   await user.save()
   log.end()
   return "Password changed Succesfully"
