@@ -331,6 +331,96 @@ const addProvider = async (model, context) => {
     log.end();
     return user;
 };
+const getReport = async (query, context) => {
+    const log = context.logger.start(`services:providers:getReport`);
+    let data
+    if (query.fromDate && query.toDate) {
+        data = await db.user.aggregate([
+            {
+                $match: { "createdOn": { $gte: new ISODate(query.toDate), $lt: new ISODate(query.fromDate) } }
+            },
+            {
+                $group: {
+                    _id: "$source",
+                    count: { $sum: 1 }
+                }
+            },
+        ])
+    }
+    else {
+        data = await db.user.aggregate([
+            {
+                $group: {
+                    _id: "$source",
+                    count: { $sum: 1 }
+                }
+            },
+        ])
+
+    }
+
+    let response = {
+        totalProvider: 0,
+        labels: [],
+        data: []
+    }
+
+    data.forEach(item => {
+        if (item._id == "" && item._id == null && item._id == undefined) {
+            response += item.count
+            response.labels.push('Other')
+            response.data.push(item.count)
+        }
+        else if (item._id == 'Facebook') {
+            response += item.count
+            response.labels.push('Facebook')
+            response.data.push(item.count)
+        }
+        else if (item._id == 'Library') {
+            response += item.count
+            response.labels.push('Library')
+            response.data.push(item.count)
+        }
+        else if (item._id == 'Recreation') {
+            response += item.count
+            response.labels.push('Recreation')
+            response.data.push(item.count)
+        }
+        else if (item._id == 'Instagram') {
+            response += item.count
+            response.labels.push('Instagram')
+            response.data.push(item.count)
+        }
+        else if (item._id == 'Linkedin') {
+            response += item.count
+            response.labels.push('Linkedin')
+            response.data.push(item.count)
+        }
+        else if (item._id == 'Indeed') {
+            response += item.count
+            response.labels.push('Indeed')
+            response.data.push(item.count)
+        }
+        else if (item._id == 'Craiglist') {
+            response += item.count
+            response.labels.push('Craiglist')
+            response.data.push(item.count)
+        }
+        else if (item._id == 'Combined') {
+            response += item.count
+            response.labels.push('Combined')
+            response.data.push(item.count)
+        }
+        else if (item._id == 'Google') {
+            response += item.count
+            response.labels.push('Google')
+            response.data.push(item.count)
+        }
+    });
+
+    log.end();
+    return response
+};
 exports.importProvider = importProvider;
 exports.getAllProvider = getAllProvider;
 exports.updateProvider = updateProvider;
@@ -339,4 +429,5 @@ exports.getProvideById = getProvideById;
 exports.getProvideByEmail = getProvideByEmail;
 exports.search = search;
 exports.addProvider = addProvider;
+exports.getReport = getReport;
 

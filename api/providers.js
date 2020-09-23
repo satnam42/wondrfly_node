@@ -104,6 +104,19 @@ const searchProvider = async (req, res) => {
     }
 };
 
+const report = async (req, res) => {
+    const log = req.context.logger.start(`api:providers:report:${req.query.id}`);
+    try {
+        const providers = await service.getReport(req.query, req.context);
+        log.end();
+        return response.data(res, providers);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 exports.create = create;
 exports.list = list;
 exports.update = update;
@@ -112,5 +125,6 @@ exports.getById = getById;
 exports.providerByEmailId = providerByEmailId;
 exports.searchProvider = searchProvider;
 exports.add = add;
+exports.report = report;
 
 

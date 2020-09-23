@@ -317,6 +317,12 @@ const configure = (app, logger) => {
     // validator.users.update,
     api.providers.getById
   );
+  app.get(
+    "/api/providers/report",
+    permit.context.requiresToken,
+    // validator.users.update,
+    api.providers.report
+  );
 
   app.put(
     "/api/providers/uploadBannerPic/:id",
