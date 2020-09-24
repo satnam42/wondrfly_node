@@ -337,10 +337,10 @@ const addProvider = async (model, context) => {
 const getReport = async (query, context) => {
     const log = context.logger.start(`services:providers:getReport`);
     let data
-    if (query.fromDate && query.toDate) {
+    if (query.fromDate && query.toDate && query.fromDate !== "" && query.toDate !== "" && query.fromDate !== undefined && query.toDate !== undefined) {
         data = await db.user.aggregate([
             {
-                $match: { "createdOn": { $gte: query.toDate, $lt: query.fromDate } }
+                $match: { "createdOn": { $gte: new Date(query.fromDate), $lt: new Date(query.toDate) } }
             },
             {
                 $group: {
