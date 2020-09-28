@@ -569,6 +569,63 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.claims.action
   );
+  // post api//
+  app.post(
+    "/api/posts/create",
+    permit.context.requiresToken,
+    validator.posts.create,
+    api.posts.create
+  );
+
+  app.get(
+    "/api/posts/list",
+    permit.context.requiresToken,
+    api.posts.list
+  );
+
+  app.get(
+    "/api/posts/byId/:id",
+    permit.context.requiresToken,
+    api.posts.getById
+  );
+
+  app.put(
+    "/api/posts/update/:id",
+    permit.context.requiresToken,
+    api.posts.update
+  );
+  // commment api//
+  app.post(
+    "/api/comments/create",
+    permit.context.requiresToken,
+    validator.comments.create,
+    api.comments.create
+  );
+
+  app.put(
+    "/api/comments/update/:id",
+    permit.context.requiresToken,
+    api.comments.update
+  );
+
+  app.delete(
+    "/api/comments/remove/:id",
+    permit.context.requiresToken,
+    api.comments.remove
+  );
+  // likes api//
+  app.post(
+    "/api/likes/like",
+    permit.context.requiresToken,
+    validator.likes.create,
+    api.likes.add
+  );
+
+  app.delete(
+    "/api/likes/unLikes/:id",
+    permit.context.requiresToken,
+    api.likes.remove
+  );
 
   log.end();
 };
