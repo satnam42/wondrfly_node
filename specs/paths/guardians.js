@@ -128,7 +128,7 @@ module.exports = [
         }
     }, {
         url: "/remove/{id}",
-        put: {
+        delete: {
             summary: "delete",
             description: "delete guardian ",
             parameters: [

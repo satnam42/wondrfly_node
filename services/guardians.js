@@ -77,7 +77,7 @@ const updateGuardian = async (id, model, context) => {
     const guardian = await setGuardian(model, entity, context);
 
     log.end();
-    return guardian
+    return guardian.user
 };
 
 const getGuardianByParentId = async (id, context) => {
@@ -85,9 +85,8 @@ const getGuardianByParentId = async (id, context) => {
     if (!id) {
         throw new Error("parentId Not Found");
     }
-
     let guardians = await db.guardian.find({ parent: id }).populate('user')
-    if (guardians.length < 0) {
+    if (guardians.length) {
         throw new Error("guardian Not Found");
     }
     log.end();
@@ -103,6 +102,7 @@ const deleteGuardian = async (id, context) => {
     if (!user) {
         throw new Error("guardian not found");
     }
+    await db.guardian.deleteOne({ user: id })
     await db.user.deleteOne({ _id: id })
     user = null
     user = await db.user.findById(id);

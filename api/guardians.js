@@ -1,8 +1,7 @@
 "use strict";
 const service = require("../services/guardians");
 const response = require("../exchange/response");
-
-
+const guardianMapper = require("../mappers/guardian");
 const add = async (req, res) => {
     const log = req.context.logger.start(`api:guardian:add`);
     try {
@@ -17,29 +16,19 @@ const add = async (req, res) => {
     }
 };
 
-
-
-
 const list = async (req, res) => {
     const log = req.context.logger.start(`api:guardians:list`);
     try {
         const guardians = await service.get(req.query, req.context);
-        let message = guardians.count ? guardians.count : 0 + " " + "guardians Got";
         log.end();
-        return response.page(
-            message,
-            res,
-            guardians,
-            Number(req.query.pageNo) || 1,
-            Number(req.query.pageSize) || 10,
-            guardians.count
-        );
+        return response.data(res, guardianMapper.toSearchModel(guardians));
     } catch (err) {
         log.error(err);
         log.end();
         return response.failure(res, err.message);
     }
 };
+
 const update = async (req, res) => {
     const log = req.context.logger.start(`api:guardians:update:${req.params.id}`);
     try {
@@ -58,7 +47,7 @@ const getGuardianByParentId = async (req, res) => {
     try {
         const guardians = await service.getGuardianByParentId(req.params.id, req.context);
         log.end();
-        return response.data(res, guardians);
+        return response.data(res, guardianMapper.toSearchModel(guardians));
     } catch (err) {
         log.error(err);
         log.end();
