@@ -432,6 +432,11 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.guardians.getGuardianByParentId
   );
+  app.delete(
+    "/api/guardians/remove/:id",
+    permit.context.requiresToken,
+    api.guardians.remove
+  );
   //program routes//
   app.post(
     "/api/programs/add",

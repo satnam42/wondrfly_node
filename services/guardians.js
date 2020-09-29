@@ -79,6 +79,7 @@ const updateGuardian = async (id, model, context) => {
     log.end();
     return guardian
 };
+
 const getGuardianByParentId = async (id, context) => {
     const log = context.logger.start(`services:guardians:getGuardianByParentId`);
     if (!id) {
@@ -92,7 +93,28 @@ const getGuardianByParentId = async (id, context) => {
     log.end();
     return guardians
 };
+
+const deleteGuardian = async (id, context) => {
+    const log = context.logger.start(`services:guardians:deleteGuardian`);
+    if (!id) {
+        throw new Error("Id is requried");
+    }
+    let user = await db.user.findById(id);
+    if (!user) {
+        throw new Error("guardian not found");
+    }
+    await db.user.deleteOne({ _id: id })
+    user = null
+    user = await db.user.findById(id);
+    if (user) {
+        throw new Error("something went wrong");
+    }
+    log.end();
+    return 'guardian delete successfully'
+};
+
 exports.addGuardian = addGuardian;
 exports.get = get;
 exports.updateGuardian = updateGuardian;
 exports.getGuardianByParentId = getGuardianByParentId;
+exports.deleteGuardian = deleteGuardian;
