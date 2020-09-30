@@ -1,5 +1,5 @@
 
-
+const ObjectId = require("mongodb").ObjectID;
 const setGuardian = (model, guardian, context) => {
     const log = context.logger.start("services:guardians:set");
     if (model.name !== "string" && model.name !== undefined) {
@@ -14,7 +14,6 @@ const setGuardian = (model, guardian, context) => {
     if (model.personalNote !== "string" && model.personalNote !== undefined) {
         guardian.personalNote = model.personalNote;
     }
-
     guardian.updateOn = new Date()
     log.end();
     guardian.save();
@@ -86,7 +85,7 @@ const getGuardianByParentId = async (id, context) => {
         throw new Error("parentId Not Found");
     }
     let guardians = await db.guardian.find({ parent: id }).populate('user')
-    if (guardians.length) {
+    if (!guardians.length) {
         throw new Error("guardian Not Found");
     }
     log.end();
