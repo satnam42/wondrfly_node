@@ -227,6 +227,14 @@ const login = async (model, context) => {
     if (children.length >= 1) {
       user.isOnBoardingDone = true
     }
+    else if (user.role == 'provider') {
+      if (user.phoneNumber !== '' && user.phoneNumber !== null && user.phoneNumber !== undefined) {
+        user.isOnBoardingDone = true
+      }
+      else {
+        user.isOnBoardingDone = false
+      }
+    }
     else {
       user.isOnBoardingDone = false
     }
