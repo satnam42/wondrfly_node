@@ -73,7 +73,7 @@ const uploadPic = async (req, res) => {
 const remove = async (req, res) => {
     const log = req.context.logger.start(`api:categories:remove:${req.params.id}`);
     try {
-        const category = await service.removeById(req.params.id, req.body, req.context);
+        const category = await service.removeById(req.params.id, req.context);
         log.end();
         return response.data(res, category);
     } catch (err) {

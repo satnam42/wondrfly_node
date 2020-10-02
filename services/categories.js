@@ -99,12 +99,13 @@ const uploadPic = async (id, file, context) => {
     return category
 };
 
-const removeById = async (id, model, context) => {
+const removeById = async (id, context) => {
     const log = context.logger.start(`services:categories:removeById`);
     if (!id) {
         throw new Error("category id not found");
     }
-    let isDeleted = await db.category.deleteOne({ _id: id })
+    await db.category.deleteOne({ _id: id })
+    let isDeleted = await db.category.findById({ id })
     if (!isDeleted) {
         throw new Error("something went wrong");
     }
