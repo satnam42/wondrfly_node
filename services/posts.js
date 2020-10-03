@@ -4,7 +4,7 @@ const build = async (model, context) => {
     const post = await new db.post({
         title: model.title,
         description: model.description,
-        author: model.user,
+        author: model.userId,
         tags: model.tags,
         createdOn: new Date(),
         updateOn: new Date(),
