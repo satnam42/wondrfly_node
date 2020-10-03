@@ -9,13 +9,13 @@ module.exports = [
             description: {
                 type: "string"
             },
-            tagId: {
+            tags: {
                 type: "string"
             },
-            userId: {
+            user: {
                 type: "string"
             },
-            commentIds: {
+            comments: {
                 type: 'array',
                 items: {
                     // type: 'array',

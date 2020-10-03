@@ -4,8 +4,8 @@ const build = async (model, context) => {
     const post = await new db.post({
         title: model.title,
         description: model.description,
-        author: model.userId,
-        tag: model.tagId,
+        author: model.user,
+        tags: model.tags,
         createdOn: new Date(),
         updateOn: new Date(),
     }).save();
@@ -20,11 +20,11 @@ const set = (model, post, context) => {
     if (model.description !== "string" && model.description !== undefined) {
         post.description = model.description;
     }
-    if (model.tagId !== "string" && model.tagId !== undefined) {
-        post.tag = model.tagId;
+    if (model.tags.length) {
+        post.tags = model.tags;
     }
-    if (model.commentIds.length) {
-        post.commentIds = model.commentIds;
+    if (model.comments.length) {
+        post.comments = model.comments;
     }
     post.updateOn = new Date()
     log.end();
