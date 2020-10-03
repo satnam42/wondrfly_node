@@ -39,8 +39,8 @@ const createPost = async (model, context) => {
 };
 const getAllPosts = async (context) => {
     const log = context.logger.start(`services:posts:getAlltags`);
-    const posts = await db.post.find({}).populate('tag')
-        .populate('comments').populate('user').sort({ _id: -1 });
+    const posts = await db.post.find({}).populate('tags')
+        .populate('comments').populate('author').sort({ _id: -1 });
     log.end();
     return posts;
 };
