@@ -20,7 +20,7 @@ const create = (req, res, next) => {
         log.end();
         return response.failure(res, "tags is required");
     }
-    if (!req.body.user {
+    if (!req.body.user) {
         log.end();
         return response.failure(res, "user id is required");
     }
