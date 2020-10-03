@@ -12,7 +12,7 @@ module.exports = [
             tags: {
                 type: "string"
             },
-            user: {
+            userId: {
                 type: "string"
             },
             comments: {
