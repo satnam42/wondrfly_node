@@ -16,18 +16,15 @@ const create = (req, res, next) => {
         return response.failure(res, "description is required");
     }
 
-    if (!req.body.tagId) {
+    if (!req.body.tags.length) {
         log.end();
-        return response.failure(res, "tag id is required");
+        return response.failure(res, "tags is required");
     }
-    if (!req.body.userId) {
+    if (!req.body.user {
         log.end();
         return response.failure(res, "user id is required");
     }
-    if (!req.body.userName) {
-        log.end();
-        return response.failure(res, "user name is required");
-    }
+
 
     log.end();
     return next();
