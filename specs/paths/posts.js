@@ -88,6 +88,37 @@ module.exports = [
         }
     },
     {
+        url: "/byUserId/{id}",
+        get: {
+            summary: "Post list by userId ",
+            description: "get Post List",
+            parameters: [
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "path",
+                    name: "id",
+                    description: "user id",
+                    required: true,
+                    type: "string"
+                },
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
+    {
         url: "/update/{id}",
         put: {
             summary: "Update",

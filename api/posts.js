@@ -14,7 +14,6 @@ const create = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
-
 const list = async (req, res) => {
     const log = req.context.logger.start(`api:posts:list`);
     try {
@@ -27,13 +26,24 @@ const list = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
-
 const getById = async (req, res) => {
     const log = req.context.logger.start(`api:posts:list`);
     try {
         const post = await service.getPostById(req.params.id, req.context);
         log.end();
         return response.data(res, post);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+const postsByUserId = async (req, res) => {
+    const log = req.context.logger.start(`api:postByUserId:list`);
+    try {
+        const posts = await service.getPostsByUserId(req.params.id, req.context);
+        log.end();
+        return response.data(res, posts);
     } catch (err) {
         log.error(err);
         log.end();
@@ -70,3 +80,4 @@ exports.list = list;
 exports.update = update;
 exports.getById = getById;
 exports.search = search;
+exports.postsByUserId = postsByUserId;

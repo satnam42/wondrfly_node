@@ -53,6 +53,15 @@ const getPostById = async (id, context) => {
     log.end();
     return post;
 };
+const getPostsByUserId = async (id, context) => {
+    const log = context.logger.start(`services:posts:getPostsByUserId`);
+    if (id) {
+        throw new Error("user id is requried found");
+    }
+    const posts = await db.post.find({ author: id })
+    log.end();
+    return posts;
+};
 const update = async (id, model, context) => {
     const log = context.logger.start(`services:posts:update`);
     if (id) {
@@ -79,3 +88,5 @@ exports.getAllPosts = getAllPosts;
 exports.update = update;
 exports.getPostById = getPostById
 exports.search = search
+exports.getPostsByUserId = getPostsByUserId
+
