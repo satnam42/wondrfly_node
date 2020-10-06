@@ -58,10 +58,9 @@ const getPostsByUserId = async (id, context) => {
     if (id) {
         throw new Error("user id is requried found");
     }
-    const posts = await db.post.find({}).populate('tags')
+    const posts = await db.post.find({ author: id }).populate('tags')
         .populate('comments').populate('author').sort({ _id: -1 });
     log.end();
-
     return posts;
 };
 const update = async (id, model, context) => {
