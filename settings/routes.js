@@ -593,10 +593,16 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.posts.getById
   );
+
   app.get(
     "/api/posts/byUser/:id",
     permit.context.requiresToken,
     api.posts.postsByUserId
+  );
+  app.get(
+    "/api/posts/byTagId/:id",
+    permit.context.requiresToken,
+    api.posts.postsByTagId
   );
 
   app.put(
@@ -631,8 +637,8 @@ const configure = (app, logger) => {
     api.likes.add
   );
 
-  app.delete(
-    "/api/likes/unLikes/:id",
+  app.put(
+    "/api/likes/unLikes",
     permit.context.requiresToken,
     api.likes.remove
   );

@@ -39,8 +39,22 @@ const createPost = async (model, context) => {
 };
 const getAllPosts = async (context) => {
     const log = context.logger.start(`services:posts:getAlltags`);
-    const posts = await db.post.find({}).populate('tags')
+    let posts = await db.post.find({}).populate('tags')
         .populate('comments').populate('author').sort({ _id: -1 });
+    let likes = await db.like.find({ creator: context.user.id }).populate('post')
+    if (likes.length) {
+        // add fav in program
+        for (var p = 0; p < posts.length; p++) {
+            for (var l = 0; f < likes.length; l++) {
+                if (likes[l].post !== null && likes[l].post !== undefined) {
+                    if (posts[p].id === likes[l].post.id) {
+                        post[p].like = true
+                    }
+                }
+
+            }
+        }
+    }
     log.end();
     return posts;
 };
@@ -62,6 +76,31 @@ const getPostsByUserId = async (id, context) => {
     let posts = await db.post.find({ author: id }).populate('tags')
         .populate('comments').populate('author').sort({ _id: -1 });
     let likes = await db.like.find({ creator: id }).populate('post')
+    if (likes.length) {
+        // add fav in program
+        for (var p = 0; p < posts.length; p++) {
+            for (var l = 0; f < likes.length; l++) {
+                if (likes[l].post !== null && likes[l].post !== undefined) {
+                    if (posts[p].id === likes[l].post.id) {
+                        post[p].like = true
+                    }
+                }
+
+            }
+        }
+    }
+    log.end();
+    return posts;
+};
+const getPostsByTagId = async (id, context) => {
+    const log = context.logger.start(`services:posts:getPostsByTagId`);
+    if (!id) {
+        throw new Error("post id is requried");
+    }
+
+    let posts = await db.post.find({ tags: id }).populate('tags')
+        .populate('comments').populate('author').sort({ _id: -1 });
+    let likes = await db.like.find({ creator: context.user.id }).populate('post')
     if (likes.length) {
         // add fav in program
         for (var p = 0; p < posts.length; p++) {
@@ -105,4 +144,5 @@ exports.update = update;
 exports.getPostById = getPostById
 exports.search = search
 exports.getPostsByUserId = getPostsByUserId
+exports.getPostsByTagId = getPostsByTagId
 

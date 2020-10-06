@@ -16,9 +16,9 @@ const add = async (req, res) => {
 };
 
 const remove = async (req, res) => {
-    const log = req.context.logger.start(`api:likes:update:${req.params.id}`);
+    const log = req.context.logger.start(`api:likes:remove`);
     try {
-        const like = await service.unLike(req.params.id, req.body, req.context);
+        const like = await service.UnLike(req.query, req.context);
         log.end();
         return response.data(res, like);
     } catch (err) {

@@ -40,9 +40,16 @@ module.exports = [
             description: "unLike post",
             parameters: [
                 {
-                    in: "path",
-                    name: "id",
-                    description: "comment id",
+                    in: "query",
+                    name: "postId",
+                    description: "postId",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "query",
+                    name: "userId",
+                    description: "userId",
                     required: true,
                     type: "string"
                 },

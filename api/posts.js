@@ -39,9 +39,21 @@ const getById = async (req, res) => {
     }
 };
 const postsByUserId = async (req, res) => {
-    const log = req.context.logger.start(`api:postByUserId:list`);
+    const log = req.context.logger.start(`api:posts:postsByUserId`);
     try {
         const posts = await service.getPostsByUserId(req.params.id, req.context);
+        log.end();
+        return response.data(res, posts);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+const postsByTagId = async (req, res) => {
+    const log = req.context.logger.start(`api:posts:postsByTagId`);
+    try {
+        const posts = await service.getPostsByTagId(req.params.id, req.context);
         log.end();
         return response.data(res, posts);
     } catch (err) {
@@ -80,4 +92,5 @@ exports.list = list;
 exports.update = update;
 exports.getById = getById;
 exports.search = search;
+exports.postsByTagId = postsByTagId
 exports.postsByUserId = postsByUserId;

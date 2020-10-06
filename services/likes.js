@@ -21,21 +21,27 @@ const like = async (model, context) => {
     return like;
 };
 
-const UnLike = async (id, model, context) => {
+const UnLike = async (query, context) => {
     const log = context.logger.start(`services:likes:update`);
-    if (id) {
-        throw new Error("like id is requried found");
+    if (query.postId) {
+        throw new Error("post Id  is requried ");
     }
-    let likeDetail = await db.like.findById(id);
+    if (query.userId) {
+        throw new Error("user id is requried ");
+    }
+    let likeDetail = await db.like.find({ post: query.postId, creator: userId });
     let post = await db.post.findById(likeDetail.post);
-    likeDetail = null
-    post.likesCount - 1
-    await post.save()
-    await db.like.deleteOne({ _id: id })
-    likeDetail = await db.like.findById(id);
-    if (likeDetail) {
-        let post = await db.post.findById(likeDetail.post);
+    if (post.likesCount >= 0) {
         post.likesCount - 1
+        await post.save()
+    }
+    await db.like.deleteOne({ _id: likeDetail.id })
+    likeDetail = null
+    likeDetail = await db.like.find({ post: query.postId, creator: userId });
+
+    if (likeDetail) {
+        let post = await db.post.findById(query.postId);
+        post.likesCount += 1
         await post.save()
         throw new Error("something went wrong");
     }
