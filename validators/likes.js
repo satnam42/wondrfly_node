@@ -15,10 +15,7 @@ const create = (req, res, next) => {
         log.end();
         return response.failure(res, "user Id is required");
     }
-    if (!req.body.userName) {
-        log.end();
-        return response.failure(res, "user Name is required");
-    }
+
 
     log.end();
     return next();

@@ -2,7 +2,7 @@ module.exports = [
     {
         name: "add-like",
         properties: {
-            creator: {
+            userId: {
                 type: "string"
             },
 

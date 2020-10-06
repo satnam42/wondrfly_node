@@ -8,6 +8,7 @@ const postSchema = new mongoose.Schema({
   tags: [{ type: mongoose.Schema.Types.ObjectId, default: [], ref: 'tag' }],
   comments: [{ type: mongoose.Schema.Types.ObjectId, default: [], ref: 'comment' }],
   like: { type: Boolean, default: false },
+  likesCount: { type: Number, default: 0 },
   createdOn: { type: mongoose.Schema.Types.Date, default: Date.now },
   updateOn: { type: mongoose.Schema.Types.Date, default: Date.now },
 })

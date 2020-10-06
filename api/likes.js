@@ -3,7 +3,7 @@ const service = require("../services/likes");
 const response = require("../exchange/response");
 
 const add = async (req, res) => {
-    const log = req.context.logger.start(`api:likes:create`);
+    const log = req.context.logger.start(`api:likes:add`);
     try {
         const like = await service.like(req.body, req.context);
         log.end();
