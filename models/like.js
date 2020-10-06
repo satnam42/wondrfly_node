@@ -3,8 +3,7 @@ const REQUIRED_VALIDATION_MESSAGE = '{PATH} is required'
 
 const likeSchema = mongoose.Schema({
     creator: { type: mongoose.Schema.Types.ObjectId, required: REQUIRED_VALIDATION_MESSAGE, ref: 'user' },
-    likeBy: { type: mongoose.Schema.Types.String, required: REQUIRED_VALIDATION_MESSAGE, ref: 'user' },
-    postId: { type: mongoose.Schema.Types.ObjectId, required: REQUIRED_VALIDATION_MESSAGE, ref: 'post' },
+    post: { type: mongoose.Schema.Types.ObjectId, required: REQUIRED_VALIDATION_MESSAGE, ref: 'post' },
     createdOn: { type: mongoose.Schema.Types.Date, default: Date.now }
 })
 

@@ -7,7 +7,7 @@ const postSchema = new mongoose.Schema({
   author: { type: mongoose.Schema.Types.ObjectId, required: REQUIRED_VALIDATION_MESSAGE, ref: 'user' },
   tags: [{ type: mongoose.Schema.Types.ObjectId, default: [], ref: 'tag' }],
   comments: [{ type: mongoose.Schema.Types.ObjectId, default: [], ref: 'comment' }],
-  likesCount: { type: Number, default: 0 },
+  like: { type: Boolean, default: false },
   createdOn: { type: mongoose.Schema.Types.Date, default: Date.now },
   updateOn: { type: mongoose.Schema.Types.Date, default: Date.now },
 })

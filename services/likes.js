@@ -3,7 +3,6 @@ const build = async (model, context) => {
     const log = context.logger.start(`services:likes:build${model}`);
     const like = await new db.like({
         creator: model.userId,
-        likeBy: model.userName,
         post: model.postId,
         createdOn: new Date(),
         updateOn: new Date(),
@@ -15,7 +14,7 @@ const build = async (model, context) => {
 const like = async (model, context) => {
     const log = context.logger.start("services:likes:createPost");
     let post = await db.post.findById(model.postId);
-    post.likeCount += 1
+    post.likesCount += 1
     await post.save()
     const like = build(model, context);
     log.end();
@@ -30,13 +29,13 @@ const UnLike = async (id, model, context) => {
     let likeDetail = await db.like.findById(id);
     let post = await db.post.findById(likeDetail.post);
     likeDetail = null
-    post.likeCount - 1
+    post.likesCount - 1
     await post.save()
     await db.like.deleteOne({ _id: id })
     likeDetail = await db.like.findById(id);
     if (likeDetail) {
         let post = await db.post.findById(likeDetail.post);
-        post.likeCount - 1
+        post.likesCount - 1
         await post.save()
         throw new Error("something went wrong");
     }

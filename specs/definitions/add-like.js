@@ -5,9 +5,7 @@ module.exports = [
             creator: {
                 type: "string"
             },
-            likeBy: {
-                type: "string"
-            },
+
             postId: {
                 type: "string"
             },
