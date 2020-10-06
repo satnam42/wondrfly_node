@@ -130,6 +130,9 @@ const setProviderDetail = (model, provider, context) => {
     if (model.instagram !== "string" && model.instagram !== undefined) {
         provider.instagram = model.instagram;
     }
+    if (model.logo !== "string" && model.logo !== undefined) {
+        provider.logo = model.logo;
+    }
 
     provider.updateOn = new Date()
     log.end()
@@ -277,6 +280,7 @@ const uploadBannerPic = async (id, files, context) => {
     if (!provider) {
         throw new Error("provider not found");
     }
+
     let banners = await buildBanner(provider, files)
     provider.banners = banners
     await provider.save();

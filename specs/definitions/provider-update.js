@@ -46,7 +46,7 @@ module.exports = [
             zipCode: { type: 'string', },
             lat: { type: 'string', },
             long: { type: 'string', },
-
+            logo: { type: 'string', },
         }
     }
 ];

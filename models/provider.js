@@ -33,7 +33,7 @@ const provider = mongoose.Schema({
     // tier: { type: String, default: "" },
     createdBy: { type: String, default: "" },
     adminNotes: { type: String, default: "" },
-    proivide_logo: { type: String, default: "" },
+    logo: { type: String, default: "" },
     createdOn: { type: Date, default: Date.now },
     updatedOn: { type: Date, default: Date.now }
 
