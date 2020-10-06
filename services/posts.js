@@ -79,7 +79,7 @@ const getPostsByUserId = async (id, context) => {
     if (likes.length) {
         // add fav in program
         for (var p = 0; p < posts.length; p++) {
-            for (var l = 0; f < likes.length; l++) {
+            for (var l = 0; l < likes.length; l++) {
                 if (likes[l].post !== null && likes[l].post !== undefined) {
                     if (posts[p].id === likes[l].post.id) {
                         post[p].like = true
@@ -104,7 +104,7 @@ const getPostsByTagId = async (id, context) => {
     if (likes.length) {
         // add fav in program
         for (var p = 0; p < posts.length; p++) {
-            for (var l = 0; f < likes.length; l++) {
+            for (var l = 0; l < likes.length; l++) {
                 if (likes[l].post !== null && likes[l].post !== undefined) {
                     if (posts[p].id === likes[l].post.id) {
                         post[p].like = true
