@@ -55,8 +55,8 @@ const getPostById = async (id, context) => {
 };
 const getPostsByUserId = async (id, context) => {
     const log = context.logger.start(`services:posts:getPostsByUserId`);
-    if (id) {
-        throw new Error("user id is requried found");
+    if (!id) {
+        throw new Error("user id is requried");
     }
     const posts = await db.post.find({ author: id }).populate('tags')
         .populate('comments').populate('author').sort({ _id: -1 });
