@@ -90,8 +90,9 @@ module.exports = [
                         endTime: { type: 'string', },
                         pricePerParticipant: { type: 'string', },
                         // priceForSiblings: { type: 'string', },
+                        instructor: { type: 'string', },
                         numberOfSeats: { type: 'string', },
-                        //          location: { type: 'string', },
+                        location: { type: 'string', },
                     }
                 }
             },

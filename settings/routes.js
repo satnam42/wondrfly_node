@@ -624,8 +624,8 @@ const configure = (app, logger) => {
     api.comments.update
   );
 
-  app.delete(
-    "/api/comments/remove/:id",
+  app.put(
+    "/api/comments/remove",
     permit.context.requiresToken,
     api.comments.remove
   );

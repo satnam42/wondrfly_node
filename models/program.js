@@ -55,9 +55,9 @@ const programSchema = mongoose.Schema({
         isFree: { type: Boolean, default: false },
         pricePerParticipant: { type: String, default: "" },
         //priceForSiblings: { type: String, default: "" },
-        //instructor: { type: String, default: "" },
+        instructor: { type: String, default: "" },
         numberOfSeats: { type: String, default: "" },
-        //location: { type: String, default: "" },
+        location: { type: String, default: "" },
     }],
     user: {
         type: mongoose.Schema.Types.ObjectId,

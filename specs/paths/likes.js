@@ -34,9 +34,9 @@ module.exports = [
     },
 
     {
-        url: "/unLike/{id}",
+        url: "/unLike",
         put: {
-            summary: "delete",
+            summary: "unlike",
             description: "unLike post",
             parameters: [
                 {
