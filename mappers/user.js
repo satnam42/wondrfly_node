@@ -33,8 +33,9 @@ exports.toModel = entity => {
     permissions: entity.permissions || [],
     updatedOn: entity.updatedOn,
     createdOn: entity.createdOn,
-  };
-  if (entity.provider) {
+  }
+
+  if (entity.provider !== undefined && entity.provider !== null) {
     model.about = entity.provider.about || '',
       model.description = entity.provider.description || '',
       model.facebook = entity.provider.facebook || '',
@@ -57,7 +58,7 @@ exports.toModel = entity => {
       // model.tier= entity.provider.tier || '',
       model.notes = entity.provider.notes || '',
       model.adminNotes = entity.provider.adminNotes || '',
-      model.proivide_logo = entity.proivide_logo || '',
+      model.proivide_logo = entity.proivide_logo || ''
   }
 
   return model;
