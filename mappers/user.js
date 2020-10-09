@@ -1,7 +1,7 @@
 "use strict";
 
 exports.toModel = entity => {
-  const model = {
+  let model = {
     id: entity.id,
     firstName: entity.firstName,
     lastName: entity.lastName,
@@ -34,6 +34,32 @@ exports.toModel = entity => {
     updatedOn: entity.updatedOn,
     createdOn: entity.createdOn,
   };
+  if (entity.provider) {
+    model.about = entity.provider.about || '',
+      model.description = entity.provider.description || '',
+      model.facebook = entity.provider.facebook || '',
+      model.fullAddress = entity.provider.fullAddress || '',
+      model.hours = entity.provider.hours || '',
+      model.imageURL = entity.provider.imageURL || '',
+      model.linkedin = entity.provider.linkedin,
+      model.listingURL = entity.provider.listingURL || '',
+      model.banners = entity.provider.banners || '',
+      model.rating = entity.provider.rating || '',
+      model.reviews = entity.provider.reviews || '',
+      model.twitter = entity.provider.twitter || '',
+      model.website = entity.provider.website || '',
+      model.youtube = entity.provider.youtube || '',
+      model.instagram = entity.provider.instagram || '',
+      model.awards = entity.provider.awards || '',
+      model.taxNumber = entity.provider.taxNumber || '',
+      model.workingFrom = entity.provider.workingFrom || '',
+      model.isAssociate = entity.provider.isAssociate || '',
+      // model.tier= entity.provider.tier || '',
+      model.notes = entity.provider.notes || '',
+      model.adminNotes = entity.provider.adminNotes || '',
+      model.proivide_logo = entity.proivide_logo || '',
+  }
+
   return model;
 };
 

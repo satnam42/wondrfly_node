@@ -6,10 +6,10 @@ const provider = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
     },
-    // category: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'Category'
-    // },
+    category: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Category'
+    },
     about: { type: String, default: "" },
     description: { type: String, default: "" },
     facebook: { type: String, default: "" },
@@ -28,7 +28,6 @@ const provider = mongoose.Schema({
     awards: { type: String, default: "" },
     taxNumber: { type: String, default: "" },
     merchantVerified: { type: Boolean, default: false },
-    // workingFrom: { type: String, default: "" },
     isAssociate: { type: String, default: "" },
     // tier: { type: String, default: "" },
     createdBy: { type: String, default: "" },

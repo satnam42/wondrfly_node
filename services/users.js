@@ -228,8 +228,10 @@ const login = async (model, context) => {
       user.isOnBoardingDone = true
     }
     else if (user.role == 'provider') {
+      let provider = await db.provider.findOne({ user: user.id })
       if (user.phoneNumber !== '' && user.phoneNumber !== null && user.phoneNumber !== undefined) {
         user.isOnBoardingDone = true
+        user.provider = provider
       }
       else {
         user.isOnBoardingDone = false
