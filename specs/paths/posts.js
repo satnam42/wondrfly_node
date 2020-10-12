@@ -158,7 +158,7 @@ module.exports = [
                 {
                     in: "path",
                     name: "id",
-                    description: "user id",
+                    description: "post id",
                     required: true,
                     type: "string"
                 },
@@ -222,4 +222,36 @@ module.exports = [
             }
         }
     },
+    {
+        url: "/remove/{id}",
+        put: {
+            summary: "remove",
+            description: "remove post by id",
+            parameters: [
+                {
+                    in: "path",
+                    name: "id",
+                    description: "post id",
+                    required: true,
+                    type: "string"
+                },
+
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    }
 ]

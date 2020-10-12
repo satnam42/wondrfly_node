@@ -86,6 +86,18 @@ const search = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
+const remove = async (req, res) => {
+    const log = req.context.logger.start(`api:posts:remove:${req.params.id}`);
+    try {
+        const post = await service.removePost(req.params.id, req.context);
+        log.end();
+        return response.data(res, post);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
 
 exports.create = create;
 exports.list = list;
@@ -94,3 +106,4 @@ exports.getById = getById;
 exports.search = search;
 exports.postsByTagId = postsByTagId
 exports.postsByUserId = postsByUserId;
+exports.remove = remove;

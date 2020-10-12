@@ -138,6 +138,26 @@ const search = async (query, context) => {
     return posts;
 
 };
+
+const removePost = async (id, context) => {
+    const log = context.logger.start(`services:posts:update`);
+    if (id) {
+        throw new Error("post id is requried found");
+    }
+    let postDetail = await db.post.findById(id);
+    if (!postDetail) {
+        throw new Error("post not found");
+    }
+    postDetail = null
+    await db.post.deleteOne({ _id: id })
+    postDetail = await db.post.findById(id);
+    if (postDetail) {
+        throw new Error("something went wrong");
+    }
+    log.end();
+
+    return 'post deleted succesfully'
+};
 exports.createPost = createPost;
 exports.getAllPosts = getAllPosts;
 exports.update = update;
@@ -145,4 +165,5 @@ exports.getPostById = getPostById
 exports.search = search
 exports.getPostsByUserId = getPostsByUserId
 exports.getPostsByTagId = getPostsByTagId
+exports.removePost = removePost
 
