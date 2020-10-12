@@ -119,7 +119,7 @@ const getPostsByTagId = async (id, context) => {
 };
 const update = async (id, model, context) => {
     const log = context.logger.start(`services:posts:update`);
-    if (id) {
+    if (!id) {
         throw new Error("post id is requried found");
     }
     let postDetail = await db.post.findById(id);
@@ -141,7 +141,7 @@ const search = async (query, context) => {
 
 const removePost = async (id, context) => {
     const log = context.logger.start(`services:posts:update`);
-    if (id) {
+    if (!id) {
         throw new Error("post id is requried found");
     }
     let postDetail = await db.post.findById(id);
