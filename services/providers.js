@@ -442,22 +442,23 @@ const getProvidersByFilter = async (queryList, context) => {
     let query = {}
 
     if (queryList.city && queryList.city !== undefined && queryList.city !== null && queryList.city !== "") {
-        query["city"] = queryList.city
+        query["city"] = { "$regex": '^' + queryList.city, "$options": 'i' }
+        queryList.city
     }
     if (queryList.state && queryList.state !== undefined && queryList.state !== null && queryList.state !== "") {
-        query["state"] = queryList.state
+        query["state"] = { "$regex": '^' + queryList.state, "$options": 'i' }
     }
     if (queryList.country && queryList.country !== undefined && queryList.country !== null && queryList.country !== "") {
-        query["country"] = queryList.country
+        query["country"] = { "$regex": '^' + queryList.country, "$options": 'i' }
     }
     if (queryList.source && queryList.source !== undefined && queryList.source !== null && queryList.source !== "") {
-        query["source"] = queryList.source
+        query["source"] = { "$regex": '^' + queryList.source, "$options": 'i' }
     }
     if (queryList.type && queryList.type !== undefined && queryList.type !== null && queryList.type !== "") {
-        query["type"] = queryList.type
+        query["type"] = { "$regex": '^' + queryList.type, "$options": 'i' }
     }
     if (queryList.sex && queryList.sex !== undefined && queryList.sex !== null && queryList.sex !== "") {
-        query["sex"] = queryList.sex
+        query["sex"] = { "$regex": '^' + queryList.sex, "$options": 'i' }
     }
 
     let user = await db.user.find(query).skip(skipCount).limit(pageSize);
