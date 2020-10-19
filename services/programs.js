@@ -445,7 +445,7 @@ const search = async (query, context) => {
     return program;
 };
 const getProgramsByProvider = async (query, context) => {
-    const log = context.logger.start(`services:programs:getAllprograms`);
+    const log = context.logger.start(`services:programs:getProgramsByProvider`);
     let pageNo = Number(query.pageNo) || 1;
     let pageSize = Number(query.pageSize) || 10;
     let skipCount = pageSize * (pageNo - 1);
@@ -455,20 +455,11 @@ const getProgramsByProvider = async (query, context) => {
     let programs = await db.program.find({ user: query.userId }).sort({ createdOn: -1 }).populate('tags').skip(skipCount).limit(pageSize);
 
 
-    // for (let program of programs) {
-    //     for (let favourite of favourites) {
-    //         if (program.id == favourite.program) {
-
-    //         }
-    //     }
-
     programs.count = await db.program.find({ user: query.userId }).count();
     log.end();
     return programs;
 };
 const addProgramAction = async (model, context) => {
-
-
     const log = context.logger.start("services:programs:increaseViewCount");
     let programActionCounter
 
@@ -621,22 +612,6 @@ const getGraphData = async (query, context) => {
         }
     ]).limit(5);
 
-
-
-    // {
-    //     label: "view",
-    //         backgroundColor: '#777CEA',
-    //             data: 'clcik'[1, 4, 7,]
-    // }, {
-    //     label: "click",
-    //         backgroundColor: '#F15C20',
-    //             data: 'viwe'[2, 5, 8,]
-    // },
-    // {
-    //     label: "fav",
-    //         backgroundColor: ' #FFB206',
-    //             data: 'fav'[3, 6, 9,]
-    // }
     let barChartRes = {
         barChartLabels: [],
         barChartData: [{
@@ -670,11 +645,8 @@ const getGraphData = async (query, context) => {
     catch (err) {
         throw new Error('barChartData mapping failed');
     }
-
-
     log.end();
     return barChartRes
-
 };
 
 const getFilterProgram = async (model, context) => {

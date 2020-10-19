@@ -67,6 +67,7 @@ const uploadBannerPic = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
+
 const getById = async (req, res) => {
     const log = req.context.logger.start(`api:providers:getById:${req.params.id}`);
     try {
@@ -79,6 +80,7 @@ const getById = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
+
 const providerByEmailId = async (req, res) => {
     const log = req.context.logger.start(`api:providers:providerByEmailId:${req.query.email}`);
     try {
@@ -91,6 +93,7 @@ const providerByEmailId = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
+
 const searchProvider = async (req, res) => {
     const log = req.context.logger.start(`api:providers:getById:${req.query.name}`);
     try {
@@ -117,6 +120,19 @@ const report = async (req, res) => {
     }
 };
 
+const providersByFilter = async (req, res) => {
+    const log = req.context.logger.start(`api:providers:getProvidersByFilter`);
+    try {
+        const providers = await service.getProvidersByFilter(req.query, req.context);
+        log.end();
+        return response.data(res, providers);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 exports.create = create;
 exports.list = list;
 exports.update = update;
@@ -126,5 +142,6 @@ exports.providerByEmailId = providerByEmailId;
 exports.searchProvider = searchProvider;
 exports.add = add;
 exports.report = report;
+exports.providersByFilter = providersByFilter;
 
 

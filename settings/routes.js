@@ -323,6 +323,11 @@ const configure = (app, logger) => {
     // validator.users.update,
     api.providers.report
   );
+  app.get(
+    "/api/providers/listByFilter",
+    permit.context.requiresToken,
+    api.providers.providersByFilter
+  );
 
   app.put(
     "/api/providers/uploadBannerPic/:id",
@@ -411,6 +416,7 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.child.deleteChild
   );
+
   //guardian routes
   app.post(
     "/api/guardians/add",
@@ -437,6 +443,7 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.guardians.remove
   );
+
   //program routes//
   app.post(
     "/api/programs/add",

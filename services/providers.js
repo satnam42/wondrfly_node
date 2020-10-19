@@ -433,6 +433,40 @@ const getReport = async (query, context) => {
     log.end();
     return response
 };
+
+const getProvidersByFilter = async (queryList, context) => {
+    const log = context.logger.start(`services:providers:getProvidersByFilter`);
+    let pageNo = Number(queryList.pageNo) || 1;
+    let pageSize = Number(queryList.pageSize) || 10;
+    let skipCount = pageSize * (pageNo - 1);
+    let query = {}
+
+    if (queryList.city && queryList.city !== undefined && queryList.city !== null && queryList.city !== "") {
+        query["city"] = queryList.city
+    }
+    if (queryList.state && queryList.state !== undefined && queryList.state !== null && queryList.state !== "") {
+        query["state"] = queryList.state
+    }
+    if (queryList.country && queryList.country !== undefined && queryList.country !== null && queryList.country !== "") {
+        query["country"] = queryList.country
+    }
+    if (queryList.source && queryList.source !== undefined && queryList.source !== null && queryList.source !== "") {
+        query["source"] = queryList.source
+    }
+    if (queryList.type && queryList.type !== undefined && queryList.type !== null && queryList.type !== "") {
+        query["type"] = queryList.type
+    }
+    if (model.sex && queryList.sex !== undefined && queryList.sex !== null && queryList.sex !== "") {
+        query["sex"] = queryList.sex
+    }
+
+    let user = await db.user.find(query).skip(skipCount).limit(pageSize);
+    user.count = await db.user.find(query).count();
+
+    log.end();
+    return user;
+};
+
 exports.importProvider = importProvider;
 exports.getAllProvider = getAllProvider;
 exports.updateProvider = updateProvider;
@@ -442,4 +476,5 @@ exports.getProvideByEmail = getProvideByEmail;
 exports.search = search;
 exports.addProvider = addProvider;
 exports.getReport = getReport;
+exports.getProvidersByFilter = getProvidersByFilter;
 

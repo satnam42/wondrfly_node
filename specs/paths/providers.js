@@ -322,4 +322,79 @@ module.exports = [
             }
         }
     },
+    {
+        url: "/listByFilter",
+        get: {
+            summary: "get provider list according to filter",
+            description: "get provider list",
+            parameters: [
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "query",
+                    name: "city",
+                    description: "city",
+                    type: "string"
+                },
+
+                {
+                    in: "query",
+                    name: "state",
+                    description: "state",
+                    type: "state"
+                },
+                {
+                    in: "query",
+                    name: "country",
+                    description: "country",
+                    type: "string"
+                },
+                {
+                    in: "query",
+                    name: "source",
+                    description: "source",
+                    type: "string"
+                },
+                {
+                    in: "query",
+                    name: "type",
+                    description: "type",
+                    type: "string"
+                },
+                {
+                    in: "query",
+                    name: "sex",
+                    description: "sex",
+                    // required: true,
+                    type: "string"
+                },
+
+                {
+                    in: "query",
+                    name: "pageSize",
+                    description: "pageSize",
+                    type: "integer"
+                },
+                {
+                    in: "query",
+                    name: "pageNo",
+                    description: "pageNo",
+                    type: "integer"
+                },
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
 ]
