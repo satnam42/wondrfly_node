@@ -456,7 +456,7 @@ const getProvidersByFilter = async (queryList, context) => {
     if (queryList.type && queryList.type !== undefined && queryList.type !== null && queryList.type !== "") {
         query["type"] = queryList.type
     }
-    if (model.sex && queryList.sex !== undefined && queryList.sex !== null && queryList.sex !== "") {
+    if (queryList.sex && queryList.sex !== undefined && queryList.sex !== null && queryList.sex !== "") {
         query["sex"] = queryList.sex
     }
 
