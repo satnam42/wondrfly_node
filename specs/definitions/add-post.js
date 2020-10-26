@@ -9,13 +9,7 @@ module.exports = [
             description: {
                 type: "string"
             },
-            tags: {
-                type: "string"
-            },
-            userId: {
-                type: "string"
-            },
-            comments: {
+            tagIds: {
                 type: 'array',
                 items: {
                     // type: 'array',
@@ -25,6 +19,23 @@ module.exports = [
 
                 }
             },
+            userId: {
+                type: "string"
+            },
+            postFor: {
+                type: "string",
+                enum: ["provider", "parent", "all"]
+            }
+            // comments: {
+            //     type: 'array',
+            //     items: {
+            //         // type: 'array',
+            //         type: "string", default: ""
+            //         // properties:
+            //         //     { type: "string", default: "" },
+
+            //     }
+            // },
         }
     }
 ];

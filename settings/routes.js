@@ -623,7 +623,11 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.posts.remove
   );
-
+  app.put(
+    "/api/posts/increaseView/:id",
+    permit.context.requiresToken,
+    api.posts.increaseView
+  );
   // commment api//
   app.post(
     "/api/comments/create",

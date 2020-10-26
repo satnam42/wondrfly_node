@@ -5,7 +5,8 @@ const build = async (model, context) => {
         title: model.title,
         description: model.description,
         author: model.userId,
-        tags: model.tags,
+        postFor: model.postFor,
+        tags: model.tagIds,
         createdOn: new Date(),
         updateOn: new Date(),
     }).save();
@@ -20,8 +21,11 @@ const set = (model, post, context) => {
     if (model.description !== "string" && model.description !== undefined) {
         post.description = model.description;
     }
-    if (model.tags.length) {
-        post.tags = model.tags;
+    if (model.postFor !== "string" && model.description !== undefined) {
+        post.postFor = model.postFor;
+    }
+    if (model.tagsIds.length) {
+        post.tags = model.tagsIds;
     }
     if (model.comments.length) {
         post.comments = model.comments;
@@ -138,7 +142,6 @@ const search = async (query, context) => {
     return posts;
 
 };
-
 const removePost = async (id, context) => {
     const log = context.logger.start(`services:posts:update`);
     if (!id) {
@@ -158,6 +161,17 @@ const removePost = async (id, context) => {
 
     return 'post deleted succesfully'
 };
+const addView = async (id, context) => {
+    const log = context.logger.start(`services:posts:addView`);
+    if (id) {
+        throw new Error("post id is requried found");
+    }
+    const post = await db.post.findById(id)
+    post.viewCount += 1
+    await post.save()
+    log.end();
+    return 'view added successfully';
+};
 exports.createPost = createPost;
 exports.getAllPosts = getAllPosts;
 exports.update = update;
@@ -166,4 +180,5 @@ exports.search = search
 exports.getPostsByUserId = getPostsByUserId
 exports.getPostsByTagId = getPostsByTagId
 exports.removePost = removePost
+exports.addView = addView
 
