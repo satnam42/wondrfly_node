@@ -88,8 +88,8 @@ const build = async (model, context) => {
 
 const setProviderDetail = (model, provider, context) => {
     const log = context.logger.start("services:providers:setBasicInfo");
-    if (model.categoryId !== "string" && model.categoryId !== undefined) {
-        provider.category = model.categoryId;
+    if (model.categoryIds.length) {
+        provider.categoires = model.categoryIds;
     }
     if (model.about !== "string" && model.about !== undefined) {
         provider.about = model.about;
@@ -252,7 +252,7 @@ const importProvider = async (file, context) => {
 
 const getAllProvider = async (context) => {
     const log = context.logger.start(`services:providers:getAllProvider`);
-    const providers = await db.provider.find({}).sort({ date: -1 })
+    const providers = await db.provider.find({}).sort({ date: -1 }).populate('categories')
     log.end();
     return providers;
 };
@@ -289,7 +289,7 @@ const uploadBannerPic = async (id, files, context) => {
 };
 const getProvideById = async (id, context) => {
     const log = context.logger.start(`services:providers:getAllProvider`);
-    const providers = await db.provider.findOne({ user: id }).populate('user')
+    const providers = await db.provider.findOne({ user: id }).populate('user').populate('categories')
     log.end();
     return providers;
 };
@@ -319,25 +319,28 @@ const search = async (name, context) => {
     log.end();
     return providers;
 };
+
 const addProvider = async (model, context) => {
     const log = context.logger.start("services:providers:addProvider");
     const isEmail = await db.user.findOne({ email: { $eq: model.email } });
     if (isEmail) {
         throw new Error("Email already resgister");
     }
-
     model.password = await encrypt.getHash('321@LetsPlay!@#$%', context);
     const user = await buildUser(model, context);
     if (user.role == 'provider') {
         await new db.provider({
             user: user._id,
+            categories: model.categoryIds,
             createdOn: new Date(),
             updateOn: new Date()
+
         }).save();
     }
     log.end();
     return user;
 };
+
 const getReport = async (query, context) => {
     const log = context.logger.start(`services:providers:getReport`);
     let data

@@ -6,10 +6,13 @@ const provider = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
     },
-    category: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category'
-    },
+    categories: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'category',
+            // required: true
+        },
+    ],
     about: { type: String, default: "" },
     description: { type: String, default: "" },
     facebook: { type: String, default: "" },
