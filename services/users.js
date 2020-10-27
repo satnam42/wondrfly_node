@@ -378,6 +378,7 @@ const sendOtp = async (email, context) => {
   log.end()
   return data
 }
+
 const otpVerify = async (model, context) => {
   const log = context.logger.start('services/users/otpVerified')
   const otp = await auth.extractToken(model.otpToken, context)
@@ -420,7 +421,7 @@ const sendMail = async (email, message, subject) => {
     service: 'Gmail',
     auth: {
       user: `javascript.mspl@gmail.com`,
-      pass: `vll@#$!meander`
+      pass: `showmydev#$!45`
     }
   });
   // email send to registered email
