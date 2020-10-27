@@ -13,6 +13,12 @@ const provider = mongoose.Schema({
             // required: true
         },
     ],
+    skills: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'tag',
+        },
+    ],
     about: { type: String, default: "" },
     description: { type: String, default: "" },
     facebook: { type: String, default: "" },

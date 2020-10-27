@@ -35,6 +35,26 @@ module.exports = [
             about: {
                 type: 'string'
             },
+            categoryIds: {
+                type: 'array',
+                items: {
+                    // type: 'array',
+                    type: "string", default: ""
+                    // properties:
+                    //     { type: "string", default: "" },
+
+                }
+            },
+            tagIds: {
+                type: 'array',
+                items: {
+                    // type: 'array',
+                    type: "string", default: ""
+                    // properties:
+                    //     { type: "string", default: "" },
+
+                }
+            },
             city: { type: 'string', },
             country: { type: 'string', },
             state: { type: 'string', },
