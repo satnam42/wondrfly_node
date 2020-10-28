@@ -165,10 +165,10 @@ module.exports = [
                 {
                     in: "body",
                     name: "body",
-                    description: "Model of tag update",
+                    description: "Model of post update",
                     required: true,
                     schema: {
-                        $ref: "#/definitions/tagAdd"
+                        $ref: "#/definitions/update-post"
                     }
                 },
                 {
