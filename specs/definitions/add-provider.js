@@ -43,7 +43,7 @@ module.exports = [
 
                 }
             },
-            tagIds: {
+            tagsId: {
                 type: 'array',
                 items: {
                     // type: 'array',

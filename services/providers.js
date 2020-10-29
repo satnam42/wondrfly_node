@@ -91,8 +91,8 @@ const setProviderDetail = (model, provider, context) => {
     if (model.categoryIds.length) {
         provider.categoires = model.categoryIds;
     }
-    if (model.tagIds.length) {
-        provider.skills = model.tagIds;
+    if (model.tagsId.length) {
+        provider.skills = model.tagsId;
     }
     if (model.about !== "string" && model.about !== undefined) {
         provider.about = model.about;
@@ -292,7 +292,7 @@ const uploadBannerPic = async (id, files, context) => {
 };
 const getProvideById = async (id, context) => {
     const log = context.logger.start(`services:providers:getAllProvider`);
-    const providers = await db.provider.findOne({ user: id }).populate('user').populate('categories')
+    const providers = await db.provider.findOne({ user: id }).populate('user').populate('categories').populate('skills')
     log.end();
     return providers;
 };
@@ -335,7 +335,7 @@ const addProvider = async (model, context) => {
         await new db.provider({
             user: user._id,
             categories: model.categoryIds,
-            skills: model.tagIds,
+            skills: model.tagsId,
             createdOn: new Date(),
             updateOn: new Date()
 
