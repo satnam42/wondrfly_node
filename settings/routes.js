@@ -317,16 +317,24 @@ const configure = (app, logger) => {
     // validator.users.update,
     api.providers.getById
   );
+
   app.get(
     "/api/providers/report",
     permit.context.requiresToken,
     // validator.users.update,
     api.providers.report
   );
+
   app.get(
     "/api/providers/listByFilter",
     permit.context.requiresToken,
     api.providers.providersByFilter
+  );
+
+  app.get(
+    "/api/providers/findDuplcate",
+    permit.context.requiresToken,
+    api.providers.dublicateProviders
   );
 
   app.put(
@@ -581,6 +589,7 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.claims.action
   );
+
   // post api//
   app.post(
     "/api/posts/create",
@@ -623,6 +632,7 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.posts.remove
   );
+
   app.put(
     "/api/posts/increaseView/:id",
     permit.context.requiresToken,

@@ -397,4 +397,48 @@ module.exports = [
             }
         }
     },
+    {
+        url: "/findDuplicate",
+        get: {
+            summary: "get duplicate provider list ",
+            description: "List",
+            parameters: [
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "query",
+                    name: "email",
+                    description: "email",
+                    type: "string"
+                },
+                {
+                    in: "query",
+                    name: "name",
+                    description: "name",
+                    type: "string"
+                },
+                {
+                    in: "query",
+                    name: "phoneNumber",
+                    description: "phoneNumber",
+                    type: "string"
+                },
+
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+
+    },
 ]

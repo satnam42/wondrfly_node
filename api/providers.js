@@ -132,6 +132,18 @@ const providersByFilter = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
+const dublicateProviders = async (req, res) => {
+    const log = req.context.logger.start(`api:providers:dublicateProviders`);
+    try {
+        const providers = await service.getDupicate(req.query, req.context);
+        log.end();
+        return response.data(res, providers);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
 
 exports.create = create;
 exports.list = list;
@@ -143,5 +155,6 @@ exports.searchProvider = searchProvider;
 exports.add = add;
 exports.report = report;
 exports.providersByFilter = providersByFilter;
+exports.dublicateProviders = dublicateProviders;
 
 

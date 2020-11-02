@@ -475,6 +475,27 @@ const getProvidersByFilter = async (queryList, context) => {
     return user;
 };
 
+const getDupicate = async (model, context) => {
+    const log = context.logger.start(`services:providers:getDupicate`);
+    let query = {}
+    if (model.email) {
+        query.email = model.email
+    }
+    if (model.name) {
+        query.name = model.name
+    }
+    if (model.phoneNumber) {
+        query.phoneNumber = model.phoneNumber
+    }
+    if (Object.keys(query).length === 0 && obj.constructor === Object) {
+        throw new Error("From email, name, phone number one  param is required for find dulcate record");
+    }
+
+    let provders = await db.user.find(query)
+    log.end();
+    return provders
+};
+
 exports.importProvider = importProvider;
 exports.getAllProvider = getAllProvider;
 exports.updateProvider = updateProvider;
@@ -485,4 +506,5 @@ exports.search = search;
 exports.addProvider = addProvider;
 exports.getReport = getReport;
 exports.getProvidersByFilter = getProvidersByFilter;
+exports.getDupicate = getDupicate;
 
