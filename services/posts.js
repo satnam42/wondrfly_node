@@ -24,8 +24,8 @@ const set = (model, post, context) => {
     if (model.postFor !== "string" && model.description !== undefined) {
         post.postFor = model.postFor;
     }
-    if (model.tagsIds.length) {
-        post.tags = model.tagsIds;
+    if (model.tagIds.length) {
+        post.tags = model.tagIds;
     }
     if (model.comments.length) {
         post.comments = model.comments;
@@ -47,7 +47,7 @@ const getAllPosts = async (context) => {
         .populate('comments').populate('author').sort({ _id: -1 });
     let likes = await db.like.find({ creator: context.user.id }).populate('post')
     if (likes.length) {
-        // add fav in program
+        // add fav in post
         for (var p = 0; p < posts.length; p++) {
             for (var l = 0; l < likes.length; l++) {
                 if (likes[l].post !== null && likes[l].post !== undefined) {
@@ -106,7 +106,7 @@ const getPostsByTagId = async (id, context) => {
         .populate('comments').populate('author').sort({ _id: -1 });
     let likes = await db.like.find({ creator: context.user.id }).populate('post')
     if (likes.length) {
-        // add fav in program
+        // add fav in post
         for (var p = 0; p < posts.length; p++) {
             for (var l = 0; l < likes.length; l++) {
                 if (likes[l].post !== null && likes[l].post !== undefined) {
