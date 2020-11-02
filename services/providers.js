@@ -88,10 +88,10 @@ const build = async (model, context) => {
 
 const setProviderDetail = (model, provider, context) => {
     const log = context.logger.start("services:providers:setBasicInfo");
-    if (model.categoryIds.length) {
+    if (model.categoryIds !== undefined && model.categoryIds.length) {
         provider.categoires = model.categoryIds;
     }
-    if (model.tagsId.length) {
+    if (model.tagsId !== undefined && model.tagsId.length) {
         provider.skills = model.tagsId;
     }
     if (model.about !== "string" && model.about !== undefined) {
