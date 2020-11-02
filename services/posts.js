@@ -27,9 +27,9 @@ const set = (model, post, context) => {
     if (model.tagIds.length) {
         post.tags = model.tagIds;
     }
-    if (model.comments.length) {
-        post.comments = model.comments;
-    }
+    // if (model.comments.length) {
+    //     post.comments = model.comments;
+    // }
     post.updateOn = new Date()
     log.end();
     post.save();
