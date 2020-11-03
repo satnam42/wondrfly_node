@@ -17,7 +17,7 @@ const create = async (req, res) => {
 const list = async (req, res) => {
     const log = req.context.logger.start(`api:posts:list`);
     try {
-        const posts = await service.getAllPosts(req.query.req.context);
+        const posts = await service.getAllPosts(req.query, req.context);
         log.end();
         return response.data(res, posts);
     } catch (err) {
