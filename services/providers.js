@@ -490,10 +490,24 @@ const getDupicate = async (model, context) => {
     if (Object.keys(query).length === 0 && obj.constructor === Object) {
         throw new Error("From email, name, phone number one  param is required for find dulcate record");
     }
-
     let provders = await db.user.find(query)
     log.end();
     return provders
+};
+
+const margeDupicate = async (model, context) => {
+    const log = context.logger.start(`services:providers:margeDupicate`);
+    model.duplicateProvidres.forEach(duplicateProvidre => {
+        await db.user.deleteOne({ _id: duplicateProvidre })
+        await db.provders.deleteOne({ user: duplicateProvidre })
+    });
+    let user = await db.user.findById(model.id);
+    let provider = await db.provider.findOne({ user: user.id });
+    const userBasicInfo = await setBasicInfo(model, user, context);
+    const providerDetail = await setProviderDetail(model, provider, context);
+    //  let provders = await db.user.find(query)
+    log.end();
+    return userBasicInfo
 };
 
 exports.importProvider = importProvider;
@@ -507,4 +521,5 @@ exports.addProvider = addProvider;
 exports.getReport = getReport;
 exports.getProvidersByFilter = getProvidersByFilter;
 exports.getDupicate = getDupicate;
+exports.margeDupicate = margeDupicate;
 

@@ -144,6 +144,18 @@ const dublicateProviders = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
+const margeDublicateProviders = async (req, res) => {
+    const log = req.context.logger.start(`api:providers:margeDublicateProviders`);
+    try {
+        const provider = await service.margeDupicate(req.body, req.context);
+        log.end();
+        return response.data(res, provider);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
 
 exports.create = create;
 exports.list = list;
@@ -156,5 +168,6 @@ exports.add = add;
 exports.report = report;
 exports.providersByFilter = providersByFilter;
 exports.dublicateProviders = dublicateProviders;
+exports.margeDublicateProviders = margeDublicateProviders;
 
 

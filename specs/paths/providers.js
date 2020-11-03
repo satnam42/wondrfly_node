@@ -441,4 +441,40 @@ module.exports = [
         }
 
     },
+    {
+        url: "/margeDuplicate",
+        post: {
+            summary: "Marge duplicate provider",
+            description: "Marge",
+            parameters: [
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "body",
+                    name: "body",
+                    description: "Model of provider update",
+                    required: true,
+                    schema: {
+                        $ref: "#/definitions/duplicate-provider"
+                    }
+                },
+
+
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+
+    },
 ]

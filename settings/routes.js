@@ -332,9 +332,14 @@ const configure = (app, logger) => {
   );
 
   app.get(
-    "/api/providers/findDuplcate",
+    "/api/providers/findDuplicate",
     permit.context.requiresToken,
     api.providers.dublicateProviders
+  );
+  app.post(
+    "/api/providers/margeDuplicate",
+    permit.context.requiresToken,
+    api.providers.margeDublicateProviders
   );
 
   app.put(
