@@ -1,4 +1,7 @@
 "use strict";
+
+const { query } = require("express");
+
 const build = async (model, context) => {
     const log = context.logger.start(`services:posts:build${model}`);
     const post = await new db.post({
@@ -41,24 +44,32 @@ const createPost = async (model, context) => {
     log.end();
     return post;
 };
-const getAllPosts = async (context) => {
+const getAllPosts = async (query, context) => {
     const log = context.logger.start(`services:posts:getAlltags`);
-    let posts = await db.post.find({}).populate('tags')
-        .populate('comments').populate('author').sort({ _id: -1 });
-    let likes = await db.like.find({ creator: context.user.id }).populate('post')
-    if (likes.length) {
-        // add fav in post
-        for (var p = 0; p < posts.length; p++) {
-            for (var l = 0; l < likes.length; l++) {
-                if (likes[l].post !== null && likes[l].post !== undefined) {
-                    if (posts[p].id === likes[l].post.id) {
-                        posts[p].like = true
-                    }
-                }
+    let pageNo = Number(query.pageNo) || 1;
+    let pageSize = Number(query.pageSize) || 10;
+    let skipCount = pageSize * (pageNo - 1);
+    let posts
+    if (context.user.role == 'provider' || context.user.role == 'parent') {
+        posts = await db.post.find({ postFor: context.user.role }).populate('tags').populate('comments').populate('author').sort({ _id: -1 }).skip(skipCount).limit(pageSize);;
 
-            }
-        }
+    } else {
+        posts = await db.post.find({}).populate('tags').populate('comments').populate('author').sort({ _id: -1 }).skip(skipCount).limit(pageSize);;
     }
+    // let likes = await db.like.find({ creator: context.user.id }).populate('post')
+    // if (likes.length) {
+    //     // add fav in post
+    //     for (var p = 0; p < posts.length; p++) {
+    //         for (var l = 0; l < likes.length; l++) {
+    //             if (likes[l].post !== null && likes[l].post !== undefined) {
+    //                 if (posts[p].id === likes[l].post.id) {
+    //                     posts[p].like = true
+    //                 }
+    //             }
+
+    //         }
+    //     }
+    // }
     log.end();
     return posts;
 };
