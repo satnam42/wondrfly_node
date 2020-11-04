@@ -497,7 +497,7 @@ const getDupicate = async (model, context) => {
 
 const margeDupicate = async (model, context) => {
     const log = context.logger.start(`services:providers:margeDupicate`);
-    model.duplicateProvidres.forEach(duplicateProvidre => {
+    model.duplicateProvidres.forEach(async duplicateProvidre => {
         await db.user.deleteOne({ _id: duplicateProvidre })
         await db.provders.deleteOne({ user: duplicateProvidre })
     });
