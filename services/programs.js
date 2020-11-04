@@ -4,6 +4,7 @@ const ObjectId = require("mongodb").ObjectID;
 var moment = require('moment'); // require for date formating
 const csv = require('csvtojson')
 const fs = require('fs');
+
 const buildImportProgram = async (model, context) => {
     const log = context.logger.start(`services:programs:buildImportProgram${model}`);
     let age = {
@@ -96,6 +97,7 @@ const buildImportProgram = async (model, context) => {
     else {
         date.from = new Date()
     }
+
     console.log("EndDateIsValid", moment(model.StartDate).isValid())
     if (model.EndDate !== "" && model.EndDate !== "-" && model.EndDate !== undefined && model.EndDate !== null && moment(model.EndDate).isValid()) {
         date.to = moment(model.EndDate);
@@ -175,8 +177,7 @@ const buildImportProgram = async (model, context) => {
         user = await db.user.findOne({ firstName: model.Reference })
     }
 
-    console.log('userID', user.id)
-    console.log('userID', user.id)
+
 
     await new db.program({
         name: model.ProgramName,
@@ -206,6 +207,8 @@ const build = async (model, context) => {
         type: model.type,
         price: model.price,
         code: model.code,
+        lat: model.lat,
+        lng: model.lng,
         programCoverPic: model.programCoverPic,
         location: model.location,
         ageGroup: model.ageGroup,
@@ -265,6 +268,12 @@ const set = (model, program, context) => {
     if (model.presenter !== "string" && model.presenter !== undefined) {
         program.presenter = model.presenter;
     }
+    if (model.lat !== "string" && model.lat !== undefined) {
+        program.lat = model.lat;
+    }
+    if (model.lng !== "string" && model.lng !== undefined) {
+        program.lng = model.lng;
+    }
     if (model.programCoverPic !== "string" && model.programCoverPic !== undefined) {
         program.programCoverPic = model.programCoverPic;
     }
@@ -308,16 +317,16 @@ const set = (model, program, context) => {
     if (model.capacity !== "string" && model.capacity !== undefined) {
         program.capacity = model.capacity;
     }
-    if (model.emails.length > 1) {
-        program.emails = model.emails;
-    }
-    if (model.batches.length > 1) {
+    // if (model.emails.length > 1) {
+    //     program.emails = model.emails;
+    // }
+    if (model.batches.length) {
         program.batches = model.batches;
     }
-    if (model.addresses.length > 1) {
+    if (model.addresses.length) {
         program.addresses = model.addresses;
     }
-    if (model.tags.length > 1) {
+    if (model.tags.length) {
         program.tags = model.tags;
     }
     program.updateOn = new Date()
@@ -532,7 +541,6 @@ const getViewCount = async (query, context) => {
                 localField: "program",
                 foreignField: "_id",
                 as: "program"
-
             }
         },
         {
@@ -654,7 +662,7 @@ const getFilterProgram = async (model, context) => {
     let pageNo = Number(model.pageNo) || 1;
     let pageSize = Number(model.pageSize) || 10;
     let skipCount = pageSize * (pageNo - 1);
-    let query = {}
+
 
     if (model.ageFrom && model.ageTo) {
         query["ageGroup.from"] = { $gte: Number(model.ageFrom) }

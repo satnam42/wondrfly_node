@@ -32,6 +32,8 @@ const programSchema = mongoose.Schema({
         days: { type: String, default: '' },
         hours: { type: String, default: "" }
     },
+    lat: { type: String, default: "" },
+    long: { type: String, default: "" },
     duration: { type: String, default: "" },
     isFree: { type: Boolean, default: false },
     isFav: { type: Boolean, default: false },
@@ -54,7 +56,6 @@ const programSchema = mongoose.Schema({
         endTime: { type: Date, default: '' },
         isFree: { type: Boolean, default: false },
         pricePerParticipant: { type: String, default: "" },
-        //priceForSiblings: { type: String, default: "" },
         instructor: { type: String, default: "" },
         numberOfSeats: { type: String, default: "" },
         location: { type: String, default: "" },

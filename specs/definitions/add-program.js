@@ -56,9 +56,16 @@ module.exports = [
             priceForSiblings: {
                 type: "string"
             },
+            lat: {
+                type: "string"
+            },
+            lng: {
+                type: "string"
+            },
             specialInstructions: {
                 type: "string"
             },
+
             programCoverPic: {
                 type: "string"
             },
