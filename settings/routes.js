@@ -643,6 +643,12 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.posts.increaseView
   );
+
+  app.get(
+    "/api/posts/search",
+    permit.context.requiresToken,
+    api.posts.search
+  );
   // commment api//
   app.post(
     "/api/comments/create",

@@ -75,7 +75,7 @@ const getAllPosts = async (query, context) => {
 };
 const getPostById = async (id, context) => {
     const log = context.logger.start(`services:posts:getPostById`);
-    if (id) {
+    if (!id) {
         throw new Error("post id is requried found");
     }
     const post = await db.post.findById(id)
@@ -147,7 +147,7 @@ const update = async (id, model, context) => {
 };
 const search = async (query, context) => {
     const log = context.logger.start(`services:posts:search`);
-    const posts = await db.post.find({ title: { "$regex": '.*' + query.title + '.*', "$options": 'i' } }
+    const posts = await db.post.find({ title: { "$regex": '.*' + query.name + '.*', "$options": 'i' } }
     ).limit(5).sort({ _id: -1 });
     log.end();
     return posts;
@@ -174,7 +174,7 @@ const removePost = async (id, context) => {
 };
 const addView = async (id, context) => {
     const log = context.logger.start(`services:posts:addView`);
-    if (id) {
+    if (!id) {
         throw new Error("post id is requried found");
     }
     const post = await db.post.findById(id)
@@ -192,4 +192,3 @@ exports.getPostsByUserId = getPostsByUserId
 exports.getPostsByTagId = getPostsByTagId
 exports.removePost = removePost
 exports.addView = addView
-
