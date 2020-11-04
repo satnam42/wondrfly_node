@@ -15,6 +15,7 @@ const create = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
+
 const add = async (req, res) => {
     const log = req.context.logger.start(`api:provider:addProvider`);
     try {
@@ -132,6 +133,7 @@ const providersByFilter = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
+
 const dublicateProviders = async (req, res) => {
     const log = req.context.logger.start(`api:providers:dublicateProviders`);
     try {
@@ -144,6 +146,7 @@ const dublicateProviders = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
+
 const margeDublicateProviders = async (req, res) => {
     const log = req.context.logger.start(`api:providers:margeDublicateProviders`);
     try {
