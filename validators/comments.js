@@ -11,11 +11,11 @@ const create = (req, res, next) => {
         log.end();
         return response.failure(res, "post Id is required");
     }
-    if (!req.body.userId) {
+    if (!req.body.creator) {
         log.end();
         return response.failure(res, "user Id is required");
     }
-    if (!req.body.userName) {
+    if (!req.body.creatorName) {
         log.end();
         return response.failure(res, "user Name is required");
     }

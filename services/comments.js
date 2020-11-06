@@ -2,10 +2,10 @@
 const build = async (model, context) => {
     const log = context.logger.start(`services:comments:build${model}`);
     const comment = await new db.comment({
-        creator: model.userId,
-        creatorName: model.userName,
+        creator: model.creator,
+        creatorName: model.creatorName,
         text: model.text,
-        post: model.postId,
+        postId: model.postId,
         createdOn: new Date(),
         updateOn: new Date(),
     }).save();
