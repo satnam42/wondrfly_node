@@ -664,7 +664,7 @@ const configure = (app, logger) => {
   );
 
   app.put(
-    "/api/comments/remove",
+    "/api/comments/remove/:id",
     permit.context.requiresToken,
     api.comments.remove
   );

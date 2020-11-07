@@ -18,7 +18,7 @@ const set = (model, comment, context) => {
     if (model.text !== "string" && model.text !== undefined) {
         comment.text = model.text;
     }
-    comment.updateOn = new Date()
+    comment.updatedOn = new Date();
     log.end();
     comment.save();
     return comment;
@@ -31,7 +31,7 @@ const createComment = async (model, context) => {
 };
 const update = async (id, model, context) => {
     const log = context.logger.start(`services:comments:update`);
-    if (id) {
+    if (!id) {
         throw new Error("comment id is requried found");
     }
     let commentDetail = await db.comment.findById(id);
@@ -44,7 +44,7 @@ const update = async (id, model, context) => {
 };
 const removeComment = async (id, model, context) => {
     const log = context.logger.start(`services:comments:update`);
-    if (id) {
+    if (!id) {
         throw new Error("comment id is requried found");
     }
     await db.comment.deleteOne({ _id: id })

@@ -8,6 +8,7 @@ const commentSchema = mongoose.Schema({
     text: { type: mongoose.Schema.Types.String, required: REQUIRED_VALIDATION_MESSAGE },
     postId: { type: mongoose.Schema.Types.ObjectId, required: REQUIRED_VALIDATION_MESSAGE, ref: 'post' },
     createdOn: { type: mongoose.Schema.Types.Date, default: Date.now },
+    updatedOn: { type: mongoose.Schema.Types.Date, default: Date.now }
 })
 
 mongoose.model('comment', commentSchema)
