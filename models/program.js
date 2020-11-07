@@ -33,7 +33,7 @@ const programSchema = mongoose.Schema({
         hours: { type: String, default: "" }
     },
     lat: { type: String, default: "" },
-    long: { type: String, default: "" },
+    lng: { type: String, default: "" },
     duration: { type: String, default: "" },
     isFree: { type: Boolean, default: false },
     isFav: { type: Boolean, default: false },
