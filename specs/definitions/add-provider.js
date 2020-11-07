@@ -33,6 +33,12 @@ module.exports = [
             note: {
                 type: "string"
             },
+            lat: {
+                type: "string"
+            },
+            lng: {
+                type: "string"
+            },
             categoryIds: {
                 type: 'array',
                 items: {

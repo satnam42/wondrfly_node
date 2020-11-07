@@ -16,6 +16,8 @@ const buildUser = async (model, context) => {
         role: 'provider',
         street: model.street,
         state: model.state,
+        lng: model.lng,
+        lat: model.lat,
         source: model.source,
         city: model.city,
         country: model.country,
@@ -189,8 +191,8 @@ const setBasicInfo = (model, user, context) => {
     if (model.lat !== "string" && model.lat !== undefined) {
         user.lat = model.lat;
     }
-    if (model.long !== "string" && model.long !== undefined) {
-        user.long = model.long;
+    if (model.lng !== "string" && model.lng !== undefined) {
+        user.lng = model.lng;
     }
     if (model.stripeToken !== "string" && model.stripeToken !== undefined) {
         user.stripeToken = model.stripeToken;

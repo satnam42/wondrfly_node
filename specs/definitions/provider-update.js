@@ -26,6 +26,12 @@ module.exports = [
             youtube: {
                 type: 'string'
             },
+            lat: {
+                type: 'string'
+            },
+            lng: {
+                type: 'string'
+            },
             instagram: {
                 type: 'string'
             },
@@ -64,8 +70,6 @@ module.exports = [
             securityQuestion: { type: 'string', },
             answer: { type: 'string', },
             zipCode: { type: 'string', },
-            lat: { type: 'string', },
-            long: { type: 'string', },
             logo: { type: 'string', },
         }
     }
