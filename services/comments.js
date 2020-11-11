@@ -25,7 +25,12 @@ const set = (model, comment, context) => {
 };
 const createComment = async (model, context) => {
     const log = context.logger.start("services:comments:createPost");
-    const comment = build(model, context);
+    const comment = await build(model, context);
+    // const post = await db.post.findById(model.postId);
+    await db.post.update(
+        { _id: model.postId },
+        { $push: { comments: comment._id } },
+    );
     log.end();
     return comment;
 };

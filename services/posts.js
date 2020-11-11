@@ -52,7 +52,6 @@ const getAllPosts = async (query, context) => {
     let posts
     if (context.user.role == 'provider' || context.user.role == 'parent') {
         posts = await db.post.find({ postFor: context.user.role }).populate('tags').populate('comments').populate('author').sort({ _id: -1 }).skip(skipCount).limit(pageSize);;
-
     } else {
         posts = await db.post.find({}).populate('tags').populate('comments').populate('author').sort({ _id: -1 }).skip(skipCount).limit(pageSize);;
     }
@@ -78,7 +77,7 @@ const getPostById = async (id, context) => {
     if (!id) {
         throw new Error("post id is requried found");
     }
-    const post = await db.post.findById(id)
+    const post = await db.post.findById(id).populate('comments');
     log.end();
     return post;
 };
