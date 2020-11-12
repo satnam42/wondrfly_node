@@ -27,10 +27,15 @@ const createComment = async (model, context) => {
     const log = context.logger.start("services:comments:createPost");
     const comment = await build(model, context);
     // const post = await db.post.findById(model.postId);
-    await db.post.update(
-        { _id: model.postId },
-        { $push: { comments: comment._id } },
-    );
+    if (comment) {
+        await db.post.update(
+            { _id: model.postId },
+            { $push: { comments: comment._id } },
+        );
+    }
+    else {
+        throw new Error("error in adding comment");
+    }
     log.end();
     return comment;
 };

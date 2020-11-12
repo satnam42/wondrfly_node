@@ -77,7 +77,7 @@ const getPostById = async (id, context) => {
     if (!id) {
         throw new Error("post id is requried found");
     }
-    const post = await db.post.findById(id).populate('comments');
+    const post = await db.post.findById(id).populate('comments').populate('author');
     log.end();
     return post;
 };
