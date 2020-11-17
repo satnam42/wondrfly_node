@@ -4,11 +4,46 @@ const imageUrl = require('config').get('image').url
 const ObjectId = require("mongodb").ObjectID;
 const accountSid = 'AC5d73ce4cfa70158e5357a905e379af2b';
 var nodemailer = require('nodemailer')
+let path = require('path');
 const fs = require('fs');
 // Your Account SID from www.twilio.com/console
 const authToken = 'd864b1037de18df6150de9b4bf97b200'
 // d864b1037de18df6150de9b4bf97b200;   // Your Auth Token from www.twilio.com/console
 var twilio = require('twilio');
+
+
+// function to send email
+function sendEmail(firstName, email, templatePath, subject) {
+  let mailBody = fs.readFileSync(path.join(__dirname, templatePath)).toString();
+  // let date = moment(new Date()).format('L');
+  mailBody = mailBody.replace(/{{firstname}}/g, firstName);
+  // mailBody = mailBody.replace(/{{date}}/g, date);
+
+  let smtpTransport = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+      user: `javascript.mspl@gmail.com`,
+      pass: `showmydev#$!45`
+    }
+  });
+  let mailOptions = {
+    from: "smtp.mailtrap.io",
+    to: email, //sending to: E-mail
+    subject: subject,
+    html: mailBody,
+  };
+
+  smtpTransport.sendMail(mailOptions, function (error, info) {
+    if (!error) {
+      log.end();
+      console.log("email sent");
+    } else {
+      log.end();
+      return error.message
+    }
+  });
+}
+
 
 const setUser = (model, user, context) => {
   const log = context.logger.start("services:users:set");
@@ -64,9 +99,16 @@ const register = async (model, context) => {
       updateOn: new Date()
     }).save();
   }
+  let templatePath = '../emailTemplates/welcome_email.html';
+  let subject = "welcome to join wonderfly";
+  if (user) {
+    sendEmail(user.firstName, user.email, templatePath, subject);
+  }
   log.end();
   return user;
 };
+
+
 const getById = async (id, context) => {
 
   const log = context.logger.start(`services:users:getById:${id}`);
@@ -156,6 +198,11 @@ const resetPassword = async (id, model, context) => {
     user.updatedOn = new Date();
     user.lastModifiedBy = context.user.id
     await user.save();
+    let templatePath = '../emailTemplates/reset_password.html';
+    let subject = "Password changed";
+
+    sendEmail(user.firstName, user.email, templatePath, subject);
+
     log.end();
     return "Password Updated Successfully";
   } else {
@@ -563,3 +610,46 @@ exports.tellAFriend = tellAFriend;
 exports.feedback = feedback;
 exports.getProfileProgress = getProfileProgress
 exports.verifyAnswer = verifyAnswer
+
+
+
+// module.exports.resetPasswordNotification = function (userData) {
+//   return new Promise(async function (resolve, reject) {
+
+//     let merchentUser = await userModel.findOne({
+//       _id: userData
+//     });
+//     if (merchentUser != null) {
+//       let mailBody = fs.readFileSync(path.join(__dirname, '../emailTemplate/restPasswordNotifiy.html')).toString();
+//       let date = moment(new Date()).format('L');
+//       mailBody = mailBody.replace(/{{firstname}}/g, merchentUser.firstname);
+//       mailBody = mailBody.replace(/{{date}}/g, date);
+//       var mailOptions = {
+//         from: config.smtp_settings.user,
+//         to: merchentUser.email, //sending to: E-mail
+//         subject: "Change Password Notification",
+//         html: mailBody,
+//       };
+
+//       transporter.sendMail(mailOptions, async function (error, info) {
+//         if (error) {
+//           reject({
+//             status: 'failed',
+//             error: error
+//           })
+//         } else {
+//           resolve({
+//             status: 'success',
+//             data: info
+//           });
+//         }
+//       });
+
+//     } else {
+//       reject({
+//         status: 'failed',
+//         message: 'user not found'
+//       })
+//     }
+//   })
+// }
