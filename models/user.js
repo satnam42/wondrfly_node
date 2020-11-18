@@ -36,6 +36,14 @@ const user = mongoose.Schema({
   createdBy: { type: String, default: "" },
   note: { type: String, default: "" },
   role: { type: String, default: "" },
+  resetPasswordToken: {
+    type: String,
+    required: false
+  },
+  resetPasswordExpires: {
+    type: Date,
+    required: false
+  },
   deviceToken: { type: String, default: "" },
   createdOn: { type: Date, default: Date.now },
   updatedOn: { type: Date, default: Date.now }

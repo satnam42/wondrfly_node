@@ -10,13 +10,17 @@ const fs = require('fs');
 const authToken = 'd864b1037de18df6150de9b4bf97b200'
 // d864b1037de18df6150de9b4bf97b200;   // Your Auth Token from www.twilio.com/console
 var twilio = require('twilio');
+const crypto = require("crypto");
 
 
 // function to send email
-function sendEmail(firstName, email, templatePath, subject) {
+function sendEmail(firstName, email, templatePath, subject, link) {
   let mailBody = fs.readFileSync(path.join(__dirname, templatePath)).toString();
   // let date = moment(new Date()).format('L');
   mailBody = mailBody.replace(/{{firstname}}/g, firstName);
+  if (link) {
+    mailBody = mailBody.replace(/"url_link_forgotPassword"/g, link);
+  }
   // mailBody = mailBody.replace(/{{date}}/g, date);
 
   let smtpTransport = nodemailer.createTransport({
@@ -589,6 +593,74 @@ const verifyAnswer = async (id, model, context) => {
   }
 };
 
+
+const forgotPasswordVerifyEmail = async (model, context) => {
+  const log = context.logger.start('service/users/forgotPasswordVerifyEmail');
+
+  const reset = {};
+  const resetPasswordToken = crypto.randomBytes(20).toString("hex");
+  const resetPasswordExpires = Date.now() + 3600000; //expires in an hour
+
+  reset.resetPasswordToken = resetPasswordToken;
+  reset.resetPasswordExpires = resetPasswordExpires;
+
+  const link = 'http://52.15.99.207:6700/resetPassword/' + resetPasswordToken;
+
+  async function storedToken() {
+    await db.user.findOneAndUpdate({ email: model.email }, { $set: reset }, { new: true }).then((tkn) => {
+      console.log("tkn");
+    });
+  }
+
+  let user = await db.user.findOne({ email: model.email })
+
+  if (!user) {
+    log.end();
+    throw new Error("The email address " + model.email + " is not associated with any account. Please check your email address and try again.");
+  } else {
+    storedToken();
+
+    let templatePath = '../emailTemplates/forgot_password.html';
+    let subject = "Forgot Password";
+    if (user) {
+      sendEmail(user.firstName, user.email, templatePath, subject, link);
+    }
+
+
+    // let mailBody = fs.readFileSync(path.join(__dirname, '../emailTemplates/forgot_password.html')).toString();
+    // // let date = moment(new Date()).format('L');
+    // mailBody = mailBody.replace(/{{firstname}}/g, user.firstName);
+    // mailBody = mailBody.replace(/"url_link_forgotPassword"/g, link);
+    // // mailBody = mailBody.replace(/{{date}}/g, date);
+
+    // let smtpTransport = nodemailer.createTransport({
+    //   service: 'Gmail',
+    //   auth: {
+    //     user: `javascript.mspl@gmail.com`,
+    //     pass: `showmydev#$!45`
+    //   }
+    // });
+    // let mailOptions = {
+    //   from: "smtp.mailtrap.io",
+    //   to: user.email, //sending to: E-mail
+    //   subject: "Forgot password",
+    //   html: mailBody,
+    // };
+
+    // smtpTransport.sendMail(mailOptions, function (error, info) {
+    //   if (!error) {
+    //     log.end();
+    //     console.log("email sent");
+    //   } else {
+    //     log.end();
+    //     return error.message
+    //   }
+    // });
+  }
+};
+
+
+
 exports.register = register;
 exports.get = get;
 exports.login = login;
@@ -608,48 +680,6 @@ exports.otpVerify = otpVerify;
 exports.forgotPassword = forgotPassword;
 exports.tellAFriend = tellAFriend;
 exports.feedback = feedback;
-exports.getProfileProgress = getProfileProgress
-exports.verifyAnswer = verifyAnswer
-
-
-
-// module.exports.resetPasswordNotification = function (userData) {
-//   return new Promise(async function (resolve, reject) {
-
-//     let merchentUser = await userModel.findOne({
-//       _id: userData
-//     });
-//     if (merchentUser != null) {
-//       let mailBody = fs.readFileSync(path.join(__dirname, '../emailTemplate/restPasswordNotifiy.html')).toString();
-//       let date = moment(new Date()).format('L');
-//       mailBody = mailBody.replace(/{{firstname}}/g, merchentUser.firstname);
-//       mailBody = mailBody.replace(/{{date}}/g, date);
-//       var mailOptions = {
-//         from: config.smtp_settings.user,
-//         to: merchentUser.email, //sending to: E-mail
-//         subject: "Change Password Notification",
-//         html: mailBody,
-//       };
-
-//       transporter.sendMail(mailOptions, async function (error, info) {
-//         if (error) {
-//           reject({
-//             status: 'failed',
-//             error: error
-//           })
-//         } else {
-//           resolve({
-//             status: 'success',
-//             data: info
-//           });
-//         }
-//       });
-
-//     } else {
-//       reject({
-//         status: 'failed',
-//         message: 'user not found'
-//       })
-//     }
-//   })
-// }
+exports.getProfileProgress = getProfileProgress;
+exports.verifyAnswer = verifyAnswer;
+exports.forgotPasswordVerifyEmail = forgotPasswordVerifyEmail;

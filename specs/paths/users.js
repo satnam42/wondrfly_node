@@ -603,4 +603,29 @@ module.exports = [
       }
     }
   },
+
+  {
+    url: '/forgotPasswordVerifyEmail',
+    post: {
+      summary: 'verify email',
+      description: 'when user forgot password verify registered email',
+      parameters: [{
+        in: 'body',
+        name: 'body',
+        description: 'Model of verify registerd email for forgot password',
+        required: true,
+        schema: {
+          $ref: '#/definitions/verifyEmail'
+        }
+      }],
+      responses: {
+        default: {
+          description: 'Unexpected error',
+          schema: {
+            $ref: '#/definitions/Error'
+          }
+        }
+      }
+    }
+  },
 ];
