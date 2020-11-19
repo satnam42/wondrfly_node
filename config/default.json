@@ -20,6 +20,16 @@
     },
     "providers": {},
     "logger": {
+        "logStart": false,
+        "file": {
+            "filename": "logs/logs.json",
+            "level": "silly",
+            "handleExceptions": true,
+            "json": true,
+            "maxsize": 512000,
+            "maxFiles": 5,
+            "colorize": false
+        },
         "console": {
             "level": "debug",
             "handleExceptions": true,
