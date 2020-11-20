@@ -11,15 +11,46 @@ const build = async (model, context) => {
     return like;
 };
 
+// const like = async (model, context) => {
+//     const log = context.logger.start("services:likes:createPost");
+//     let post = await db.post.findById(model.postId);
+//     post.likesCount += 1
+//     await post.save()
+//     const like = build(model, context);
+//     log.end();
+//     return like;
+// };
 const like = async (model, context) => {
     const log = context.logger.start("services:likes:createPost");
     let post = await db.post.findById(model.postId);
-    post.likesCount += 1
-    await post.save()
-    const like = build(model, context);
+    let islike = await db.like.findOne({ creator: model.userId, post: model.postId });
+    let like
+    if (!islike) {
+        post.likesCount += 1
+        await post.save();
+        like = build(model, context);
+    } else {
+        await db.like.findOneAndDelete({ creator: model.userId, post: model.postId }, function (err, docs) {
+            console.log('err', err);
+        });
+        post.likesCount -= 1
+        await post.save();
+    }
+
+
     log.end();
     return like;
 };
+
+// if (comment) {
+//     await db.post.update(
+//         { _id: model.postId },
+//         { $push: { likesByUser: model.userId } },
+//     );
+// }
+// else {
+//     throw new Error("error in adding comment");
+// }
 
 const UnLike = async (query, context) => {
     const log = context.logger.start(`services:likes:update`);

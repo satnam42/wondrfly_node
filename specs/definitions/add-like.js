@@ -9,6 +9,9 @@ module.exports = [
             postId: {
                 type: "string"
             },
+            like: {
+                type: "boolean"
+            }
         }
     }
 ];

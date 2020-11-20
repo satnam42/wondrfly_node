@@ -26,8 +26,8 @@ function sendEmail(firstName, email, templatePath, subject, link) {
   let smtpTransport = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
-      user: `javascript.mspl@gmail.com`,
-      pass: `showmydev#$!45`
+      user: `fullstack.mspl@gmail.com`,
+      pass: `talent26/07/1010`
     }
   });
   let mailOptions = {
@@ -39,10 +39,8 @@ function sendEmail(firstName, email, templatePath, subject, link) {
 
   smtpTransport.sendMail(mailOptions, function (error, info) {
     if (!error) {
-      log.end();
       console.log("email sent");
     } else {
-      log.end();
       return error.message
     }
   });
@@ -623,7 +621,7 @@ const forgotPasswordVerifyEmail = async (model, context) => {
     let templatePath = '../emailTemplates/forgot_password.html';
     let subject = "Forgot Password";
     if (user) {
-      sendEmail(user.firstName, user.email, templatePath, subject, link);
+      const mailrespose = await sendEmail(user.firstName, user.email, templatePath, subject, link);
     }
 
 
