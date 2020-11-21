@@ -24,6 +24,9 @@ function sendEmail(firstName, email, templatePath, subject, link) {
   // mailBody = mailBody.replace(/{{date}}/g, date);
 
   let smtpTransport = nodemailer.createTransport({
+    host: 'localhost',
+    port: 465,
+    secure: true,
     service: 'Gmail',
     auth: {
       user: `fullstack.mspl@gmail.com`,
