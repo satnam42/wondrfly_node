@@ -481,10 +481,10 @@ const getDupicate = async (model, context) => {
     const log = context.logger.start(`services:providers:getDupicate`);
     let query = {}
     if (model.email) {
-        query.email = model.email
+        query.email = { "$regex": '^' + model.email, "$options": 'i' }
     }
     if (model.name) {
-        query.name = model.name
+        query.firstName = { "$regex": '^' + model.name, "$options": 'i' }
     }
     if (model.phoneNumber) {
         query.phoneNumber = model.phoneNumber
