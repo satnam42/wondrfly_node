@@ -35,6 +35,7 @@ const user = mongoose.Schema({
   token: { type: String, default: "" },
   createdBy: { type: String, default: "" },
   note: { type: String, default: "" },
+  isAmbassador: { type: Boolean, default: false },
   role: { type: String, default: "" },
   resetPasswordToken: {
     type: String,

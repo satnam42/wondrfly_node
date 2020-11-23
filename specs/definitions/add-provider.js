@@ -33,6 +33,9 @@ module.exports = [
             note: {
                 type: "string"
             },
+            isAmbassador: {
+                type: "boolean"
+            },
             lat: {
                 type: "string"
             },

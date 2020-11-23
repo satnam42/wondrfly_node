@@ -194,6 +194,9 @@ const setBasicInfo = (model, user, context) => {
     if (model.lng !== "string" && model.lng !== undefined) {
         user.lng = model.lng;
     }
+    if (model.isAmbassador !== "string" && model.isAmbassador !== undefined) {
+        user.isAmbassador = model.isAmbassador;
+    }
     if (model.stripeToken !== "string" && model.stripeToken !== undefined) {
         user.stripeToken = model.stripeToken;
     }

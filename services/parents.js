@@ -43,6 +43,9 @@ const setParent = (model, parent, context) => {
     if (model.stripeKey !== "string" && model.stripeKey !== undefined) {
         parent.stripeKey = model.stripeKey;
     }
+    if (model.isAmbassador !== "string" && model.isAmbassador !== undefined) {
+        parent.isAmbassador = model.isAmbassador;
+    }
     parent.lastModifiedBy = context.user.id
     parent.updateOn = new Date()
     let user = parent

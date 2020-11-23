@@ -33,6 +33,9 @@ module.exports = [
             zipCode: {
                 type: "string"
             },
+            isAmbassador: {
+                type: "boolean"
+            },
             lat: {
                 type: "string"
             },
