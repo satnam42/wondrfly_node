@@ -687,6 +687,15 @@ const configure = (app, logger) => {
     api.likes.remove
   );
 
+  // =========ambassdor api's============
+  app.get(
+    "/api/ambassador/getAmbassadors",
+    permit.context.requiresToken,
+    // permit.context.builder,
+    // validator.users.get,
+    api.ambassador.getAmbassadors
+  );
+
   log.end();
 };
 
