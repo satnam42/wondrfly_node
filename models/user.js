@@ -1,5 +1,6 @@
 "use strict";
 const mongoose = require("mongoose");
+const REQUIRED_VALIDATION_MESSAGE = '{PATH} is required'
 const user = mongoose.Schema({
   firstName: { type: String, default: "", },
   lastName: { type: String, default: "", },
@@ -45,6 +46,7 @@ const user = mongoose.Schema({
     type: Date,
     required: false
   },
+  rewardpointIds: [{ type: mongoose.Schema.Types.ObjectId, default: [], ref: 'rewardpoint' }],
   deviceToken: { type: String, default: "" },
   createdOn: { type: Date, default: Date.now },
   updatedOn: { type: Date, default: Date.now }

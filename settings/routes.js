@@ -688,6 +688,11 @@ const configure = (app, logger) => {
   );
 
   // =========ambassdor api's============
+  app.post(
+    "/api/ambassador/addOrRemove",
+    permit.context.requiresToken,
+    api.ambassador.addOrRemove
+  );
   app.get(
     "/api/ambassador/getAmbassadors",
     permit.context.requiresToken,
