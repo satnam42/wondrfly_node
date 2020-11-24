@@ -5,6 +5,7 @@ const csv = require('csvtojson')
 const encrypt = require("../permit/crypto.js");
 const auth = require("../permit/auth");
 const imageUrl = require('config').get('image').url
+const ObjectId = require("mongodb").ObjectID;
 const buildUser = async (model, context) => {
     const log = context.logger.start(`services:users:buildUser${model}`);
     const user = await new db.user({
@@ -90,10 +91,10 @@ const build = async (model, context) => {
 
 const setProviderDetail = (model, provider, context) => {
     const log = context.logger.start("services:providers:setBasicInfo");
-    if (model.categoryIds !== undefined && model.categoryIds.length) {
+    if (model.categoryIds !== undefined && !model.categoryIds.length) {
         provider.categoires = model.categoryIds;
     }
-    if (model.tagsId !== undefined && model.tagsId.length) {
+    if (model.tagsId !== undefined && !model.tagsId.length) {
         provider.skills = model.tagsId;
     }
     if (model.about !== "string" && model.about !== undefined) {
@@ -209,7 +210,7 @@ const setBasicInfo = (model, user, context) => {
     if (model.answer !== "string" && model.answer !== undefined) {
         user.answer = model.answer;
     }
-    user.lastModifiedBy = context.user.id
+    // user.lastModifiedBy = context.user.id
     user.updateOn = new Date()
     log.end()
     user.save();
@@ -502,10 +503,22 @@ const getDupicate = async (model, context) => {
 
 const margeDupicate = async (model, context) => {
     const log = context.logger.start(`services:providers:margeDupicate`);
-    model.duplicateProvidres.forEach(async duplicateProvidre => {
-        await db.user.deleteOne({ _id: duplicateProvidre })
-        await db.provders.deleteOne({ user: duplicateProvidre })
+
+    if (!model.duplicateProvidresIds.length) {
+        throw new Error("duplicate Provider's are Requried")
+    }
+    await model.duplicateProvidresIds.forEach(async duplicateProvidre => {
+        try {
+            await db.provider.deleteOne({ user: duplicateProvidre })
+
+            await db.user.deleteOne({ _id: duplicateProvidre })
+        }
+        catch (err) {
+            log.error(err)
+            throw new Error(err)
+        }
     });
+
     let user = await db.user.findById(model.id);
     let provider = await db.provider.findOne({ user: user.id });
     const userBasicInfo = await setBasicInfo(model, user, context);
