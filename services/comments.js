@@ -12,6 +12,19 @@ const build = async (model, context) => {
     log.end();
     return comment;
 };
+
+const pointBuild = async (model, context, nmbr) => {
+    const log = context.logger.start(`services:ambassador:build${model}`);
+    const point = await new db.rewardpoint({
+        ambassador: model.creator,
+        commentPoints: nmbr,
+        createdOn: new Date(),
+        updateOn: new Date(),
+    }).save();
+    log.end();
+    return point;
+};
+
 const set = (model, comment, context) => {
     const log = context.logger.start("services:comments:set");
 
@@ -28,10 +41,19 @@ const createComment = async (model, context) => {
     const comment = await build(model, context);
     // const post = await db.post.findById(model.postId);
     if (comment) {
+        let nmbr = 20;
         await db.post.update(
             { _id: model.postId },
             { $push: { comments: comment._id } },
         );
+        let point = await pointBuild(model, context, nmbr);
+        if (point) {
+            await db.user.update(
+                { _id: model.creator },
+                { $push: { rewardpointIds: point._id } },
+            );
+        }
+
     }
     else {
         throw new Error("error in adding comment");

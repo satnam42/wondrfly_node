@@ -10,7 +10,17 @@ const build = async (model, context) => {
     log.end();
     return like;
 };
-
+const pointBuild = async (model, context, nmbr) => {
+    const log = context.logger.start(`services:ambassador:build${model}`);
+    const point = await new db.rewardpoint({
+        ambassador: model.userId,
+        likePoints: nmbr,
+        createdOn: new Date(),
+        updateOn: new Date(),
+    }).save();
+    log.end();
+    return point;
+};
 // const like = async (model, context) => {
 //     const log = context.logger.start("services:likes:createPost");
 //     let post = await db.post.findById(model.postId);
@@ -26,15 +36,27 @@ const like = async (model, context) => {
     let islike = await db.like.findOne({ creator: model.userId, post: model.postId });
     let like
     if (!islike) {
+        let nmbr = 20;
         post.likesCount += 1
         await post.save();
         like = build(model, context);
+        let point = await pointBuild(model, context, nmbr);
+
+        if (point) {
+            await db.user.update(
+                { _id: model.userId },
+                { $push: { rewardpointIds: point._id } },
+            );
+        }
+
     } else {
         await db.like.findOneAndDelete({ creator: model.userId, post: model.postId }, function (err, docs) {
             console.log('err', err);
         });
         post.likesCount -= 1
         await post.save();
+        let nmbr = 0;
+        await pointBuild(model, context, nmbr);
     }
 
 

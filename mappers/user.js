@@ -28,6 +28,7 @@ exports.toModel = entity => {
     deviceToken: entity.deviceToken,
     note: entity.note,
     role: entity.role,
+    isAmbassador: entity.isAmbassador,
     token: entity.token,
     securityQuestion: entity.securityQuestion,
     permissions: entity.permissions || [],

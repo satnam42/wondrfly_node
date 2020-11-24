@@ -17,7 +17,7 @@ const build = async (model, context, nmbr) => {
     const log = context.logger.start(`services:ambassador:build${model}`);
     const point = await new db.rewardpoint({
         ambassador: model.userId,
-        points: nmbr,
+        basicPoints: nmbr,
         createdOn: new Date(),
         updateOn: new Date(),
     }).save();
@@ -28,7 +28,7 @@ const build = async (model, context, nmbr) => {
 const addOrRemove = async (model, context) => {
     const log = context.logger.start("services:ambassador:addOrRemove");
     let user = await db.user.findById(model.userId);
-    console.log('model ===>>>>', model);
+
     let point
     if (user) {
         if (model.isAmbassador === true) {
