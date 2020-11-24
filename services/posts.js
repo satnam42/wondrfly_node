@@ -182,6 +182,26 @@ const addView = async (id, context) => {
     log.end();
     return 'view added successfully';
 };
+
+const postsByRole = async (query, context) => {
+    const log = context.logger.start(`services:posts:postsByRole`);
+    const { role } = query;
+    if (!role) {
+        throw new Error("role is requried");
+    }
+    let post
+    if (role == 'parent') {
+        post = await db.post.find({ postFor: role }).populate('comments').populate('author');
+    }
+    if (role == 'provider') {
+        post = await db.post.find({ postFor: role }).populate('comments').populate('author');
+    }
+    if (role == 'all') {
+        post = await db.post.find().populate('comments').populate('author');
+    }
+    log.end();
+    return post;
+};
 exports.createPost = createPost;
 exports.getAllPosts = getAllPosts;
 exports.update = update;
@@ -191,3 +211,4 @@ exports.getPostsByUserId = getPostsByUserId
 exports.getPostsByTagId = getPostsByTagId
 exports.removePost = removePost
 exports.addView = addView
+exports.postsByRole = postsByRole

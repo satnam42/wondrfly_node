@@ -654,6 +654,12 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.posts.search
   );
+
+  app.get(
+    "/api/posts/postsByRole",
+    permit.context.requiresToken,
+    api.posts.postsByRole
+  );
   // commment api//
   app.post(
     "/api/comments/create",

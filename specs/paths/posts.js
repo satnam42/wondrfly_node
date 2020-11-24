@@ -164,6 +164,37 @@ module.exports = [
         }
     },
     {
+        url: "/postsByRole",
+        get: {
+            summary: "get post by role",
+            description: "get post by role",
+            parameters: [
+                {
+                    in: "query",
+                    name: "role",
+                    description: "role can be parent, provider, all",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
+    {
         url: "/update/{id}",
         put: {
             summary: "Update",

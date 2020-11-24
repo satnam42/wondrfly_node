@@ -111,6 +111,19 @@ const increaseView = async (req, res) => {
     }
 };
 
+const postsByRole = async (req, res) => {
+    const log = req.context.logger.start(`api:posts:postsByRole`);
+    try {
+        const posts = await service.postsByRole(req.query, req.context);
+        log.end();
+        return response.data(res, posts);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 exports.create = create;
 exports.list = list;
 exports.update = update;
@@ -120,3 +133,4 @@ exports.postsByTagId = postsByTagId
 exports.postsByUserId = postsByUserId;
 exports.remove = remove;
 exports.increaseView = increaseView;
+exports.postsByRole = postsByRole;
