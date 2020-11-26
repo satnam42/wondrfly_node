@@ -27,7 +27,7 @@ sendEmail = async (firstName, email, templatePath, subject, link) => {
     secure: true,
     service: 'Gmail',
     auth: {
-      user: `javascrip.mspl@gmail.com`,
+      user: `javascript.mspl@gmail.com`,
       pass: `showmydev#$!45`
     }
   });
