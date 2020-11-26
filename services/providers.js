@@ -524,7 +524,7 @@ const margeDupicate = async (model, context) => {
 
     let user = await db.user.findById(model.id);
 
-    if (user) {
+    if (!user) {
         throw new Error("Provider not found")
     }
     let provider = await db.provider.findOne({ user: user.id });
