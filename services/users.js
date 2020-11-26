@@ -14,7 +14,7 @@ const crypto = require("crypto");
 
 
 // function to send email
-function sendEmail(firstName, email, templatePath, subject, link) {
+sendEmail = async (firstName, email, templatePath, subject, link) => {
   let mailBody = fs.readFileSync(path.join(__dirname, templatePath)).toString();
   // let date = moment(new Date()).format('L');
   mailBody = mailBody.replace(/{{firstname}}/g, firstName);
@@ -39,14 +39,23 @@ function sendEmail(firstName, email, templatePath, subject, link) {
     subject: subject,
     html: mailBody,
   };
+  let mailSent = await smtpTransport.sendMail(mailOptions)
+  if (mailSent) {
+    console.log("Message sent: %s", mailSent.messageId);
+    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(mailSent));
+    return
+  } else {
+    log.end()
+    throw new Error("Unable to send email try after sometime");
+  }
 
-  smtpTransport.sendMail(mailOptions, function (error, info) {
-    if (!error) {
-      console.log("email sent");
-    } else {
-      return error.message
-    }
-  });
+  // smtpTransport.sendMail(mailOptions, function (error, info) {
+  //   if (!error) {
+  //     console.log("email sent");
+  //   } else {
+  //     return error.message
+  //   }
+  // });
 }
 
 
@@ -122,6 +131,7 @@ const getById = async (id, context) => {
   return user;
 
 };
+
 const get = async (query, context) => {
 
   const log = context.logger.start(`services:users:get`);
@@ -181,12 +191,14 @@ const recentAddedByRole = async (context, query) => {
   return user;
 
 };
+
 const getRecentAdded = async (context) => {
   const log = context.logger.start(`services:users:getRecentAdded`);
   const user = await db.user.find().sort({ _id: -1 }).limit(5)
   log.end();
   return user;
 };
+
 const resetPassword = async (id, model, context) => {
   const log = context.logger.start(`service/users/resetPassword: ${model}`);
   const user = await db.user.findById(id);
@@ -215,6 +227,7 @@ const resetPassword = async (id, model, context) => {
     throw new Error("Old Password Not Match");
   }
 };
+
 const update = async (id, model, context) => {
   const log = context.logger.start(`services:users:update`);
   let entity = await db.user.findById(id);
@@ -227,6 +240,7 @@ const update = async (id, model, context) => {
   return user
   0
 };
+
 const login = async (model, context) => {
   const log = context.logger.start("services:users:login");
 
@@ -302,6 +316,7 @@ const login = async (model, context) => {
   log.end();
   return user;
 };
+
 const otp = async (mobileNo, context) => {
   var client = new twilio(accountSid, authToken);
   const msg = await client.messages.create({
@@ -312,6 +327,7 @@ const otp = async (mobileNo, context) => {
   console.log(msg.status)
   return msg;
 };
+
 const logout = async (model, context) => {
   const log = context.logger.start("services:users:logout");
   await context.user.save();
@@ -490,6 +506,7 @@ const sendMail = async (email, message, subject) => {
     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(mailSent));
     return
   } else {
+    console.log('mailSent', mailSent)
     log.end()
     throw new Error("Unable to send email try after sometime");
   }
