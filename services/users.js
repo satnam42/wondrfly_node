@@ -14,7 +14,7 @@ const crypto = require("crypto");
 
 
 // function to send email
-sendEmail = async (firstName, email, templatePath, subject, link) => {
+function sendEmail(firstName, email, templatePath, subject, link) {
   let mailBody = fs.readFileSync(path.join(__dirname, templatePath)).toString();
   // let date = moment(new Date()).format('L');
   mailBody = mailBody.replace(/{{firstname}}/g, firstName);
@@ -39,15 +39,13 @@ sendEmail = async (firstName, email, templatePath, subject, link) => {
     subject: subject,
     html: mailBody,
   };
-  let mailSent = await smtpTransport.sendMail(mailOptions)
-  if (mailSent) {
-    console.log("Message sent: %s", mailSent.messageId);
-    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(mailSent));
-    return
-  } else {
-    log.end()
-    throw new Error("Unable to send email try after sometime");
-  }
+  smtpTransport.sendMail(mailOptions, function (error, info) {
+    if (!error) {
+      console.log("email sent");
+    } else {
+      return error.message
+    }
+  });
 
   // smtpTransport.sendMail(mailOptions, function (error, info) {
   //   if (!error) {
