@@ -13,15 +13,13 @@ var twilio = require('twilio');
 const crypto = require("crypto");
 
 
-// function to send email
-function sendEmail(firstName, email, templatePath, subject, link) {
+sendEmail = async (firstName, email, templatePath, subject, link) => {
   let mailBody = fs.readFileSync(path.join(__dirname, templatePath)).toString();
-  // let date = moment(new Date()).format('L');
   mailBody = mailBody.replace(/{{firstname}}/g, firstName);
+
   if (link) {
     mailBody = mailBody.replace(/"url_link_forgotPassword"/g, link);
   }
-  // mailBody = mailBody.replace(/{{date}}/g, date);
 
   let smtpTransport = nodemailer.createTransport({
     host: 'localhost',
@@ -29,31 +27,26 @@ function sendEmail(firstName, email, templatePath, subject, link) {
     secure: true,
     service: 'Gmail',
     auth: {
-      user: `fullstack.mspl@gmail.com`,
-      pass: `talent26/07/1010`
+      user: `javascrip.mspl@gmail.com`,
+      pass: `showmydev#$!45`
     }
   });
+
   let mailOptions = {
     from: "smtp.mailtrap.io",
     to: email, //sending to: E-mail
     subject: subject,
     html: mailBody,
   };
-  smtpTransport.sendMail(mailOptions, function (error, info) {
-    if (!error) {
-      console.log("email sent");
-    } else {
-      return error.message
-    }
-  });
-
-  // smtpTransport.sendMail(mailOptions, function (error, info) {
-  //   if (!error) {
-  //     console.log("email sent");
-  //   } else {
-  //     return error.message
-  //   }
-  // });
+  let mailSent = await smtpTransport.sendMail(mailOptions)
+  if (mailSent) {
+    console.log("Message sent: %s", mailSent.messageId);
+    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(mailSent));
+    return
+  } else {
+    log.end()
+    throw new Error("Unable to send email try after sometime");
+  }
 }
 
 
@@ -504,7 +497,6 @@ const sendMail = async (email, message, subject) => {
     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(mailSent));
     return
   } else {
-    console.log('mailSent', mailSent)
     log.end()
     throw new Error("Unable to send email try after sometime");
   }
