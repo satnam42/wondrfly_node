@@ -703,8 +703,19 @@ const configure = (app, logger) => {
     "/api/ambassador/getAmbassadors",
     permit.context.requiresToken,
     // permit.context.builder,
-    // validator.users.get,
     api.ambassador.getAmbassadors
+  );
+
+  app.post(
+    "/api/ambassador/addActivities",
+    permit.context.requiresToken,
+    api.ambassador.addActivities
+  );
+
+  app.get(
+    "/api/ambassador/getActivities",
+    permit.context.requiresToken,
+    api.ambassador.getActivities
   );
 
   log.end();

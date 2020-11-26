@@ -58,29 +58,41 @@ const addOrRemove = async (model, context) => {
     return point;
 };
 
-// let islike = await db.like.findOne({ creator: model.userId, post: model.postId });
-// let like
-// if (!islike) {
-//     post.likesCount += 1
-//     await post.save();
-//     like = build(model, context);
-// } else {
-//     await db.like.findOneAndDelete({ creator: model.userId, post: model.postId }, function (err, docs) {
-//         console.log('err', err);
-//     });
-//     post.likesCount -= 1
-//     await post.save();
-// }
-
-
 const getAmbassadors = async (id, context) => {
 
     const log = context.logger.start('services:ambassador:getAmbassadors');
     const user = await db.user.find({ isAmbassador: "true" }).populate('rewardpointIds');
     log.end();
     return user;
+};
 
+
+const addActivities = async (model, context) => {
+    const log = context.logger.start("services:tags:addActivities");
+    const isactiviyExist = await db.pointactivities.findOne({ activity: { $eq: model.activity } });
+    if (isactiviyExist) {
+        return "activity already exist";
+    }
+
+    const activity = await new db.pointactivities({
+        activity: model.activity,
+        point: model.point,
+        createdOn: new Date(),
+        updateOn: new Date(),
+    }).save();
+    log.end();
+    return activity;
+};
+
+
+const getActivities = async (model, context) => {
+    const log = context.logger.start('services:ambassador:getActivities');
+    const activities = await db.pointactivities.find();
+    log.end();
+    return activities;
 };
 
 exports.getAmbassadors = getAmbassadors;
 exports.addOrRemove = addOrRemove;
+exports.addActivities = addActivities;
+exports.getActivities = getActivities
