@@ -18,6 +18,7 @@ const build = async (model, context, nmbr) => {
     const point = await new db.rewardpoint({
         ambassador: model.userId,
         basicPoints: nmbr,
+        isAmbassadorOn: new Date(),
         createdOn: new Date(),
         updateOn: new Date(),
     }).save();
@@ -92,7 +93,32 @@ const getActivities = async (model, context) => {
     return activities;
 };
 
+const addActivityPoint = async (model, context) => {
+    const log = context.logger.start("services:tags:addActivityPoint");
+    const isactiviyExist = await db.rewardpoint.findOne({ activity: { $eq: model.activity } });
+    if (isactiviyExist) {
+        return "This activity is already selected";
+    }
+
+    const activityPoint = await new db.rewardpoint({
+        ambassador: model.ambassadorId,
+        activity: model.activity,
+        activityPoints: model.point,
+        createdOn: new Date(),
+        updateOn: new Date(),
+    }).save();
+    if (activityPoint) {
+        await db.user.update(
+            { _id: model.ambassadorId },
+            { $push: { rewardpointIds: activityPoint._id } },
+        );
+    }
+    log.end();
+    return activityPoint;
+};
+
 exports.getAmbassadors = getAmbassadors;
 exports.addOrRemove = addOrRemove;
 exports.addActivities = addActivities;
-exports.getActivities = getActivities
+exports.getActivities = getActivities;
+exports.addActivityPoint = addActivityPoint;

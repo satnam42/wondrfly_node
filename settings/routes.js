@@ -718,6 +718,12 @@ const configure = (app, logger) => {
     api.ambassador.getActivities
   );
 
+  app.post(
+    "/api/ambassador/addActivityPoint",
+    permit.context.requiresToken,
+    api.ambassador.addActivityPoint
+  );
+
   log.end();
 };
 
