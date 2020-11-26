@@ -148,6 +148,7 @@ const setProviderDetail = (model, provider, context) => {
     return provider;
 
 }
+
 const setBasicInfo = (model, user, context) => {
     const log = context.logger.start("services:providers:set");
     if (model.firstName !== "string" && model.firstName !== undefined) {
@@ -507,11 +508,13 @@ const margeDupicate = async (model, context) => {
     if (!model.duplicateProvidresIds.length) {
         throw new Error("duplicate Provider's are Requried")
     }
+
     await model.duplicateProvidresIds.forEach(async duplicateProvidre => {
         try {
-            await db.provider.deleteOne({ user: duplicateProvidre })
-
-            await db.user.deleteOne({ _id: duplicateProvidre })
+            if (model.id != duplicateProvidresIds) {
+                await db.provider.deleteOne({ user: ObjectId(duplicateProvidre) })
+                await db.user.deleteOne({ _id: ObjectId(duplicateProvidre) })
+            }
         }
         catch (err) {
             log.error(err)
@@ -520,6 +523,10 @@ const margeDupicate = async (model, context) => {
     });
 
     let user = await db.user.findById(model.id);
+
+    if (user) {
+        throw new Error("Provider not found")
+    }
     let provider = await db.provider.findOne({ user: user.id });
     const userBasicInfo = await setBasicInfo(model, user, context);
     const providerDetail = await setProviderDetail(model, provider, context);
