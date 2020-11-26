@@ -89,7 +89,7 @@ const build = async (model, context) => {
     // return provider;
 };
 
-const setProviderDetail = (model, provider, context) => {
+const setProviderDetail = async (model, provider, context) => {
     const log = context.logger.start("services:providers:setBasicInfo");
     if (model.categoryIds !== undefined && !model.categoryIds.length) {
         provider.categoires = model.categoryIds;
@@ -142,14 +142,14 @@ const setProviderDetail = (model, provider, context) => {
 
     provider.updateOn = new Date()
     log.end()
-    provider.save();
+    await provider.save();
     // const provider = await setproviderDetail(model, entity, context);
 
     return provider;
 
 }
 
-const setBasicInfo = (model, user, context) => {
+const setBasicInfo = async (model, user, context) => {
     const log = context.logger.start("services:providers:set");
     if (model.firstName !== "string" && model.firstName !== undefined) {
         user.firstName = model.firstName;
@@ -214,7 +214,7 @@ const setBasicInfo = (model, user, context) => {
     // user.lastModifiedBy = context.user.id
     user.updateOn = new Date()
     log.end()
-    user.save();
+    await user.save();
     // const provider = await setproviderDetail(model, entity, context);
 
     return user;
