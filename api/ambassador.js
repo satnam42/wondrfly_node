@@ -30,8 +30,6 @@ const getAmbassadors = async (req, res) => {
     }
 };
 
-
-
 const addActivities = async (req, res) => {
     const log = req.context.logger.start(`api:ambassador:addActivities`);
     try {
@@ -59,7 +57,21 @@ const getActivities = async (req, res) => {
     }
 };
 
+const addActivityPoint = async (req, res) => {
+    const log = req.context.logger.start(`api:ambassador:addActivityPoint`);
+    try {
+        const activity = await service.addActivityPoint(req.body, req.context);
+        log.end();
+        return response.data(res, activity);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 exports.getAmbassadors = getAmbassadors
 exports.addOrRemove = addOrRemove;
 exports.addActivities = addActivities;
 exports.getActivities = getActivities;
+exports.addActivityPoint = addActivityPoint

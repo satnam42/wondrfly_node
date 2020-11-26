@@ -115,4 +115,38 @@ module.exports = [
             }
         }
     },
+
+    {
+        url: "/addActivityPoint",
+        post: {
+            summary: "add",
+            description: "add activity point",
+            parameters: [
+                {
+                    in: "body",
+                    name: "body",
+                    description: "Model of activity point adding",
+                    required: true,
+                    schema: {
+                        $ref: "#/definitions/AddActivityPoint"
+                    }
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    }
 ]
