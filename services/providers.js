@@ -510,7 +510,7 @@ const margeDupicate = async (model, context) => {
     if (!model.duplicateProvidresIds.length) {
         throw new Error("duplicate Provider's are Requried")
     }
-    for (let duplicateProvidre of duplicateProvidresIds) {
+    for (let duplicateProvidre of model.duplicateProvidresIds) {
         try {
             await db.provider.deleteOne({ user: ObjectId(duplicateProvidre) })
             await db.user.deleteOne({ _id: ObjectId(duplicateProvidre) })
