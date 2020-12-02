@@ -724,6 +724,18 @@ const configure = (app, logger) => {
     api.ambassador.addActivityPoint
   );
 
+  app.delete(
+    "/api/ambassador/deleteActivity/:id",
+    permit.context.requiresToken,
+    api.ambassador.deleteActivity
+  );
+
+  app.put(
+    "/api/ambassador/updateActivity/:id",
+    permit.context.builder,
+    // validator.users.updateActivity, 
+    api.ambassador.updateActivity
+  );
   // =========Alert api's============
   app.post(
     "/api/alert/create",

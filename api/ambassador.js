@@ -70,8 +70,37 @@ const addActivityPoint = async (req, res) => {
     }
 };
 
-exports.getAmbassadors = getAmbassadors
+const updateActivity = async (req, res) => {
+    const log = req.context.logger.start(`api:ambassador:updateActivity:${req.params.id}`);
+    try {
+        const product = await service.updateActivity(req.params.id, req.body, req.context);
+        let message = 'Activity updated successfully'
+        log.end();
+        return response.success(res, message, product);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
+const deleteActivity = async (req, res) => {
+    const log = req.context.logger.start(`api:ambassador:deleteActivity:${req.params.id}`);
+    try {
+        const activity = await service.deleteActivity(req.params.id, req.context);
+        log.end();
+        return response.data(res, activity);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
+exports.getAmbassadors = getAmbassadors;
 exports.addOrRemove = addOrRemove;
 exports.addActivities = addActivities;
 exports.getActivities = getActivities;
-exports.addActivityPoint = addActivityPoint
+exports.addActivityPoint = addActivityPoint;
+exports.deleteActivity = deleteActivity;
+exports.updateActivity = updateActivity;

@@ -50,8 +50,9 @@ const create = async (model, context) => {
     const log = context.logger.start("services:alert:create");
     const isalertExist = await db.alert.findOne({ msg: { $eq: model.msg } });
     if (isalertExist) {
-        return "alert is already exist";
+        throw new Error("alert is already exist");
     }
+
     const alert = build(model, context);
     log.end();
     return alert;

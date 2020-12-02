@@ -148,5 +148,71 @@ module.exports = [
                 }
             }
         }
+    },
+
+    {
+        url: "/deleteActivity/{id}",
+        delete: {
+            summary: "Delete",
+            description: "Delete activity",
+            parameters: [
+                {
+                    in: "path",
+                    name: "id",
+                    description: "activity id",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
+    {
+        url: "/updateActivity/{id}",
+        put: {
+            summary: "activity",
+            description: "update activity by id",
+            parameters: [
+                {
+                    in: "path",
+                    name: "id",
+                    description: "activity id",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "body",
+                    name: "body",
+                    description: "Model of asignVendor",
+                    required: true,
+                    schema: {
+                        $ref: "#/definitions/activitiesAdd"
+                    }
+                },
+
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
     }
 ]

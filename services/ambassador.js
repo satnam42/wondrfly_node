@@ -26,6 +26,20 @@ const build = async (model, context, nmbr) => {
     return point;
 };
 
+const setActivity = async (model, activitys, context) => {
+    const log = context.logger.start("services:alert:set");
+    if (model.activity !== "string" && model.activity !== undefined) {
+        activitys.activity = model.activity;
+    }
+    if (model.point !== "string" && model.point !== undefined) {
+        activitys.point = model.point;
+    }
+
+    log.end();
+    await activitys.save();
+    return activitys;
+}
+
 const addOrRemove = async (model, context) => {
     const log = context.logger.start("services:ambassador:addOrRemove");
     let user = await db.user.findById(model.userId);
@@ -72,7 +86,7 @@ const addActivities = async (model, context) => {
     const log = context.logger.start("services:tags:addActivities");
     const isactiviyExist = await db.pointactivities.findOne({ activity: { $eq: model.activity } });
     if (isactiviyExist) {
-        return "activity already exist";
+        throw new Error("activity is already exist");
     }
 
     const activity = await new db.pointactivities({
@@ -97,7 +111,7 @@ const addActivityPoint = async (model, context) => {
     const log = context.logger.start("services:tags:addActivityPoint");
     const isactiviyExist = await db.rewardpoint.findOne({ activity: { $eq: model.activity } });
     if (isactiviyExist) {
-        return "This activity is already selected";
+        throw new Error("activity point is already exist");
     }
 
     const activityPoint = await new db.rewardpoint({
@@ -117,8 +131,36 @@ const addActivityPoint = async (model, context) => {
     return activityPoint;
 };
 
+const deleteActivity = async (id, context) => {
+    const log = context.logger.start(`services:ambassador:deleteActivity:${id}`);
+    if (!id) {
+        throw new Error("activity id is required");
+    }
+
+    await db.pointactivities.deleteOne({ _id: id });
+    log.end();
+    return 'Alert Deleted Successfully'
+};
+
+const updateActivity = async (id, model, context) => {
+    const log = context.logger.start(`services:ambassador:updateActivity`);
+    if (!id) {
+        throw new Error("activity id is required");
+    }
+    let activity = await db.pointactivities.findById(id);
+    if (!activity) {
+        throw new Error("invalid activity");
+    }
+    const activitys = await setActivity(model, activity, context);
+    log.end();
+    return activitys
+
+};
+
 exports.getAmbassadors = getAmbassadors;
 exports.addOrRemove = addOrRemove;
 exports.addActivities = addActivities;
 exports.getActivities = getActivities;
 exports.addActivityPoint = addActivityPoint;
+exports.deleteActivity = deleteActivity;
+exports.updateActivity = updateActivity;

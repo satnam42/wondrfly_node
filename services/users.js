@@ -13,12 +13,12 @@ var twilio = require('twilio');
 const crypto = require("crypto");
 
 
-sendEmail = async (firstName, email, templatePath, subject, link) => {
+sendEmail = async (firstName, email, templatePath, subject, OTP) => {
   let mailBody = fs.readFileSync(path.join(__dirname, templatePath)).toString();
   mailBody = mailBody.replace(/{{firstname}}/g, firstName);
 
-  if (link) {
-    mailBody = mailBody.replace(/"url_link_forgotPassword"/g, link);
+  if (OTP) {
+    mailBody = mailBody.replace(/{{OTP}}/g, OTP);
   }
 
   let smtpTransport = nodemailer.createTransport({
@@ -122,22 +122,26 @@ const getById = async (id, context) => {
 
   if (alerts.alertFor == 'parent' && user.role == 'parent') {
     user.alert = alerts.msg;
+    user.alertType = alerts.msgType;
     log.end();
     return user;
   }
   if (alerts.alertFor == 'provider' && user.role == 'provider') {
     user.alert = alerts.msg;
+    user.alertType = alerts.msgType;
     log.end();
     return user;
   }
   if (alerts.alertFor == 'all') {
     user.alert = alerts.msg;
+    user.alertType = alerts.msgType;
     log.end();
     return user;
 
   }
   if (alerts.email == user.email) {
     user.alert = alerts.msg;
+    user.alertType = alerts.msgType;
     log.end();
     return user;
 
@@ -229,7 +233,7 @@ const resetPassword = async (id, model, context) => {
     user.updatedOn = new Date();
     user.lastModifiedBy = context.user.id
     await user.save();
-    let templatePath = '../emailTemplates/reset_password.html';
+    let templatePath = '../emailTemplates/change_password.html';
     let subject = "Password changed";
 
     sendEmail(user.firstName, user.email, templatePath, subject);
@@ -446,11 +450,15 @@ const sendOtp = async (email, context) => {
   for (let i = 0; i < 4; i++) {
     OTP += digits[Math.floor(Math.random() * 10)];
   }
-  let message = `Your 4 digit One Time Password: <br>${OTP}<br></br>
-    otp valid only 4 minutes`
+  // let message = `Your 4 digit One Time Password: <br>${OTP}<br></br>
+  //   otp valid only 4 minutes`
   let = subject = "One Time Password"
+  let templatePath = '../emailTemplates/forgot_password.html';
 
-  await sendMail(email, message, subject)
+  if (user) {
+    sendEmail(user.firstName, user.email, templatePath, subject, OTP);
+  }
+  // await sendMail(email, message, subject)
 
   let otpToken = auth.getOtpToken(OTP, true, context)
   let data = {
@@ -495,6 +503,12 @@ const forgotPassword = async (model, context) => {
   }
   user.password = await encrypt.getHash(model.newPassword, context)
   await user.save()
+  let = subject = "Reset password"
+  let templatePath = '../emailTemplates/change_password.html';
+
+  if (user) {
+    sendEmail(user.firstName, user.email, templatePath, subject);
+  }
   log.end()
   return "Password changed Succesfully"
 }
@@ -625,70 +639,70 @@ const verifyAnswer = async (id, model, context) => {
 };
 
 
-const forgotPasswordVerifyEmail = async (model, context) => {
-  const log = context.logger.start('service/users/forgotPasswordVerifyEmail');
+// const forgotPasswordVerifyEmail = async (model, context) => {
+//   const log = context.logger.start('service/users/forgotPasswordVerifyEmail');
 
-  const reset = {};
-  const resetPasswordToken = crypto.randomBytes(20).toString("hex");
-  const resetPasswordExpires = Date.now() + 3600000; //expires in an hour
+//   const reset = {};
+//   const resetPasswordToken = crypto.randomBytes(20).toString("hex");
+//   const resetPasswordExpires = Date.now() + 3600000; //expires in an hour
 
-  reset.resetPasswordToken = resetPasswordToken;
-  reset.resetPasswordExpires = resetPasswordExpires;
+//   reset.resetPasswordToken = resetPasswordToken;
+//   reset.resetPasswordExpires = resetPasswordExpires;
 
-  const link = 'http://52.15.99.207:6700/resetPassword/' + resetPasswordToken;
+//   const link = 'http://52.15.99.207:6700/resetPassword/' + resetPasswordToken;
 
-  async function storedToken() {
-    await db.user.findOneAndUpdate({ email: model.email }, { $set: reset }, { new: true }).then((tkn) => {
-      console.log("tkn");
-    });
-  }
+//   async function storedToken() {
+//     await db.user.findOneAndUpdate({ email: model.email }, { $set: reset }, { new: true }).then((tkn) => {
+//       console.log("tkn");
+//     });
+//   }
 
-  let user = await db.user.findOne({ email: model.email })
+//   let user = await db.user.findOne({ email: model.email })
 
-  if (!user) {
-    log.end();
-    throw new Error("The email address " + model.email + " is not associated with any account. Please check your email address and try again.");
-  } else {
-    storedToken();
+//   if (!user) {
+//     log.end();
+//     throw new Error("The email address " + model.email + " is not associated with any account. Please check your email address and try again.");
+//   } else {
+//     storedToken();
 
-    let templatePath = '../emailTemplates/forgot_password.html';
-    let subject = "Forgot Password";
-    if (user) {
-      const mailrespose = await sendEmail(user.firstName, user.email, templatePath, subject, link);
-    }
+//     let templatePath = '../emailTemplates/forgot_password.html';
+//     let subject = "Forgot Password";
+//     if (user) {
+//       const mailrespose = await sendEmail(user.firstName, user.email, templatePath, subject, link);
+//     }
 
 
-    // let mailBody = fs.readFileSync(path.join(__dirname, '../emailTemplates/forgot_password.html')).toString();
-    // // let date = moment(new Date()).format('L');
-    // mailBody = mailBody.replace(/{{firstname}}/g, user.firstName);
-    // mailBody = mailBody.replace(/"url_link_forgotPassword"/g, link);
-    // // mailBody = mailBody.replace(/{{date}}/g, date);
+// let mailBody = fs.readFileSync(path.join(__dirname, '../emailTemplates/forgot_password.html')).toString();
+// // let date = moment(new Date()).format('L');
+// mailBody = mailBody.replace(/{{firstname}}/g, user.firstName);
+// mailBody = mailBody.replace(/"url_link_forgotPassword"/g, link);
+// // mailBody = mailBody.replace(/{{date}}/g, date);
 
-    // let smtpTransport = nodemailer.createTransport({
-    //   service: 'Gmail',
-    //   auth: {
-    //     user: `javascript.mspl@gmail.com`,
-    //     pass: `showmydev#$!45`
-    //   }
-    // });
-    // let mailOptions = {
-    //   from: "smtp.mailtrap.io",
-    //   to: user.email, //sending to: E-mail
-    //   subject: "Forgot password",
-    //   html: mailBody,
-    // };
+// let smtpTransport = nodemailer.createTransport({
+//   service: 'Gmail',
+//   auth: {
+//     user: `javascript.mspl@gmail.com`,
+//     pass: `showmydev#$!45`
+//   }
+// });
+// let mailOptions = {
+//   from: "smtp.mailtrap.io",
+//   to: user.email, //sending to: E-mail
+//   subject: "Forgot password",
+//   html: mailBody,
+// };
 
-    // smtpTransport.sendMail(mailOptions, function (error, info) {
-    //   if (!error) {
-    //     log.end();
-    //     console.log("email sent");
-    //   } else {
-    //     log.end();
-    //     return error.message
-    //   }
-    // });
-  }
-};
+// smtpTransport.sendMail(mailOptions, function (error, info) {
+//   if (!error) {
+//     log.end();
+//     console.log("email sent");
+//   } else {
+//     log.end();
+//     return error.message
+//   }
+// });
+//   }
+// };
 
 
 
@@ -713,4 +727,4 @@ exports.tellAFriend = tellAFriend;
 exports.feedback = feedback;
 exports.getProfileProgress = getProfileProgress;
 exports.verifyAnswer = verifyAnswer;
-exports.forgotPasswordVerifyEmail = forgotPasswordVerifyEmail;
+// exports.forgotPasswordVerifyEmail = forgotPasswordVerifyEmail;
