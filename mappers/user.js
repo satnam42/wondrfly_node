@@ -28,6 +28,7 @@ exports.toModel = entity => {
     deviceToken: entity.deviceToken,
     note: entity.note,
     role: entity.role,
+    alert: entity.alert,
     isAmbassador: entity.isAmbassador,
     isAmbassadorOn: entity.isAmbassadorOn,
     token: entity.token,

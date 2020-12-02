@@ -724,6 +724,30 @@ const configure = (app, logger) => {
     api.ambassador.addActivityPoint
   );
 
+  // =========Alert api's============
+  app.post(
+    "/api/alert/create",
+    permit.context.requiresToken,
+    api.alert.create
+  );
+  app.get(
+    "/api/alert/list",
+    permit.context.requiresToken,
+    // permit.context.builder,
+    api.alert.list
+  );
+  app.delete(
+    "/api/alert/deleteAlert/:id",
+    permit.context.requiresToken,
+    api.alert.deleteAlert
+  );
+
+  app.put(
+    "/api/alert/update",
+    permit.context.requiresToken,
+    api.alert.update
+  );
+
   log.end();
 };
 
