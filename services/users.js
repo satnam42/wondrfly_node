@@ -13,6 +13,8 @@ var twilio = require('twilio');
 const crypto = require("crypto");
 
 
+
+
 sendEmail = async (firstName, email, templatePath, subject, OTP) => {
   let mailBody = fs.readFileSync(path.join(__dirname, templatePath)).toString();
   mailBody = mailBody.replace(/{{firstname}}/g, firstName);
@@ -37,6 +39,23 @@ sendEmail = async (firstName, email, templatePath, subject, OTP) => {
     to: email, //sending to: E-mail
     subject: subject,
     html: mailBody,
+    attachments: [{
+      filename: 'email_banner.png',
+      path: `${__dirname}/../public/images/email_banner.png`,
+      cid: 'banner1' //same cid value as in the html img src
+    },
+    {
+      filename: 'logo.png',
+      path: `${__dirname}/../public/images/logo.png`,
+      cid: 'logo1' //same cid value as in the html img src
+    },
+    {
+      filename: 'logo_white.png',
+      path: `${__dirname}/../public/images/logo_white.png`,
+      cid: 'logo_white' //same cid value as in the html img src
+    }
+    ]
+
   };
   let mailSent = await smtpTransport.sendMail(mailOptions)
   if (mailSent) {
@@ -48,6 +67,14 @@ sendEmail = async (firstName, email, templatePath, subject, OTP) => {
     throw new Error("Unable to send email try after sometime");
   }
 }
+
+
+// src = "images/fb.svg" alt = "Facebook" ></a >
+//   <a href="javascript:;"><img src="images/pinterest.svg" alt="Pinterest"></a>
+//     <a href="javascript:;"><img src="images/insta.svg" 
+
+
+
 
 
 const setUser = (model, user, context) => {
