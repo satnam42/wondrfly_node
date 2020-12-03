@@ -120,31 +120,33 @@ const getById = async (id, context) => {
   const user = await db.user.findById(id);
   const alerts = await db.alert.findOne().sort({ _id: -1 });
 
-  if (alerts.alertFor == 'parent' && user.role == 'parent') {
-    user.alert = alerts.msg;
-    user.alertType = alerts.msgType;
-    log.end();
-    return user;
-  }
-  if (alerts.alertFor == 'provider' && user.role == 'provider') {
-    user.alert = alerts.msg;
-    user.alertType = alerts.msgType;
-    log.end();
-    return user;
-  }
-  if (alerts.alertFor == 'all') {
-    user.alert = alerts.msg;
-    user.alertType = alerts.msgType;
-    log.end();
-    return user;
+  if (alerts) {
+    if (alerts.alertFor == 'parent' && user.role == 'parent') {
+      user.alert = alerts.msg;
+      user.alertType = alerts.msgType;
+      log.end();
+      return user;
+    }
+    if (alerts.alertFor == 'provider' && user.role == 'provider') {
+      user.alert = alerts.msg;
+      user.alertType = alerts.msgType;
+      log.end();
+      return user;
+    }
+    if (alerts.alertFor == 'all') {
+      user.alert = alerts.msg;
+      user.alertType = alerts.msgType;
+      log.end();
+      return user;
 
-  }
-  if (alerts.email == user.email) {
-    user.alert = alerts.msg;
-    user.alertType = alerts.msgType;
-    log.end();
-    return user;
+    }
+    if (alerts.email == user.email) {
+      user.alert = alerts.msg;
+      user.alertType = alerts.msgType;
+      log.end();
+      return user;
 
+    }
   }
   log.end();
   return user;

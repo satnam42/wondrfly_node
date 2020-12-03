@@ -22,6 +22,10 @@ const app = express();
 //     next();
 // })
 
+// Define the static file path
+app.use(express.static(__dirname + '/public'));
+
+
 var server = Http.createServer(app);
 // admin.initializeApp({
 //   credential: admin.credential.cert(serviceAccount)
