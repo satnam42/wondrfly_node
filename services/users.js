@@ -40,14 +40,39 @@ sendEmail = async (firstName, email, templatePath, subject, OTP) => {
     subject: subject,
     html: mailBody,
     attachments: [{
-      filename: 'email_banner.png',
-      path: `${__dirname}/../public/images/email_banner.png`,
-      cid: 'banner1' //same cid value as in the html img src
+      filename: 'welcome_img1.png',
+      path: `${__dirname}/../public/images/welcome_img1.png`,
+      cid: 'welcome_img1' //same cid value as in the html img src
     },
     {
       filename: 'logo.png',
       path: `${__dirname}/../public/images/logo.png`,
       cid: 'logo1' //same cid value as in the html img src
+    },
+    {
+      filename: 'welcome_img2.png',
+      path: `${__dirname}/../public/images/welcome_img2.png`,
+      cid: 'welcome_img2' //same cid value as in the html img src
+    },
+    {
+      filename: 'welcome_img3.png',
+      path: `${__dirname}/../public/images/welcome_img3.png`,
+      cid: 'welcome_img3' //same cid value as in the html img src
+    },
+    {
+      filename: 'welcome_img4.png',
+      path: `${__dirname}/../public/images/welcome_img4.png`,
+      cid: 'welcome_img4' //same cid value as in the html img src
+    },
+    {
+      filename: 'welcome_img5.png',
+      path: `${__dirname}/../public/images/welcome_img5.png`,
+      cid: 'welcome_img5' //same cid value as in the html img src
+    },
+    {
+      filename: 'welcome_img6.png',
+      path: `${__dirname}/../public/images/welcome_img6.png`,
+      cid: 'welcome_img6' //same cid value as in the html img src
     },
     {
       filename: 'logo_white.png',
@@ -69,10 +94,106 @@ sendEmail = async (firstName, email, templatePath, subject, OTP) => {
 }
 
 
-// src = "images/fb.svg" alt = "Facebook" ></a >
-//   <a href="javascript:;"><img src="images/pinterest.svg" alt="Pinterest"></a>
-//     <a href="javascript:;"><img src="images/insta.svg" 
+changePasswordEmail = async (firstName, email, templatePath, subject, OTP) => {
+  let mailBody = fs.readFileSync(path.join(__dirname, templatePath)).toString();
+  mailBody = mailBody.replace(/{{firstname}}/g, firstName);
 
+  if (OTP) {
+    mailBody = mailBody.replace(/{{OTP}}/g, OTP);
+  }
+
+  let smtpTransport = nodemailer.createTransport({
+    host: 'localhost',
+    port: 465,
+    secure: true,
+    service: 'Gmail',
+    auth: {
+      user: `javascript.mspl@gmail.com`,
+      pass: `showmydev#$!45`
+    }
+  });
+
+  let mailOptions = {
+    from: "smtp.mailtrap.io",
+    to: email, //sending to: E-mail
+    subject: subject,
+    html: mailBody,
+    attachments: [
+      {
+        filename: 'logo.png',
+        path: `${__dirname}/../public/images/logo.png`,
+        cid: 'logo1' //same cid value as in the html img src
+      },
+
+      {
+        filename: 'logo_white.png',
+        path: `${__dirname}/../public/images/logo_white.png`,
+        cid: 'logo_white' //same cid value as in the html img src
+      }
+    ]
+
+  };
+  let mailSent = await smtpTransport.sendMail(mailOptions)
+  if (mailSent) {
+    console.log("Message sent: %s", mailSent.messageId);
+    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(mailSent));
+    return
+  } else {
+    log.end()
+    throw new Error("Unable to send email try after sometime");
+  }
+}
+
+
+sendOtpEmail = async (firstName, email, templatePath, subject, OTP) => {
+  let mailBody = fs.readFileSync(path.join(__dirname, templatePath)).toString();
+  mailBody = mailBody.replace(/{{firstname}}/g, firstName);
+
+  if (OTP) {
+    mailBody = mailBody.replace(/{{OTP}}/g, OTP);
+  }
+
+  let smtpTransport = nodemailer.createTransport({
+    host: 'localhost',
+    port: 465,
+    secure: true,
+    service: 'Gmail',
+    auth: {
+      user: `javascript.mspl@gmail.com`,
+      pass: `showmydev#$!45`
+    }
+  });
+
+  let mailOptions = {
+    from: "smtp.mailtrap.io",
+    to: email, //sending to: E-mail
+    subject: subject,
+    html: mailBody,
+    attachments: [
+      {
+        filename: 'logo.png',
+        path: `${__dirname}/../public/images/logo.png`,
+        cid: 'logo1' //same cid value as in the html img src
+      },
+
+      {
+        filename: 'logo_white.png',
+        path: `${__dirname}/../public/images/logo_white.png`,
+        cid: 'logo_white' //same cid value as in the html img src
+      }
+    ]
+
+  };
+  let mailSent = await smtpTransport.sendMail(mailOptions)
+  if (mailSent) {
+    console.log("Message sent: %s", mailSent.messageId);
+    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(mailSent));
+    return
+  } else {
+    log.end()
+    throw new Error("Unable to send email try after sometime");
+  }
+}
 
 
 
@@ -131,7 +252,7 @@ const register = async (model, context) => {
       updateOn: new Date()
     }).save();
   }
-  let templatePath = '../emailTemplates/welcome_email.html';
+  let templatePath = '../emailTemplates/welcome_parent.html';
   let subject = "welcome to join wonderfly";
   if (user) {
     sendEmail(user.firstName, user.email, templatePath, subject);
@@ -265,7 +386,7 @@ const resetPassword = async (id, model, context) => {
     let templatePath = '../emailTemplates/change_password.html';
     let subject = "Password changed";
 
-    sendEmail(user.firstName, user.email, templatePath, subject);
+    changePasswordEmail(user.firstName, user.email, templatePath, subject);
 
     log.end();
     return "Password Updated Successfully";
@@ -485,7 +606,7 @@ const sendOtp = async (email, context) => {
   let templatePath = '../emailTemplates/forgot_password.html';
 
   if (user) {
-    sendEmail(user.firstName, user.email, templatePath, subject, OTP);
+    sendOtpEmail(user.firstName, user.email, templatePath, subject, OTP);
   }
   // await sendMail(email, message, subject)
 
@@ -536,7 +657,7 @@ const forgotPassword = async (model, context) => {
   let templatePath = '../emailTemplates/change_password.html';
 
   if (user) {
-    sendEmail(user.firstName, user.email, templatePath, subject);
+    changePasswordEmail(user.firstName, user.email, templatePath, subject);
   }
   log.end()
   return "Password changed Succesfully"
