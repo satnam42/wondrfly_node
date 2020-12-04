@@ -507,20 +507,15 @@ const margeDupicate = async (model, context) => {
     if (!model.id) {
         throw new Error(" Provider id is  Requried")
     }
-    if (!model.duplicateProvidresIds.length) {
-        throw new Error("duplicate Provider's are Requried")
+    if (!model.duplicateProvidreId) {
+        throw new Error(" Provider id is  Requried")
     }
-    for (let duplicateProvidre of model.duplicateProvidresIds) {
-        try {
-            await db.provider.deleteOne({ user: ObjectId(duplicateProvidre) })
-            await db.user.deleteOne({ _id: ObjectId(duplicateProvidre) })
-        }
-        catch (err) {
-            log.error(err)
-            throw new Error(err)
-        }
+    if (model.duplicateProvidreId == model.id) {
+        throw new Error("marge Provider id  and duplicate ProvidreId are same ")
+    }
 
-    }
+    await db.provider.deleteOne({ user: ObjectId(duplicateProvidreId) })
+    await db.user.deleteOne({ _id: ObjectId(duplicateProvidreId) })
 
     let user = await db.user.findById(model.id);
 

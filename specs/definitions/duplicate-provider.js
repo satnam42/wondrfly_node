@@ -58,16 +58,17 @@ module.exports = [
 
                 }
             },
-            duplicateProvidresIds: {
-                type: 'array',
-                items: {
-                    // type: 'array',
-                    type: "string", default: ""
-                    // properties:
-                    //     { type: "string", default: "" },
+            duplicateProvidreId: { type: 'string', },
+            // duplicateProvidresIds: {
+            //     type: 'array',
+            //     items: {
+            //         // type: 'array',
+            //         type: "string", default: ""
+            //         // properties:
+            //         //     { type: "string", default: "" },
 
-                }
-            },
+            //     }
+            // },
             city: { type: 'string', },
             country: { type: 'string', },
             state: { type: 'string', },
