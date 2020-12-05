@@ -10,11 +10,13 @@ const build = async (model, context) => {
     log.end();
     return like;
 };
-const pointBuild = async (model, context, nmbr) => {
+const pointBuild = async (model, context, nmbr, description) => {
     const log = context.logger.start(`services:ambassador:build${model}`);
     const point = await new db.rewardpoint({
         ambassador: model.userId,
-        likePoints: nmbr,
+        // likePoints: nmbr,
+        description: description,
+        activityPoints: nmbr,
         createdOn: new Date(),
         updateOn: new Date(),
     }).save();
@@ -34,15 +36,23 @@ const like = async (model, context) => {
     const log = context.logger.start("services:likes:createPost");
     let post = await db.post.findById(model.postId);
     let islike = await db.like.findOne({ creator: model.userId, post: model.postId });
+    let user = await db.user.findById(model.userId);
+
     let like
     if (!islike) {
         let nmbr = 20;
+        let description = 'post like'
         post.likesCount += 1
         await post.save();
         like = build(model, context);
-        let point = await pointBuild(model, context, nmbr);
+        let point = await pointBuild(model, context, nmbr, description);
 
         if (point) {
+            await db.user.findByIdAndUpdate(model.userId, {
+                $set: {
+                    totalPoints: user.totalPoints += 20
+                }
+            })
             await db.user.update(
                 { _id: model.userId },
                 { $push: { rewardpointIds: point._id } },
@@ -56,13 +66,21 @@ const like = async (model, context) => {
         post.likesCount -= 1
         await post.save();
         let nmbr = 0;
-        await pointBuild(model, context, nmbr);
+        let description = 'post unlike'
+        await pointBuild(model, context, nmbr, description);
+        await db.user.findByIdAndUpdate(model.userId, {
+            $set: {
+                totalPoints: user.totalPoints -= 20
+            }
+        })
     }
 
 
     log.end();
     return like;
 };
+
+
 
 // if (comment) {
 //     await db.post.update(

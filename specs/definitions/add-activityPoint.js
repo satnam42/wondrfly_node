@@ -9,6 +9,9 @@ module.exports = [
             activity: {
                 type: "string"
             },
+            description: {
+                type: "string"
+            },
             point: {
                 type: "number"
             }

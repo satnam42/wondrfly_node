@@ -13,11 +13,13 @@ const build = async (model, context) => {
     return comment;
 };
 
-const pointBuild = async (model, context, nmbr) => {
+const pointBuild = async (model, context, nmbr, description) => {
     const log = context.logger.start(`services:ambassador:build${model}`);
     const point = await new db.rewardpoint({
         ambassador: model.creator,
-        commentPoints: nmbr,
+        // commentPoints: nmbr,
+        description: description,
+        activityPoints: nmbr,
         createdOn: new Date(),
         updateOn: new Date(),
     }).save();
@@ -39,15 +41,22 @@ const set = (model, comment, context) => {
 const createComment = async (model, context) => {
     const log = context.logger.start("services:comments:createPost");
     const comment = await build(model, context);
+    let user = await db.user.findById(model.creator);
     // const post = await db.post.findById(model.postId);
     if (comment) {
         let nmbr = 20;
+        let description = 'comment point';
         await db.post.update(
             { _id: model.postId },
             { $push: { comments: comment._id } },
         );
-        let point = await pointBuild(model, context, nmbr);
+        let point = await pointBuild(model, context, nmbr, description);
         if (point) {
+            await db.user.findByIdAndUpdate(model.creator, {
+                $set: {
+                    totalPoints: user.totalPoints += 20
+                }
+            })
             await db.user.update(
                 { _id: model.creator },
                 { $push: { rewardpointIds: point._id } },

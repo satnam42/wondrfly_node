@@ -11,13 +11,16 @@ const authToken = 'd864b1037de18df6150de9b4bf97b200'
 // d864b1037de18df6150de9b4bf97b200;   // Your Auth Token from www.twilio.com/console
 var twilio = require('twilio');
 const crypto = require("crypto");
+const { BalanceInstance } = require("twilio/lib/rest/api/v2010/account/balance");
 
 
-const build = async (model, context, nmbr) => {
+const build = async (model, context, nmbr, description) => {
     const log = context.logger.start(`services:ambassador:build${model}`);
     const point = await new db.rewardpoint({
         ambassador: model.userId,
-        basicPoints: nmbr,
+        activityPoints: nmbr,
+        description: description,
+        // totalPoints: balance,
         isAmbassadorOn: new Date(),
         createdOn: new Date(),
         updateOn: new Date(),
@@ -44,23 +47,35 @@ const addOrRemove = async (model, context) => {
     const log = context.logger.start("services:ambassador:addOrRemove");
     let user = await db.user.findById(model.userId);
 
-    let point
+    let point;
+    // let totalBlance = post.likesCount += 1
+
     if (user) {
         if (model.isAmbassador === true) {
-            let nmbr = 10
-            point = await build(model, context, nmbr);
+            let nmbr = 10;
+            let description = 'ambassdor true';
+            point = await build(model, context, nmbr, description);
+            await db.user.findByIdAndUpdate(model.userId, {
+                $set: {
+                    isAmbassador: model.isAmbassador,
+                    totalPoints: user.totalPoints += 10
+                }
+            })
         }
         if (model.isAmbassador === false) {
             let nmbr = 0
-            point = await build(model, context, nmbr);
+            let description = 'ambassdor false';
+            point = await build(model, context, nmbr, description);
+            await db.user.findByIdAndUpdate(model.userId, {
+                $set: {
+                    isAmbassador: model.isAmbassador,
+                    totalPoints: user.totalPoints -= 10
+                }
+            })
         }
     }
 
-    await db.user.findByIdAndUpdate(model.userId, {
-        $set: {
-            isAmbassador: model.isAmbassador,
-        }
-    })
+
 
     if (point) {
         await db.user.update(
@@ -74,7 +89,6 @@ const addOrRemove = async (model, context) => {
 };
 
 const getAmbassadors = async (id, context) => {
-
     const log = context.logger.start('services:ambassador:getAmbassadors');
     const user = await db.user.find({ isAmbassador: "true" }).populate('rewardpointIds');
     log.end();
@@ -113,15 +127,16 @@ const addActivityPoint = async (model, context) => {
     if (isactiviyExist) {
         throw new Error("activity point is already exist");
     }
-
     const activityPoint = await new db.rewardpoint({
         ambassador: model.ambassadorId,
         activity: model.activity,
+        description: model.description,
         activityPoints: model.point,
         createdOn: new Date(),
         updateOn: new Date(),
     }).save();
     if (activityPoint) {
+        z
         await db.user.update(
             { _id: model.ambassadorId },
             { $push: { rewardpointIds: activityPoint._id } },
