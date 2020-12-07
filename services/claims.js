@@ -1,5 +1,3 @@
-
-
 "use strict";
 
 const build = async (model, context) => {
@@ -18,7 +16,7 @@ const createRequest = async (model, context) => {
     const log = context.logger.start("services:claims:createRequest");
     const claimRequest = await db.claim.findOne({ requestOn: model.requestOn, requestBy: model.requestBy })
     if (claimRequest) {
-        return "claim request already done";
+        return "claim request register successfuly";
     }
     const claim = build(model, context);
     log.end();
@@ -61,23 +59,32 @@ const actionOnRequest = async (id, model, context) => {
     if (!user) {
         throw new Error("claim on provider not found");
     }
+
     const requestedUser = await db.user.findById(model.requestBy)
 
     if (requestedUser) {
         user.email = requestedUser.email
         user.password = requestedUser.password
     }
+
     else {
         throw new Error("requested user  not found");
     }
 
     if (model.status == 'approve') {
-        await db.user.deleteOne({ _id: model.requestBy })
-        let isRequestedUser = await db.user.findById(model.requestBy);
-        if (isRequestedUser) {
+
+        const filter = { _id: model.requestBy };
+        const update = {};
+        update.email = ""
+        update.password = ""
+        update.isClaimed = true
+        let isClaimed = await db.user.findOneAndUpdate(filter, { $set: update }, { new: true })
+
+        if (isClaimed.email !== "") {
             throw new Error("something went wrong");
         }
-        claim.requestOn = model.requestBy
+
+        // claim.requestOn = model.requestBy
         claim.status = 'approve'
         claim.updatedOn = new Date()
         await claim.save()
