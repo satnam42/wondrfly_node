@@ -63,7 +63,7 @@ const addOrRemove = async (model, context) => {
             })
         }
         if (model.isAmbassador === false) {
-            let nmbr = 0
+            let nmbr = -10
             let description = 'ambassdor false';
             point = await build(model, context, nmbr, description);
             await db.user.findByIdAndUpdate(model.userId, {
@@ -123,10 +123,11 @@ const getActivities = async (model, context) => {
 
 const addActivityPoint = async (model, context) => {
     const log = context.logger.start("services:tags:addActivityPoint");
+    let user = await db.user.findById(model.ambassadorId);
     const isactiviyExist = await db.rewardpoint.findOne({ activity: { $eq: model.activity } });
-    if (isactiviyExist) {
-        throw new Error("activity point is already exist");
-    }
+    // if (isactiviyExist) {
+    //     throw new Error("activity point is already exist");
+    // }
     const activityPoint = await new db.rewardpoint({
         ambassador: model.ambassadorId,
         activity: model.activity,
@@ -136,7 +137,23 @@ const addActivityPoint = async (model, context) => {
         updateOn: new Date(),
     }).save();
     if (activityPoint) {
-        z
+        if (model.point > 0) {
+            await db.user.findByIdAndUpdate(model.ambassadorId, {
+                $set: {
+                    totalPoints: user.totalPoints += model.point
+                }
+            })
+        }
+
+        if (model.point < 0) {
+            let value = Math.abs(model.point)
+            await db.user.findByIdAndUpdate(model.ambassadorId, {
+                $set: {
+                    totalPoints: user.totalPoints -= value
+                }
+            })
+        }
+
         await db.user.update(
             { _id: model.ambassadorId },
             { $push: { rewardpointIds: activityPoint._id } },

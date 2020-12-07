@@ -65,14 +65,18 @@ const like = async (model, context) => {
         });
         post.likesCount -= 1
         await post.save();
-        let nmbr = 0;
-        let description = 'post unlike'
-        await pointBuild(model, context, nmbr, description);
+        let nmbr = -20;
+        let description = 'post unlike';
+        let point = await pointBuild(model, context, nmbr, description);
         await db.user.findByIdAndUpdate(model.userId, {
             $set: {
                 totalPoints: user.totalPoints -= 20
             }
         })
+        await db.user.update(
+            { _id: model.userId },
+            { $push: { rewardpointIds: point._id } },
+        );
     }
 
 
