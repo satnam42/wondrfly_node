@@ -1,10 +1,13 @@
 "use strict";
-const build = async (model, context) => {
+const build = async (user, model, context) => {
     const log = context.logger.start(`services:comments:build${model}`);
     const comment = await new db.comment({
         creator: model.creator,
         creatorName: model.creatorName,
         text: model.text,
+        userRole: user.role,
+        userImage: user.avatarImages,
+        userCreatedOn: user.createdOn,
         postId: model.postId,
         createdOn: new Date(),
         updateOn: new Date(),
@@ -40,8 +43,8 @@ const set = (model, comment, context) => {
 };
 const createComment = async (model, context) => {
     const log = context.logger.start("services:comments:createPost");
-    const comment = await build(model, context);
     let user = await db.user.findById(model.creator);
+    const comment = await build(user, model, context);
     // const post = await db.post.findById(model.postId);
     if (comment) {
         let nmbr = 20;

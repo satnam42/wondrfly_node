@@ -6,6 +6,9 @@ const commentSchema = mongoose.Schema({
     creator: { type: mongoose.Schema.Types.ObjectId, required: REQUIRED_VALIDATION_MESSAGE, ref: 'user' },
     creatorName: { type: mongoose.Schema.Types.String, required: REQUIRED_VALIDATION_MESSAGE, ref: 'user' },
     text: { type: mongoose.Schema.Types.String, required: REQUIRED_VALIDATION_MESSAGE },
+    userRole: { type: String, default: "", },
+    userImage: { type: String, default: "", },
+    userCreatedOn: { type: mongoose.Schema.Types.Date },
     postId: { type: mongoose.Schema.Types.ObjectId, required: REQUIRED_VALIDATION_MESSAGE, ref: 'post' },
     createdOn: { type: mongoose.Schema.Types.Date, default: Date.now },
     updatedOn: { type: mongoose.Schema.Types.Date, default: Date.now }
