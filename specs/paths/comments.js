@@ -106,4 +106,36 @@ module.exports = [
         }
     },
 
+    {
+        url: "/getById/{id}",
+        get: {
+            summary: "get comment",
+            description: "get comment detail by Id",
+            parameters: [
+                {
+                    in: "path",
+                    name: "id",
+                    description: "commentId",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
+
 ]

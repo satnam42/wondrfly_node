@@ -12,9 +12,6 @@ const authToken = 'd864b1037de18df6150de9b4bf97b200'
 var twilio = require('twilio');
 const crypto = require("crypto");
 
-
-
-
 sendEmail = async (firstName, email, templatePath, subject, OTP) => {
   let mailBody = fs.readFileSync(path.join(__dirname, templatePath)).toString();
   mailBody = mailBody.replace(/{{firstname}}/g, firstName);
@@ -43,6 +40,11 @@ sendEmail = async (firstName, email, templatePath, subject, OTP) => {
       filename: 'welcome_img1.png',
       path: `${__dirname}/../public/images/welcome_img1.png`,
       cid: 'welcome_img1' //same cid value as in the html img src
+    },
+    {
+      filename: 'complete_profile.png',
+      path: `${__dirname}/../public/images/complete_profile.png`,
+      cid: 'complete_profile' //same cid value as in the html img src
     },
     {
       filename: 'logo.png',
@@ -78,6 +80,21 @@ sendEmail = async (firstName, email, templatePath, subject, OTP) => {
       filename: 'logo_white.png',
       path: `${__dirname}/../public/images/logo_white.png`,
       cid: 'logo_white' //same cid value as in the html img src
+    },
+    {
+      filename: 'fb.png',
+      path: `${__dirname}/../public/images/fb.png`,
+      cid: 'fb' //same cid value as in the html img src
+    },
+    {
+      filename: 'insta.png',
+      path: `${__dirname}/../public/images/insta.png`,
+      cid: 'insta' //same cid value as in the html img src
+    },
+    {
+      filename: 'pinterest.png',
+      path: `${__dirname}/../public/images/pinterest.png`,
+      cid: 'pinterest' //same cid value as in the html img src
     }
     ]
 

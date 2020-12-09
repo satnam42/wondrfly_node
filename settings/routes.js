@@ -679,6 +679,12 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.comments.remove
   );
+
+  app.get(
+    "/api/comments/getById/:id",
+    permit.context.requiresToken,
+    api.comments.getById
+  );
   // likes api//
   app.post(
     "/api/likes/like",

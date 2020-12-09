@@ -100,6 +100,16 @@ const removeComment = async (id, model, context) => {
     return 'comment deleted succesfully'
 };
 
+
+const getById = async (id, context) => {
+    const log = context.logger.start(`services:users:getById:${id}`);
+    const user = await db.comment.findById(id);
+    log.end();
+    return user;
+};
+
+
 exports.createComment = createComment;
 exports.update = update;
 exports.removeComment = removeComment;
+exports.getById = getById;
