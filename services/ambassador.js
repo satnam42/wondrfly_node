@@ -53,7 +53,7 @@ const addOrRemove = async (model, context) => {
     if (user) {
         if (model.isAmbassador === true) {
             let nmbr = 10;
-            let description = 'ambassdor true';
+            let description = 'Added As Ambassador';
             point = await build(model, context, nmbr, description);
             await db.user.findByIdAndUpdate(model.userId, {
                 $set: {
@@ -64,7 +64,7 @@ const addOrRemove = async (model, context) => {
         }
         if (model.isAmbassador === false) {
             let nmbr = -10
-            let description = 'ambassdor false';
+            let description = 'Removed Ambassdor';
             point = await build(model, context, nmbr, description);
             await db.user.findByIdAndUpdate(model.userId, {
                 $set: {
