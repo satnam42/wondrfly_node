@@ -6,6 +6,7 @@ const encrypt = require("../permit/crypto.js");
 const auth = require("../permit/auth");
 const imageUrl = require('config').get('image').url
 const ObjectId = require("mongodb").ObjectID;
+const moment = require('moment');
 const buildUser = async (model, context) => {
     const log = context.logger.start(`services:users:buildUser${model}`);
     const user = await new db.user({
@@ -530,6 +531,19 @@ const margeDupicate = async (model, context) => {
     return userBasicInfo
 };
 
+const getProvidersByDate = async (query, context) => {
+    const { fromDate, toDate } = query;
+
+    const log = context.logger.start(`services:providers:getProvidersByDate`);
+    const dat = {
+        '$gte': moment(fromDate, "DD-MM-YYYY").startOf('day').toDate(),
+        '$lt': moment(toDate, "DD-MM-YYYY").endOf('day').toDate()
+    }
+    let providers = await db.provider.find({ createdOn: dat });
+    log.end();
+    return providers;
+};
+
 exports.importProvider = importProvider;
 exports.getAllProvider = getAllProvider;
 exports.updateProvider = updateProvider;
@@ -542,4 +556,4 @@ exports.getReport = getReport;
 exports.getProvidersByFilter = getProvidersByFilter;
 exports.getDupicate = getDupicate;
 exports.margeDupicate = margeDupicate;
-
+exports.getProvidersByDate = getProvidersByDate;

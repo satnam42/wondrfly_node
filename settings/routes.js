@@ -198,7 +198,8 @@ const configure = (app, logger) => {
   );
   app.get(
     "/api/categories/list",
-    permit.context.requiresToken,
+    permit.context.builder,
+    // permit.context.requiresToken,
     api.categories.list
   );
   app.get(
@@ -352,6 +353,13 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     upload.array('image', 5),
     api.providers.uploadBannerPic
+  );
+
+  app.get(
+    "/api/providers/getProvidersByDate",
+    permit.context.builder,
+    // validator.users.get, 
+    api.providers.getProvidersByDate
   );
 
   //review routes//

@@ -14,12 +14,13 @@ const crypto = require("crypto");
 const { BalanceInstance } = require("twilio/lib/rest/api/v2010/account/balance");
 
 
-const build = async (model, context, nmbr, description) => {
+const build = async (model, context, nmbr, description, activity) => {
     const log = context.logger.start(`services:ambassador:build${model}`);
     const point = await new db.rewardpoint({
         ambassador: model.userId,
         activityPoints: nmbr,
         description: description,
+        activity: activity,
         // totalPoints: balance,
         isAmbassadorOn: new Date(),
         createdOn: new Date(),
@@ -54,7 +55,8 @@ const addOrRemove = async (model, context) => {
         if (model.isAmbassador === true) {
             let nmbr = 10;
             let description = 'Added As Ambassador';
-            point = await build(model, context, nmbr, description);
+            let activty = 'welcome reward';
+            point = await build(model, context, nmbr, description, activty);
             await db.user.findByIdAndUpdate(model.userId, {
                 $set: {
                     isAmbassador: model.isAmbassador,

@@ -477,4 +477,41 @@ module.exports = [
         }
 
     },
+
+    {
+        url: "/getProvidersByDate",
+        get: {
+            summary: "get Provider's list date wise",
+            description: "get Provider's list date wise",
+            parameters: [
+                {
+                    in: "query",
+                    name: "fromDate",
+                    description: "Date belongs From date",
+                    type: "string"
+                },
+                {
+                    in: "query",
+                    name: "toDate",
+                    description: "Date belongs To date",
+                    type: "string"
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    }
 ]

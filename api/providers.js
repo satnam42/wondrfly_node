@@ -160,6 +160,19 @@ const margeDublicateProviders = async (req, res) => {
     }
 };
 
+const getProvidersByDate = async (req, res) => {
+    const log = req.context.logger.start(`api:providers:getProvidersByDate`);
+    try {
+        const providers = await service.getProvidersByDate(req.query, req.context);
+        log.end();
+        return response.data(res, providers);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 exports.create = create;
 exports.list = list;
 exports.update = update;
@@ -172,5 +185,6 @@ exports.report = report;
 exports.providersByFilter = providersByFilter;
 exports.dublicateProviders = dublicateProviders;
 exports.margeDublicateProviders = margeDublicateProviders;
+exports.getProvidersByDate = getProvidersByDate;
 
 
