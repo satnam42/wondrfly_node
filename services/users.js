@@ -538,8 +538,8 @@ const uploadProfilePic = async (id, file, context) => {
       console.log(err)
     }
   }
-  const avatarImages = imageUrl + 'assets/images/' + file.filename
-  // const avatarImages = imageUrl + file.filename
+  // const avatarImages = imageUrl + 'assets/images/' + file.filename
+  const avatarImages = imageUrl + file.filename
   user.avatarImages = avatarImages
   await user.save();
   log.end();
