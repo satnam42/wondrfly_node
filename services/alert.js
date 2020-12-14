@@ -85,7 +85,6 @@ const deleteAlert = async (id, context) => {
     if (!id) {
         throw new Error("alert id is required");
     }
-
     await db.alert.deleteOne({ _id: id });
     log.end();
     return 'Alert Deleted Successfully'

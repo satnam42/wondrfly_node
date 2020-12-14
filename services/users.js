@@ -26,8 +26,8 @@ sendEmail = async (firstName, email, templatePath, subject, OTP) => {
     secure: true,
     service: 'Gmail',
     auth: {
-      user: `javascript.mspl@gmail.com`,
-      pass: `showmydev#$!45`
+      user: `wondrfly@gmail.com`,
+      pass: `wondrfly@123`
     }
   });
 
@@ -125,8 +125,8 @@ changePasswordEmail = async (firstName, email, templatePath, subject, OTP) => {
     secure: true,
     service: 'Gmail',
     auth: {
-      user: `javascript.mspl@gmail.com`,
-      pass: `showmydev#$!45`
+      user: `wondrfly@gmail.com`,
+      pass: `wondrfly@123`
     }
   });
 
@@ -176,8 +176,8 @@ sendOtpEmail = async (firstName, email, templatePath, subject, OTP) => {
     secure: true,
     service: 'Gmail',
     auth: {
-      user: `javascript.mspl@gmail.com`,
-      pass: `showmydev#$!45`
+      user: `wondrfly@gmail.com`,
+      pass: `wondrfly@123`
     }
   });
 
@@ -538,7 +538,8 @@ const uploadProfilePic = async (id, file, context) => {
       console.log(err)
     }
   }
-  const avatarImages = imageUrl + file.filename
+  const avatarImages = imageUrl + 'assets/images/' + file.filename
+  // const avatarImages = imageUrl + file.filename
   user.avatarImages = avatarImages
   await user.save();
   log.end();
@@ -683,8 +684,8 @@ const sendMail = async (email, message, subject) => {
   var smtpTrans = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
-      user: `javascript.mspl@gmail.com`,
-      pass: `showmydev#$!45`
+      user: `wondrfly@gmail.com`,
+      pass: `wondrfly@123`
     }
   });
   // email send to registered email
