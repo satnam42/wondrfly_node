@@ -17,7 +17,7 @@ const user = mongoose.Schema({
   city: { type: String, default: "" },
   country: { type: String, default: "" },
   source: { type: String, default: "" },
-  isClaimed:{ type: Boolean, default: false },
+  isClaimed: { type: Boolean, default: false },
   zipCode: { type: String, default: "" },
   lat: { type: String, default: "" },
   lng: { type: String, default: "" },
@@ -48,6 +48,7 @@ const user = mongoose.Schema({
     type: Date,
     required: false
   },
+  disableAlert: { type: mongoose.Schema.Types.ObjectId, ref: 'alert' },
   totalPoints: { type: Number, default: 0 },
   rewardpointIds: [{ type: mongoose.Schema.Types.ObjectId, default: [], ref: 'rewardpoint' }],
   deviceToken: { type: String, default: "" },

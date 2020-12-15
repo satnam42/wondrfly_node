@@ -60,7 +60,7 @@ const create = async (model, context) => {
 
 const getAllalert = async (context) => {
     const log = context.logger.start(`services:alert:getAllalert`);
-    const alerts = await db.alert.find().sort({ _id: -1 });
+    const alerts = await db.alert.find();
     log.end();
     return alerts;
 };
@@ -91,8 +91,35 @@ const deleteAlert = async (id, context) => {
 };
 
 
+const showAlert = async (context) => {
+    const log = context.logger.start(`services:alert:showAlert`);
+    const alert = await db.alert.findOne({}).sort({ _id: -1 }).limit(1);
+    log.end();
+    return alert;
+};
+
+const deactivateAlert = async (model, context) => {
+    const log = context.logger.start(`services:users:deactivateAlert`);
+    if (!model.userId) {
+        throw new Error("user id is required");
+    }
+    if (!model.alertId) {
+        throw new Error("alert id is required");
+    }
+
+    let user = await db.user.findOne({ _id: model.userId });
+
+    user.disableAlert = model.alertId;
+
+    log.end();
+    await user.save();
+    return "alert is disabled";
+};
+
 
 exports.create = create;
 exports.getAllalert = getAllalert;
 exports.update = update;
 exports.deleteAlert = deleteAlert;
+exports.showAlert = showAlert;
+exports.deactivateAlert = deactivateAlert;

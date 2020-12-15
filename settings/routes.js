@@ -773,6 +773,17 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.alert.update
   );
+  app.get(
+    "/api/alert/showAlert",
+    // permit.context.requiresToken,
+    permit.context.builder,
+    api.alert.showAlert
+  );
+  app.put(
+    "/api/alert/deactivateAlert",
+    permit.context.requiresToken,
+    api.alert.deactivateAlert
+  );
 
   log.end();
 };

@@ -30,6 +30,7 @@ exports.toModel = entity => {
     role: entity.role,
     alert: entity.alert,
     alertType: entity.alertType,
+    disableAlert: entity.disableAlert,
     totalPoints: entity.totalPoints,
     isAmbassador: entity.isAmbassador,
     isAmbassadorOn: entity.isAmbassadorOn,

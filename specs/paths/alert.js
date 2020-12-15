@@ -120,6 +120,55 @@ module.exports = [
                 }
             }
         }
+    },
+    {
+        url: "/showAlert",
+        get: {
+            summary: "show alert",
+            description: "show alert",
+
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
+    {
+        url: "/deactivateAlert",
+        put: {
+            summary: "deactivate alert",
+            description: "deactivate alert",
+            parameters: [
+                {
+                    in: "body",
+                    name: "body",
+                    description: "Model of alert deactivation",
+                    required: true,
+                    schema: {
+                        $ref: "#/definitions/deactivate-alert"
+                    }
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
     }
 
 ]

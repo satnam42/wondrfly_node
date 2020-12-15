@@ -68,6 +68,19 @@ const showAlert = async (req, res) => {
     }
 };
 
+const deactivateAlert = async (req, res) => {
+    const log = req.context.logger.start(`api:alert:deactivateAlert`);
+    try {
+        const alert = await service.deactivateAlert(req.body, req.context);
+        log.end();
+        return response.data(res, alert);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 
 
 exports.create = create;
@@ -75,3 +88,4 @@ exports.list = list;
 exports.update = update;
 exports.deleteAlert = deleteAlert;
 exports.showAlert = showAlert;
+exports.deactivateAlert = deactivateAlert;
