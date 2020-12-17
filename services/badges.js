@@ -1,12 +1,13 @@
 "use strict";
 
 const build = async (model, context) => {
-    const { name, icon } = model;
+    const { name, icon, description } = model;
     console.log('model in badge servide', model);
     const log = context.logger.start(`services:badge:build${model}`);
     const badge = await new db.badge({
         name: name,
         icon: icon,
+        description: description,
         createdOn: new Date(),
         updateOn: new Date(),
     }).save();
@@ -22,6 +23,9 @@ const setBadge = async (model, badge, context) => {
     if (model.icon !== "string" && model.icon !== undefined) {
         badge.icon = model.icon;
     }
+    if (model.description !== "string" && model.description !== undefined) {
+        badge.description = model.description;
+    }
 
     log.end();
     await badge.save();
@@ -30,10 +34,10 @@ const setBadge = async (model, badge, context) => {
 
 const create = async (model, context) => {
     const log = context.logger.start("services:badge:create");
-    // const isbadgeExist = await db.badge.findOne({ name: { $eq: model.name } });
-    // if (isbadgeExist) {
-    //     throw new Error("badge is already exist");
-    // }
+    const isbadgeExist = await db.badge.findOne({ name: { $eq: model.name } });
+    if (isbadgeExist) {
+        throw new Error("badge is already exist");
+    }
 
     const badge = build(model, context);
     log.end();

@@ -13,6 +13,10 @@ module.exports = [
             icon: {
                 type: "string",
                 default: "",
+            },
+            description: {
+                type: "string",
+                default: "",
             }
         }
     }
