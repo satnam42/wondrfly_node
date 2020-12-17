@@ -785,7 +785,31 @@ const configure = (app, logger) => {
     api.alert.deactivateAlert
   );
 
+  // ==============Badges api's==============
+  app.post(
+    "/api/badges/create",
+    permit.context.requiresToken,
+    api.badges.create
+  );
+  app.get(
+    "/api/badges/list",
+    permit.context.requiresToken,
+    // permit.context.builder,
+    api.badges.list
+  );
+  app.delete(
+    "/api/badges/deleteBadge/:id",
+    permit.context.requiresToken,
+    api.badges.deleteBadge
+  );
+
+  app.put(
+    "/api/badges/update",
+    permit.context.requiresToken,
+    api.badges.update
+  );
+
   log.end();
 };
 
-exports.configure = configure
+exports.configure = configure;
