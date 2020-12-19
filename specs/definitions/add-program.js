@@ -94,7 +94,7 @@ module.exports = [
                         startTime: { type: 'date', },
                         endTime: { type: 'date', },
                         // isFree: { type: "boolean" },
-                        endTime: { type: 'string', },
+                        // endTime: { type: 'string', },
                         pricePerParticipant: { type: 'string', },
                         // priceForSiblings: { type: 'string', },
                         instructor: { type: 'string', },

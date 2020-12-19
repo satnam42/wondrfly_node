@@ -657,34 +657,79 @@ const getGraphData = async (query, context) => {
     return barChartRes
 };
 
-const getFilterProgram = async (model, context) => {
+// const getFilterProgram = async (model, context) => {
+//     const log = context.logger.start(`services:programs:getFilterProgram`);
+//     let pageNo = Number(model.pageNo) || 1;
+//     let pageSize = Number(model.pageSize) || 10;
+//     let skipCount = pageSize * (pageNo - 1);
+
+
+//     if (model.ageFrom && model.ageTo) {
+//         query["ageGroup.from"] = { $gte: Number(model.ageFrom) }
+//         query["ageGroup.to"] = { $lte: Number(model.ageTo) }
+//     }
+
+//     if (model.fromDate !== "undefined" && model.toDate !== "undefined" && model.fromDate !== "" && model.toDate !== "" && model.fromDate !== null && model.toDate !== null) {
+//         query["date.from"] = { $gte: model.fromDate }
+//         query["date.to"] = { $lte: model.toDate }
+//     }
+
+//     if (model.toTime !== "undefined" && model.fromTime !== "undefined" && model.toTime !== "" && model.fromTime !== "" && model.toTime !== null && model.fromTime !== null) {
+//         query["time.from"] = { $gte: new Date(model.fromTime).getTime() }
+//         query["date.to"] = { $lte: new Date(model.toTime).getTime() }
+//     }
+
+//     if (model.userId) {
+//         query.user = model.userId
+//     }
+
+//     let programs = await db.program.find(query).populate('tags').skip(skipCount).limit(pageSize);
+//     programs.count = await db.program.find({ user: query.userId }).count();
+
+//     log.end();
+//     return programs;
+// };
+
+
+const getFilterProgram = async (query, context) => {
     const log = context.logger.start(`services:programs:getFilterProgram`);
-    let pageNo = Number(model.pageNo) || 1;
-    let pageSize = Number(model.pageSize) || 10;
+    let pageNo = Number(query.pageNo) || 1;
+    let pageSize = Number(query.pageSize) || 10;
     let skipCount = pageSize * (pageNo - 1);
 
+    let programs;
 
-    if (model.ageFrom && model.ageTo) {
-        query["ageGroup.from"] = { $gte: Number(model.ageFrom) }
-        query["ageGroup.to"] = { $lte: Number(model.ageTo) }
+    if (query.fromDate && query.toDate) {
+        const dat = {
+            '$gte': moment(query.fromDate, "DD-MM-YYYY").startOf('day').toDate(),
+            '$lt': moment(query.toDate, "DD-MM-YYYY").endOf('day').toDate()
+        }
+        programs = await db.program.find({ 'date.from': dat });
     }
 
-    if (model.fromDate !== "undefined" && model.toDate !== "undefined" && model.fromDate !== "" && model.toDate !== "" && model.fromDate !== null && model.toDate !== null) {
-        query["date.from"] = { $gte: model.fromDate }
-        query["date.to"] = { $lte: model.toDate }
+    if (query.ageFrom && query.ageTo) {
+        const age = {
+            $gte: Number(query.ageFrom),
+            $lte: Number(query.ageTo)
+        }
+        programs = await db.program.find({ 'ageGroup.from': age });
     }
 
-    if (model.toTime !== "undefined" && model.fromTime !== "undefined" && model.toTime !== "" && model.fromTime !== "" && model.toTime !== null && model.fromTime !== null) {
-        query["time.from"] = { $gte: new Date(model.fromTime).getTime() }
-        query["date.to"] = { $lte: new Date(model.toTime).getTime() }
+    if (query.toTime && query.toTime) {
+        const tme = {
+            '$gte': moment(query.fromTime, "DD-MM-YYYY").startOf('day').toDate(),
+            '$lt': moment(query.toTime, "DD-MM-YYYY").endOf('day').toDate()
+        }
+        programs = await db.program.find({ 'time.from': tme });
+
     }
 
-    if (model.userId) {
-        query.user = model.userId
+    if (query.userId) {
+        programs = await db.program.find({ user: query.userId });
     }
 
-    let programs = await db.program.find(query).populate('tags').skip(skipCount).limit(pageSize);
-    programs.count = await db.program.find({ user: query.userId }).count();
+    // let programs = await db.program.find(query).populate('tags').skip(skipCount).limit(pageSize);
+    // programs.count = await db.program.find({ user: query.userId }).count();
 
     log.end();
     return programs;
