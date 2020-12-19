@@ -4,7 +4,6 @@ const response = require("../exchange/response");
 
 
 const create = async (req, res) => {
-    console.log('req.body in bage create3', req.body);
     const log = req.context.logger.start(`api:badges:create`);
     try {
         const badge = await service.create(req.body, req.context);

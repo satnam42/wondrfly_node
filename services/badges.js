@@ -2,8 +2,8 @@
 
 const build = async (model, context) => {
     const { name, icon, description } = model;
-    console.log('model in badge servide', model);
     const log = context.logger.start(`services:badge:build${model}`);
+
     const badge = await new db.badge({
         name: name,
         icon: icon,
@@ -34,6 +34,7 @@ const setBadge = async (model, badge, context) => {
 
 const create = async (model, context) => {
     const log = context.logger.start("services:badge:create");
+
     const isbadgeExist = await db.badge.findOne({ name: { $eq: model.name } });
     if (isbadgeExist) {
         throw new Error("badge is already exist");
