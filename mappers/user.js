@@ -64,7 +64,7 @@ exports.toModel = entity => {
       // model.tier= entity.provider.tier || '',
       model.notes = entity.provider.notes || '',
       model.adminNotes = entity.provider.adminNotes || '',
-      model.proivide_logo = entity.proivide_logo || ''
+      model.provider_logo = entity.provider_logo || ''
   }
 
   return model;

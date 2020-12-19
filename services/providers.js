@@ -298,9 +298,15 @@ const uploadBannerPic = async (id, files, context) => {
     log.end();
     return provider
 };
+// const getProvideById = async (id, context) => {
+//     const log = context.logger.start(`services:providers:getAllProvider`);
+//     const providers = await db.provider.findOne({ user: id }).populate('user').populate('categories').populate('skills')
+//     log.end();
+//     return providers;
+// };
 const getProvideById = async (id, context) => {
     const log = context.logger.start(`services:providers:getAllProvider`);
-    const providers = await db.provider.findOne({ user: id }).populate('user').populate('categories').populate('skills')
+    const providers = await db.provider.findById(id).populate('categories').populate('skills')
     log.end();
     return providers;
 };
@@ -332,7 +338,33 @@ const search = async (name, context) => {
 };
 
 const addProvider = async (model, context) => {
+    const { firstName, email, type, city, country, street, state, phoneNumber } = model; console.log('first name', firstName)
     const log = context.logger.start("services:providers:addProvider");
+    if (firstName == "string" || firstName == "") {
+        throw new Error("Min First Name or Last Name 2 Characters");
+    }
+    if (email == "string" || email == "") {
+        throw new Error("Email is required");
+    }
+    if (type == "string" || type == "") {
+        throw new Error("type is required");
+    }
+    if (city == "string" || city == "") {
+        throw new Error("city is required");
+    }
+    if (country == "string" || country == "") {
+        throw new Error("country is required");
+    }
+    if (street == "string" || street == "") {
+        throw new Error("street is required");
+    }
+    if (state == "string" || state == "") {
+        throw new Error("state is required");
+    }
+    if (phoneNumber == "string" || phoneNumber == "") {
+        throw new Error("phoneNumber is required");
+    }
+
     const isEmail = await db.user.findOne({ email: { $eq: model.email } });
     if (isEmail) {
         throw new Error("Email already resgister");

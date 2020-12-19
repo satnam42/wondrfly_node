@@ -24,7 +24,7 @@ exports.toModel = (entity) => {
         tier: entity.tier || '',
         notes: entity.notes || '',
         adminNotes: entity.adminNotes || '',
-        proivide_logo: entity.proivide_logo || '',
+        provider_logo: entity.provider_logo || '',
         token: entity.token || '',
     }
 
