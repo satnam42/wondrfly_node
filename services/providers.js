@@ -298,15 +298,9 @@ const uploadBannerPic = async (id, files, context) => {
     log.end();
     return provider
 };
-// const getProvideById = async (id, context) => {
-//     const log = context.logger.start(`services:providers:getAllProvider`);
-//     const providers = await db.provider.findOne({ user: id }).populate('user').populate('categories').populate('skills')
-//     log.end();
-//     return providers;
-// };
 const getProvideById = async (id, context) => {
     const log = context.logger.start(`services:providers:getAllProvider`);
-    const providers = await db.provider.findById(id).populate('categories').populate('skills')
+    const providers = await db.provider.findOne({ user: id }).populate('user').populate('categories').populate('skills')
     log.end();
     return providers;
 };
