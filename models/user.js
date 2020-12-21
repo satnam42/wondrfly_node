@@ -37,6 +37,7 @@ const user = mongoose.Schema({
   token: { type: String, default: "" },
   createdBy: { type: String, default: "" },
   note: { type: String, default: "" },
+  profileCompleteEmail: { type: Boolean, default: false },
   isAmbassador: { type: Boolean, default: false },
   isAmbassadorOn: { type: Date, default: Date.now },
   role: { type: String, default: "" },
