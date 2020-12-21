@@ -704,7 +704,7 @@ const getFilterProgram = async (query, context) => {
             '$gte': moment(query.fromDate, "DD-MM-YYYY").startOf('day').toDate(),
             '$lt': moment(query.toDate, "DD-MM-YYYY").endOf('day').toDate()
         }
-        programs = await db.program.find({ 'date.from': dat });
+        programs = await db.program.find({ 'date.from': dat }).populate('tags').skip(skipCount).limit(pageSize);;
     }
 
     if (query.ageFrom && query.ageTo) {
@@ -712,7 +712,7 @@ const getFilterProgram = async (query, context) => {
             $gte: Number(query.ageFrom),
             $lte: Number(query.ageTo)
         }
-        programs = await db.program.find({ 'ageGroup.from': age });
+        programs = await db.program.find({ 'ageGroup.from': age }).populate('tags').skip(skipCount).limit(pageSize);;
     }
 
     if (query.toTime && query.toTime) {
@@ -720,16 +720,9 @@ const getFilterProgram = async (query, context) => {
             '$gte': moment(query.fromTime, "DD-MM-YYYY").startOf('day').toDate(),
             '$lt': moment(query.toTime, "DD-MM-YYYY").endOf('day').toDate()
         }
-        programs = await db.program.find({ 'time.from': tme });
+        programs = await db.program.find({ 'time.from': tme }).populate('tags').skip(skipCount).limit(pageSize);;
 
     }
-
-    if (query.userId) {
-        programs = await db.program.find({ user: query.userId });
-    }
-
-    // let programs = await db.program.find(query).populate('tags').skip(skipCount).limit(pageSize);
-    // programs.count = await db.program.find({ user: query.userId }).count();
 
     log.end();
     return programs;

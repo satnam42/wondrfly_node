@@ -460,14 +460,6 @@ module.exports = [
             parameters: [
                 {
                     in: "query",
-                    name: "userId",
-                    description: "userId",
-                    // required: true,
-                    type: "date"
-                },
-
-                {
-                    in: "query",
                     name: "fromDate",
                     description: "fromDate",
                     // required: true,
