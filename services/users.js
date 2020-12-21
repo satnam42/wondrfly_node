@@ -213,6 +213,81 @@ sendOtpEmail = async (firstName, email, templatePath, subject, OTP) => {
 }
 
 
+completeProfileEmail = async (userId, firstName, email, templatePath, subject) => {
+  let mailBody = fs.readFileSync(path.join(__dirname, templatePath)).toString();
+  mailBody = mailBody.replace(/{{firstname}}/g, firstName);
+
+  let smtpTransport = nodemailer.createTransport({
+    host: 'localhost',
+    port: 465,
+    secure: true,
+    service: 'Gmail',
+    auth: {
+      user: `wondrfly@gmail.com`,
+      pass: `wondrfly@123`
+    }
+  });
+
+  let mailOptions = {
+    from: "smtp.mailtrap.io",
+    to: email, //sending to: E-mail
+    subject: subject,
+    html: mailBody,
+    attachments: [
+      {
+        filename: 'logo.png',
+        path: `${__dirname}/../public/images/logo.png`,
+        cid: 'logo1' //same cid value as in the html img src
+      },
+      {
+        filename: 'complete_profile.png',
+        path: `${__dirname}/../public/images/complete_profile.png`,
+        cid: 'complete_profile' //same cid value as in the html img src
+      },
+
+      {
+        filename: 'logo_white.png',
+        path: `${__dirname}/../public/images/logo_white.png`,
+        cid: 'logo_white' //same cid value as in the html img src
+      },
+      {
+        filename: 'tick.png',
+        path: `${__dirname}/../public/images/tick.png`,
+        cid: 'tick' //same cid value as in the html img src
+      },
+      {
+        filename: 'fb.png',
+        path: `${__dirname}/../public/images/fb.png`,
+        cid: 'fb' //same cid value as in the html img src
+      },
+      {
+        filename: 'insta.png',
+        path: `${__dirname}/../public/images/insta.png`,
+        cid: 'insta' //same cid value as in the html img src
+      },
+      {
+        filename: 'pinterest.png',
+        path: `${__dirname}/../public/images/pinterest.png`,
+        cid: 'pinterest' //same cid value as in the html img src
+      }
+    ]
+
+  };
+  let mailSent = await smtpTransport.sendMail(mailOptions)
+  if (mailSent) {
+    console.log("Message sent: %s", mailSent.messageId);
+    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(mailSent));
+    await db.user.findByIdAndUpdate(userId, {
+      $set: {
+        profileCompleteEmail: true
+      }
+    })
+    return
+  } else {
+    log.end()
+    throw new Error("Unable to send email try after sometime");
+  }
+}
 
 
 const setUser = (model, user, context) => {
@@ -757,6 +832,22 @@ const getProfileProgress = async (query, context) => {
       progress += 40
     }
   }
+  if (user.role == 'parent' && user.profileCompleteEmail != true && progress == 50) {
+
+    let templatePath = '../emailTemplates/complete_profile_parent.html';
+    let subject = "parent profile completness";
+    if (user) {
+      completeProfileEmail(query.id, user.firstName, user.email, templatePath, subject);
+    }
+  }
+  if (user.role == 'provider' && user.profileCompleteEmail != true && progress == 50) {
+    let templatePath = '../emailTemplates/complete_profile_provider.html';
+    let subject = "provider profile completness";
+    if (user) {
+      completeProfileEmail(query.id, user.firstName, user.email, templatePath, subject);
+    }
+  }
+
   log.end();
   let data = {
     profileProgress: progress
