@@ -3,37 +3,38 @@ const path = require("path");
 const cors = require("cors");
 const express = require("express");
 const bodyParser = require("body-parser");
-const allowUrl = require('config').get('allowUrl')
-const allowImageExtensions = require('config').get('allowExt')
+// const allowUrl = require('config').get('allowUrl')
+// const allowImageExtensions = require('config').get('allowExt')
 
-const whitelist = allowUrl
+// const whitelist = allowUrl
 
-let imageExtensions = allowImageExtensions.replace(/^'(.*)'$/, '$1');
+// let imageExtensions = allowImageExtensions.replace(/^'(.*)'$/, '$1');
 
-imageExtensions = imageExtensions.replace(/'/g, '"');
+// imageExtensions = imageExtensions.replace(/'/g, '"');
 
-imageExtensions = JSON.parse(imageExtensions);
+// imageExtensions = JSON.parse(imageExtensions);
 
-const corsOptionsDelegate = (req, callback) => {
-  
-  let corsOptions;
+// const corsOptionsDelegate = (req, callback) => {
 
-  let isDomainAllowed = whitelist.indexOf(req.header('Origin')) !== -1;
+//   let corsOptions;
 
-  let isExtensionAllowed = imageExtensions.some(imageExtension =>  req.path.endsWith(imageExtension))
+//   let isDomainAllowed = whitelist.indexOf(req.header('Origin')) !== -1;
 
-  if (isDomainAllowed || isExtensionAllowed) {
-      callback(null, true)
-  } else {
-    callback(new Error('Not allowed by CORS'))
-  }
+//   let isExtensionAllowed = imageExtensions.some(imageExtension =>  req.path.endsWith(imageExtension))
 
-}
+//   if (isDomainAllowed || isExtensionAllowed) {
+//       callback(null, true)
+//   } else {
+//     callback(new Error('Not allowed by CORS'))
+//   }
+
+// }
 
 const configure = async (app, logger) => {
   const log = logger.start("settings:express:configure");
   app.use(bodyParser.json());
-  app.use(cors(corsOptionsDelegate));
+  app.use(cors());
+  // app.use(cors(corsOptionsDelegate));
   app.use(
     bodyParser.urlencoded({
       extended: true
