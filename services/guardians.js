@@ -1,15 +1,19 @@
 
 const ObjectId = require("mongodb").ObjectID;
 const setGuardian = (model, guardian, context) => {
+
     const log = context.logger.start("services:guardians:set");
-    if (model.name !== "string" && model.name !== undefined) {
-        guardian.firstName = model.name;
+    if (model.firstName !== "string" && model.firstName !== undefined) {
+        guardian.firstName = model.firstName;
     }
     if (model.age !== "string" && model.age !== undefined) {
         guardian.age = model.age;
     }
     if (model.sex !== "string" && model.sex !== undefined) {
         guardian.sex = model.sex;
+    }
+    if (model.avtar !== "string" && model.avtar !== undefined) {
+        guardian.avtar = model.avtar;
     }
     if (model.personalNote !== "string" && model.personalNote !== undefined) {
         guardian.personalNote = model.personalNote;
@@ -76,7 +80,7 @@ const updateGuardian = async (id, model, context) => {
     const guardian = await setGuardian(model, entity, context);
 
     log.end();
-    return guardian.user
+    return guardian
 };
 
 const getGuardianByParentId = async (id, context) => {
