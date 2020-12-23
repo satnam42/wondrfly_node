@@ -74,7 +74,7 @@ const getById = async (req, res) => {
     try {
         const provider = await service.getProvideById(req.params.id, req.context);
         log.end();
-        return response.data(res, provider);
+        return response.data(res, mapper.toModel(provider));
     } catch (err) {
         log.error(err);
         log.end();
