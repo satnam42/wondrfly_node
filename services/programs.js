@@ -451,8 +451,24 @@ const search = async (query, context) => {
     const program = await db.program.find({ name: { "$regex": '.*' + query.name + '.*', "$options": 'i' } }
     ).populate('tags').limit(5);
     log.end();
-    return program;
+    // console.log('search ==>>>', program);
+    let finalProgram = [];
+    program.forEach((progrm, index) => {
+        if (progrm.name != '' && progrm.name != "string" && progrm.type != '' && progrm.type != "string"
+            && progrm.description != '' && progrm.description != "string" && progrm.date.from != '' && progrm.date.from != "string"
+            && progrm.price != '' && progrm.price != "string" && progrm.location != '' && progrm.location != "string"
+            && progrm.ageGroup.from != '' && progrm.ageGroup.from != "string") {
+            finalProgram.push(progrm);
+        }
+        else {
+            console.log('');
+        }
+    })
+    log.end();
+    return finalProgram;
+
 };
+// name, type, description, date, price, location, ageGroup,
 const getProgramsByProvider = async (query, context) => {
     const log = context.logger.start(`services:programs:getProgramsByProvider`);
     let pageNo = Number(query.pageNo) || 1;

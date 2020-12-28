@@ -324,9 +324,22 @@ const search = async (name, context) => {
     }
     const providers = await db.user.find({ firstName: { "$regex": '.*' + name + '.*', "$options": 'i' } }
     ).limit(5);
+
     if (providers.length < 1) {
         throw new Error("provider not found");
     }
+
+    let finalProviders = [];
+    providers.forEach((provider, index) => {
+        if (provider.firstName != '' && provider.firstName != "string" && provider.email != '' && provider.email != "string"
+            && provider.phoneNumber != '' && provider.phoneNumber != "string" && provideraddressLine1 != '' && provideraddressLine1 != "string"
+        ) {
+            finalProviders.push(provider);
+        }
+        else {
+            console.log('');
+        }
+    })
     log.end();
     return providers;
 };
