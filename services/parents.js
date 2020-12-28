@@ -1,5 +1,6 @@
 const encrypt = require("../permit/crypto.js");
 const imageUrl = require('config').get('image').url
+const generator = require('generate-password');
 const ObjectId = require("mongodb").ObjectID;
 const auth = require("../permit/auth");
 const setParent = (model, parent, context) => {
@@ -95,8 +96,11 @@ const addParent = async (model, context) => {
     if (isEmail) {
         return "Email already resgister";
     }
-
-    model.password = encrypt.getHash('123456', context);
+    let genPassword = generator.generate({
+        length: 10,
+        numbers: true
+    });
+    model.password = await encrypt.getHash(genPassword, context);
     const parent = buildParent(model, context);
     log.end();
     return parent;

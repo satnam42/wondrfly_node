@@ -3,6 +3,7 @@
 const fs = require('fs');
 const csv = require('csvtojson')
 const encrypt = require("../permit/crypto.js");
+const generator = require('generate-password');
 const auth = require("../permit/auth");
 const imageUrl = require('config').get('image').url
 const ObjectId = require("mongodb").ObjectID;
@@ -260,10 +261,13 @@ const importProvider = async (file, context) => {
     return `total record inserted ${count}`;
 };
 
-
-const getAllProvider = async (context) => {
+const getAllProvider = async (query, context) => {
     const log = context.logger.start(`services:providers:getAllProvider`);
-    const providers = await db.provider.find({}).sort({ date: -1 }).populate('categories').populate('skills')
+    let pageNo = Number(query.pageNo) || 1;
+    let pageSize = Number(query.pageSize) || 10;
+    let skipCount = pageSize * (pageNo - 1);
+    const providers = await db.provider.find({}).sort({ date: -1 }).populate('categories').populate('skills').skip(skipCount).limit(pageSize);
+    providers.count = await db.provider.find({}).count();
     log.end();
     return providers;
 };
@@ -351,7 +355,12 @@ const addProvider = async (model, context) => {
     if (isEmail) {
         throw new Error("Email already resgister");
     }
-    model.password = await encrypt.getHash('321@LetsPlay!@#$%', context);
+    let genPassword = generator.generate({
+        length: 10,
+        numbers: true
+    });
+    // model.password = await encrypt.getHash('321@LetsPlay!@#$%', context);
+    model.password = await encrypt.getHash(genPassword, context);
     const user = await buildUser(model, context);
     if (user.role == 'provider') {
         await new db.provider({
