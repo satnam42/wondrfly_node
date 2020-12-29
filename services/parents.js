@@ -218,4 +218,4 @@ exports.resetPassword = resetPassword;
 exports.updateParent = updateParent;
 exports.uploadProfilePic = uploadProfilePic;
 exports.activateAndDeactive = activateAndDeactive
-exports.getParent = getParent
+exports.getParent = getParent;

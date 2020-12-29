@@ -559,4 +559,79 @@ module.exports = [
             }
         }
     },
+
+    {
+        url: "/getProgramsByDate",
+        get: {
+            summary: "get Program's list date wise",
+            description: "get Program's list date wise",
+            parameters: [
+                {
+                    in: "query",
+                    name: "fromDate",
+                    description: "Date belongs From date",
+                    type: "string"
+                },
+                {
+                    in: "query",
+                    name: "toDate",
+                    description: "Date belongs To date",
+                    type: "string"
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
+
+    {
+        url: "/publishedOrUnPublishedPrograms",
+        get: {
+            summary: "publishedOrUnPublishedPrograms",
+            description: "Publish program details by user ID",
+            parameters: [
+                {
+                    in: "query",
+                    name: "userId",
+                    description: "user Id",
+                    type: "string"
+                },
+                {
+                    in: "query",
+                    name: "programType",
+                    description: "program type can be published or unpublished",
+                    type: "string"
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    }
 ];

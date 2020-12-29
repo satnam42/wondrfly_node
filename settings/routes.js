@@ -556,7 +556,20 @@ const configure = (app, logger) => {
     api.programs.importProgram
   );
 
-  // favourites api//
+  app.get(
+    "/api/programs/getProgramsByDate",
+    permit.context.builder,
+    // validator.users.get, 
+    api.programs.getProgramsByDate
+  );
+
+  app.get(
+    "/api/programs/publishedOrUnPublishedPrograms",
+    permit.context.requiresToken,
+    api.programs.publishedOrUnPublishedPrograms
+  );
+
+  //=============favourites api=====================//
   app.post(
     "/api/favourites/add",
     permit.context.requiresToken,

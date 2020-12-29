@@ -768,6 +768,60 @@ const importProgram = async (file, context) => {
     return `total record inserted ${count}`;
 };
 
+const getProgramsByDate = async (query, context) => {
+    const { fromDate, toDate } = query;
+    const log = context.logger.start(`services:providers:getProgramsByDate`);
+    const dat = {
+        '$gte': moment(fromDate, "DD-MM-YYYY").startOf('day').toDate(),
+        '$lt': moment(toDate, "DD-MM-YYYY").endOf('day').toDate()
+    }
+    let providers = await db.program.find({ createdOn: dat });
+    log.end();
+    return providers;
+};
+
+const publishedOrUnPublishedPrograms = async (query, context) => {
+    const { userId, programType } = query;
+    const log = context.logger.start(`services:programs:publishedOrUnPublishedPrograms`);
+    if (!userId) {
+        throw new Error("user id is required");
+    }
+    let programs = await db.program.find({ user: userId });
+    if (!programs) {
+        throw new Error("programs not found");
+    }
+    let finalProgram = [];
+    if (programType == 'published') {
+        programs.forEach((progrm, index) => {
+            if (progrm.name != '' && progrm.name != "string" && progrm.type != '' && progrm.type != "string"
+                && progrm.description != '' && progrm.description != "string" && progrm.date.from != '' && progrm.date.from != "string"
+                && progrm.price != '' && progrm.price != "string" && progrm.location != '' && progrm.location != "string"
+                && progrm.ageGroup.from != '' && progrm.ageGroup.from != "string") {
+                finalProgram.push(progrm);
+            }
+            else {
+                throw new Error("published programs not found");
+            }
+        })
+    }
+    if (programType == 'unpublished') {
+        programs.forEach((progrm, index) => {
+            if (progrm.name == '' || progrm.name == "string" || progrm.type == '' || progrm.type == "string"
+                || progrm.description == '' || progrm.description == "string" || progrm.date.from == '' || progrm.date.from == "string"
+                || progrm.price == '' || progrm.price == "string" || progrm.location == '' || progrm.location == "string"
+                || progrm.ageGroup.from == '' || progrm.ageGroup.from == "string") {
+                finalProgram.push(progrm);
+            }
+            else {
+                throw new Error("unPublished programs not found");
+            }
+        })
+    }
+
+    log.end();
+    return finalProgram
+};
+
 
 exports.create = create;
 exports.getAllprograms = getAllprograms;
@@ -784,3 +838,5 @@ exports.setActiveOrDecactive = setActiveOrDecactive
 exports.getGraphData = getGraphData
 exports.getFilterProgram = getFilterProgram
 exports.importProgram = importProgram
+exports.getProgramsByDate = getProgramsByDate
+exports.publishedOrUnPublishedPrograms = publishedOrUnPublishedPrograms

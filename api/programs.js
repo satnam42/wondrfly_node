@@ -202,6 +202,32 @@ const importProgram = async (req, res) => {
     }
 };
 
+const getProgramsByDate = async (req, res) => {
+    const log = req.context.logger.start(`api:providers:getProgramsByDate`);
+    try {
+        const providers = await service.getProgramsByDate(req.query, req.context);
+        log.end();
+        return response.data(res, providers);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
+const publishedOrUnPublishedPrograms = async (req, res) => {
+    const log = req.context.logger.start(`api:programs:publishedOrUnPublishedPrograms`);
+    try {
+        const program = await service.publishedOrUnPublishedPrograms(req.query, req.context);
+        log.end();
+        return response.data(res, program);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 
 exports.create = create;
 exports.list = list;
@@ -218,4 +244,6 @@ exports.activeOrDecactive = activeOrDecactive;
 exports.graphData = graphData;
 exports.filter = filter;
 exports.importProgram = importProgram;
+exports.getProgramsByDate = getProgramsByDate;
+exports.publishedOrUnPublishedPrograms = publishedOrUnPublishedPrograms;
 
