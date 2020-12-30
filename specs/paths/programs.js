@@ -633,5 +633,37 @@ module.exports = [
                 }
             }
         }
-    }
+    },
+    {
+        url: "/openPrograms",
+        get: {
+            summary: "get open programs List",
+            description: "get open programs",
+            parameters: [
+                {
+                    in: "query",
+                    type: "integer",
+                    name: "pageNo",
+                    description: "pageNo",
+                    required: true
+                },
+                {
+                    in: "query",
+                    type: "integer",
+                    name: "pageSize",
+                    description: "pageSize",
+                    required: true
+                }
+
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
 ];

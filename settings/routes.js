@@ -569,6 +569,13 @@ const configure = (app, logger) => {
     api.programs.publishedOrUnPublishedPrograms
   );
 
+  app.get(
+    "/api/programs/openPrograms",
+    permit.context.builder,
+    api.programs.openPrograms
+  );
+
+
   //=============favourites api=====================//
   app.post(
     "/api/favourites/add",

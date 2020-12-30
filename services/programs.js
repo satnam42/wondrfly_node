@@ -776,6 +776,8 @@ const getProgramsByDate = async (query, context) => {
         '$lt': moment(toDate, "DD-MM-YYYY").endOf('day').toDate()
     }
     let providers = await db.program.find({ createdOn: dat });
+    let count = await db.program.find({ createdOn: dat }).count();
+    console.log('count ==>>>>', count);
     log.end();
     return providers;
 };
@@ -818,10 +820,34 @@ const publishedOrUnPublishedPrograms = async (query, context) => {
         })
     }
 
+    let count = await finalProgram.length;
+    let data = {
+        count,
+        finalProgram
+    }
     log.end();
-    return finalProgram
+    return data;
 };
 
+
+const openPrograms = async (query, context) => {
+    const log = context.logger.start(`services:programs:openPrograms`);
+    let pageNo = Number(query.pageNo) || 1;
+    let pageSize = Number(query.pageSize) || 10;
+    let skipCount = pageSize * (pageNo - 1);
+    let programs = await db.program.find().sort({ createdOn: -1 }).populate('tags').skip(skipCount).limit(pageSize);
+    let finalProgram = [];
+    let current = new Date()
+    programs.forEach((progrm, index) => {
+        if (moment(progrm.date.to).isSameOrAfter(current, 'day')) {
+            finalProgram.push(progrm);
+        }
+
+    });
+    log.end();
+    finalProgram.count = finalProgram.length;
+    return finalProgram;
+};
 
 exports.create = create;
 exports.getAllprograms = getAllprograms;
@@ -840,3 +866,4 @@ exports.getFilterProgram = getFilterProgram
 exports.importProgram = importProgram
 exports.getProgramsByDate = getProgramsByDate
 exports.publishedOrUnPublishedPrograms = publishedOrUnPublishedPrograms
+exports.openPrograms = openPrograms;
