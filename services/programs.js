@@ -748,7 +748,9 @@ const getFilterProgram = async (query, context) => {
         programs = await db.program.find({ price: byPrice }).populate('tags').skip(skipCount).limit(pageSize);;
     }
 
-
+    if (query.categoryId) {
+        programs = await db.program.find({ 'tags': query.categoryId }).populate('tags').skip(skipCount).limit(pageSize);;
+    }
 
 
 
