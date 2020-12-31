@@ -500,6 +500,18 @@ module.exports = [
                 },
                 {
                     in: "query",
+                    name: "priceFrom",
+                    description: "priceFrom",
+                    type: "integer"
+                },
+                {
+                    in: "query",
+                    name: "priceTo",
+                    description: "priceTo",
+                    type: "integer"
+                },
+                {
+                    in: "query",
                     name: "pageSize",
                     description: "pageSize",
                     type: "integer"
@@ -509,13 +521,6 @@ module.exports = [
                     name: "pageNo",
                     description: "pageNo",
                     type: "integer"
-                },
-                {
-                    in: "header",
-                    name: "x-access-token",
-                    description: "token to access api",
-                    // required: true,
-                    type: "string"
                 }
             ],
             responses: {

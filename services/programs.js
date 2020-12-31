@@ -740,6 +740,14 @@ const getFilterProgram = async (query, context) => {
 
     }
 
+    if (query.priceFrom && query.priceTo) {
+        const byPrice = {
+            $gte: Number(query.priceFrom),
+            $lte: Number(query.priceTo)
+        }
+        programs = await db.program.find({ price: byPrice }).populate('tags').skip(skipCount).limit(pageSize);;
+    }
+
     log.end();
     return programs;
 };

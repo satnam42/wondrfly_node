@@ -544,7 +544,7 @@ const configure = (app, logger) => {
   app.get(
     "/api/programs/byFilter",
     permit.context.builder,
-    permit.context.requiresToken,
+    permit.context.builder,
     api.programs.filter
   );
 
