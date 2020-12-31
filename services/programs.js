@@ -748,6 +748,10 @@ const getFilterProgram = async (query, context) => {
         programs = await db.program.find({ price: byPrice }).populate('tags').skip(skipCount).limit(pageSize);;
     }
 
+
+
+
+
     log.end();
     return programs;
 };
@@ -810,7 +814,7 @@ const publishedOrUnPublishedPrograms = async (query, context) => {
                 finalProgram.push(progrm);
             }
             else {
-                throw new Error("published programs not found");
+                console.log('');
             }
         })
     }
@@ -823,7 +827,7 @@ const publishedOrUnPublishedPrograms = async (query, context) => {
                 finalProgram.push(progrm);
             }
             else {
-                throw new Error("unPublished programs not found");
+                console.log('');
             }
         })
     }

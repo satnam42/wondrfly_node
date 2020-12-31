@@ -512,6 +512,12 @@ module.exports = [
                 },
                 {
                     in: "query",
+                    name: "categoryId",
+                    description: "category id",
+                    type: "string"
+                },
+                {
+                    in: "query",
                     name: "pageSize",
                     description: "pageSize",
                     type: "integer"
