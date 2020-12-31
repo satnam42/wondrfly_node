@@ -789,7 +789,6 @@ const getProgramsByDate = async (query, context) => {
     }
     let providers = await db.program.find({ createdOn: dat });
     let count = await db.program.find({ createdOn: dat }).count();
-    console.log('count ==>>>>', count);
     log.end();
     return providers;
 };
@@ -809,7 +808,7 @@ const publishedOrUnPublishedPrograms = async (query, context) => {
         programs.forEach((progrm, index) => {
             if (progrm.name != '' && progrm.name != "string" && progrm.type != '' && progrm.type != "string"
                 && progrm.description != '' && progrm.description != "string" && progrm.date.from != '' && progrm.date.from != "string"
-                && progrm.price != '' && progrm.price != "string" && progrm.location != '' && progrm.location != "string"
+                && progrm.location != '' && progrm.location != "string"
                 && progrm.ageGroup.from != '' && progrm.ageGroup.from != "string") {
                 finalProgram.push(progrm);
             }
@@ -822,7 +821,7 @@ const publishedOrUnPublishedPrograms = async (query, context) => {
         programs.forEach((progrm, index) => {
             if (progrm.name == '' || progrm.name == "string" || progrm.type == '' || progrm.type == "string"
                 || progrm.description == '' || progrm.description == "string" || progrm.date.from == '' || progrm.date.from == "string"
-                || progrm.price == '' || progrm.price == "string" || progrm.location == '' || progrm.location == "string"
+                || progrm.location == '' || progrm.location == "string"
                 || progrm.ageGroup.from == '' || progrm.ageGroup.from == "string") {
                 finalProgram.push(progrm);
             }
