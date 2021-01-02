@@ -341,10 +341,19 @@ const create = async (model, context) => {
     if (context.user.role == 'parent') {
         throw new Error("you are not authorized to perform this operation");
     }
+
+    let user = context.user;
+    if (user.phoneNumber == "string" || user.phoneNumber == undefined || user.phoneNumber == "" ||
+        user.avatarImages == "string" || user.avatarImages == undefined || user.avatarImages == "" ||
+        user.addressLine1 == "string" || user.addressLine1 == undefined || user.addressLine1 == "") {
+        throw new Error("your profile is incomplete you cannot add program");
+    }
+
     // const isprogramExist = await db.program.findOne({ name: { $eq: model.name } });
     // if (isprogramExist) {
     //     return "program already exist";
     // }
+
     const program = build(model, context);
     log.end();
     return program;
