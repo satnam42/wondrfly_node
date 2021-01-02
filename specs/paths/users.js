@@ -25,46 +25,46 @@ module.exports = [
       }
     }
   },
-  // {
-  //   url: "/list",
-  //   get: {
-  //     summary: "get User List",
-  //     description: "get All Users",
-  //     parameters: [
-  //       {
-  //         in: "query",
-  //         type: "integer",
-  //         name: "pageNo",
-  //         description: "pageNo",
-  //         required: true
-  //       },
-  //       {
-  //         in: "query",
-  //         type: "integer",
-  //         name: "pageSize",
-  //         description: "pageSize",
-  //         required: true
-  //       },
-  //       {
-  //         in: "query",
-  //         type: "string",
-  //         name: "role",
-  //         description: "role",
-  //         default: 'all',
-  //         required: true
-  //       },
+  {
+    url: "/list",
+    get: {
+      summary: "get User List",
+      description: "get All Users",
+      parameters: [
+        {
+          in: "query",
+          type: "integer",
+          name: "pageNo",
+          description: "pageNo",
+          required: true
+        },
+        {
+          in: "query",
+          type: "integer",
+          name: "pageSize",
+          description: "pageSize",
+          required: true
+        },
+        {
+          in: "query",
+          type: "string",
+          name: "role",
+          description: "role",
+          default: 'all',
+          required: true
+        },
 
-  //     ],
-  //     responses: {
-  //       default: {
-  //         description: "Unexpected error",
-  //         schema: {
-  //           $ref: "#/definitions/Error"
-  //         }
-  //       }
-  //     }
-  //   }
-  // },
+      ],
+      responses: {
+        default: {
+          description: "Unexpected error",
+          schema: {
+            $ref: "#/definitions/Error"
+          }
+        }
+      }
+    }
+  },
   // {
   //   url: "/update/{id}",
   //   put: {

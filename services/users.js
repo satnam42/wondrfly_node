@@ -378,11 +378,35 @@ const get = async (query, context) => {
   }
 
   else {
+    let finalProviders = []
     users = await db.user
       .find({ role: query.role }).sort({ _id: -1 })
       .skip(skipCount)
       .limit(pageSize);
     users.count = await db.user.find({ role: query.role }).count();
+
+
+    if (query.role == 'provider') {
+      users.forEach((user, index) => {
+        let progress = 20;
+        if (user.phoneNumber !== "string" && user.phoneNumber !== undefined && user.phoneNumber !== "") {
+          progress += 10
+        }
+        if (user.avatarImages !== "string" && user.avatarImages !== undefined && user.avatarImages !== "") {
+          progress += 10
+        }
+        if (user.addressLine1 !== "string" && user.addressLine1 !== undefined && user.addressLine1 !== "") {
+          progress += 10
+        }
+        let objUser = user;
+        users.splice(index, 1);
+
+        objUser.progress = progress;
+        users.splice(index, 0,
+          objUser
+        );
+      })
+    }
   }
 
   log.end();
