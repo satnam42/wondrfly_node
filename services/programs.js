@@ -346,7 +346,7 @@ const create = async (model, context) => {
     if (user.phoneNumber == "string" || user.phoneNumber == undefined || user.phoneNumber == "" ||
         user.avatarImages == "string" || user.avatarImages == undefined || user.avatarImages == "" ||
         user.addressLine1 == "string" || user.addressLine1 == undefined || user.addressLine1 == "") {
-        throw new Error("your profile is incomplete you cannot add program");
+        throw new Error("your profile is incomplete you cannot add program! Please add phone Number, image and address");
     }
 
     // const isprogramExist = await db.program.findOne({ name: { $eq: model.name } });
@@ -729,7 +729,7 @@ const getFilterProgram = async (query, context) => {
             '$gte': moment(query.fromDate, "DD-MM-YYYY").startOf('day').toDate(),
             '$lt': moment(query.toDate, "DD-MM-YYYY").endOf('day').toDate()
         }
-        programs = await db.program.find({ 'date.from': dat }).populate('tags').skip(skipCount).limit(pageSize);;
+        programs = await db.program.find({ createdOn: dat }).populate('tags').skip(skipCount).limit(pageSize);;
     }
 
     if (query.ageFrom && query.ageTo) {
@@ -737,8 +737,16 @@ const getFilterProgram = async (query, context) => {
             $gte: Number(query.ageFrom),
             $lte: Number(query.ageTo)
         }
-        programs = await db.program.find({ 'ageGroup.from': age }).populate('tags').skip(skipCount).limit(pageSize);;
+
+        programs = await db.program.find({
+            $or: [
+                { 'ageGroup.from': age, 'ageGroup.to': age }
+            ]
+        }).populate('tags').skip(skipCount).limit(pageSize);;
+
     }
+
+
 
     if (query.toTime && query.toTime) {
         const tme = {
@@ -751,8 +759,8 @@ const getFilterProgram = async (query, context) => {
 
     if (query.priceFrom && query.priceTo) {
         const byPrice = {
-            $gte: Number(query.priceFrom),
-            $lte: Number(query.priceTo)
+            $gte: (query.priceFrom),
+            $lte: (query.priceTo)
         }
         programs = await db.program.find({ price: byPrice }).populate('tags').skip(skipCount).limit(pageSize);;
     }

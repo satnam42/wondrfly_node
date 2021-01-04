@@ -4,7 +4,7 @@ const programSchema = mongoose.Schema({
     name: { type: String, default: "", },
     description: { type: String, default: "" },
     type: { type: String, default: "", },
-    price: { type: String, default: "" },
+    price: { type: Number, default: "" },
     code: { type: String, default: "" },
     location: { type: String, default: "" },
     joiningLink: { type: String, default: "" },
