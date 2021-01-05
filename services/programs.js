@@ -801,15 +801,15 @@ const importProgram = async (file, context) => {
 
 const getProgramsByDate = async (query, context) => {
     const { fromDate, toDate } = query;
-    const log = context.logger.start(`services:providers:getProgramsByDate`);
+    const log = context.logger.start(`services:programs:getProgramsByDate`);
     const dat = {
         '$gte': moment(fromDate, "DD-MM-YYYY").startOf('day').toDate(),
         '$lt': moment(toDate, "DD-MM-YYYY").endOf('day').toDate()
     }
-    let providers = await db.program.find({ createdOn: dat });
+    let programs = await db.program.find({ createdOn: dat });
     let count = await db.program.find({ createdOn: dat }).count();
     log.end();
-    return providers;
+    return programs;
 };
 
 const publishedOrUnPublishedPrograms = async (query, context) => {
@@ -879,6 +879,45 @@ const openPrograms = async (query, context) => {
     return finalProgram;
 };
 
+const publish = async (query, context) => {
+    const log = context.logger.start(`services:providers:publish`);
+
+    let program = await db.program.findById(query.programId);
+    if (context.user.role == 'parent') {
+        throw new Error("you are not authorized to perform this operation");
+    }
+    // isPublished
+    if (program.name == '' || program.name == "string" || program.type == '' || program.type == "string"
+        || program.description == '' || program.description == "string" || program.date.from == '' || program.date.from == "string"
+        || program.location == '' || program.location == "string"
+        || program.ageGroup.from == '' || program.ageGroup.from == "string") {
+        throw new Error("you need to complete the program before publish it");
+    }
+    program.isPublished = true
+    program.updatedOn = new Date()
+    log.end();
+    program.save();
+    return "program is published sucessfully"
+};
+
+const listPublishOrUnpublish = async (query, context) => {
+    const log = context.logger.start(`services:providers:listPublishOrUnpublish`);
+    let pageNo = Number(query.pageNo) || 1;
+    let pageSize = Number(query.pageSize) || 10;
+    let skipCount = pageSize * (pageNo - 1);
+    let programs
+    if (query.programType == 'published') {
+        programs = await db.program.find({ isPublished: true }).sort({ createdOn: -1 }).populate('tags').skip(skipCount).limit(pageSize);
+        programs.count = await db.program.find({ isPublished: true }).count();
+    }
+    if (query.programType == 'unpublished') {
+        programs = await db.program.find({ isPublished: false }).sort({ createdOn: -1 }).populate('tags').skip(skipCount).limit(pageSize);
+        programs.count = await db.program.find({ isPublished: false }).count();
+    }
+    log.end();
+    return programs
+};
+
 exports.create = create;
 exports.getAllprograms = getAllprograms;
 exports.update = update;
@@ -897,3 +936,5 @@ exports.importProgram = importProgram
 exports.getProgramsByDate = getProgramsByDate
 exports.publishedOrUnPublishedPrograms = publishedOrUnPublishedPrograms
 exports.openPrograms = openPrograms;
+exports.publish = publish;
+exports.listPublishOrUnpublish = listPublishOrUnpublish;

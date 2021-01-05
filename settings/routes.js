@@ -575,6 +575,18 @@ const configure = (app, logger) => {
     api.programs.openPrograms
   );
 
+  app.post(
+    "/api/programs/publish",
+    permit.context.requiresToken,
+    api.programs.publish
+  );
+
+  app.get(
+    "/api/programs/listPublishOrUnpublish",
+    permit.context.builder,
+    api.programs.listPublishOrUnpublish
+  );
+
 
   //=============favourites api=====================//
   app.post(

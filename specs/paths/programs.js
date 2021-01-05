@@ -677,4 +677,76 @@ module.exports = [
             }
         }
     },
+
+    {
+        url: "/publish",
+        post: {
+            summary: "published the program",
+            description: "published the program",
+            parameters: [
+                {
+                    in: "query",
+                    type: "string",
+                    name: "programId",
+                    description: "program Id",
+                    required: true
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
+
+    {
+        url: "/listPublishOrUnpublish",
+        get: {
+            summary: "list of published or unpublished programs",
+            description: "list of published or unpublished programs",
+            parameters: [
+                {
+                    in: "query",
+                    type: "integer",
+                    name: "pageNo",
+                    description: "pageNo",
+                    required: true
+                },
+                {
+                    in: "query",
+                    type: "integer",
+                    name: "pageSize",
+                    description: "pageSize",
+                    required: true
+                },
+                {
+                    in: "query",
+                    type: "string",
+                    name: "programType",
+                    description: "program type can be published or unpublished",
+                    required: true
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
 ];
