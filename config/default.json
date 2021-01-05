@@ -4,11 +4,11 @@
         "database": "letsPlay"
     },
     "app": {
-        "url": "http://3.15.164.103/",
+        "url": "https://bacca.store/",
         "port": 8406
     },
     "webServer": {
-        "url": "http://3.15.164.103/",
+        "url": "https://bacca.store/",
         "port": 8406
     },
     "auth": {
