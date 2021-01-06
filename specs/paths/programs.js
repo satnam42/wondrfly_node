@@ -692,6 +692,14 @@ module.exports = [
                     required: true
                 },
                 {
+                    in: "query",
+                    type: "boolean",
+                    name: "isPublished",
+                    description: "isPublished should be true or false",
+                    default: true,
+                    required: true
+                },
+                {
                     in: "header",
                     name: "x-access-token",
                     description: "token to access api",

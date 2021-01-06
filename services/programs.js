@@ -729,7 +729,7 @@ const getFilterProgram = async (query, context) => {
             '$gte': moment(query.fromDate, "DD-MM-YYYY").startOf('day').toDate(),
             '$lt': moment(query.toDate, "DD-MM-YYYY").endOf('day').toDate()
         }
-        programs = await db.program.find({ createdOn: dat }).populate('tags').skip(skipCount).limit(pageSize);;
+        programs = await db.program.find({ createdOn: dat, isPublished: true }).populate('tags').skip(skipCount).limit(pageSize);;
     }
 
     if (query.ageFrom && query.ageTo) {
@@ -740,7 +740,7 @@ const getFilterProgram = async (query, context) => {
 
         programs = await db.program.find({
             $or: [
-                { 'ageGroup.from': age, 'ageGroup.to': age }
+                { 'ageGroup.from': age, 'ageGroup.to': age, isPublished: true }
             ]
         }).populate('tags').skip(skipCount).limit(pageSize);;
 
@@ -753,7 +753,7 @@ const getFilterProgram = async (query, context) => {
             '$gte': moment(query.fromTime, "DD-MM-YYYY").startOf('day').toDate(),
             '$lt': moment(query.toTime, "DD-MM-YYYY").endOf('day').toDate()
         }
-        programs = await db.program.find({ 'time.from': tme }).populate('tags').skip(skipCount).limit(pageSize);;
+        programs = await db.program.find({ 'time.from': tme, isPublished: true }).populate('tags').skip(skipCount).limit(pageSize);;
 
     }
 
@@ -762,11 +762,11 @@ const getFilterProgram = async (query, context) => {
             $gte: (query.priceFrom),
             $lte: (query.priceTo)
         }
-        programs = await db.program.find({ price: byPrice }).populate('tags').skip(skipCount).limit(pageSize);;
+        programs = await db.program.find({ price: byPrice, isPublished: true }).populate('tags').skip(skipCount).limit(pageSize);;
     }
 
     if (query.categoryId) {
-        programs = await db.program.find({ 'tags': query.categoryId }).populate('tags').skip(skipCount).limit(pageSize);;
+        programs = await db.program.find({ 'tags': query.categoryId, isPublished: true }).populate('tags').skip(skipCount).limit(pageSize);;
     }
 
 
@@ -892,11 +892,11 @@ const publish = async (query, context) => {
         || program.ageGroup.from == '' || program.ageGroup.from == "string") {
         throw new Error("you need to complete the program before publish it");
     }
-    program.isPublished = true
+    program.isPublished = query.isPublished
     program.updatedOn = new Date()
     log.end();
     program.save();
-    return "program is published sucessfully"
+    return program
 };
 
 const listPublishOrUnpublish = async (query, context) => {
