@@ -3,7 +3,8 @@
 const express = require("express");
 const appConfig = require("config").get("app");
 const logger = require("@open-age/logger")("server");
-const Http = require("http");
+const Https = require("https");
+const fs = require('fs');
 const port = process.env.PORT || appConfig.port || 3000;
 const path = require('path');
 const bcrypt = require("bcrypt");
@@ -26,7 +27,12 @@ const app = express();
 app.use(express.static(__dirname + '/public'));
 
 
-var server = Http.createServer(app);
+const options = {
+  cert: fs.readFileSync('/etc/letsencrypt/live/bacca.store/fullchain.pem'),
+  key: fs.readFileSync('/etc/letsencrypt/live/bacca.store/privkey.pem')
+};
+var server = Https.createServer(options, app);
+
 // admin.initializeApp({
 //   credential: admin.credential.cert(serviceAccount)
 // });

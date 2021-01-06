@@ -886,7 +886,6 @@ const publish = async (query, context) => {
     if (context.user.role == 'parent') {
         throw new Error("you are not authorized to perform this operation");
     }
-    // isPublished
     if (program.name == '' || program.name == "string" || program.type == '' || program.type == "string"
         || program.description == '' || program.description == "string" || program.date.from == '' || program.date.from == "string"
         || program.location == '' || program.location == "string"
