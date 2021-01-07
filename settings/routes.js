@@ -575,7 +575,7 @@ const configure = (app, logger) => {
     api.programs.openPrograms
   );
 
-  app.post(
+  app.put(
     "/api/programs/publish",
     permit.context.requiresToken,
     api.programs.publish

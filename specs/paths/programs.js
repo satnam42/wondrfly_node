@@ -680,7 +680,7 @@ module.exports = [
 
     {
         url: "/publish",
-        post: {
+        put: {
             summary: "published the program",
             description: "published the program",
             parameters: [
