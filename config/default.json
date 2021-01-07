@@ -16,6 +16,7 @@
     },
     "image": {
         "url": "images/",
+        "baseUrl": "https://bacca.store/",
         "port": 8406
     },
     "providers": {},

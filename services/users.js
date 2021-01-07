@@ -1,6 +1,7 @@
 const encrypt = require("../permit/crypto.js");
 const auth = require("../permit/auth");
 const imageUrl = require('config').get('image').url
+const baseUrl = require('config').get('image').baseUrl
 const ObjectId = require("mongodb").ObjectID;
 const accountSid = 'AC5d73ce4cfa70158e5357a905e379af2b';
 var nodemailer = require('nodemailer')
@@ -357,9 +358,7 @@ const register = async (model, context) => {
 const getById = async (id, context) => {
   const log = context.logger.start(`services:users:getById:${id}`);
   const user = await db.user.findById(id);
-  // img = user.avatarImages
-  completeimg = 'https://bacca.store/' + user.avatarImages
-
+  completeimg = baseUrl + user.avatarImages
   user.avatarImages = completeimg;
   log.end();
   return user;

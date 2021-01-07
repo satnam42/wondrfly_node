@@ -342,7 +342,11 @@ const create = async (model, context) => {
         throw new Error("you are not authorized to perform this operation");
     }
 
-    let user = context.user;
+    let user = await db.user.findById(model.userId);
+    if (user.role == 'parent') {
+        throw new Error("you are not authorized to perform this operation");
+    }
+
     if (user.phoneNumber == "string" || user.phoneNumber == undefined || user.phoneNumber == "") {
         throw new Error("your profile is incomplete you cannot add program! Please add phone Number");
     }
