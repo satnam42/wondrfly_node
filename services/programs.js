@@ -343,10 +343,14 @@ const create = async (model, context) => {
     }
 
     let user = context.user;
-    if (user.phoneNumber == "string" || user.phoneNumber == undefined || user.phoneNumber == "" ||
-        user.avatarImages == "string" || user.avatarImages == undefined || user.avatarImages == "" ||
-        user.addressLine1 == "string" || user.addressLine1 == undefined || user.addressLine1 == "") {
-        throw new Error("your profile is incomplete you cannot add program! Please add phone Number, image and address");
+    if (user.phoneNumber == "string" || user.phoneNumber == undefined || user.phoneNumber == "") {
+        throw new Error("your profile is incomplete you cannot add program! Please add phone Number");
+    }
+    if (user.avatarImages == "string" || user.avatarImages == undefined || user.avatarImages == "") {
+        throw new Error("your profile is incomplete you cannot add program! Please upload profile image");
+    }
+    if (user.addressLine1 == "string" || user.addressLine1 == undefined || user.addressLine1 == "") {
+        throw new Error("your profile is incomplete you cannot add program! Please add your address");
     }
 
     // const isprogramExist = await db.program.findOne({ name: { $eq: model.name } });
