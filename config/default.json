@@ -15,7 +15,7 @@
         "jwtKey": "supersecret"
     },
     "image": {
-        "url": "http://3.15.164.103/images/",
+        "url": "images/",
         "port": 8406
     },
     "providers": {},

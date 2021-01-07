@@ -357,6 +357,10 @@ const register = async (model, context) => {
 const getById = async (id, context) => {
   const log = context.logger.start(`services:users:getById:${id}`);
   const user = await db.user.findById(id);
+  // img = user.avatarImages
+  completeimg = 'https://bacca.store/' + user.avatarImages
+
+  user.avatarImages = completeimg;
   log.end();
   return user;
 };
