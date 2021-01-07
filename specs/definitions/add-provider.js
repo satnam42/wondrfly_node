@@ -15,6 +15,12 @@ module.exports = [
             city: {
                 type: "string"
             },
+            addressLine1: {
+                type: "string"
+            },
+            addressLine2: {
+                type: "string"
+            },
             country: {
                 type: "string"
             },

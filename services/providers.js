@@ -14,9 +14,11 @@ const buildUser = async (model, context) => {
         firstName: model.firstName,
         type: model.type || '',
         email: model.email,
-        phoneNumber: model.Phone,
+        phoneNumber: model.phoneNumber,
         password: model.password,
         role: 'provider',
+        addressLine1: model.addressLine1,
+        addressLine2: model.addressLine2,
         street: model.street,
         state: model.state,
         lng: model.lng,
@@ -283,7 +285,7 @@ const updateProvider = async (id, model, context) => {
     const userBasicInfo = await setBasicInfo(model, user, context);
     const providerDetail = await setProviderDetail(model, provider, context);
     log.end();
-    return providerDetail
+    return userBasicInfo
 };
 
 const uploadBannerPic = async (id, files, context) => {

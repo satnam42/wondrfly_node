@@ -38,6 +38,9 @@ module.exports = [
             addressLine1: {
                 type: 'string'
             },
+            addressLine2: {
+                type: 'string'
+            },
             about: {
                 type: 'string'
             },
