@@ -358,8 +358,14 @@ const register = async (model, context) => {
 const getById = async (id, context) => {
   const log = context.logger.start(`services:users:getById:${id}`);
   const user = await db.user.findById(id);
-  completeimg = baseUrl + user.avatarImages
-  user.avatarImages = completeimg;
+  if (!user) {
+    throw new Error("user Not found");
+  }
+  if (user.avatarImages) {
+    completeimg = baseUrl + user.avatarImages
+    user.avatarImages = completeimg;
+  }
+
   log.end();
   return user;
 };
@@ -371,17 +377,16 @@ const get = async (query, context) => {
   let pageSize = Number(query.pageSize) || 10;
   let skipCount = pageSize * (pageNo - 1);
   let users
+  let finalUsers = []
 
   if (query.role == 'all') {
     users = await db.user
       .find({}).sort({ _id: -1 })
       .skip(skipCount)
       .limit(pageSize);
-    users.count = await db.user.find({}).count();
   }
 
   else {
-    let finalProviders = []
     users = await db.user
       .find({ role: query.role }).sort({ _id: -1 })
       .skip(skipCount)
@@ -412,8 +417,20 @@ const get = async (query, context) => {
     }
   }
 
+  users.forEach((user, index) => {
+    if (user.avatarImages) {
+      user.avatarImages = baseUrl + user.avatarImages;
+      finalUsers.push(user);
+    }
+    else {
+      finalUsers.push(user);
+    }
+
+  });
+  finalUsers.count = await db.user.find({}).count();
+
   log.end();
-  return users;
+  return finalUsers;
 
 };
 const getCount = async (context) => {
@@ -569,6 +586,7 @@ const login = async (model, context) => {
   user.token = token;
   user.save();
   user.permissions = permissions;
+  // user.avatarImages = baseUrl + user.avatarImages;
   log.end();
   return user;
 };

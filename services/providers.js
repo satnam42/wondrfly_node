@@ -6,6 +6,7 @@ const encrypt = require("../permit/crypto.js");
 const generator = require('generate-password');
 const auth = require("../permit/auth");
 const imageUrl = require('config').get('image').url
+const baseUrl = require('config').get('image').baseUrl
 const ObjectId = require("mongodb").ObjectID;
 const moment = require('moment');
 const buildUser = async (model, context) => {
@@ -306,9 +307,12 @@ const uploadBannerPic = async (id, files, context) => {
 };
 const getProvideById = async (id, context) => {
     const log = context.logger.start(`services:providers:getAllProvider`);
-    const providers = await db.provider.findOne({ user: id }).populate('user').populate('categories').populate('skills')
+    const provider = await db.provider.findOne({ user: id }).populate('user').populate('categories').populate('skills')
+    // if (provider.user.avatarImages) {
+    // provider.user.avatarImages = baseUrl + provider.user.avatarImages;
+    // }
     log.end();
-    return providers;
+    return provider;
 };
 
 const getProvideByEmail = async (email, context) => {

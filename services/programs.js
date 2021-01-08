@@ -4,6 +4,7 @@ const ObjectId = require("mongodb").ObjectID;
 var moment = require('moment'); // require for date formating
 const csv = require('csvtojson')
 const fs = require('fs');
+const baseUrl = require('config').get('image').baseUrl
 
 const buildImportProgram = async (model, context) => {
     const log = context.logger.start(`services:programs:buildImportProgram${model}`);
@@ -405,6 +406,10 @@ const getById = async (id, context) => {
     let program = await db.program.findById(id).populate('tags');
     if (!program) {
         throw new Error("program not found");
+    }
+
+    if (program.programCoverPic) {
+        program.programCoverPic = baseUrl + program.programCoverPic;
     }
     log.end();
     return program
@@ -873,7 +878,7 @@ const openPrograms = async (query, context) => {
     let pageNo = Number(query.pageNo) || 1;
     let pageSize = Number(query.pageSize) || 10;
     let skipCount = pageSize * (pageNo - 1);
-    let programs = await db.program.find().sort({ createdOn: -1 }).populate('tags').skip(skipCount).limit(pageSize);
+    let programs = await db.program.find({ isPublished: true }).sort({ createdOn: -1 }).populate('tags').skip(skipCount).limit(pageSize);
     let finalProgram = [];
     let current = new Date()
     programs.forEach((progrm, index) => {
