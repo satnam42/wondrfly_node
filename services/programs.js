@@ -203,10 +203,10 @@ const build = async (model, context) => {
 
     const log = context.logger.start(`services:programs:build${model}`);
     let isPublished = false;
-    if (progrm.name != '' && progrm.name != "string" && progrm.type != '' && progrm.type != "string"
-        && progrm.description != '' && progrm.description != "string" && progrm.date.from != '' && progrm.date.from != "string"
-        && progrm.location != '' && progrm.location != "string"
-        && progrm.ageGroup.from != '' && progrm.ageGroup.from != "string") {
+    if (model.name != '' && model.name != "string" && model.type != '' && model.type != "string"
+        && model.description != '' && model.description != "string" && model.date.from != '' && model.date.from != "string"
+        && model.location != '' && model.location != "string"
+        && model.ageGroup.from != '' && model.ageGroup.from != "string") {
         isPublished = true
     }
     const program = await new db.program({
@@ -255,8 +255,15 @@ const buildTimelineUrl = async (files) => {
     });
     return bannerImages
 }
-const set = (model, program, context) => {
+const set = async (model, program, context) => {
     const log = context.logger.start("services:programs:set");
+    let isPublished = false;
+    if (model.name != '' && model.name != "string" && model.type != '' && model.type != "string"
+        && model.description != '' && model.description != "string" && model.date.from != '' && model.date.from != "string"
+        && model.location != '' && model.location != "string"
+        && model.ageGroup.from != '' && model.ageGroup.from != "string") {
+        isPublished = true
+    }
     if (model.name !== "string" && model.name !== undefined) {
         program.name = model.name;
     }
@@ -327,6 +334,7 @@ const set = (model, program, context) => {
     // if (model.emails.length > 1) {
     //     program.emails = model.emails;
     // }
+    program.isPublished = isPublished
     if (model.batches.length) {
         program.batches = model.batches;
     }
@@ -338,7 +346,7 @@ const set = (model, program, context) => {
     }
     program.updateOn = new Date()
     log.end();
-    program.save();
+    await program.save();
     return program;
 
 };
