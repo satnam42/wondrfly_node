@@ -202,6 +202,13 @@ const buildImportProgram = async (model, context) => {
 const build = async (model, context) => {
 
     const log = context.logger.start(`services:programs:build${model}`);
+    let isPublished = false;
+    if (progrm.name != '' && progrm.name != "string" && progrm.type != '' && progrm.type != "string"
+        && progrm.description != '' && progrm.description != "string" && progrm.date.from != '' && progrm.date.from != "string"
+        && progrm.location != '' && progrm.location != "string"
+        && progrm.ageGroup.from != '' && progrm.ageGroup.from != "string") {
+        isPublished = true
+    }
     const program = await new db.program({
         name: model.name,
         description: model.description,
@@ -227,6 +234,7 @@ const build = async (model, context) => {
         presenter: model.presenter,
         emails: model.emails,
         batches: model.batches,
+        isPublished,
         status: model.status || 'active',
         user: model.userId,
         addresses: model.addresses,
@@ -236,9 +244,7 @@ const build = async (model, context) => {
     }).save();
 
     log.end();
-
     return program;
-
 };
 const buildTimelineUrl = async (files) => {
     let bannerImages = []
