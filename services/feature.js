@@ -35,8 +35,8 @@ const set = (model, feature, context) => {
 
 const create = async (model, context) => {
     const log = context.logger.start("services:feature:create");
-    if (context.user.role !== 'admin' || context.user.role !== 'superAdmin') {
-        throw new Error("you are not authorized, only Admin can add feature");
+    if (!(context.user.role == 'admin' || context.user.role == 'superAdmin')) {
+        throw new Error("you are not authorized, only Admin or superAdmin can add feature");
     }
     const isfeatureExist = await db.feature.findOne({ name: { $eq: model.name } });
     if (isfeatureExist) {
@@ -60,8 +60,9 @@ const update = async (id, model, context) => {
     if (!id) {
         throw new Error("feature id is required");
     }
-    if (context.user.role !== 'admin' || context.user.role !== 'superAdmin') {
-        throw new Error("you are not authorized, only Admin can update feature");
+
+    if (!(context.user.role == 'admin' || context.user.role == 'superAdmin')) {
+        throw new Error("you are not authorized, only Admin or superAdmin can update feature");
     }
     let featureDetail = await db.feature.findById(id);
     if (!featureDetail) {
