@@ -26,4 +26,13 @@ const create = async (model, context) => {
 };
 
 
+const getAllfeatures = async (context) => {
+    const log = context.logger.start(`services:feature:getAllfeatures`);
+    const features = await db.feature.find();
+    log.end();
+    return features;
+};
+
+
 exports.create = create;
+exports.getAllfeatures = getAllfeatures;

@@ -483,7 +483,7 @@ const configure = (app, logger) => {
   );
   app.get(
     "/api/programs/getById/:id",
-    permit.context.requiresToken,
+    permit.context.builder,
     api.programs.getById
   );
   app.get(
@@ -510,7 +510,7 @@ const configure = (app, logger) => {
   );
   app.get(
     "/api/programs/byProvider",
-    permit.context.requiresToken,
+    permit.context.builder,
     api.programs.programsByProvider
   );
   app.post(
@@ -825,8 +825,7 @@ const configure = (app, logger) => {
   );
   app.get(
     "/api/badges/list",
-    permit.context.requiresToken,
-    // permit.context.builder,
+    permit.context.builder,
     api.badges.list
   );
   app.delete(
@@ -847,12 +846,12 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.feature.create
   );
-  // app.get(
-  //   "/api/feature/list",
-  //   permit.context.requiresToken,
-  //   // permit.context.builder,
-  //   api.feature.list
-  // );
+  app.get(
+    "/api/feature/list",
+    permit.context.requiresToken,
+    // permit.context.builder,
+    api.feature.list
+  );
   // app.delete(
   //   "/api/feature/delete/:id",
   //   permit.context.requiresToken,
