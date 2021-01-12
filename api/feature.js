@@ -29,6 +29,19 @@ const list = async (req, res) => {
     }
 };
 
+const update = async (req, res) => {
+    const log = req.context.logger.start(`api:feature:update:${req.params.id}`);
+    try {
+        const comment = await service.update(req.params.id, req.body, req.context);
+        log.end();
+        return response.data(res, comment);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
 
 exports.create = create;
 exports.list = list;
+exports.update = update;

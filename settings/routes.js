@@ -857,11 +857,11 @@ const configure = (app, logger) => {
   //   permit.context.requiresToken,
   //   api.feature.delete
   // );
-  // app.put(
-  //   "/api/feature/update",
-  //   permit.context.requiresToken,
-  //   api.feature.update
-  // );
+  app.put(
+    "/api/feature/update/:id",
+    permit.context.requiresToken,
+    api.feature.update
+  );
 
   log.end();
 };

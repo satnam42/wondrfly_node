@@ -14,12 +14,31 @@ const build = async (model, context) => {
     return feature;
 };
 
+
+const set = (model, feature, context) => {
+    const log = context.logger.start("services:feature:set");
+
+    if (model.name !== "string" && model.name !== undefined && model.name !== '') {
+        feature.name = model.name;
+    }
+    if (model.description !== "string" && model.description !== undefined && model.description !== '') {
+        feature.description = model.description;
+    }
+    if (model.status !== "string" && model.status !== undefined && model.status !== '') {
+        feature.status = model.status;
+    }
+    feature.updatedOn = new Date();
+    log.end();
+    feature.save();
+    return feature;
+};
+
 const create = async (model, context) => {
     const log = context.logger.start("services:feature:create");
-    const isfeatureExist = await db.feature.findOne({ name: { $eq: model.name } });
-    if (context.user.role !== 'admin') {
+    if (context.user.role !== 'admin' || context.user.role !== 'superAdmin') {
         throw new Error("you are not authorized, only Admin can add feature");
     }
+    const isfeatureExist = await db.feature.findOne({ name: { $eq: model.name } });
     if (isfeatureExist) {
         throw new Error("feature is already exist");
     }
@@ -36,6 +55,24 @@ const getAllfeatures = async (context) => {
     return features;
 };
 
+const update = async (id, model, context) => {
+    const log = context.logger.start(`services:feature:update`);
+    if (!id) {
+        throw new Error("feature id is required");
+    }
+    if (context.user.role !== 'admin' || context.user.role !== 'superAdmin') {
+        throw new Error("you are not authorized, only Admin can update feature");
+    }
+    let featureDetail = await db.feature.findById(id);
+    if (!featureDetail) {
+        throw new Error("feature not found");
+    }
+    const feature = await set(model, featureDetail, context);
+    log.end();
+    return feature
+};
+
 
 exports.create = create;
 exports.getAllfeatures = getAllfeatures;
+exports.update = update;
