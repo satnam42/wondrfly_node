@@ -17,6 +17,9 @@ const build = async (model, context) => {
 const create = async (model, context) => {
     const log = context.logger.start("services:feature:create");
     const isfeatureExist = await db.feature.findOne({ name: { $eq: model.name } });
+    if (context.user.role !== 'admin') {
+        throw new Error("you are not authorized, only Admin can add feature");
+    }
     if (isfeatureExist) {
         throw new Error("feature is already exist");
     }
