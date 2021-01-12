@@ -841,6 +841,29 @@ const configure = (app, logger) => {
     api.badges.update
   );
 
+  // =========Feature api's============
+  app.post(
+    "/api/feature/create",
+    permit.context.requiresToken,
+    api.feature.create
+  );
+  // app.get(
+  //   "/api/feature/list",
+  //   permit.context.requiresToken,
+  //   // permit.context.builder,
+  //   api.feature.list
+  // );
+  // app.delete(
+  //   "/api/feature/delete/:id",
+  //   permit.context.requiresToken,
+  //   api.feature.delete
+  // );
+  // app.put(
+  //   "/api/feature/update",
+  //   permit.context.requiresToken,
+  //   api.feature.update
+  // );
+
   log.end();
 };
 
