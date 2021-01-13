@@ -73,7 +73,20 @@ const update = async (id, model, context) => {
     return feature
 };
 
+const deleteFeature = async (id, context) => {
+    const log = context.logger.start(`services:users:deleteFeature:${id}`);
+    if (!id) {
+        throw new Error("feature id is required");
+    }
+    if (!(context.user.role == 'admin' || context.user.role == 'superAdmin')) {
+        throw new Error("you are not authorized, only Admin or superAdmin can delete feature");
+    }
+    await db.feature.deleteOne({ _id: id });
+    log.end();
+    return 'feature Deleted Successfully'
+};
 
 exports.create = create;
 exports.getAllfeatures = getAllfeatures;
 exports.update = update;
+exports.deleteFeature = deleteFeature;

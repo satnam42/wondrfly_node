@@ -852,11 +852,11 @@ const configure = (app, logger) => {
     // permit.context.builder,
     api.feature.list
   );
-  // app.delete(
-  //   "/api/feature/delete/:id",
-  //   permit.context.requiresToken,
-  //   api.feature.delete
-  // );
+  app.delete(
+    "/api/feature/deleteFeature/:id",
+    permit.context.requiresToken,
+    api.feature.deleteFeature
+  );
   app.put(
     "/api/feature/update/:id",
     permit.context.requiresToken,
