@@ -863,6 +863,13 @@ const configure = (app, logger) => {
     api.feature.update
   );
 
+  // =========Plans api's============
+  app.post(
+    "/api/plans/create",
+    permit.context.requiresToken,
+    api.plans.create
+  );
+
   log.end();
 };
 

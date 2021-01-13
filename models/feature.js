@@ -3,7 +3,11 @@ const mongoose = require("mongoose");
 const feature = mongoose.Schema({
     name: { type: String, default: "", required: true },
     description: { type: String, default: "", required: true },
-    status: { type: String, default: "" },
+    status: {
+        type: String,
+        default: 'active',
+        enum: ['active', 'inactive']
+    },
     createdOn: { type: Date, default: Date.now },
     updatedOn: { type: Date, default: Date.now }
 });
