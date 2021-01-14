@@ -16,4 +16,18 @@ const create = async (req, res) => {
     }
 };
 
+const list = async (req, res) => {
+    const log = req.context.logger.start(`api:plans:list`);
+    try {
+        const plan = await service.getAllplans(req.context);
+        log.end();
+        return response.data(res, plan);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 exports.create = create;
+exports.list = list;

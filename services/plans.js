@@ -20,7 +20,6 @@ const build = async (model, context) => {
     return plan;
 };
 
-
 const create = async (model, context) => {
     const log = context.logger.start("services:plans:create");
     if (!(context.user.role == 'admin' || context.user.role == 'superAdmin')) {
@@ -35,4 +34,12 @@ const create = async (model, context) => {
     return plan;
 };
 
+const getAllplans = async (context) => {
+    const log = context.logger.start(`services:feature:getAllplans`);
+    const plans = await db.plans.find().populate('features.id');
+    log.end();
+    return plans;
+};
+
 exports.create = create;
+exports.getAllplans = getAllplans;

@@ -869,6 +869,12 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.plans.create
   );
+  app.get(
+    "/api/plans/list",
+    permit.context.requiresToken,
+    // permit.context.builder,
+    api.plans.list
+  );
 
   log.end();
 };
