@@ -69,7 +69,7 @@ const configure = (app, logger) => {
   );
   app.get(
     "/api/users/getById/:id",
-    permit.context.requiresToken,
+    permit.context.builder,
     validator.users.getById,
     api.users.getById
   );
