@@ -29,5 +29,19 @@ const list = async (req, res) => {
     }
 };
 
+const getById = async (req, res) => {
+    const log = req.context.logger.start(`api:plans:getById:${req.params.id}`);
+    try {
+        const plan = await service.getById(req.params.id, req.context);
+        log.end();
+        return response.data(res, plan);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 exports.create = create;
 exports.list = list;
+exports.getById = getById;

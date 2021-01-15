@@ -35,11 +35,19 @@ const create = async (model, context) => {
 };
 
 const getAllplans = async (context) => {
-    const log = context.logger.start(`services:feature:getAllplans`);
+    const log = context.logger.start(`services:plans:getAllplans`);
     const plans = await db.plans.find().populate('features.id');
     log.end();
     return plans;
 };
 
+const getById = async (id, context) => {
+    const log = context.logger.start(`services:plans:getById:${id}`);
+    const user = await db.plans.findById(id).populate('features.id');
+    log.end();
+    return user;
+};
+
 exports.create = create;
 exports.getAllplans = getAllplans;
+exports.getById = getById;

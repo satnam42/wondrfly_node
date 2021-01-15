@@ -57,5 +57,36 @@ module.exports = [
                 }
             }
         }
+    },
+    {
+        url: "/getById/{id}",
+        get: {
+            summary: "get plan",
+            description: "get plan detail by Id",
+            parameters: [
+                {
+                    in: "path",
+                    name: "id",
+                    description: "planId",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
     }
 ]
