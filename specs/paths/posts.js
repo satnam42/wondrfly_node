@@ -249,6 +249,13 @@ module.exports = [
                     required: true
                 },
                 {
+                    in: "query",
+                    name: "role",
+                    description: "role can be parent, provider, all",
+                    required: true,
+                    type: "string"
+                },
+                {
                     in: "header",
                     name: "x-access-token",
                     description: "token to access api",

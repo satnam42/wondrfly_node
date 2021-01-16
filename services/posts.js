@@ -146,8 +146,20 @@ const update = async (id, model, context) => {
 };
 const search = async (query, context) => {
     const log = context.logger.start(`services:posts:search`);
-    const posts = await db.post.find({ title: { "$regex": '.*' + query.name + '.*', "$options": 'i' } }
-    ).limit(5).sort({ _id: -1 });
+    const { role } = query;
+    if (!role) {
+        throw new Error("role is requried");
+    }
+    let posts
+    if (role != 'all') {
+        posts = await db.post.find({ title: { "$regex": '.*' + query.name + '.*', "$options": 'i' }, postFor: role }
+        ).populate('comments').populate('author').limit(5).sort({ _id: -1 });
+    }
+    if (role == 'all') {
+        posts = await db.post.find({ title: { "$regex": '.*' + query.name + '.*', "$options": 'i' } }
+        ).limit(5).sort({ _id: -1 });
+    }
+
     log.end();
     return posts;
 
