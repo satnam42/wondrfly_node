@@ -292,20 +292,6 @@ const verifySecuirtyAns = async (req, res) => {
   }
 };
 
-const forgotPasswordVerifyEmail = async (req, res, next) => {
-  const log = req.context.logger.start(`api:users:forgotPasswordVerifyEmail`);
-  try {
-    const result = await service.forgotPasswordVerifyEmail(req.body, req.context);
-    const message = "Password reset email is sent to your registerd email";
-    log.end();
-    return response.success(res, message, result);
-  } catch (err) {
-    log.error(err);
-    log.end();
-    return response.failure(res, err.message);
-  }
-};
-
 exports.create = create;
 exports.list = list;
 exports.login = login;
@@ -326,4 +312,3 @@ exports.tellAFriend = tellAFriend;
 exports.feedback = feedback;
 exports.getProfileProgress = getProfileProgress;
 exports.verifySecuirtyAns = verifySecuirtyAns;
-exports.forgotPasswordVerifyEmail = forgotPasswordVerifyEmail;

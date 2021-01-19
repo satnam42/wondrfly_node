@@ -174,11 +174,6 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.users.verifySecuirtyAns
   );
-  app.post(
-    "/api/users/forgotPasswordVerifyEmail",
-    permit.context.builder,
-    api.users.forgotPasswordVerifyEmail
-  );
   //entity routes//
   // app.post(
   //   "/api/entities/add",
