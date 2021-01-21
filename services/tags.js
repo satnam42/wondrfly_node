@@ -71,10 +71,21 @@ const search = async (query, context) => {
     ).limit(5).sort({ name: 1 });
     log.end();
     return tags;
-
 };
+
+const deleteTag = async (id, context) => {
+    const log = context.logger.start(`services:tags:deleteTag:${id}`);
+    if (!id) {
+        throw new Error("tag id is required");
+    }
+    await db.tag.deleteOne({ _id: id });
+    log.end();
+    return 'Tag is Deleted Successfully'
+};
+
 exports.create = create;
 exports.getAlltags = getAlltags;
 exports.update = update;
 exports.tagByCategoryId = tagByCategoryId
 exports.search = search
+exports.deleteTag = deleteTag;

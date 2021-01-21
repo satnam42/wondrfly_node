@@ -1,3 +1,4 @@
+
 "use strict";
 const service = require("../services/tags");
 const response = require("../exchange/response");
@@ -63,8 +64,22 @@ const search = async (req, res) => {
     }
 };
 
+const remove = async (req, res) => {
+    const log = req.context.logger.start(`api:tags:remove:${req.params.id}`);
+    try {
+        const tag = await service.deleteTag(req.params.id, req.context);
+        log.end();
+        return response.data(res, tag);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 exports.create = create;
 exports.list = list;
 exports.update = update;
 exports.tagByCategoryId = tagByCategoryId;
 exports.search = search;
+exports.remove = remove;

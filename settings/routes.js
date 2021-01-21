@@ -250,6 +250,12 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.tags.search
   );
+  app.delete(
+    "/api/tags/remove/:id",
+    permit.context.builder,
+    permit.context.requiresToken,
+    api.tags.remove
+  );
 
   //permission routes //
 
