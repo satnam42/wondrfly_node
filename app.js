@@ -43,47 +43,6 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
-app.get('/resetPassword/:token', function (req, res) {
-
-  res.sendFile(path.join(__dirname + '/emailTemplates/index.html'));
-})
-
-app.post("/resetPassword/:token", async function (req, res) {
-  const { Password } = req.body;
-  if (!Password) {
-    return res.status(400).json({
-      status: false,
-      message: "Password is required!",
-    });
-  } else {
-
-    async function resetPassword(user) {
-      user.password = bcrypt.hashSync(Password, 10);
-      user.updatedOn = new Date();
-      await user.save()
-      return res.json({
-        status: 200,
-        message: "Password changed successfully",
-      });
-    }
-    db.user.findOne({
-      resetPasswordToken: req.params.token,
-      resetPasswordExpires: { $gt: Date.now() },
-    }).then((user) => {
-      if (!user) {
-        throw new Error("otpVerifyToken is wrong or expired.");
-      }
-      resetPassword(user);
-    })
-      .catch((err) => {
-        return res.json({
-          status: "error",
-          // message: "Token Expired!!!",
-          message: err.message,
-        });
-      })
-  };
-});
 
 const boot = () => {
   const log = logger.start("app:boot");
