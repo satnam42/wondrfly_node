@@ -881,7 +881,11 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.plans.getById
   );
-
+  app.put(
+    "/api/plans/update/:id",
+    permit.context.requiresToken,
+    api.plans.update
+  );
   log.end();
 };
 

@@ -636,7 +636,8 @@ const uploadProfilePic = async (id, file, context) => {
 };
 const deleteUser = async (id, context) => {
   const log = context.logger.start(`services:users:deleteparent`);
-  if (context.user.role != 'superAdmin') {
+  // (context.user.role != 'superAdmin')
+  if (!(context.user.role == 'admin' || context.user.role == 'superAdmin')) {
     throw new Error("you are not authorized to perform this operation");
   }
   if (!id) {

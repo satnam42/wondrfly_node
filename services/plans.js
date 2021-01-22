@@ -20,6 +20,29 @@ const build = async (model, context) => {
     return plan;
 };
 
+const setPlan = async (model, plan, context) => {
+    const log = context.logger.start("services:posts:setPlan");
+    if (model.title !== "string" && model.title !== undefined) {
+        plan.title = model.title;
+    }
+    if (model.description !== "string" && model.description !== undefined) {
+        plan.description = model.description;
+    }
+    if (model.price !== "string" && model.price !== undefined) {
+        plan.price = model.price;
+    }
+    if (model.features && model.features.length !== 0) {
+        if (model.features[0].id !== 'string' && model.features[0].id !== '' && model.features[0].id !== undefined) {
+            plan.features = model.features
+        }
+    }
+
+    plan.updatedOn = new Date()
+    log.end();
+    await plan.save();
+    return plan;
+};
+
 const create = async (model, context) => {
     const log = context.logger.start("services:plans:create");
     if (!(context.user.role == 'admin' || context.user.role == 'superAdmin')) {
@@ -48,6 +71,22 @@ const getById = async (id, context) => {
     return user;
 };
 
+
+const update = async (id, model, context) => {
+    const log = context.logger.start(`services:plans:update`);
+    if (!id) {
+        throw new Error("plan id is required");
+    }
+    let entity = await db.plans.findById(id);
+    if (!entity) {
+        throw new Error("plan not exist");
+    }
+    const plan = await setPlan(model, entity, context);
+    log.end();
+    return plan
+};
+
 exports.create = create;
 exports.getAllplans = getAllplans;
 exports.getById = getById;
+exports.update = update;
