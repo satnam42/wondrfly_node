@@ -886,6 +886,17 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.plans.update
   );
+  app.delete(
+    "/api/plans/remove/:id",
+    permit.context.requiresToken,
+    api.plans.remove
+  );
+  app.put(
+    "/api/plans/updateStatus/:id",
+    permit.context.requiresToken,
+    api.plans.updateStatus
+  );
+
   log.end();
 };
 

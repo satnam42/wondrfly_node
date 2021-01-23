@@ -77,6 +77,9 @@ const update = async (id, model, context) => {
     if (!id) {
         throw new Error("plan id is required");
     }
+    if (!(context.user.role == 'admin' || context.user.role == 'superAdmin')) {
+        throw new Error("you are not authorized, only Admin or superAdmin can update plan");
+    }
     let entity = await db.plans.findById(id);
     if (!entity) {
         throw new Error("plan not exist");
@@ -86,7 +89,38 @@ const update = async (id, model, context) => {
     return plan
 };
 
+const deletePlan = async (id, context) => {
+    const log = context.logger.start(`services:plans:deletePlan:${id}`);
+    if (!id) {
+        throw new Error("plan id is required");
+    }
+    if (!(context.user.role == 'admin' || context.user.role == 'superAdmin')) {
+        throw new Error("you are not authorized, only Admin or superAdmin can delete plan");
+    }
+    await db.plans.deleteOne({ _id: id });
+    log.end();
+    return 'plan is Deleted Successfully'
+};
+
+const updateStatus = async (id, query, context) => {
+    const log = context.logger.start(`services:plans:update`);
+
+    if (!(context.user.role == 'admin' || context.user.role == 'superAdmin')) {
+        throw new Error("you are not authorized, only Admin or superAdmin can update status");
+    }
+    let isPlanExist = await db.plans.findById(id);
+    if (!isPlanExist) {
+        throw new Error("invalid plan");
+    }
+    isPlanExist.status = query.status
+    await isPlanExist.save()
+    log.end();
+    return isPlanExist
+};
+
 exports.create = create;
 exports.getAllplans = getAllplans;
 exports.getById = getById;
 exports.update = update;
+exports.deletePlan = deletePlan;
+exports.updateStatus = updateStatus;

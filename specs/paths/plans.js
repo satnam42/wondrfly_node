@@ -128,5 +128,75 @@ module.exports = [
                 }
             }
         }
+    },
+    {
+        url: "/remove/{id}",
+        delete: {
+            summary: "Delete",
+            description: "Delete plan",
+            parameters: [
+                {
+                    in: "path",
+                    name: "id",
+                    description: "plan id",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
+    {
+        url: "/updateStatus/{id}",
+        put: {
+            summary: "Update plan status",
+            description: "update plan status active/inactive.",
+            parameters: [
+                {
+                    in: "path",
+                    name: "id",
+                    description: "plan id",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "query",
+                    name: "status",
+                    description: "task status 'active/inactive'",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
     }
 ]
