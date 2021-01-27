@@ -22,13 +22,13 @@ const build = async (model, context) => {
 
 const setPlan = async (model, plan, context) => {
     const log = context.logger.start("services:posts:setPlan");
-    if (model.title !== "string" && model.title !== undefined) {
+    if (model.title !== "string" && model.title !== undefined && model.title !== '') {
         plan.title = model.title;
     }
-    if (model.description !== "string" && model.description !== undefined) {
+    if (model.description !== "string" && model.description !== undefined && model.description !== '') {
         plan.description = model.description;
     }
-    if (model.price !== "string" && model.price !== undefined) {
+    if (model.price !== "string" && model.price !== undefined && model.price !== '') {
         plan.price = model.price;
     }
     if (model.features && model.features.length !== 0) {
