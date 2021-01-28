@@ -527,5 +527,40 @@ module.exports = [
                 }
             }
         }
+    },
+
+    {
+        url: "/govtId",
+        post: {
+            summary: "Govt id upload",
+            description: "Govt id upload",
+            parameters: [
+                {
+                    in: "body",
+                    name: "body",
+                    description: "Model of provider's Govt id upload",
+                    required: true,
+                    schema: {
+                        $ref: "#/definitions/govtId"
+                    }
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
     }
 ]

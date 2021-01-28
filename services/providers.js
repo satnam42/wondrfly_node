@@ -575,6 +575,25 @@ const getProvidersByDate = async (query, context) => {
     return providers;
 };
 
+const govtId = async (model, context) => {
+    const { providerId, govtIdUrl, govtIdNote } = model;
+    const log = context.logger.start(`services:providers:govtId`);
+    if (!providerId) {
+        throw new Error("plan id is required");
+    }
+    let provider = await db.provider.findOne({ user: providerId });
+    if (!provider) {
+        throw new Error("plan not exist");
+    }
+
+    provider.govtIdUrl = govtIdUrl
+    provider.govtIdNote = govtIdNote
+    provider.updatedOn = new Date()
+    await provider.save();
+    log.end();
+    return provider;
+};
+
 exports.importProvider = importProvider;
 exports.getAllProvider = getAllProvider;
 exports.updateProvider = updateProvider;
@@ -588,3 +607,4 @@ exports.getProvidersByFilter = getProvidersByFilter;
 exports.getDupicate = getDupicate;
 exports.margeDupicate = margeDupicate;
 exports.getProvidersByDate = getProvidersByDate;
+exports.govtId = govtId;

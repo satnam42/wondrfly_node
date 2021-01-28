@@ -182,6 +182,19 @@ const getProvidersByDate = async (req, res) => {
     }
 };
 
+const govtId = async (req, res) => {
+    const log = req.context.logger.start(`api:providers:govtId`);
+    try {
+        const provider = await service.govtId(req.body, req.context);
+        log.end();
+        return response.data(res, provider);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 exports.create = create;
 exports.list = list;
 exports.update = update;
@@ -195,5 +208,4 @@ exports.providersByFilter = providersByFilter;
 exports.dublicateProviders = dublicateProviders;
 exports.margeDublicateProviders = margeDublicateProviders;
 exports.getProvidersByDate = getProvidersByDate;
-
-
+exports.govtId = govtId;

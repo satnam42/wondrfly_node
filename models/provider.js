@@ -38,6 +38,8 @@ const provider = mongoose.Schema({
     taxNumber: { type: String, default: "" },
     merchantVerified: { type: Boolean, default: false },
     isAssociate: { type: String, default: "" },
+    govtIdUrl: { type: String, default: "" },
+    govtIdNote: { type: String, default: "" },
     // tier: { type: String, default: "" },
     createdBy: { type: String, default: "" },
     adminNotes: { type: String, default: "" },

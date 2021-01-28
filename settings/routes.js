@@ -363,6 +363,13 @@ const configure = (app, logger) => {
     api.providers.getProvidersByDate
   );
 
+  app.post(
+    "/api/providers/govtId",
+    // permit.context.builder,
+    permit.context.requiresToken,
+    api.providers.govtId
+  );
+
   //review routes//
   app.post(
     "/api/reviews/add",
