@@ -949,10 +949,22 @@ const searchByNameAndDate = async (query, context) => {
     const { programName, date } = query;
     const log = context.logger.start(`services:programs:searchByNameAndDate`);
 
+    const d = {
+        '$gte': moment(date, "DD-MM-YYYY").startOf('day').toDate(),
+        '$lt': moment(date, "DD-MM-YYYY").endOf('day').toDate()
+    }
     let programs
     if (programName) {
         programs = await db.program.find({ name: { "$regex": '.*' + programName + '.*', "$options": 'i' } }
         ).limit(5);
+    }
+    if (date) {
+        programs = await db.program.find({ createdOn: d }
+        )
+    }
+    if (programName && date) {
+        programs = await db.program.find({ name: { "$regex": '.*' + programName + '.*', "$options": 'i' }, createdOn: d }
+        )
     }
 
     log.end();
