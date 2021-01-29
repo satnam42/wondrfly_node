@@ -283,6 +283,19 @@ const listPublishOrUnpublish = async (req, res) => {
     }
 };
 
+const searchByNameAndDate = async (req, res) => {
+    const log = req.context.logger.start(`api:programs:searchByNameAndDate`);
+    try {
+        const data = await service.searchByNameAndDate(req.query, req.context);
+        log.end();
+        return response.data(res, data);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 
 exports.create = create;
 exports.list = list;
@@ -304,3 +317,4 @@ exports.publishedOrUnPublishedPrograms = publishedOrUnPublishedPrograms;
 exports.openPrograms = openPrograms;
 exports.publish = publish;
 exports.listPublishOrUnpublish = listPublishOrUnpublish;
+exports.searchByNameAndDate = searchByNameAndDate;

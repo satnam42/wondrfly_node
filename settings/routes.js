@@ -595,6 +595,12 @@ const configure = (app, logger) => {
     api.programs.listPublishOrUnpublish
   );
 
+  app.get(
+    "/api/programs/searchByNameAndDate",
+    permit.context.builder,
+    api.programs.searchByNameAndDate
+  );
+
 
   //=============favourites api=====================//
   app.post(

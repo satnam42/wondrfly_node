@@ -944,6 +944,21 @@ const listPublishOrUnpublish = async (query, context) => {
     return programs
 };
 
+
+const searchByNameAndDate = async (query, context) => {
+    const { programName, date } = query;
+    const log = context.logger.start(`services:programs:searchByNameAndDate`);
+
+    let programs
+    if (programName) {
+        programs = await db.program.find({ name: { "$regex": '.*' + programName + '.*', "$options": 'i' } }
+        ).limit(5);
+    }
+
+    log.end();
+    return programs;
+};
+
 exports.create = create;
 exports.getAllprograms = getAllprograms;
 exports.update = update;
@@ -964,3 +979,4 @@ exports.publishedOrUnPublishedPrograms = publishedOrUnPublishedPrograms
 exports.openPrograms = openPrograms;
 exports.publish = publish;
 exports.listPublishOrUnpublish = listPublishOrUnpublish;
+exports.searchByNameAndDate = searchByNameAndDate;

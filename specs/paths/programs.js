@@ -750,4 +750,40 @@ module.exports = [
             }
         }
     },
+
+    {
+        url: "/searchByNameAndDate",
+        get: {
+            summary: "search activities",
+            description: "search programs by name or date or by both",
+            parameters: [
+                {
+                    in: "query",
+                    type: "string",
+                    name: "programName",
+                    description: "program name",
+                },
+                {
+                    in: "query",
+                    type: "string",
+                    name: "date",
+                    description: "date when program created",
+                }, {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    type: "string"
+                },
+
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
 ];
