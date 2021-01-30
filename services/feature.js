@@ -74,7 +74,7 @@ const update = async (id, model, context) => {
 };
 
 const deleteFeature = async (id, context) => {
-    const log = context.logger.start(`services:users:deleteFeature:${id}`);
+    const log = context.logger.start(`services:feature:deleteFeature:${id}`);
     if (!id) {
         throw new Error("feature id is required");
     }
@@ -86,7 +86,15 @@ const deleteFeature = async (id, context) => {
     return 'feature Deleted Successfully'
 };
 
+const getById = async (id, context) => {
+    const log = context.logger.start(`services:feature:getById:${id}`);
+    const feature = await db.feature.findById(id);
+    log.end();
+    return feature;
+};
+
 exports.create = create;
 exports.getAllfeatures = getAllfeatures;
 exports.update = update;
 exports.deleteFeature = deleteFeature;
+exports.getById = getById;

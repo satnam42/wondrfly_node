@@ -876,6 +876,11 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.feature.update
   );
+  app.get(
+    "/api/feature/getById/:id",
+    permit.context.requiresToken,
+    api.feature.getById
+  );
 
   // =========Plans api's============
   app.post(

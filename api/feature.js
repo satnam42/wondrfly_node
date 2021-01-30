@@ -55,7 +55,21 @@ const deleteFeature = async (req, res) => {
     }
 };
 
+const getById = async (req, res) => {
+    const log = req.context.logger.start(`api:feature:getById:${req.params.id}`);
+    try {
+        const feature = await service.getById(req.params.id, req.context);
+        log.end();
+        return response.data(res, feature);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 exports.create = create;
 exports.list = list;
 exports.update = update;
 exports.deleteFeature = deleteFeature;
+exports.getById = getById;
