@@ -24,7 +24,7 @@ exports.toModel = (entity) => {
         tier: entity.tier || '',
         notes: entity.notes || '',
         adminNotes: entity.adminNotes || '',
-        provider_logo: entity.provider_logo || '',
+        logo: entity.logo || '',
         token: entity.token || '',
         skills: entity.skills || ''
     }

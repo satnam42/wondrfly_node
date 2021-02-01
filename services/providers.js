@@ -95,6 +95,7 @@ const build = async (model, context) => {
 };
 
 const setProviderDetail = async (model, provider, context) => {
+    console.log('model in provider detail', model);
     const log = context.logger.start("services:providers:setBasicInfo");
     if (model.categoryIds !== undefined && !model.categoryIds.length) {
         provider.categoires = model.categoryIds;
@@ -308,9 +309,9 @@ const uploadBannerPic = async (id, files, context) => {
 const getProvideById = async (id, context) => {
     const log = context.logger.start(`services:providers:getAllProvider`);
     const provider = await db.provider.findOne({ user: id }).populate('user').populate('categories').populate('skills')
-    // if (provider.user.avatarImages) {
-    // provider.user.avatarImages = baseUrl + provider.user.avatarImages;
-    // }
+    if (provider.logo) {
+        provider.logo = baseUrl + provider.logo;
+    }
     log.end();
     return provider;
 };

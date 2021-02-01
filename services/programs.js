@@ -237,6 +237,7 @@ const build = async (model, context) => {
         isPublished,
         status: model.status || 'active',
         user: model.userId,
+        provider: model.providerId,
         addresses: model.addresses,
         tags: model.tags,
         createdOn: new Date(),
@@ -418,6 +419,11 @@ const getById = async (id, context) => {
         throw new Error("id not found");
     }
     let program = await db.program.findById(id).populate('tags');
+    let providr = await db.provider.findOne({ user: program.user._id });
+    let provider = {
+        logo: baseUrl + providr.logo,
+    }
+
     if (!program) {
         throw new Error("program not found");
     }
@@ -425,9 +431,13 @@ const getById = async (id, context) => {
     if (program.programCoverPic) {
         program.programCoverPic = baseUrl + program.programCoverPic;
     }
-    log.end();
-    return program
+    let data = {
+        program: program,
+        provider: provider
 
+    }
+    log.end();
+    return data
 };
 
 const update = async (id, model, context) => {

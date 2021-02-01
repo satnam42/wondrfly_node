@@ -66,6 +66,11 @@ const programSchema = mongoose.Schema({
         ref: 'user',
         required: true
     },
+    provider: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'provider',
+        required: true
+    },
     addresses: [{ type: String, default: '' }],
     tags: [{
         type: mongoose.Schema.Types.ObjectId,
