@@ -955,15 +955,15 @@ const searchByNameAndDate = async (query, context) => {
     }
     let programs
     if (programName) {
-        programs = await db.program.find({ name: { "$regex": '.*' + programName + '.*', "$options": 'i' } }
+        programs = await db.program.find({ name: { "$regex": '.*' + programName + '.*', "$options": 'i' }, isPublished: true }
         ).limit(5);
     }
     if (date) {
-        programs = await db.program.find({ createdOn: d }
+        programs = await db.program.find({ createdOn: d, isPublished: true }
         )
     }
     if (programName && date) {
-        programs = await db.program.find({ name: { "$regex": '.*' + programName + '.*', "$options": 'i' }, createdOn: d }
+        programs = await db.program.find({ name: { "$regex": '.*' + programName + '.*', "$options": 'i' }, createdOn: d, isPublished: true }
         )
     }
 
