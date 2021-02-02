@@ -2,6 +2,7 @@
 const service = require("../services/categories");
 const response = require("../exchange/response");
 
+
 const create = async (req, res) => {
     const log = req.context.logger.start(`api:categories:create`);
     try {

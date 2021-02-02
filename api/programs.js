@@ -1,6 +1,8 @@
 "use strict";
 const service = require("../services/programs");
 const response = require("../exchange/response");
+const mapper = require("../mappers/program")
+
 
 const create = async (req, res) => {
     const log = req.context.logger.start(`api:programs:create`);
@@ -41,7 +43,7 @@ const getById = async (req, res) => {
     try {
         const program = await service.getById(req.params.id, req.context);
         log.end();
-        return response.data(res, program);
+        return response.data(res, mapper.toModel(program));
     } catch (err) {
         log.error(err);
         log.end();

@@ -3,6 +3,8 @@
 "use strict";
 const imageUrl = require('config').get('image').url
 const fs = require('fs');
+const baseUrl = require('config').get('image').baseUrl
+
 
 const build = async (model, context) => {
     const { name, description } = model;
@@ -45,6 +47,17 @@ const create = async (model, context) => {
 const getAllcategories = async (context) => {
     const log = context.logger.start(`services:categories:getAllcategories`);
     const categories = await db.category.find().sort({ _id: -1 });
+    let finalCategories = []
+    categories.forEach((category, index) => {
+        if (category.imageUrl) {
+            category.imageUrl = baseUrl + category.imageUrl;
+            finalCategories.push(category);
+        }
+        else {
+            finalCategories.push(category);
+        }
+
+    });
     log.end();
     return categories;
 };
