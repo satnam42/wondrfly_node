@@ -106,9 +106,6 @@ module.exports = [
             userId: {
                 type: "string"
             },
-            providerId: {
-                type: "string"
-            },
             addresses: {
                 type: 'array',
                 items: {

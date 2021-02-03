@@ -237,7 +237,6 @@ const build = async (model, context) => {
         isPublished,
         status: model.status || 'active',
         user: model.userId,
-        provider: model.providerId,
         addresses: model.addresses,
         tags: model.tags,
         createdOn: new Date(),

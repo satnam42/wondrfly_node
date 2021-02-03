@@ -1,6 +1,8 @@
 "use strict";
 const service = require("../services/categories");
 const response = require("../exchange/response");
+const categoryMapper = require("../mappers/category");
+
 
 
 const create = async (req, res) => {
@@ -21,7 +23,7 @@ const list = async (req, res) => {
     try {
         const categories = await service.getAllcategories(req.context);
         log.end();
-        return response.data(res, categories);
+        return response.data(res, categoryMapper.toSearchModel(categories));
     } catch (err) {
         log.error(err);
         log.end();

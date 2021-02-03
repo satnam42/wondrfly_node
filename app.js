@@ -43,6 +43,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
+require('./communication/chat.js').sockets(server);
 
 const boot = () => {
   const log = logger.start("app:boot");
