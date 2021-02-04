@@ -1,6 +1,7 @@
 "use strict";
 const service = require("../services/parents");
 const response = require("../exchange/response");
+const parentMapper = require("../mappers/parent");
 
 
 const add = async (req, res) => {
@@ -26,7 +27,7 @@ const list = async (req, res) => {
         return response.page(
             message,
             res,
-            parents,
+            parentMapper.toSearchModel(parents),
             Number(req.query.pageNo) || 1,
             Number(req.query.pageSize) || 10,
             parents.count
@@ -43,7 +44,7 @@ const get = async (req, res) => {
     try {
         const parent = await service.getParent(req.params.id, req.context);
         log.end();
-        return response.data(res, parent);
+        return response.data(res, parentMapper.toModel(parent));
     } catch (err) {
         log.error(err);
         log.end();

@@ -1,7 +1,6 @@
 const encrypt = require("../permit/crypto.js");
 const auth = require("../permit/auth");
 const imageUrl = require('config').get('image').url
-const baseUrl = require('config').get('image').baseUrl
 const ObjectId = require("mongodb").ObjectID;
 const accountSid = 'AC5d73ce4cfa70158e5357a905e379af2b';
 var nodemailer = require('nodemailer')
@@ -361,11 +360,6 @@ const getById = async (id, context) => {
   if (!user) {
     throw new Error("user Not found");
   }
-  if (user.avatarImages) {
-    completeimg = baseUrl + user.avatarImages
-    user.avatarImages = completeimg;
-  }
-
   log.end();
   return user;
 };
@@ -377,13 +371,14 @@ const get = async (query, context) => {
   let pageSize = Number(query.pageSize) || 10;
   let skipCount = pageSize * (pageNo - 1);
   let users
-  let finalUsers = []
 
   if (query.role == 'all') {
     users = await db.user
       .find({}).sort({ _id: -1 })
       .skip(skipCount)
       .limit(pageSize);
+
+    users.count = await db.user.find({}).count();
   }
 
   else {
@@ -417,20 +412,9 @@ const get = async (query, context) => {
     }
   }
 
-  users.forEach((user, index) => {
-    if (user.avatarImages) {
-      user.avatarImages = baseUrl + user.avatarImages;
-      finalUsers.push(user);
-    }
-    else {
-      finalUsers.push(user);
-    }
-
-  });
-  finalUsers.count = await db.user.find({}).count();
 
   log.end();
-  return finalUsers;
+  return users;
 
 };
 const getCount = async (context) => {
@@ -586,7 +570,6 @@ const login = async (model, context) => {
   user.token = token;
   user.save();
   user.permissions = permissions;
-  // user.avatarImages = baseUrl + user.avatarImages;
   log.end();
   return user;
 };

@@ -1,4 +1,5 @@
 "use strict";
+const baseUrl = require('config').get('image').baseUrl
 
 exports.toModel = entity => {
   let model = {
@@ -6,7 +7,7 @@ exports.toModel = entity => {
     firstName: entity.firstName,
     lastName: entity.lastName,
     phoneNumber: entity.phoneNumber,
-    avatarImages: entity.avatarImages,
+    avatarImages: entity.avatarImages ? baseUrl + entity.avatarImages : '',
     email: entity.email,
     isOnBoardingDone: entity.isOnBoardingDone,
     sex: entity.sex,

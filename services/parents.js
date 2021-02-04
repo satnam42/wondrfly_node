@@ -1,6 +1,5 @@
 const encrypt = require("../permit/crypto.js");
 const imageUrl = require('config').get('image').url
-const baseUrl = require('config').get('image').baseUrl
 const generator = require('generate-password');
 const ObjectId = require("mongodb").ObjectID;
 const auth = require("../permit/auth");
@@ -171,8 +170,6 @@ const uploadProfilePic = async (id, file, context) => {
     parent.save();
     log.end();
     return parent
-
-
 };
 
 const activateAndDeactive = async (context, id, isActivated) => {
@@ -200,13 +197,9 @@ const getParent = async (id, context) => {
     if (!id) {
         throw new Error("parent id is required");
     }
-
     let parent = await db.user.findById(id);
     if (!parent) {
         throw new Error("Parent Not Found");
-    }
-    if (parent.avatarImages) {
-        parent.avatarImages = baseUrl + parent.avatarImages;
     }
     log.end();
     return parent
