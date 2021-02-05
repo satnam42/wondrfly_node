@@ -349,6 +349,8 @@ const register = async (model, context) => {
   if (user) {
     sendEmail(user.firstName, user.email, templatePath, subject);
   }
+  const token = auth.getToken(user, false, context);
+  user.token = token;
   log.end();
   return user;
 };
