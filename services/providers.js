@@ -100,9 +100,6 @@ const setProviderDetail = async (model, provider, context) => {
     if (model.categoryIds !== undefined && !model.categoryIds.length) {
         provider.categoires = model.categoryIds;
     }
-    if (model.tagsId !== undefined && !model.tagsId.length) {
-        provider.skills = model.tagsId;
-    }
     if (model.about !== "string" && model.about !== undefined) {
         provider.about = model.about;
     }
@@ -270,7 +267,7 @@ const getAllProvider = async (query, context) => {
     let pageNo = Number(query.pageNo) || 1;
     let pageSize = Number(query.pageSize) || 10;
     let skipCount = pageSize * (pageNo - 1);
-    const providers = await db.provider.find({}).sort({ date: -1 }).populate('categories').populate('skills').skip(skipCount).limit(pageSize);
+    const providers = await db.provider.find({}).sort({ date: -1 }).populate('categories').skip(skipCount).limit(pageSize);
     providers.count = await db.provider.find({}).count();
     log.end();
     return providers;
@@ -308,7 +305,7 @@ const uploadBannerPic = async (id, files, context) => {
 };
 const getProvideById = async (id, context) => {
     const log = context.logger.start(`services:providers:getAllProvider`);
-    const provider = await db.provider.findOne({ user: id }).populate('user').populate('categories').populate('skills')
+    const provider = await db.provider.findOne({ user: id }).populate('user').populate('categories')
     if (provider.logo) {
         provider.logo = baseUrl + provider.logo;
     }
@@ -373,7 +370,6 @@ const addProvider = async (model, context) => {
         await new db.provider({
             user: user._id,
             categories: model.categoryIds,
-            skills: model.tagsId,
             createdOn: new Date(),
             updateOn: new Date()
 

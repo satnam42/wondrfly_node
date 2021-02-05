@@ -66,17 +66,12 @@ const programSchema = mongoose.Schema({
         ref: 'user',
         required: true
     },
-    provider: {
+    addresses: [{ type: String, default: '' }],
+    categoryId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'provider',
+        ref: 'category',
         required: true
     },
-    addresses: [{ type: String, default: '' }],
-    tags: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'tag',
-        required: true
-    }],
     createdOn: { type: Date, default: Date.now },
     updatedOn: { type: Date, default: Date.now }
 });

@@ -238,7 +238,7 @@ const build = async (model, context) => {
         status: model.status || 'active',
         user: model.userId,
         addresses: model.addresses,
-        tags: model.tags,
+        categoryId: model.categoryId,
         createdOn: new Date(),
         updateOn: new Date(),
     }).save();
@@ -341,8 +341,8 @@ const set = async (model, program, context) => {
     if (model.addresses.length) {
         program.addresses = model.addresses;
     }
-    if (model.tags.length) {
-        program.tags = model.tags;
+    if (model.categoryId !== "string" && model.categoryId !== undefined) {
+        program.categoryId = model.categoryId;
     }
     program.updateOn = new Date()
     log.end();

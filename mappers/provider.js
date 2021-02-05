@@ -26,7 +26,6 @@ exports.toModel = (entity) => {
         adminNotes: entity.adminNotes || '',
         logo: entity.logo || '',
         token: entity.token || '',
-        skills: entity.skills || ''
     }
 
     if (entity.user && entity.user != undefined) {

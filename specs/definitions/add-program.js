@@ -112,11 +112,8 @@ module.exports = [
                     type: "string"
                 }
             },
-            tags: {
-                type: 'array',
-                items: {
-                    type: "string"
-                }
+            categoryId: {
+                type: 'string'
             },
         }
     }

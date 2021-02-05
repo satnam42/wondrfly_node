@@ -34,17 +34,17 @@ exports.toModel = (entity) => {
         addresses: entity.addresses || '',
         tags: entity.tags || '',
         batches: entity.batches || '',
-        user: entity.user || ''
+        user: entity.user || '',
+        categoryId: entity.categoryId || ''
     }
 
     if (entity.provider && entity.provider != undefined) {
         model._id = entity.provider[0]._id,
-            model.categories = entity.provider[0].categories,
-            model.skills = entity.provider[0].skills,
             model.about = entity.provider[0].about,
             model.description = entity.provider[0].description,
             model.facebook = entity.provider[0].facebook,
             model.fullAddress = entity.provider[0].fullAddress,
+            model.categories = entity.provider[0].categories,
             model.hours = entity.provider[0].hours,
             model.imageURL = entity.provider[0].imageURL,
             model.linkedin = entity.provider[0].linkedin,
