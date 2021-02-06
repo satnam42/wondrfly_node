@@ -26,7 +26,7 @@ const list = async (req, res) => {
         return response.page(
             message,
             res,
-            mapper.toSearchModel(programs),
+            programs,
             Number(req.query.pageNo) || 1,
             Number(req.query.pageSize) || 10,
             programs.count

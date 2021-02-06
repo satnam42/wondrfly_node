@@ -382,68 +382,67 @@ const create = async (model, context) => {
     return program;
 };
 
-// const getAllprograms = async (query, context) => {
-//     const log = context.logger.start(`services:programs:getAllprograms`);
-//     let pageNo = Number(query.pageNo) || 1;
-//     let pageSize = Number(query.pageSize) || 10;
-//     let skipCount = pageSize * (pageNo - 1);
-//     let programs = await db.program.find().sort({ createdOn: -1 }).populate('tags').skip(skipCount).limit(pageSize);
-//     programs.count = await db.program.find().count();
-//     let favourites
-//     if (context.user !== undefined) {
-//         favourites = await db.favourite.find({ user: context.user.id }).populate('program')
-
-//     }
-//     if (favourites) {
-//         // add fav in program
-//         for (var p = 0; p < programs.length; p++) {
-//             for (var f = 0; f < favourites.length; f++) {
-//                 if (favourites[f].program !== null && favourites[f].program !== undefined) {
-//                     if (programs[p].id === favourites[f].program.id) {
-//                         programs[p].isFav = true
-//                     }
-//                 }
-
-//             }
-//         }
-//     }
-
-//     log.end();
-//     return programs;
-// };
-
 const getAllprograms = async (query, context) => {
     const log = context.logger.start(`services:programs:getAllprograms`);
     let pageNo = Number(query.pageNo) || 1;
     let pageSize = Number(query.pageSize) || 10;
     let skipCount = pageSize * (pageNo - 1);
-    // let programs = await db.program.find().sort({ createdOn: -1 }).populate('tags').skip(skipCount).limit(pageSize);
-    // programs.count = await db.program.find().count();
-    const programs = await db.program.aggregate([
-        {
-            $lookup:
-            {
-                from: "categories",
-                localField: "categoryId",
-                foreignField: "_id",
-                as: "category"
+    let programs = await db.program.find().sort({ createdOn: -1 }).populate('tags').skip(skipCount).limit(pageSize);
+    programs.count = await db.program.find().count();
+    let favourites
+    if (context.user !== undefined) {
+        favourites = await db.favourite.find({ user: context.user.id }).populate('program')
+
+    }
+    if (favourites) {
+        // add fav in program
+        for (var p = 0; p < programs.length; p++) {
+            for (var f = 0; f < favourites.length; f++) {
+                if (favourites[f].program !== null && favourites[f].program !== undefined) {
+                    if (programs[p].id === favourites[f].program.id) {
+                        programs[p].isFav = true
+                    }
+                }
+
             }
-        },
-        {
-            $lookup:
-            {
-                from: "providers",
-                localField: "user",
-                foreignField: "user",
-                as: "provider"
-            }
-        },
-        { "$limit": pageSize },
-        { "$skip": skipCount }
-    ])
+        }
+    }
+
     log.end();
     return programs;
 };
+
+// const getAllprograms = async (query, context) => {
+//     const log = context.logger.start(`services:programs:getAllprograms`);
+//     let pageNo = Number(query.pageNo) || 1;
+//     let pageSize = Number(query.pageSize) || 10;
+//     let skipCount = pageSize * (pageNo - 1);
+//     const programs = await db.program.aggregate([
+//         {
+//             $lookup:
+//             {
+//                 from: "categories",
+//                 localField: "categoryId",
+//                 foreignField: "_id",
+//                 as: "category"
+//             }
+//         },
+//         {
+//             $lookup:
+//             {
+//                 from: "providers",
+//                 localField: "user",
+//                 foreignField: "user",
+//                 as: "provider"
+//             }
+//         },
+//         { "$limit": pageSize },
+//         { "$skip": skipCount }
+//     ])
+//     programs.count = await db.program.find().count();
+//     log.end();
+//     return programs;
+// };
 
 // const getById = async (id, context) => {
 //     const log = context.logger.start(`services:programs:getById`);
