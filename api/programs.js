@@ -26,7 +26,7 @@ const list = async (req, res) => {
         return response.page(
             message,
             res,
-            programs,
+            mapper.toSearchModel(programs),
             Number(req.query.pageNo) || 1,
             Number(req.query.pageSize) || 10,
             programs.count
@@ -44,6 +44,7 @@ const getById = async (req, res) => {
         const program = await service.getById(req.params.id, req.context);
         log.end();
         return response.data(res, mapper.toModel(program));
+        // return response.data(res, program);
     } catch (err) {
         log.error(err);
         log.end();

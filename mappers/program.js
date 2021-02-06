@@ -35,7 +35,12 @@ exports.toModel = (entity) => {
         tags: entity.tags || '',
         batches: entity.batches || '',
         user: entity.user || '',
-        categoryId: entity.categoryId || ''
+
+    }
+
+    if (entity.category[0] != '' && entity.category[0] != undefined) {
+        model.categoryName = (entity.category[0].name) ? (entity.category[0].name) : ''
+        model.categoryImage = (entity.category[0].imageUrl) ? baseUrl + (entity.category[0].imageUrl) : ''
     }
 
     if (entity.provider && entity.provider != undefined) {
