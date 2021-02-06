@@ -1012,8 +1012,40 @@ const listPublishOrUnpublish = async (query, context) => {
     let skipCount = pageSize * (pageNo - 1);
     let programs
     if (query.programType == 'published') {
-        programs = await db.program.find({ isPublished: true }).sort({ createdOn: -1 }).populate('tags').skip(skipCount).limit(pageSize);
-        programs.count = await db.program.find({ isPublished: true }).count();
+        // programs = await db.program.find({ isPublished: true }).sort({ createdOn: -1 }).populate('tags').skip(skipCount).limit(pageSize);
+        // programs.count = await db.program.find({ isPublished: true }).count();
+        const programs = await db.program.aggregate([
+            {
+                $match:
+                {
+                    isPublished: true
+                }
+            },
+            {
+                $lookup:
+                {
+                    from: "categories",
+                    localField: "categoryId",
+                    foreignField: "_id",
+                    as: "category"
+                }
+            },
+            {
+                $lookup:
+                {
+                    from: "providers",
+                    localField: "user",
+                    foreignField: "user",
+                    as: "provider"
+                }
+            },
+            { "$limit": pageSize },
+            { "$skip": skipCount }
+        ])
+
+        log.end();
+        return programs;
+
     }
     if (query.programType == 'unpublished') {
         programs = await db.program.find({ isPublished: false }).sort({ createdOn: -1 }).populate('tags').skip(skipCount).limit(pageSize);
