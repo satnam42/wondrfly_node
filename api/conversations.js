@@ -8,7 +8,13 @@ const getOldChat = async (req, res) => {
     try {
         const oldChat = await service.getOldChat(req.query, req.context)
         log.end()
-        return response.page(res, chatMapper.toSearchModel(oldChat), Number(req.query.pageNo) || 1, Number(req.query.pageSize) || 10, oldChat.count)
+        return response.chatPage(
+            res,
+            chatMapper.toSearchModel(oldChat),
+            Number(req.query.pageNo) || 1,
+            Number(req.query.pageSize) || 10,
+            oldChat.count
+        )
     } catch (err) {
         log.error(err)
         log.end()

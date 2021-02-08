@@ -56,9 +56,21 @@ const authorized = (res, data, token) => {
     });
 };
 
+const chatPage = (res, data, pageNo, pageSize, total) => {
+  res.status(200).json({
+    isSuccess: true,
+    statusCode: 200,
+    pageNo: pageNo,
+    pageSize: pageSize,
+    total: total,
+    items: data
+  });
+};
+
 exports.data = data;
 exports.page = page;
 exports.success = success;
 exports.failure = failure;
 exports.authorized = authorized;
 exports.unAuthorized = unAuthorized;
+exports.chatPage = chatPage;

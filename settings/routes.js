@@ -918,7 +918,7 @@ const configure = (app, logger) => {
   //============conversation api's===================
   app.get(
     '/api/conversations/getOldChat',
-    permit.context.validateToken,
+    permit.context.requiresToken,
     api.conversations.getOldChat
   )
 
