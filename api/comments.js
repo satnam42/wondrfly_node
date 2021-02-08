@@ -1,6 +1,7 @@
 "use strict";
 const service = require("../services/comments");
 const response = require("../exchange/response");
+const mapper = require("../mappers/comment");
 
 const create = async (req, res) => {
     const log = req.context.logger.start(`api:comments:create`);
@@ -46,7 +47,7 @@ const getById = async (req, res) => {
     try {
         const comment = await service.getById(req.params.id, req.context);
         log.end();
-        return response.data(res, comment);
+        return response.data(res, mapper.toModel(comment));
     } catch (err) {
         log.error(err);
         log.end();

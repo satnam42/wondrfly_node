@@ -102,10 +102,10 @@ const removeComment = async (id, model, context) => {
 
 
 const getById = async (id, context) => {
-    const log = context.logger.start(`services:users:getById:${id}`);
-    const user = await db.comment.findById(id);
+    const log = context.logger.start(`services:comments:getById:${id}`);
+    const comment = await db.comment.findById(id);
     log.end();
-    return user;
+    return comment;
 };
 
 
