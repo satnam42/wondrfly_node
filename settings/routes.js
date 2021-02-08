@@ -915,6 +915,13 @@ const configure = (app, logger) => {
     api.plans.updateStatus
   );
 
+  //============conversation api's===================
+  app.get(
+    '/api/conversations/getOldChat',
+    permit.context.validateToken,
+    api.conversations.getOldChat
+  )
+
   log.end();
 };
 
