@@ -9,7 +9,7 @@ exports.toModel = (entity) => {
         msgFrom: entity.msgFrom,
         msgTo: entity.msgTo,
         msg: entity.msg,
-        media: entity.media.image ? baseUrl + entity.media.image : "",
+        image: entity.image ? baseUrl + entity.image : "",
         date: entity.createdOn,
     }
     return model

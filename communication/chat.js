@@ -143,7 +143,7 @@ module.exports.sockets = function (http) {
             eventEmitter.emit('save-chat', {
                 msgFrom: socket.username,
                 msgTo: data.msgTo,
-                media: data.media,
+                image: data.image,
                 room: socket.room,
                 date: data.date
             });
@@ -153,7 +153,7 @@ module.exports.sockets = function (http) {
 
             ioChat.to(socket.room).emit('media-chat', {
                 msgFrom: socket.username,
-                media: data.media.image ? baseUrl + data.media.image : '',
+                image: data.image ? baseUrl + data.image : '',
                 date: msgDate
             });
 
@@ -186,7 +186,7 @@ module.exports.sockets = function (http) {
                 msgFrom: data.msgFrom,
                 msgTo: data.msgTo,
                 msg: data.msg,
-                media: data.media,
+                image: data.image,
                 room: data.room,
                 createdOn: data.date
             });
