@@ -138,6 +138,7 @@ module.exports.sockets = function (http) {
 
         //for media chat
         socket.on('media-chat', function (data) {
+            console.log('data media chat ==>>>', data);
             //emits event to save chat to database.
             eventEmitter.emit('save-chat', {
                 msgFrom: socket.username,
