@@ -9,6 +9,7 @@ require('../models/rooms.js');
 var roomModel = mongoose.model('Room');
 require('../models/conversation.js');
 var conversationModel = mongoose.model('Conversation');
+const baseUrl = require('config').get('image').baseUrl
 // const service = require('../services/push-notification')
 module.exports.sockets = function (http) {
     io = socketio.listen(http);
@@ -135,6 +136,28 @@ module.exports.sockets = function (http) {
 
         });
 
+        //for media chat
+        socket.on('media-chat', function (data) {
+            //emits event to save chat to database.
+            eventEmitter.emit('save-chat', {
+                msgFrom: socket.username,
+                msgTo: data.msgTo,
+                media: data.media,
+                room: socket.room,
+                date: data.date
+            });
+
+
+            let msgDate = moment.utc(data.date).format()
+
+            ioChat.to(socket.room).emit('media-chat', {
+                msgFrom: socket.username,
+                media: data.media.image ? baseUrl + data.media.image : '',
+                date: msgDate
+            });
+
+        });
+
         //for popping disconnection message.
         socket.on('disconnect', function () {
 
@@ -162,6 +185,7 @@ module.exports.sockets = function (http) {
                 msgFrom: data.msgFrom,
                 msgTo: data.msgTo,
                 msg: data.msg,
+                media: data.media,
                 room: data.room,
                 createdOn: data.date
             });
