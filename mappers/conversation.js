@@ -2,14 +2,11 @@
 const baseUrl = require('config').get('image').baseUrl
 
 exports.toModel = (entity) => {
-    const mediaa = {
-        image: entity.media.image ? baseUrl + entity.media.image : ""
-    }
     const model = {
         msgFrom: entity.msgFrom,
         msgTo: entity.msgTo,
         msg: entity.msg,
-        media: mediaa,
+        image: entity.image ? baseUrl + entity.image : "",
         date: entity.createdOn,
     }
     return model
