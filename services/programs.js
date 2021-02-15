@@ -353,34 +353,29 @@ const set = async (model, program, context) => {
 
 const create = async (model, context) => {
     const log = context.logger.start("services:programs:create");
-    if (context.user.role == 'parent') {
-        throw new Error("you are not authorized to perform this operation");
-    }
 
     let user = await db.user.findById(model.userId);
+
     if (user.role == 'parent') {
         throw new Error("you are not authorized to perform this operation");
     }
-
-    if (user.phoneNumber == "string" || user.phoneNumber == undefined || user.phoneNumber == "") {
-        throw new Error("your profile is incomplete you cannot add program! Please add phone Number");
+    if (user.role !== 'admin') {
+        if (!isObjKeyHasValue(user.phoneNumber) || !isObjKeyHasValue(user.avatarImages) || !isObjKeyHasValue(user.addressLine1)) {
+            throw new Error("your profile is incomplete you cannot add program!");
+        }
     }
-    if (user.avatarImages == "string" || user.avatarImages == undefined || user.avatarImages == "") {
-        throw new Error("your profile is incomplete you cannot add program! Please upload profile image");
-    }
-    if (user.addressLine1 == "string" || user.addressLine1 == undefined || user.addressLine1 == "") {
-        throw new Error("your profile is incomplete you cannot add program! Please add your address");
-    }
-
-    // const isprogramExist = await db.program.findOne({ name: { $eq: model.name } });
-    // if (isprogramExist) {
-    //     return "program already exist";
-    // }
-
     const program = build(model, context);
     log.end();
     return program;
 };
+
+
+const isObjKeyHasValue = async (value) => {
+    if (value == "" || value == undefined || value == "string") {
+        return false
+    }
+    return true
+}
 
 const getAllprograms = async (query, context) => {
     const log = context.logger.start(`services:programs:getAllprograms`);
