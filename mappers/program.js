@@ -39,7 +39,7 @@ exports.toModel = (entity) => {
 
     }
 
-    if (entity.category[0] != '' && entity.category[0] != undefined) {
+    if (entity.category != undefined && entity.category[0] != '' && entity.category[0] != undefined) {
         model.categoryName = (entity.category[0].name) ? (entity.category[0].name) : ''
         model.categoryImage = (entity.category[0].imageUrl) ? baseUrl + (entity.category[0].imageUrl) : ''
     }
