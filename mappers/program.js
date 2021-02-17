@@ -34,7 +34,8 @@ exports.toModel = (entity) => {
         addresses: entity.addresses || '',
         tags: entity.tags || '',
         batches: entity.batches || '',
-        user: entity.user || '',
+        user: entity.user._id || '',
+        programOwner: entity.user.firstName || '',
 
     }
 
