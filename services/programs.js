@@ -382,7 +382,7 @@ const getAllprograms = async (query, context) => {
     let pageNo = Number(query.pageNo) || 1;
     let pageSize = Number(query.pageSize) || 10;
     let skipCount = pageSize * (pageNo - 1);
-    let programs = await db.program.find().sort({ createdOn: -1 }).populate('tags').skip(skipCount).limit(pageSize);
+    let programs = await db.program.find().sort({ createdOn: -1 }).populate('tags').populate('user', 'firstName').skip(skipCount).limit(pageSize);
     programs.count = await db.program.find().count();
     let favourites
     if (context.user !== undefined) {
