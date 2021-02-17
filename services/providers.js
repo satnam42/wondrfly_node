@@ -340,7 +340,7 @@ const search = async (name, context) => {
     let finalProviders = [];
     providers.forEach((provider, index) => {
         if (provider.firstName != '' && provider.firstName != "string" && provider.email != '' && provider.email != "string"
-            && provider.phoneNumber != '' && provider.phoneNumber != "string" && provideraddressLine1 != '' && provideraddressLine1 != "string"
+            && provider.phoneNumber != '' && provider.phoneNumber != "string" && provider.addressLine1 != '' && provider.addressLine1 != "string"
         ) {
             finalProviders.push(provider);
         }
