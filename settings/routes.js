@@ -186,6 +186,11 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.events.listByUserId
   );
+  app.get(
+    "/api/events/list",
+    permit.context.requiresToken,
+    api.events.list
+  );
   app.put(
     "/api/events/update/:id",
     permit.context.requiresToken,

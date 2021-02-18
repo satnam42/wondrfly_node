@@ -7,13 +7,13 @@ const create = (req, res, next) => {
         log.end();
         return response.failure(res, "title is required");
     }
-    if (!req.body.date.from) {
+    if (!req.body.start) {
         log.end();
-        return response.failure(res, "from date is required");
+        return response.failure(res, "start date is required");
     }
-    if (!req.body.date.to) {
+    if (!req.body.end) {
         log.end();
-        return response.failure(res, "from date is required");
+        return response.failure(res, "end  date is required");
     }
     log.end();
     return next();

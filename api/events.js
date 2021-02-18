@@ -29,7 +29,19 @@ const update = async (req, res) => {
 const listByUserId = async (req, res) => {
     const log = req.context.logger.start(`api:event:list`);
     try {
-        const events = await service.eventsByUserId(req.context);
+        const events = await service.eventsByUserId(req.params.id, req.context);
+        log.end();
+        return response.data(res, events);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+const list = async (req, res) => {
+    const log = req.context.logger.start(`api:event:list`);
+    try {
+        const events = await service.allEvents(req.context);
         log.end();
         return response.data(res, events);
     } catch (err) {
@@ -41,3 +53,4 @@ const listByUserId = async (req, res) => {
 exports.create = create;
 exports.listByUserId = listByUserId;
 exports.update = update;
+exports.list = list;

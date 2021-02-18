@@ -9,11 +9,11 @@ module.exports = [
             description: {
                 type: "string"
             },
-            date: {
-                properties: {
-                    to: { type: "date" },
-                    from: { type: "date" }
-                }
+            start: {
+                type: "date"
+            },
+            end: {
+                type: "date"
             },
             userId: {
                 type: "string"

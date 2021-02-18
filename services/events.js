@@ -1,12 +1,13 @@
 
 "use strict";
 const build = async (model, context) => {
-    const { title, description, userId, date } = model;
+    const { title, description, userId, start, end } = model;
     const log = context.logger.start(`services:event:build${model}`);
     const event = await new db.event({
         title: title,
         description: description,
-        date: date,
+        start: start,
+        end: end,
         user: userId,
         createdOn: new Date(),
         updateOn: new Date(),
@@ -22,8 +23,11 @@ const set = (model, event, context) => {
     if (model.description !== "string" && model.description !== undefined && model.description !== '') {
         event.description = model.description;
     }
-    if (model.date !== "string" && model.date !== undefined && model.date !== '') {
-        event.date = model.date;
+    if (model.start !== "string" && model.start !== undefined && model.start !== '') {
+        event.start = model.start;
+    }
+    if (model.end !== "string" && model.end !== undefined && model.end !== '') {
+        event.end = model.end;
     }
     event.updatedOn = new Date();
     log.end();
@@ -47,6 +51,13 @@ const eventsByUserId = async (id, context) => {
     return events;
 };
 
+const allEvents = async (context) => {
+    const log = context.logger.start(`services:events:allEvents`);
+    const events = await db.event.find().populate('user', 'firstName');
+    log.end();
+    return events;
+};
+
 const update = async (id, model, context) => {
     const log = context.logger.start(`services:events:update`);
     if (!id) throw new Error("event id is required");
@@ -60,3 +71,4 @@ const update = async (id, model, context) => {
 exports.create = create
 exports.eventsByUserId = eventsByUserId
 exports.update = update
+exports.allEvents = allEvents

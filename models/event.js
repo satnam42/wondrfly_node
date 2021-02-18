@@ -8,10 +8,8 @@ const event = mongoose.Schema({
         ref: 'user',
         required: true
     },
-    date: {
-        from: { type: Date, required: true },
-        to: { type: Date, required: true },
-    },
+    start: { type: Date, required: true },
+    end: { type: Date, required: true },
     createdOn: { type: Date, default: Date.now },
     updatedOn: { type: Date, default: Date.now }
 });
