@@ -174,17 +174,24 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.users.verifySecuirtyAns
   );
-  //entity routes//
-  // app.post(
-  //   "/api/entities/add",
-  //   permit.context.requiresToken,
-  //   api.entities.create
-  // );
-  // app.get(
-  //   "/api/entities/list",
-  //   permit.context.requiresToken,
-  //   api.entities.list
-  // );
+  ////////events routes//////////
+  app.post(
+    "/api/events/add",
+    permit.context.requiresToken,
+    validator.events.create,
+    api.events.create
+  );
+  app.get(
+    "/api/events/listByUserId/:id",
+    permit.context.requiresToken,
+    api.events.listByUserId
+  );
+  app.put(
+    "/api/events/update/:id",
+    permit.context.requiresToken,
+    api.events.update
+  );
+
   //category routes//
   app.post(
     "/api/categories/add",
