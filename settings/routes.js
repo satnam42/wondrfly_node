@@ -174,7 +174,9 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.users.verifySecuirtyAns
   );
+
   ////////events routes//////////
+
   app.post(
     "/api/events/add",
     permit.context.requiresToken,
@@ -195,6 +197,12 @@ const configure = (app, logger) => {
     "/api/events/update/:id",
     permit.context.requiresToken,
     api.events.update
+  );
+
+  app.delete(
+    "/api/events/delete/:id",
+    permit.context.requiresToken,
+    api.events.remove
   );
 
   //category routes//
