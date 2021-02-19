@@ -30,7 +30,7 @@ const update = async (req, res) => {
 };
 
 const listByUserId = async (req, res) => {
-    const log = req.context.logger.start(`api:event:list`);
+    const log = req.context.logger.start(`api:events:list`);
     try {
         const events = await service.eventsByUserId(req.params.id, req.context);
         log.end();
@@ -43,7 +43,7 @@ const listByUserId = async (req, res) => {
 };
 
 const list = async (req, res) => {
-    const log = req.context.logger.start(`api:event:list`);
+    const log = req.context.logger.start(`api:events:list`);
     try {
         const events = await service.allEvents(req.context);
         log.end();
@@ -56,7 +56,7 @@ const list = async (req, res) => {
 };
 
 const remove = async (req, res) => {
-    const log = req.context.logger.start(`api:remove:list`);
+    const log = req.context.logger.start(`api:events:remove`);
     try {
         const event = await service.removeEventsById(req.params.id, req.context);
         const message = "event deleted Successfully";
