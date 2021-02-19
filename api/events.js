@@ -6,7 +6,6 @@ const create = async (req, res) => {
     const log = req.context.logger.start(`api:events:create`);
     try {
         const event = await service.create(req.body, req.context);
-
         log.end();
         return response.data(res, event);
     } catch (err) {

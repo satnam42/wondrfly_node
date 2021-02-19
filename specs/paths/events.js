@@ -87,35 +87,66 @@ module.exports = [
             }
         }
     },
-    // {
-    //     url: "/update/{id}",
-    //     delete: {
-    //         summary: "update",
-    //         description: "update event",
-    //         parameters: [
-    //             {
-    //                 in: "path",
-    //                 name: "id",
-    //                 description: "event id",
-    //                 required: true,
-    //                 type: "string"
-    //             },
-    //             {
-    //                 in: "header",
-    //                 name: "x-access-token",
-    //                 description: "token to access api",
-    //                 required: true,
-    //                 type: "string"
-    //             }
-    //         ],
-    //         responses: {
-    //             default: {
-    //                 description: "Unexpected error",
-    //                 schema: {
-    //                     $ref: "#/definitions/Error"
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
+    {
+        url: "/update/{id}",
+        put: {
+            summary: "update",
+            description: "update event",
+            parameters: [
+                {
+                    in: "path",
+                    name: "id",
+                    description: "event id",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
+    {
+        url: "/remove/{id}",
+        delete: {
+            summary: "delete",
+            description: "delete event by id",
+            parameters: [
+                {
+                    in: "path",
+                    name: "id",
+                    description: "event id",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    }
 ]
