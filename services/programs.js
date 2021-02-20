@@ -407,65 +407,6 @@ const getAllprograms = async (query, context) => {
     return programs;
 };
 
-// const getAllprograms = async (query, context) => {
-//     const log = context.logger.start(`services:programs:getAllprograms`);
-//     let pageNo = Number(query.pageNo) || 1;
-//     let pageSize = Number(query.pageSize) || 10;
-//     let skipCount = pageSize * (pageNo - 1);
-//     const programs = await db.program.aggregate([
-//         {
-//             $lookup:
-//             {
-//                 from: "categories",
-//                 localField: "categoryId",
-//                 foreignField: "_id",
-//                 as: "category"
-//             }
-//         },
-//         {
-//             $lookup:
-//             {
-//                 from: "providers",
-//                 localField: "user",
-//                 foreignField: "user",
-//                 as: "provider"
-//             }
-//         },
-//         { "$limit": pageSize },
-//         { "$skip": skipCount }
-//     ])
-//     programs.count = await db.program.find().count();
-//     log.end();
-//     return programs;
-// };
-
-// const getById = async (id, context) => {
-//     const log = context.logger.start(`services:programs:getById`);
-//     if (!id) {
-//         throw new Error("id not found");
-//     }
-//     let program = await db.program.findById(id).populate('tags');
-//     let providr = await db.provider.findOne({ user: program.user._id });
-//     let provider = {
-//         logo: baseUrl + providr.logo,
-//     }
-
-//     if (!program) {
-//         throw new Error("program not found");
-//     }
-
-//     if (program.programCoverPic) {
-//         program.programCoverPic = baseUrl + program.programCoverPic;
-//     }
-//     let data = {
-//         program: program,
-//         provider: provider
-
-//     }
-//     log.end();
-//     return data
-// };
-
 const getById = async (id, context) => {
     const log = context.logger.start(`services:programs:getById`);
     if (!id) {
