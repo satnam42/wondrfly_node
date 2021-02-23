@@ -497,6 +497,12 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.guardians.remove
   );
+  app.post(
+    "/api/guardians/sendOtp",
+    permit.context.builder,
+    // permit.context.requiresToken,
+    api.guardians.sendOtp
+  );
 
   //program routes//
   app.post(

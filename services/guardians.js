@@ -1,5 +1,56 @@
-
 const ObjectId = require("mongodb").ObjectID;
+const auth = require("../permit/auth");
+
+sendOtpEmail = async (firstName, email, templatePath, subject, OTP) => {
+    let mailBody = fs.readFileSync(path.join(__dirname, templatePath)).toString();
+    mailBody = mailBody.replace(/{{firstname}}/g, firstName);
+
+    if (OTP) {
+        mailBody = mailBody.replace(/{{OTP}}/g, OTP);
+    }
+
+    let smtpTransport = nodemailer.createTransport({
+        host: 'localhost',
+        port: 465,
+        secure: true,
+        service: 'Gmail',
+        auth: {
+            user: `wondrfly@gmail.com`,
+            pass: `wondrfly@123`
+        }
+    });
+
+    let mailOptions = {
+        from: "smtp.mailtrap.io",
+        to: email, //sending to: E-mail
+        subject: subject,
+        html: mailBody,
+        attachments: [
+            {
+                filename: 'logo.png',
+                path: `${__dirname}/../public/images/logo.png`,
+                cid: 'logo1' //same cid value as in the html img src
+            },
+
+            {
+                filename: 'logo_white.png',
+                path: `${__dirname}/../public/images/logo_white.png`,
+                cid: 'logo_white' //same cid value as in the html img src
+            }
+        ]
+
+    };
+    let mailSent = await smtpTransport.sendMail(mailOptions)
+    if (mailSent) {
+        console.log("Message sent: %s", mailSent.messageId);
+        console.log("Preview URL: %s", nodemailer.getTestMessageUrl(mailSent));
+        return
+    } else {
+        log.end()
+        throw new Error("Unable to send email try after sometime");
+    }
+}
+
 const setGuardian = (model, guardian, context) => {
 
     const log = context.logger.start("services:guardians:set");
@@ -116,8 +167,39 @@ const deleteGuardian = async (id, context) => {
     return 'guardian delete successfully'
 };
 
+const sendOtp = async (model, context) => {
+    const log = context.logger.start('services/users/sendOtp')
+    const isEmail = await db.user.findOne({ email: { $eq: model.email } });
+    if (isEmail) {
+        throw new Error("Email already resgister");
+    }
+
+    // four digit otp genration logic
+    var digits = '0123456789';
+    let OTP = '';
+    for (let i = 0; i < 4; i++) {
+        OTP += digits[Math.floor(Math.random() * 10)];
+    }
+    // let message = `Your 4 digit One Time Password: <br>${OTP}<br></br>
+    //   otp valid only 4 minutes`
+    let = subject = "One Time Password"
+    let templatePath = '../emailTemplates/guardian_otp.html';
+
+    await sendOtpEmail(model.firstName, model.email, templatePath, subject, OTP);
+    // await sendMail(email, message, subject)
+
+    let otpToken = auth.getOtpToken(OTP, true, context)
+    let data = {
+        message: 'OTP successfully sent on your email',
+        otpToken: otpToken
+    }
+    log.end()
+    return data
+}
+
 exports.addGuardian = addGuardian;
 exports.get = get;
 exports.updateGuardian = updateGuardian;
 exports.getGuardianByParentId = getGuardianByParentId;
 exports.deleteGuardian = deleteGuardian;
+exports.sendOtp = sendOtp;
