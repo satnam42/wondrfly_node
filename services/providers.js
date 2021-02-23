@@ -95,7 +95,6 @@ const build = async (model, context) => {
 };
 
 const setProviderDetail = async (model, provider, context) => {
-    console.log('model in provider detail', model);
     const log = context.logger.start("services:providers:setBasicInfo");
     if (model.categoryIds !== undefined && !model.categoryIds.length) {
         provider.categoires = model.categoryIds;

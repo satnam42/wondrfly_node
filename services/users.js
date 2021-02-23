@@ -355,12 +355,19 @@ const register = async (model, context) => {
   return user;
 };
 
-
 const getById = async (id, context) => {
   const log = context.logger.start(`services:users:getById:${id}`);
   const user = await db.user.findById(id);
+  let data = {}
   if (!user) {
     throw new Error("user Not found");
+  }
+  if (user.role == 'provider') {
+    const provider = await db.provider.findOne({ user: id });
+    data.user = user
+    data.provider = provider
+    log.end();
+    return data;
   }
   log.end();
   return user;
