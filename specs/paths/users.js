@@ -603,4 +603,43 @@ module.exports = [
       }
     }
   },
+  {
+    url: "/search",
+    get: {
+      summary: "search",
+      description: "search user by name ",
+      parameters: [
+        {
+          in: "header",
+          name: "x-access-token",
+          description: "token to access api",
+          required: true,
+          type: "string"
+        },
+        {
+          in: "query",
+          name: "name",
+          description: "name",
+          required: true,
+          type: "string"
+        },
+        {
+          in: "query",
+          name: "role",
+          description: "role can be parent, provider, all",
+          default: "all",
+          required: true,
+          type: "string"
+        }
+      ],
+      responses: {
+        default: {
+          description: "Unexpected error",
+          schema: {
+            $ref: "#/definitions/Error"
+          }
+        }
+      }
+    }
+  }
 ];

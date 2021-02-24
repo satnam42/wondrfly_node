@@ -175,6 +175,12 @@ const configure = (app, logger) => {
     api.users.verifySecuirtyAns
   );
 
+  app.get(
+    "/api/users/search",
+    permit.context.requiresToken,
+    api.users.search
+  );
+
   ////////events routes//////////
 
   app.post(

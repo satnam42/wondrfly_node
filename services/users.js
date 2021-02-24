@@ -905,6 +905,29 @@ const verifyAnswer = async (id, model, context) => {
   }
 };
 
+const search = async (query, context) => {
+  const log = context.logger.start(`services:users:search`);
+  if (!query.name) {
+    throw new Error("name is required");
+  }
+
+  let users;
+  if (query.role == 'parent' || query.role == "provider") {
+    users = await db.user.find({ firstName: { "$regex": '.*' + query.name + '.*', "$options": 'i' }, role: query.role }
+    ).limit(5);
+  }
+  if (query.role == 'all') {
+    users = await db.user.find({ firstName: { "$regex": '.*' + query.name + '.*', "$options": 'i' } }
+    ).limit(5);
+  }
+
+  if (users.length < 1) {
+    throw new Error("user not found");
+  }
+  log.end();
+  return users;
+};
+
 exports.register = register;
 exports.get = get;
 exports.login = login;
@@ -926,3 +949,4 @@ exports.tellAFriend = tellAFriend;
 exports.feedback = feedback;
 exports.getProfileProgress = getProfileProgress;
 exports.verifyAnswer = verifyAnswer;
+exports.search = search;

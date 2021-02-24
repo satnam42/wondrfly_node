@@ -292,6 +292,19 @@ const verifySecuirtyAns = async (req, res) => {
   }
 };
 
+const search = async (req, res) => {
+  const log = req.context.logger.start(`api:users:search:${req.query.name}`);
+  try {
+    const users = await service.search(req.query, req.context);
+    log.end();
+    return response.data(res, users);
+  } catch (err) {
+    log.error(err);
+    log.end();
+    return response.failure(res, err.message);
+  }
+};
+
 exports.create = create;
 exports.list = list;
 exports.login = login;
@@ -312,3 +325,4 @@ exports.tellAFriend = tellAFriend;
 exports.feedback = feedback;
 exports.getProfileProgress = getProfileProgress;
 exports.verifySecuirtyAns = verifySecuirtyAns;
+exports.search = search;
