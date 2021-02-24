@@ -559,15 +559,21 @@ const login = async (model, context) => {
     if (children.length >= 1) {
       user.isOnBoardingDone = true
     }
-    else if (user.role == 'provider') {
-      let provider = await db.provider.findOne({ user: user.id })
-      if (user.phoneNumber !== '' && user.phoneNumber !== null && user.phoneNumber !== undefined) {
-        user.isOnBoardingDone = true
-        user.provider = provider
-      }
-      else {
-        user.isOnBoardingDone = false
-      }
+    else {
+      user.isOnBoardingDone = false
+    }
+  }
+  if (user.role == 'provider') {
+    let provider = await db.provider.findOne({ user: user.id })
+    if (user.phoneNumber !== '' && user.phoneNumber !== null && user.phoneNumber !== undefined &&
+      user.addressLine1 !== '' && user.addressLine1 !== null && user.addressLine1 !== undefined &&
+      user.firstName !== '' && user.firstName !== null && user.firstName !== undefined &&
+      user.city !== '' && user.city !== null && user.city !== undefined &&
+      user.state !== '' && user.state !== null && user.state !== undefined &&
+      provider.about !== '' && provider.about !== null && provider.about !== undefined
+    ) {
+      user.isOnBoardingDone = true
+      user.provider = provider
     }
     else {
       user.isOnBoardingDone = false
