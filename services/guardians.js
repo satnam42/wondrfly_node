@@ -98,6 +98,19 @@ const addGuardian = async (model, context) => {
     if (isEmail) {
         throw new Error("Email already resgister");
     }
+    const otp = await auth.extractToken(model.otpToken, context)
+    if (!model.otpToken) {
+        throw new Error("otpToken is required");
+    }
+    if (otp.id != model.otp) {
+        throw new Error("please enter valid otp");;
+    }
+    if (otp.name === "TokenExpiredError") {
+        throw new Error("otp expired");
+    }
+    if (otp.name === "JsonWebTokenError") {
+        throw new Error("otp is invalid");
+    }
     const guardian = await buildGuardian(model, context);
     if (guardian) {
         await new db.guardian({

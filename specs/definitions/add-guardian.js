@@ -19,6 +19,12 @@ module.exports = [
             },
             parentId: {
                 type: "string"
+            },
+            otp: {
+                type: "string"
+            },
+            otpToken: {
+                type: "string"
             }
         },
     },
