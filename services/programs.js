@@ -502,7 +502,6 @@ const search = async (query, context) => {
     const program = await db.program.find({ name: { "$regex": '.*' + query.name + '.*', "$options": 'i' } }
     ).populate('tags').limit(5);
     log.end();
-    // console.log('search ==>>>', program);
     let finalProgram = [];
     program.forEach((progrm, index) => {
         if (progrm.name != '' && progrm.name != "string" && progrm.type != '' && progrm.type != "string"
@@ -790,7 +789,7 @@ const getFilterProgram = async (query, context) => {
 
 
 
-    if (query.toTime && query.toTime) {
+    if (query.fromTime && query.toTime) {
         const tme = {
             '$gte': moment(query.fromTime, "DD-MM-YYYY").startOf('day').toDate(),
             '$lt': moment(query.toTime, "DD-MM-YYYY").endOf('day').toDate()
