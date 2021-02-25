@@ -883,7 +883,7 @@ const getProfileProgress = async (query, context) => {
   } else {
     const program = await db.program.find({ user: query.id });
     if (program.length > 1) {
-      progress += 40
+      progress += 10
     }
   }
   if (user.role == 'parent' && user.profileCompleteEmail != true && progress == 50) {
