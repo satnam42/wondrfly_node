@@ -39,6 +39,9 @@ module.exports = [
             note: {
                 type: "string"
             },
+            website: {
+                type: "string"
+            },
             isAmbassador: {
                 type: "boolean"
             },

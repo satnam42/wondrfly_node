@@ -369,6 +369,7 @@ const addProvider = async (model, context) => {
         await new db.provider({
             user: user._id,
             categories: model.categoryIds,
+            website: model.website,
             createdOn: new Date(),
             updateOn: new Date()
 
