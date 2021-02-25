@@ -883,7 +883,7 @@ const getProfileProgress = async (query, context) => {
   }
   if (query.role == 'provider') {
     const program = await db.program.find({ user: query.id });
-    if (program.length > 1) {
+    if (program.length >= 1) {
       progress += 10
     }
   }
