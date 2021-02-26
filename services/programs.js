@@ -834,7 +834,6 @@ const importProgram = async (file, context) => {
             await buildImportProgram(row, context);
         }
     }
-    // console.log(`total record inserted ${count}`)
     log.info(`${count} record inserted `)
     await fs.unlinkSync(file.path);
     return `total record inserted ${count}`;
@@ -948,7 +947,6 @@ const listPublishOrUnpublish = async (query, context) => {
     let programs
     if (query.programType == 'published') {
         // programs = await db.program.find({ isPublished: true }).sort({ createdOn: -1 }).populate('tags').skip(skipCount).limit(pageSize);
-        // programs.count = await db.program.find({ isPublished: true }).count();
         const programs = await db.program.aggregate([
             {
                 $match:
