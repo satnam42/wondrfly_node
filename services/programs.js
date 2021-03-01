@@ -975,7 +975,7 @@ const listPublishOrUnpublish = async (query, context) => {
             { "$limit": pageSize },
             { "$skip": skipCount }
         ])
-
+        programs.count = await db.program.find({ isPublished: true }).count();
         log.end();
         return programs;
 
