@@ -954,6 +954,13 @@ const configure = (app, logger) => {
     api.conversations.getOldChat
   )
 
+  //============twilio api's===================
+  app.post(
+    "/api/twilio/sendOtpSMS",
+    permit.context.requiresToken,
+    api.twilio.sendOtpSMS
+  );
+
   log.end();
 };
 
