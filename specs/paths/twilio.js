@@ -31,6 +31,32 @@ module.exports = [
                 }
             }
         }
+    },
+    {
+        url: "/otpVerify",
+        post: {
+            summary: "Verify otp",
+            description: "Verify otp",
+            parameters: [
+                {
+                    in: "body",
+                    name: "body",
+                    description: "Model of verifyToken",
+                    required: true,
+                    schema: {
+                        $ref: "#/definitions/verifyTwilioOtp"
+                    }
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
     }
 
 ]

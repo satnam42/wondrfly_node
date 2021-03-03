@@ -16,4 +16,18 @@ const sendOtpSMS = async (req, res) => {
     }
 };
 
+const otpVerify = async (req, res) => {
+    const log = req.context.logger.start("api:twilio:otpVerify");
+    try {
+        const data = await service.otpVerify(req.body, req.context);
+        log.end();
+        return response.success(res, data);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 exports.sendOtpSMS = sendOtpSMS;
+exports.otpVerify = otpVerify;

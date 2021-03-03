@@ -960,6 +960,11 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.twilio.sendOtpSMS
   );
+  app.post(
+    "/api/twilio/otpVerify",
+    permit.context.builder,
+    api.twilio.otpVerify
+  );
 
   log.end();
 };

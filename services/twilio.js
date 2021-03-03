@@ -13,7 +13,10 @@ const sendSms = async (phone, message) => {
             from: process.env.TWILIO_PHONE_NUMBER,
             to: phone
         })
-        .then(message => console.log(message.sid));
+        .then(message => console.log(message.sid))
+        .catch(err => {
+            console.log('err ', err);
+        })
 }
 
 
@@ -50,4 +53,34 @@ const sendOtpSMS = async (model, context) => {
     return data
 };
 
+
+const otpVerify = async (model, context) => {
+    const log = context.logger.start('services/users/otpVerified')
+    const otp = await auth.extractToken(model.otpToken, context)
+    if (!model.otpToken) {
+        throw new Error("otpToken is required");
+    }
+    if (otp.id != model.otp) {
+        throw new Error("please enter valid otp");;
+    }
+    if (otp.name === "TokenExpiredError") {
+        throw new Error("otp expired");
+    }
+    if (otp.name === "JsonWebTokenError") {
+        throw new Error("otp is invalid");
+    }
+    let user = await db.user.findById(model.userId);
+    if (model.phoneNumber !== "string" && model.phoneNumber !== undefined && model.phoneNumber !== '') {
+        user.phoneNumber = model.phoneNumber;
+    }
+    await user.save();
+
+    let data = {
+        message: 'otp verify successfully! your phone number is added',
+    }
+    log.end()
+    return data
+}
+
 exports.sendOtpSMS = sendOtpSMS;
+exports.otpVerify = otpVerify;
