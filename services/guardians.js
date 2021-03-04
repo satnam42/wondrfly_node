@@ -196,7 +196,7 @@ const sendOtp = async (model, context) => {
     }
     // let message = `Your 4 digit One Time Password: <br>${OTP}<br></br>
     //   otp valid only 4 minutes`
-    let = subject = "One Time Password"
+    let = subject = "Add Guardian"
     let templatePath = '../emailTemplates/guardian_otp.html';
 
     await sendOtpEmail(model.firstName, model.email, templatePath, subject, OTP);
