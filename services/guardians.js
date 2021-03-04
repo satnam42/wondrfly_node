@@ -196,7 +196,7 @@ const sendOtp = async (model, context) => {
     }
     // let message = `Your 4 digit One Time Password: <br>${OTP}<br></br>
     //   otp valid only 4 minutes`
-    let = subject = "Add Guardian"
+    let = subject = "Register Guardian"
     let templatePath = '../emailTemplates/guardian_otp.html';
 
     await sendOtpEmail(model.firstName, model.email, templatePath, subject, OTP);
@@ -204,7 +204,7 @@ const sendOtp = async (model, context) => {
 
     let otpToken = auth.getOtpToken(OTP, true, context)
     let data = {
-        message: 'OTP successfully sent on your email',
+        message: 'Please register guardian, link is sent on your email',
         otpToken: otpToken
     }
     log.end()
