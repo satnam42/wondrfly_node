@@ -182,6 +182,7 @@ const deleteGuardian = async (id, context) => {
 
 const sendOtp = async (model, context) => {
     const log = context.logger.start('services/users/sendOtp')
+    const { parentId } = model;
     const isEmail = await db.user.findOne({ email: { $eq: model.email } });
     if (isEmail) {
         throw new Error("Email already resgister");
