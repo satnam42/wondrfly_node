@@ -13,14 +13,7 @@ module.exports = [
                     schema: {
                         $ref: "#/definitions/guardianAdd"
                     }
-                },
-                {
-                    in: "header",
-                    name: "x-access-token",
-                    description: "token to access api",
-                    required: true,
-                    type: "string"
-                },
+                }
             ],
             responses: {
                 default: {

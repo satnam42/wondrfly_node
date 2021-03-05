@@ -480,7 +480,7 @@ const configure = (app, logger) => {
   //guardian routes
   app.post(
     "/api/guardians/add",
-    permit.context.requiresToken,
+    permit.context.builder,
     api.guardians.add
   );
   app.get(

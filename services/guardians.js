@@ -1,13 +1,14 @@
 const ObjectId = require("mongodb").ObjectID;
 const auth = require("../permit/auth");
 
-sendOtpEmail = async (firstName, email, templatePath, subject, OTP) => {
+sendOtpEmail = async (firstName, email, templatePath, subject, parentId) => {
     let mailBody = fs.readFileSync(path.join(__dirname, templatePath)).toString();
     mailBody = mailBody.replace(/{{firstname}}/g, firstName);
 
     if (OTP) {
         mailBody = mailBody.replace(/{{OTP}}/g, OTP);
     }
+
 
     let smtpTransport = nodemailer.createTransport({
         host: 'localhost',
@@ -44,7 +45,7 @@ sendOtpEmail = async (firstName, email, templatePath, subject, OTP) => {
     if (mailSent) {
         console.log("Message sent: %s", mailSent.messageId);
         console.log("Preview URL: %s", nodemailer.getTestMessageUrl(mailSent));
-        return
+        return mailSent
     } else {
         log.end()
         throw new Error("Unable to send email try after sometime");
@@ -94,32 +95,53 @@ const buildGuardian = async (model, context) => {
 
 const addGuardian = async (model, context) => {
     const log = context.logger.start("services:guardians:create");
+    if (!model.email) {
+        throw new Error("Email is required");
+    }
     const isEmail = await db.user.findOne({ email: { $eq: model.email } });
     if (isEmail) {
         throw new Error("Email already resgister");
     }
-    const otp = await auth.extractToken(model.otpToken, context)
-    if (!model.otpToken) {
-        throw new Error("otpToken is required");
+    const guardianEmail = await db.guardian.findOne({ email: { $eq: model.email } });
+    if (!guardianEmail) {
+        console.log('condition 1')
+        throw new Error("Please enter only verified email");
     }
-    if (otp.id != model.otp) {
-        throw new Error("please enter valid otp");;
+    if (guardianEmail.email !== model.email) {
+        console.log('condition 2')
+        throw new Error("Please enter only verified email");
     }
-    if (otp.name === "TokenExpiredError") {
-        throw new Error("otp expired");
-    }
-    if (otp.name === "JsonWebTokenError") {
-        throw new Error("otp is invalid");
-    }
+    // const otp = await auth.extractToken(model.otpToken, context)
+    // if (!model.otpToken) {
+    //     throw new Error("otpToken is required");
+    // }
+    // if (otp.id != model.otp) {
+    //     throw new Error("please enter valid otp");;
+    // }
+    // if (otp.name === "TokenExpiredError") {
+    //     throw new Error("otp expired");
+    // }
+    // if (otp.name === "JsonWebTokenError") {
+    //     throw new Error("otp is invalid");
+    // }
     const guardian = await buildGuardian(model, context);
-    if (guardian) {
-        await new db.guardian({
-            parent: model.parentId,
-            user: guardian.id,
-            createdOn: new Date(),
-            updatedOn: new Date()
-        }).save();
+    if (guardianEmail && guardian) {
+        guardianEmail.user = guardian.id;
+        await guardianEmail.save();
     }
+
+
+
+
+
+    // if (guardian) {
+    //     await new db.guardian({
+    //         parent: model.parentId,
+    //         user: guardian.id,
+    //         createdOn: new Date(),
+    //         updatedOn: new Date()
+    //     }).save();
+    // }
     log.end();
     return guardian;
 };
@@ -183,29 +205,44 @@ const deleteGuardian = async (id, context) => {
 const sendOtp = async (model, context) => {
     const log = context.logger.start('services/users/sendOtp')
     const { parentId } = model;
+    if (!model.email) {
+        throw new Error("Email is required");
+    }
+    if (!parentId) {
+        throw new Error("Parent id is required");
+    }
     const isEmail = await db.user.findOne({ email: { $eq: model.email } });
     if (isEmail) {
         throw new Error("Email already resgister");
     }
+    const isGuardianEmail = await db.guardian.findOne({ email: { $eq: model.email } });
+    if (isGuardianEmail) {
+        throw new Error("Email is already sent to register guardian at this email address");
+    }
 
     // four digit otp genration logic
-    var digits = '0123456789';
-    let OTP = '';
-    for (let i = 0; i < 4; i++) {
-        OTP += digits[Math.floor(Math.random() * 10)];
-    }
+    // var digits = '0123456789';
+    // let OTP = '';
+    // for (let i = 0; i < 4; i++) {
+    //     OTP += digits[Math.floor(Math.random() * 10)];
+    // }
     // let message = `Your 4 digit One Time Password: <br>${OTP}<br></br>
     //   otp valid only 4 minutes`
     let = subject = "Register Guardian"
     let templatePath = '../emailTemplates/guardian_otp.html';
 
-    await sendOtpEmail(model.firstName, model.email, templatePath, subject, OTP);
+    let mailsent = await sendOtpEmail(model.firstName, model.email, templatePath, subject, parentId);
     // await sendMail(email, message, subject)
-
-    let otpToken = auth.getOtpToken(OTP, true, context)
+    console.log('mail send====>>>>')
+    // let otpToken = auth.getOtpToken(OTP, true, context)
+    await new db.guardian({
+        parent: parentId,
+        email: model.email,
+        createdOn: new Date(),
+        updatedOn: new Date()
+    }).save();
     let data = {
         message: 'Please register guardian, link is sent on your email',
-        otpToken: otpToken
     }
     log.end()
     return data
