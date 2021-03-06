@@ -591,6 +591,25 @@ const govtId = async (model, context) => {
     return provider;
 };
 
+const deletePhoneNumber = async (userId, context) => {
+    const log = context.logger.start('services/users/deletePhoneNumber')
+    if (!userId) {
+        throw new Error("userId is required");
+    }
+    let user = await db.user.findById(userId);
+    if (!user) {
+        throw new Error("user is not found");
+    }
+    user.phoneNumber = '';
+    await user.save();
+
+    let data = {
+        message: 'Phone number is deleted'
+    }
+    log.end()
+    return data
+}
+
 exports.importProvider = importProvider;
 exports.getAllProvider = getAllProvider;
 exports.updateProvider = updateProvider;
@@ -605,3 +624,4 @@ exports.getDupicate = getDupicate;
 exports.margeDupicate = margeDupicate;
 exports.getProvidersByDate = getProvidersByDate;
 exports.govtId = govtId;
+exports.deletePhoneNumber = deletePhoneNumber;

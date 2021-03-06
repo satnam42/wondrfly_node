@@ -396,6 +396,12 @@ const configure = (app, logger) => {
     api.providers.govtId
   );
 
+  app.put(
+    "/api/providers/deletePhoneNumber",
+    permit.context.requiresToken,
+    api.providers.deletePhoneNumber
+  );
+
   //review routes//
   app.post(
     "/api/reviews/add",

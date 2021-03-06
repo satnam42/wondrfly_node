@@ -1,7 +1,7 @@
 const ObjectId = require("mongodb").ObjectID;
 const auth = require("../permit/auth");
 
-sendOtpEmail = async (firstName, email, templatePath, subject, parentId) => {
+sendOtpEmail = async (firstName, email, templatePath, subject) => {
     let mailBody = fs.readFileSync(path.join(__dirname, templatePath)).toString();
     mailBody = mailBody.replace(/{{firstname}}/g, firstName);
 
@@ -231,7 +231,7 @@ const sendOtp = async (model, context) => {
     let = subject = "Register Guardian"
     let templatePath = '../emailTemplates/guardian_otp.html';
 
-    let mailsent = await sendOtpEmail(model.firstName, model.email, templatePath, subject, parentId);
+    let mailsent = await sendOtpEmail(model.firstName, model.email, templatePath, subject);
     // await sendMail(email, message, subject)
     console.log('mail send====>>>>')
     // let otpToken = auth.getOtpToken(OTP, true, context)

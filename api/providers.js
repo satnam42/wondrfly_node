@@ -195,6 +195,19 @@ const govtId = async (req, res) => {
     }
 };
 
+const deletePhoneNumber = async (req, res) => {
+    const log = req.context.logger.start(`api:providers:deletePhoneNumber`);
+    try {
+        const user = await service.deletePhoneNumber(req.query.id, req.context);
+        log.end();
+        return response.data(res, user);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 exports.create = create;
 exports.list = list;
 exports.update = update;
@@ -209,3 +222,4 @@ exports.dublicateProviders = dublicateProviders;
 exports.margeDublicateProviders = margeDublicateProviders;
 exports.getProvidersByDate = getProvidersByDate;
 exports.govtId = govtId;
+exports.deletePhoneNumber = deletePhoneNumber;

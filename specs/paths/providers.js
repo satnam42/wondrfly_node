@@ -562,5 +562,37 @@ module.exports = [
                 }
             }
         }
+    },
+
+    {
+        url: "/deletePhoneNumber",
+        put: {
+            summary: "delete provider's phone number",
+            description: "delete provider's phone number",
+            parameters: [
+                {
+                    in: "query",
+                    type: "string",
+                    name: "id",
+                    description: "user id",
+                    required: true
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
     }
 ]

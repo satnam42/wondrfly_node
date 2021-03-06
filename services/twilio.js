@@ -19,20 +19,6 @@ const sendSms = async (phone, message) => {
         })
 }
 
-
-const build = async (model, context) => {
-    // const { fromDate, toDate, msg, email, alertFor, msgType } = model;
-    const log = context.logger.start(`services:twilio:build${model}`);
-    // const alert = await new db.alert({
-    //     email: email,
-    //     fromDate: fromDate,
-    //     createdOn: new Date(),
-    //     updateOn: new Date(),
-    // }).save();
-    // log.end();
-    // return ;
-};
-
 const sendOtpSMS = async (model, context) => {
     const log = context.logger.start("services:twilio:sendOtpSMS");
     // four digit otp genration logic
@@ -41,7 +27,6 @@ const sendOtpSMS = async (model, context) => {
     for (let i = 0; i < 6; i++) {
         OTP += digits[Math.floor(Math.random() * 10)];
     }
-    console.log('OTP =>>>', OTP);
     const welcomeMessage = `Welcome to Wondrfly! Your verification code is:  ${OTP}`;
     await sendSms(model.phoneNumber, welcomeMessage);
     let otpToken = auth.getOtpToken(OTP, true, context)
