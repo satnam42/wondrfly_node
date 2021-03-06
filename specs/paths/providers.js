@@ -566,7 +566,7 @@ module.exports = [
 
     {
         url: "/deletePhoneNumber",
-        put: {
+        post: {
             summary: "delete provider's phone number",
             description: "delete provider's phone number",
             parameters: [

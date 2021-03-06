@@ -396,7 +396,7 @@ const configure = (app, logger) => {
     api.providers.govtId
   );
 
-  app.put(
+  app.post(
     "/api/providers/deletePhoneNumber",
     permit.context.requiresToken,
     api.providers.deletePhoneNumber
