@@ -14,6 +14,7 @@ exports.toModel = entity => {
     firstName: user.firstName,
     lastName: user.lastName,
     phoneNumber: user.phoneNumber,
+    isPhoneVerified: user.isPhoneVerified,
     avatarImages: user.avatarImages ? baseUrl + user.avatarImages : '',
     email: user.email,
     isOnBoardingDone: user.isOnBoardingDone,
