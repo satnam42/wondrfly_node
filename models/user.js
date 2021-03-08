@@ -49,6 +49,7 @@ const user = mongoose.Schema({
     type: Date,
     required: false
   },
+  isPhoneVerified: { type: Boolean, default: false },
   disableAlert: { type: mongoose.Schema.Types.ObjectId, ref: 'alert' },
   totalPoints: { type: Number, default: 0 },
   rewardpointIds: [{ type: mongoose.Schema.Types.ObjectId, default: [], ref: 'rewardpoint' }],

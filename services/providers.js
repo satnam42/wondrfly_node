@@ -592,7 +592,7 @@ const govtId = async (model, context) => {
 };
 
 const deletePhoneNumber = async (userId, context) => {
-    const log = context.logger.start('services/users/deletePhoneNumber')
+    const log = context.logger.start('services/providers/deletePhoneNumber')
     if (!userId) {
         throw new Error("userId is required");
     }

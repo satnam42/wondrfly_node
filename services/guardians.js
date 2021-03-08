@@ -83,7 +83,7 @@ const buildGuardian = async (model, context) => {
         avtar: model.avtar,
         email: model.email,
         sex: model.sex,
-        password: '123456',
+        password: model.password,
         role: 'guardian',
         personalNote: model.personalNote,
         createdOn: new Date(),

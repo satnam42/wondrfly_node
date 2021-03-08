@@ -21,7 +21,7 @@ const sendSms = async (phone, message) => {
 
 const sendOtpSMS = async (model, context) => {
     const log = context.logger.start("services:twilio:sendOtpSMS");
-    // four digit otp genration logic
+    // six digit otp genration logic
     var digits = '0123456789';
     let OTP = '';
     for (let i = 0; i < 6; i++) {
@@ -58,10 +58,11 @@ const otpVerify = async (model, context) => {
     if (model.phoneNumber !== "string" && model.phoneNumber !== undefined && model.phoneNumber !== '') {
         user.phoneNumber = model.phoneNumber;
     }
+    user.isPhoneVerified = true;
     await user.save();
 
     let data = {
-        message: 'otp verify successfully! your phone number is added',
+        message: 'Phone number is verified successfully! your phone number is added',
     }
     log.end()
     return data
