@@ -849,6 +849,7 @@ const getProfileProgress = async (query, context) => {
   if (user.country !== "string" && user.country !== undefined && user.country !== "") {
     progress += 20
   }
+  console.log('==>>progress 1', progress)
   if (query.role == 'parent') {
     let children = await db.child.find({ parent: user.id })
     if (children.length > 1) {
@@ -879,6 +880,7 @@ const getProfileProgress = async (query, context) => {
           childCount++
         }
       });
+      console.log('progress 2', progress);
     }
   }
   if (query.role == 'provider') {
