@@ -601,6 +601,7 @@ const deletePhoneNumber = async (userId, context) => {
         throw new Error("user is not found");
     }
     user.phoneNumber = '';
+    user.isPhoneVerified = false;
     await user.save();
 
     let data = {
