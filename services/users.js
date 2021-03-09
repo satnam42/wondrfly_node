@@ -829,7 +829,7 @@ const getProfileProgress = async (query, context) => {
   if (!query.role) {
     throw new Error("user role not found");
   }
-  let progress = 20;
+  let progress = 10;
   let user = await db.user.findById(query.id);
   if (user.phoneNumber !== "string" && user.phoneNumber !== undefined && user.phoneNumber !== "") {
     progress += 10
@@ -847,7 +847,7 @@ const getProfileProgress = async (query, context) => {
     progress += 10
   }
   if (user.country !== "string" && user.country !== undefined && user.country !== "") {
-    progress += 20
+    progress += 10
   }
   console.log('==>>progress 1', progress)
   if (query.role == 'parent') {
