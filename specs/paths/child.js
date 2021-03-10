@@ -163,5 +163,37 @@ module.exports = [
             }
         }
     },
+    {
+        url: "/byGuardianId/{id}",
+        get: {
+            summary: "get children by guardian id",
+            description: "get children by guardian id",
+            parameters: [
+                {
+                    in: "path",
+                    name: "id",
+                    description: "guardian id",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    }
 
 ];

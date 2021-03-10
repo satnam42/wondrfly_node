@@ -76,9 +76,23 @@ const deleteChild = async (req, res) => {
     }
 };
 
+const childByGuardianId = async (req, res) => {
+    const log = req.context.logger.start(`api:child:childByGuardianId:${req.params.id}`);
+    try {
+        const children = await service.childByGuardianId(req.params.id, req.context);
+        log.end();
+        return response.data(res, children);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 exports.add = add;
 exports.list = list;
 exports.update = update;
 exports.childByParentId = childByParentId;
 exports.deleteChild = deleteChild;
+exports.childByGuardianId = childByGuardianId;
 

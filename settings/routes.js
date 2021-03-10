@@ -482,6 +482,11 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.child.deleteChild
   );
+  app.get(
+    "/api/child/byGuardianId/:id",
+    permit.context.requiresToken,
+    api.child.childByGuardianId
+  );
 
   //guardian routes
   app.post(

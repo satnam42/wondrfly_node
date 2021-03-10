@@ -148,6 +148,31 @@ const childByParentId = async (id, context) => {
     return finalchilds
 };
 
+const childByGuardianId = async (id, context) => {
+    const log = context.logger.start(`services:child:update`);
+    let guardian = await db.guardian.findOne({ user: id });
+    if (!guardian) {
+        throw new Error("Guardian does not exist");
+    }
+    let children = await db.child.find({ parent: guardian.parent }).populate('interestInfo')
+    let finalchilds = [];
+    if (!children) {
+        throw new Error("child Not Found");
+    }
+    children.forEach((child, index) => {
+        if (child.avtar) {
+            child.avtar = baseUrl + child.avtar;
+            finalchilds.push(child);
+        }
+        else {
+            finalchilds.push(child);
+        }
+
+    });
+    log.end();
+    return finalchilds
+};
+
 
 
 exports.addChild = addChild;
@@ -155,3 +180,4 @@ exports.getList = getList;
 exports.updateChild = updateChild;
 exports.childByParentId = childByParentId;
 exports.deleteChild = deleteChild
+exports.childByGuardianId = childByGuardianId
