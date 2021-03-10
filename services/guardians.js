@@ -1,5 +1,6 @@
 const ObjectId = require("mongodb").ObjectID;
 const auth = require("../permit/auth");
+const encrypt = require("../permit/crypto.js");
 
 sendOtpEmail = async (firstName, email, templatePath, subject) => {
     let mailBody = fs.readFileSync(path.join(__dirname, templatePath)).toString();
@@ -55,19 +56,19 @@ sendOtpEmail = async (firstName, email, templatePath, subject) => {
 const setGuardian = (model, guardian, context) => {
 
     const log = context.logger.start("services:guardians:set");
-    if (model.firstName !== "string" && model.firstName !== undefined) {
+    if (model.firstName !== "string" && model.firstName !== undefined && model.firstName !== '') {
         guardian.firstName = model.firstName;
     }
-    if (model.age !== "string" && model.age !== undefined) {
+    if (model.age !== "string" && model.age !== undefined && model.age !== '') {
         guardian.age = model.age;
     }
-    if (model.sex !== "string" && model.sex !== undefined) {
+    if (model.sex !== "string" && model.sex !== undefined && model.sex !== '') {
         guardian.sex = model.sex;
     }
-    if (model.avtar !== "string" && model.avtar !== undefined) {
+    if (model.avtar !== "string" && model.avtar !== undefined && model.avtar !== '') {
         guardian.avtar = model.avtar;
     }
-    if (model.personalNote !== "string" && model.personalNote !== undefined) {
+    if (model.personalNote !== "string" && model.personalNote !== undefined && model.personalNote !== '') {
         guardian.personalNote = model.personalNote;
     }
     guardian.updateOn = new Date()
@@ -78,6 +79,7 @@ const setGuardian = (model, guardian, context) => {
 
 const buildGuardian = async (model, context) => {
     const log = context.logger.start(`services:guardians:build${model}`);
+    console.log('model => build guardian ==>>>', model)
     const user = await new db.user({
         firstName: model.firstName,
         avtar: model.avtar,
@@ -124,6 +126,7 @@ const addGuardian = async (model, context) => {
     // if (otp.name === "JsonWebTokenError") {
     //     throw new Error("otp is invalid");
     // }
+    model.password = await encrypt.getHash(model.password, context);
     const guardian = await buildGuardian(model, context);
     if (guardianEmail && guardian) {
         guardianEmail.user = guardian.id;
