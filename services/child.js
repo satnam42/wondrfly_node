@@ -93,6 +93,8 @@ const addChild = async (model, context) => {
 const getList = async (query, context) => {
     const log = context.logger.start(`services:childs:get`);
     let childs = await db.child.find({})
+    childs.count = await db.child.count();
+
     log.end();
     return childs;
 };

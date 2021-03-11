@@ -1,6 +1,3 @@
-
-
-
 "use strict";
 const mongoose = require("mongoose");
 
@@ -31,7 +28,3 @@ const claim = mongoose.Schema({
 
 mongoose.model("claim", claim);
 module.exports = claim;
-
-
-
-

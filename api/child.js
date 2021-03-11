@@ -1,6 +1,7 @@
 "use strict";
 const service = require("../services/child");
 const response = require("../exchange/response");
+const childMapper = require("../mappers/child")
 
 
 const add = async (req, res) => {
@@ -26,7 +27,7 @@ const list = async (req, res) => {
         return response.page(
             message,
             res,
-            child,
+            childMapper.toSearchModel(child),
             Number(req.query.pageNo) || 1,
             Number(req.query.pageSize) || 10,
             child.count
