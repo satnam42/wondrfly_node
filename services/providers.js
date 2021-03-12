@@ -532,7 +532,7 @@ const getDupicate = async (model, context) => {
 const margeDupicate = async (model, context) => {
     const log = context.logger.start(`services:providers:margeDupicate`);
     if (!model.id) {
-        throw new Error(" Provider id is  Requried")
+        throw new Error("Provider id is  Requried")
     }
     if (!model.duplicateProvidreId) {
         throw new Error("duplicate Provider id is  Requried")

@@ -527,6 +527,10 @@ const getProgramsByProvider = async (query, context) => {
     if (!query.userId) {
         throw new Error("userId is  required");
     }
+    let user = await db.user.findById(query.userId)
+    if (!user) {
+        throw new Error("provider not found, So without provider programs not possible");
+    }
     let programs = await db.program.find({ user: query.userId }).sort({ createdOn: -1 }).populate('tags').skip(skipCount).limit(pageSize);
 
 

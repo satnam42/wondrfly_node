@@ -16,7 +16,7 @@ const createRequest = async (model, context) => {
     const log = context.logger.start("services:claims:createRequest");
     const claimRequest = await db.claim.findOne({ requestOn: model.requestOn, requestBy: model.requestBy })
     if (claimRequest) {
-        return "claim request register successfuly";
+        return "claim request already registered";
     }
     const claim = build(model, context);
     log.end();
@@ -46,6 +46,59 @@ const getRequestListByProvider = async (query, context) => {
     return claimsRequests;
 };
 
+// const actionOnRequest = async (id, model, context) => {
+//     const log = context.logger.start(`services:claims:actionOnRequest`);
+//     if (!id) {
+//         throw new Error("claim id not found");
+//     }
+//     let claim = await db.claim.findById(id)
+//     if (!claim) {
+//         throw new Error("claim request not found");
+//     }
+//     let user = await db.user.findById(model.requestOn)
+//     if (!user) {
+//         throw new Error("claim on provider not found");
+//     }
+
+//     const requestedUser = await db.user.findById(model.requestBy)
+
+//     if (requestedUser) {
+//         user.email = requestedUser.email
+//         user.password = requestedUser.password
+//     }
+
+//     else {
+//         throw new Error("requested user  not found");
+//     }
+
+//     if (model.status == 'approve') {
+
+//         const filter = { _id: model.requestBy };
+//         const update = {};
+//         update.email = ""
+//         update.password = ""
+//         update.isClaimed = true
+//         let isClaimed = await db.user.findOneAndUpdate(filter, { $set: update }, { new: true })
+
+//         if (isClaimed.email !== "") {
+//             throw new Error("something went wrong");
+//         }
+
+//         // claim.requestOn = model.requestBy
+//         claim.status = 'approve'
+//         claim.updatedOn = new Date()
+//         await claim.save()
+//         await user.save()
+//     }
+//     else {
+//         claim.status = 'reject'
+//         await claim.save()
+//     }
+//     log.end();
+//     return claim
+// };
+
+
 const actionOnRequest = async (id, model, context) => {
     const log = context.logger.start(`services:claims:actionOnRequest`);
     if (!id) {
@@ -55,40 +108,31 @@ const actionOnRequest = async (id, model, context) => {
     if (!claim) {
         throw new Error("claim request not found");
     }
-    let user = await db.user.findById(model.requestOn)
-    if (!user) {
+    let claimedUser = await db.user.findById(model.requestOn)
+    if (!claimedUser) {
         throw new Error("claim on provider not found");
     }
 
     const requestedUser = await db.user.findById(model.requestBy)
-
-    if (requestedUser) {
-        user.email = requestedUser.email
-        user.password = requestedUser.password
-    }
-
-    else {
+    if (!requestedUser) {
         throw new Error("requested user  not found");
     }
 
     if (model.status == 'approve') {
 
-        const filter = { _id: model.requestBy };
-        const update = {};
-        update.email = ""
-        update.password = ""
-        update.isClaimed = true
-        let isClaimed = await db.user.findOneAndUpdate(filter, { $set: update }, { new: true })
+        let claimedPrograms = await db.program.find({ user: model.requestOn })
+        claimedPrograms.forEach(async (progrm, index) => {
+            await db.program.findByIdAndUpdate(progrm.id, {
+                $set: {
+                    user: model.requestBy,
+                }
+            });
+        });
 
-        if (isClaimed.email !== "") {
-            throw new Error("something went wrong");
-        }
-
-        // claim.requestOn = model.requestBy
+        await db.user.deleteOne({ _id: model.requestOn });
         claim.status = 'approve'
         claim.updatedOn = new Date()
         await claim.save()
-        await user.save()
     }
     else {
         claim.status = 'reject'
