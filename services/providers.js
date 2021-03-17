@@ -213,6 +213,9 @@ const setBasicInfo = async (model, user, context) => {
     if (model.answer !== "string" && model.answer !== undefined) {
         user.answer = model.answer;
     }
+    if (model.interests.length) {
+        user.interests = model.interests;
+    }
     // user.lastModifiedBy = context.user.id
     user.updateOn = new Date()
     log.end()

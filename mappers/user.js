@@ -45,6 +45,7 @@ exports.toModel = entity => {
     isAmbassador: user.isAmbassador,
     isAmbassadorOn: user.isAmbassadorOn,
     token: user.token,
+    interests: user.interests,
     securityQuestion: user.securityQuestion,
     permissions: user.permissions || [],
     updatedOn: user.updatedOn,

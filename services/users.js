@@ -357,7 +357,7 @@ const register = async (model, context) => {
 
 const getById = async (id, context) => {
   const log = context.logger.start(`services:users:getById:${id}`);
-  const user = await db.user.findById(id);
+  const user = await db.user.findById(id).populate('interests');
   let data = {}
   if (!user) {
     throw new Error("user Not found");

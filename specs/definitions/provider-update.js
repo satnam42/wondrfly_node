@@ -67,6 +67,12 @@ module.exports = [
             isAmbassador: {
                 type: "boolean"
             },
+            interests: {
+                type: 'array',
+                items: {
+                    type: "string", default: ""
+                }
+            },
             city: { type: 'string', },
             country: { type: 'string', },
             state: { type: 'string', },
