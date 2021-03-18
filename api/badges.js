@@ -1,6 +1,7 @@
 "use strict";
 const service = require("../services/badges");
 const response = require("../exchange/response");
+const badgeMapper = require("../mappers/badge");
 
 
 const create = async (req, res) => {
@@ -21,7 +22,7 @@ const list = async (req, res) => {
     try {
         const badge = await service.getAllBadges(req.context);
         log.end();
-        return response.data(res, badge);
+        return response.data(res, badgeMapper.toSearchModel(badge));
     } catch (err) {
         log.error(err);
         log.end();

@@ -1,6 +1,7 @@
 "use strict";
 const service = require("../services/claims");
 const response = require("../exchange/response");
+const claimMapper = require("../mappers/claim");
 
 const request = async (req, res) => {
     const log = req.context.logger.start(`api:claims:create`);
@@ -20,7 +21,7 @@ const requestList = async (req, res) => {
     try {
         const claims = await service.getRequestList(req.context);
         log.end();
-        return response.data(res, claims);
+        return response.data(res, claimMapper.toSearchModel(claims));
     } catch (err) {
         log.error(err);
         log.end();
