@@ -141,6 +141,9 @@ const setProviderDetail = async (model, provider, context) => {
     if (model.logo !== "string" && model.logo !== undefined) {
         provider.logo = model.logo;
     }
+    if (model.healthAndSafety.length) {
+        provider.healthAndSafety = model.healthAndSafety
+    }
 
     provider.updateOn = new Date()
     log.end()
@@ -373,6 +376,7 @@ const addProvider = async (model, context) => {
             user: user._id,
             categories: model.categoryIds,
             website: model.website,
+            healthAndSafety: model.healthAndSafety,
             createdOn: new Date(),
             updateOn: new Date()
 

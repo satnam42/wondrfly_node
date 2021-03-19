@@ -33,6 +33,16 @@ const provider = mongoose.Schema({
     isAssociate: { type: String, default: "" },
     govtIdUrl: { type: String, default: "" },
     govtIdNote: { type: String, default: "" },
+    healthAndSafety: [{
+        socialDistancing: { type: Boolean, default: false },
+        cleaningProtocol: { type: Boolean, default: false },
+        temperatureScreening: { type: Boolean, default: false },
+        virtualTraining: { type: Boolean, default: false },
+        airFiltration: { type: Boolean, default: false },
+        classReservation: { type: Boolean, default: false },
+        _id: false
+    }],
+
     // tier: { type: String, default: "" },
     createdBy: { type: String, default: "" },
     adminNotes: { type: String, default: "" },

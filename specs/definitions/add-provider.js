@@ -61,6 +61,19 @@ module.exports = [
 
                 }
             },
+            healthAndSafety: {
+                type: 'array',
+                items: {
+                    properties: {
+                        socialDistancing: { type: 'boolean' },
+                        cleaningProtocol: { type: 'boolean' },
+                        temperatureScreening: { type: 'boolean' },
+                        virtualTraining: { type: 'boolean' },
+                        airFiltration: { type: 'boolean' },
+                        classReservation: { type: 'boolean' }
+                    }
+                }
+            },
 
         }
     }

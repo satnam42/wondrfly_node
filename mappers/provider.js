@@ -20,6 +20,7 @@ exports.toModel = (entity) => {
         awards: entity.awards || '',
         taxNumber: entity.taxNumber || '',
         workingFrom: entity.workingFrom || '',
+        healthAndSafety: entity.healthAndSafety || '',
         isAssociate: entity.isAssociate || '',
         tier: entity.tier || '',
         notes: entity.notes || '',

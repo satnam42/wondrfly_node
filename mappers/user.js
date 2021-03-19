@@ -73,6 +73,7 @@ exports.toModel = entity => {
       model.workingFrom = entity.provider.workingFrom || '',
       model.isAssociate = entity.provider.isAssociate || '',
       // model.tier= entity.provider.tier || '',
+      model.healthAndSafety = entity.provider.healthAndSafety || '',
       model.notes = entity.provider.notes || '',
       model.adminNotes = entity.provider.adminNotes || '',
       model.provider_logo = entity.provider_logo || ''
