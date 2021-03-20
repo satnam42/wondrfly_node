@@ -22,7 +22,6 @@ const list = async (req, res) => {
     try {
         const programs = await service.getAllprograms(req.query, req.context);
         let message = programs.count ? programs.count : 0 + " " + "programs Got";
-        console.log('programs get list ===>>>>>>>>>>>>', programs);
         log.end();
         return response.page(
             message,
@@ -33,7 +32,6 @@ const list = async (req, res) => {
             programs.count
         );
     } catch (err) {
-        console.log('error in program get list ===>>>>>>', err);
         log.error(err);
         log.end();
         return response.failure(res, err.message);

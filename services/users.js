@@ -654,7 +654,7 @@ const deleteUser = async (id, context) => {
   }
 
   else if (user !== null && user.role == 'provider' && user !== undefined) {
-    await db.program.deleteOne({ user: id })
+    await db.program.deleteMany({ user: id })
     await db.provider.deleteOne({ user: id })
     await db.user.deleteOne({ _id: id })
     let provider = await db.user.findById(id);
