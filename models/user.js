@@ -38,6 +38,8 @@ const user = mongoose.Schema({
   createdBy: { type: String, default: "" },
   note: { type: String, default: "" },
   profileCompleteEmail: { type: Boolean, default: false },
+  profileCompleteNotification: { type: Boolean, default: false },
+  notifications: [{ type: mongoose.Schema.Types.ObjectId, default: [], ref: 'notification' }],
   isAmbassador: { type: Boolean, default: false },
   isAmbassadorOn: { type: Date, default: Date.now },
   role: { type: String, default: "" },

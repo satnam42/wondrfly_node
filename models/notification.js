@@ -4,6 +4,11 @@ const notification = mongoose.Schema({
     title: { type: String, default: "" },
     count: { type: Number, default: "" },
     description: { type: String, default: "", required: true },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
     createdOn: { type: Date, default: Date.now },
     updatedOn: { type: Date, default: Date.now }
 });

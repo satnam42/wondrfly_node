@@ -45,9 +45,9 @@ const update = async (req, res) => {
 const deleteAlert = async (req, res) => {
     const log = req.context.logger.start(`api:alert:deleteAlert:${req.params.id}`);
     try {
-        const user = await service.deleteAlert(req.params.id, req.context);
+        const alert = await service.deleteAlert(req.params.id, req.context);
         log.end();
-        return response.data(res, user);
+        return response.data(res, alert);
     } catch (err) {
         log.error(err);
         log.end();
