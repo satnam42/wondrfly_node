@@ -242,6 +242,14 @@ const build = async (model, context) => {
         createdOn: new Date(),
         updateOn: new Date(),
     }).save();
+    const notification = await new db.notification({
+        title: 'creating program',
+        description: 'Congratulations! your program is created successfully',
+        profileCompleteNotification: true,
+        user: model.userId,
+        createdOn: new Date(),
+        updateOn: new Date(),
+    }).save();
 
     log.end();
     return program;

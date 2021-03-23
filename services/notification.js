@@ -5,6 +5,9 @@ const deleteNotification = async (query, context) => {
     if (!query.id) {
         throw new Error("notification id is required");
     }
+    if (!query.userId) {
+        throw new Error("user id is required");
+    }
     await db.notification.deleteOne({ _id: query.id, user: query.userId });
     log.end();
     return 'notification is removed'

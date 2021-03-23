@@ -48,7 +48,7 @@ exports.toModel = entity => {
     interests: user.interests,
     securityQuestion: user.securityQuestion,
     permissions: user.permissions || [],
-    notifications: user.notifications || [],
+    notices: entity.notifications ? entity.notifications : [],
     updatedOn: user.updatedOn,
     createdOn: user.createdOn,
   }

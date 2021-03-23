@@ -357,15 +357,21 @@ const register = async (model, context) => {
 
 const getById = async (id, context) => {
   const log = context.logger.start(`services:users:getById:${id}`);
-  const user = await db.user.findById(id).populate('interests').populate('notifications');
+  const user = await db.user.findById(id).populate('interests');
   let data = {}
   if (!user) {
     throw new Error("user Not found");
   }
+  let notification = {}
+  const notifications = await db.notification.find({ user: id });
+  notification.notifications = notifications
+  notification.count = await db.notification.count({ user: id });
+
   if (user.role == 'provider') {
     const provider = await db.provider.findOne({ user: id });
     data.user = user
     data.provider = provider
+    data.notifications = notification;
     log.end();
     return data;
   }
@@ -899,7 +905,7 @@ const getProfileProgress = async (query, context) => {
   if (user.role == 'provider' && user.profileCompleteNotification != true && progress >= 50) {
     const notification = await new db.notification({
       title: 'User Profile',
-      description: 'Congratulations! your profile is complete',
+      description: 'Congratulations! your profile is 50% complete',
       profileCompleteNotification: true,
       user: query.id,
       createdOn: new Date(),
@@ -910,10 +916,6 @@ const getProfileProgress = async (query, context) => {
         profileCompleteNotification: true,
       }
     })
-    await db.user.update(
-      { _id: query.id },
-      { $push: { notifications: notification._id } },
-    );
   }
   if (user.role == 'provider' && user.profileCompleteEmail != true && progress >= 50) {
     let templatePath = '../emailTemplates/complete_profile_provider.html';
