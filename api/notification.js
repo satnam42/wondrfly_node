@@ -1,3 +1,7 @@
+"use strict";
+const service = require("../services/notification");
+const response = require("../exchange/response");
+
 const showNotification = async (req, res) => {
     const log = req.context.logger.start(`api:notification:showNotification`);
     try {
@@ -12,9 +16,9 @@ const showNotification = async (req, res) => {
 };
 
 const deleteNotification = async (req, res) => {
-    const log = req.context.logger.start(`api:notification:deleteNotification:${req.params.id}`);
+    const log = req.context.logger.start(`api:notification:deleteNotification:${req.query.id}`);
     try {
-        const notification = await service.deleteNotification(req.params.id, req.context);
+        const notification = await service.deleteNotification(req.query, req.context);
         log.end();
         return response.data(res, notification);
     } catch (err) {

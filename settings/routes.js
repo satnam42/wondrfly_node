@@ -977,6 +977,13 @@ const configure = (app, logger) => {
     api.twilio.otpVerify
   );
 
+  //==============notification api's====================
+  app.delete(
+    "/api/notification/deleteNotification",
+    permit.context.requiresToken,
+    api.notification.deleteNotification
+  );
+
   log.end();
 };
 
