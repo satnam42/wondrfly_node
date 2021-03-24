@@ -618,6 +618,49 @@ const deletePhoneNumber = async (userId, context) => {
     return data
 }
 
+const isVerifiedOrNot = async (query, context) => {
+    const log = context.logger.start(`services:providers:isVerifiedOrNot`);
+    let pageNo = Number(query.pageNo) || 1;
+    let pageSize = Number(query.pageSize) || 10;
+    let skipCount = pageSize * (pageNo - 1);
+    const providers = await db.user.find({ role: 'provider' }).sort({ date: -1 }).skip(skipCount).limit(pageSize);
+    let finalProviders = [];
+    if (query.type == 'verified') {
+        providers.forEach((providr, index) => {
+            if (providr.firstName != '' && providr.firstName != "string" && providr.phoneNumber != '' && providr.phoneNumber != "string"
+                && providr.addressLine1 != '' && providr.addressLine1 != "string" && providr.city != '' && providr.city != "string"
+                && providr.state != '' && providr.state != "string"
+                && providr.country != '' && providr.country != "string") {
+                finalProviders.push(providr);
+            }
+            else {
+                console.log('');
+            }
+        })
+    }
+    if (query.type == 'unverified') {
+        providers.forEach((providr, index) => {
+            if (providr.firstName == '' || providr.firstName == "string" || providr.phoneNumber == '' || providr.phoneNumber == "string"
+                || providr.addressLine1 == '' || providr.addressLine1 == "string" || providr.city == '' || providr.city == "string"
+                || providr.state == '' || providr.state == "string"
+                || providr.country == '' || providr.country == "string") {
+                finalProviders.push(providr);
+            }
+            else {
+                console.log('');
+            }
+        })
+    }
+
+    let count = await finalProviders.length;
+    let data = {
+        count,
+        providers: finalProviders
+    }
+    log.end();
+    return data;
+};
+
 exports.importProvider = importProvider;
 exports.getAllProvider = getAllProvider;
 exports.updateProvider = updateProvider;
@@ -633,3 +676,4 @@ exports.margeDupicate = margeDupicate;
 exports.getProvidersByDate = getProvidersByDate;
 exports.govtId = govtId;
 exports.deletePhoneNumber = deletePhoneNumber;
+exports.isVerifiedOrNot = isVerifiedOrNot;

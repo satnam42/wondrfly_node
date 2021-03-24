@@ -594,5 +594,51 @@ module.exports = [
                 }
             }
         }
+    },
+
+    {
+        url: "/isVerifiedOrNot",
+        get: {
+            summary: "get list of verified or unverified providers",
+            description: "get provider list of verified or unverified providers",
+            parameters: [
+                {
+                    in: "query",
+                    type: "integer",
+                    name: "pageNo",
+                    description: "pageNo",
+                    required: true
+                },
+                {
+                    in: "query",
+                    type: "integer",
+                    name: "pageSize",
+                    description: "pageSize",
+                    required: true
+                },
+                {
+                    in: "query",
+                    type: "string",
+                    name: "type",
+                    description: "type can be verified or unverified",
+                    required: true
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
     }
 ]

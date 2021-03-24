@@ -402,6 +402,12 @@ const configure = (app, logger) => {
     api.providers.deletePhoneNumber
   );
 
+  app.get(
+    "/api/providers/isVerifiedOrNot",
+    permit.context.requiresToken,
+    api.providers.isVerifiedOrNot
+  );
+
   //review routes//
   app.post(
     "/api/reviews/add",
