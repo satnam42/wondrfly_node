@@ -28,7 +28,7 @@ const buildUser = async (model, context) => {
         role: 'provider',
         addressLine1: model.addressLine1,
         addressLine2: model.addressLine2,
-        isProviderVerified: isVerified,
+        isUserVerified: isVerified,
         street: model.street,
         state: model.state,
         lng: model.lng,
@@ -171,7 +171,7 @@ const setBasicInfo = async (model, user, context) => {
         user.city != '' && user.city != "string" || model.city != '' && model.city != "string" &&
         user.state != '' && user.state != "string" || model.state != '' && model.state != "string" &&
         user.country != '' && user.country != "string" || model.country != '' && model.country != "string") {
-        user.isProviderVerified = true;
+        user.isUserVerified = true;
     }
     if (model.firstName !== "string" && model.firstName !== undefined) {
         user.firstName = model.firstName;
@@ -642,12 +642,12 @@ const isVerifiedOrNot = async (query, context) => {
     let skipCount = pageSize * (pageNo - 1);
     let providers;
     if (query.type == 'verified') {
-        providers = await db.user.find({ role: 'provider', isProviderVerified: true }).sort({ date: -1 }).skip(skipCount).limit(pageSize);
-        providers.count = await db.user.find({ role: 'provider', isProviderVerified: true }).count()
+        providers = await db.user.find({ role: 'provider', isUserVerified: true }).sort({ date: -1 }).skip(skipCount).limit(pageSize);
+        providers.count = await db.user.find({ role: 'provider', isUserVerified: true }).count()
     }
     if (query.type == 'unverified') {
-        providers = await db.user.find({ role: 'provider', isProviderVerified: false }).sort({ date: -1 }).skip(skipCount).limit(pageSize);
-        providers.count = await db.user.find({ role: 'provider', isProviderVerified: false }).count()
+        providers = await db.user.find({ role: 'provider', isUserVerified: false }).sort({ date: -1 }).skip(skipCount).limit(pageSize);
+        providers.count = await db.user.find({ role: 'provider', isUserVerified: false }).count()
     }
     // let finalProviders = [];
     // if (query.type == 'verified') {

@@ -40,7 +40,7 @@ const user = mongoose.Schema({
   profileCompleteEmail: { type: Boolean, default: false },
   profileCompleteNotification: { type: Boolean, default: false },
   isAmbassador: { type: Boolean, default: false },
-  isProviderVerified: { type: Boolean, default: false },
+  isUserVerified: { type: Boolean, default: false },
   isAmbassadorOn: { type: Date, default: Date.now },
   role: { type: String, default: "" },
   resetPasswordToken: {
