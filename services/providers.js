@@ -165,12 +165,12 @@ const setProviderDetail = async (model, provider, context) => {
 
 const setBasicInfo = async (model, user, context) => {
     const log = context.logger.start("services:providers:set");
-    if (user.firstName != '' && user.firstName != "string" || model.firstName != '' && model.firstName != "string" &&
-        user.phoneNumber != '' && user.phoneNumber != "string" || model.phoneNumber != '' && model.phoneNumber != "string" &&
-        user.addressLine1 != '' && user.addressLine1 != "string" || model.addressLine1 != '' && model.addressLine1 != "string" &&
-        user.city != '' && user.city != "string" || model.city != '' && model.city != "string" &&
-        user.state != '' && user.state != "string" || model.state != '' && model.state != "string" &&
-        user.country != '' && user.country != "string" || model.country != '' && model.country != "string") {
+    if (model.firstName != '' && model.firstName != "string" &&
+        model.phoneNumber != '' && model.phoneNumber != "string" &&
+        model.addressLine1 != '' && model.addressLine1 != "string" &&
+        model.city != '' && model.city != "string" &&
+        model.state != '' && model.state != "string" &&
+        model.country != '' && model.country != "string") {
         user.isUserVerified = true;
     }
     if (model.firstName !== "string" && model.firstName !== undefined) {
@@ -649,39 +649,6 @@ const isVerifiedOrNot = async (query, context) => {
         providers = await db.user.find({ role: 'provider', isUserVerified: false }).sort({ date: -1 }).skip(skipCount).limit(pageSize);
         providers.count = await db.user.find({ role: 'provider', isUserVerified: false }).count()
     }
-    // let finalProviders = [];
-    // if (query.type == 'verified') {
-    //     providers.forEach((providr, index) => {
-    //         if (providr.firstName != '' && providr.firstName != "string" && providr.phoneNumber != '' && providr.phoneNumber != "string"
-    //             && providr.addressLine1 != '' && providr.addressLine1 != "string" && providr.city != '' && providr.city != "string"
-    //             && providr.state != '' && providr.state != "string"
-    //             && providr.country != '' && providr.country != "string") {
-    //             finalProviders.push(providr);
-    //         }
-    //         else {
-    //             console.log('');
-    //         }
-    //     })
-    // }
-    // if (query.type == 'unverified') {
-    //     providers.forEach((providr, index) => {
-    //         if (providr.firstName == '' || providr.firstName == "string" || providr.phoneNumber == '' || providr.phoneNumber == "string"
-    //             || providr.addressLine1 == '' || providr.addressLine1 == "string" || providr.city == '' || providr.city == "string"
-    //             || providr.state == '' || providr.state == "string"
-    //             || providr.country == '' || providr.country == "string") {
-    //             finalProviders.push(providr);
-    //         }
-    //         else {
-    //             console.log('');
-    //         }
-    //     })
-    // }
-
-    // let count = await finalProviders.length;
-    // let data = {
-    //     count,
-    //     providers: finalProviders
-    // }
     log.end();
     return providers;
 };
