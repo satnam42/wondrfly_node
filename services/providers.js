@@ -620,9 +620,9 @@ const deletePhoneNumber = async (userId, context) => {
 
 const isVerifiedOrNot = async (query, context) => {
     const log = context.logger.start(`services:providers:isVerifiedOrNot`);
-    let pageNo = Number(query.pageNo) || 1;
-    let pageSize = Number(query.pageSize) || 10;
-    let skipCount = pageSize * (pageNo - 1);
+    // let pageNo = Number(query.pageNo) || 1;
+    // let pageSize = Number(query.pageSize) || 10;
+    // let skipCount = pageSize * (pageNo - 1);
     // const providers = await db.user.find({ role: 'provider' }).sort({ date: -1 }).skip(skipCount).limit(pageSize);
     const providers = await db.user.find({ role: 'provider' })
     let finalProviders = [];

@@ -604,20 +604,6 @@ module.exports = [
             parameters: [
                 {
                     in: "query",
-                    type: "integer",
-                    name: "pageNo",
-                    description: "pageNo",
-                    required: true
-                },
-                {
-                    in: "query",
-                    type: "integer",
-                    name: "pageSize",
-                    description: "pageSize",
-                    required: true
-                },
-                {
-                    in: "query",
                     type: "string",
                     name: "type",
                     description: "type can be verified or unverified",
