@@ -623,7 +623,8 @@ const isVerifiedOrNot = async (query, context) => {
     let pageNo = Number(query.pageNo) || 1;
     let pageSize = Number(query.pageSize) || 10;
     let skipCount = pageSize * (pageNo - 1);
-    const providers = await db.user.find({ role: 'provider' }).sort({ date: -1 }).skip(skipCount).limit(pageSize);
+    // const providers = await db.user.find({ role: 'provider' }).sort({ date: -1 }).skip(skipCount).limit(pageSize);
+    const providers = await db.user.find({ role: 'provider' })
     let finalProviders = [];
     if (query.type == 'verified') {
         providers.forEach((providr, index) => {
