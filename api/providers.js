@@ -214,9 +214,13 @@ const isVerifiedOrNot = async (req, res) => {
         const providers = await service.isVerifiedOrNot(req.query, req.context);
         let message = providers.count ? providers.count : 0 + " " + "providers Got";
         log.end();
-        return response.data(
+        return response.page(
+            message,
             res,
             providers,
+            Number(req.query.pageNo) || 1,
+            Number(req.query.pageSize) || 10,
+            providers.count
         );
         // return response.data(res, providers);
     } catch (err) {

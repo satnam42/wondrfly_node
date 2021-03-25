@@ -11,6 +11,14 @@ const ObjectId = require("mongodb").ObjectID;
 const moment = require('moment');
 const buildUser = async (model, context) => {
     const log = context.logger.start(`services:users:buildUser${model}`);
+    let isVerified = false
+    if (model.firstName != '' && model.firstName != "string" && model.phoneNumber != '' && model.phoneNumber != "string"
+        && model.addressLine1 != '' && model.addressLine1 != "string" && model.city != '' && model.city != "string"
+        && model.state != '' && model.state != "string"
+        && model.country != '' && model.country != "string") {
+        isVerified = true;
+    }
+
     const user = await new db.user({
         firstName: model.firstName,
         type: model.type || '',
@@ -20,6 +28,7 @@ const buildUser = async (model, context) => {
         role: 'provider',
         addressLine1: model.addressLine1,
         addressLine2: model.addressLine2,
+        isProviderVerified: isVerified,
         street: model.street,
         state: model.state,
         lng: model.lng,
@@ -156,6 +165,14 @@ const setProviderDetail = async (model, provider, context) => {
 
 const setBasicInfo = async (model, user, context) => {
     const log = context.logger.start("services:providers:set");
+    if (user.firstName != '' && user.firstName != "string" || model.firstName != '' && model.firstName != "string" &&
+        user.phoneNumber != '' && user.phoneNumber != "string" || model.phoneNumber != '' && model.phoneNumber != "string" &&
+        user.addressLine1 != '' && user.addressLine1 != "string" || model.addressLine1 != '' && model.addressLine1 != "string" &&
+        user.city != '' && user.city != "string" || model.city != '' && model.city != "string" &&
+        user.state != '' && user.state != "string" || model.state != '' && model.state != "string" &&
+        user.country != '' && user.country != "string" || model.country != '' && model.country != "string") {
+        user.isProviderVerified = true;
+    }
     if (model.firstName !== "string" && model.firstName !== undefined) {
         user.firstName = model.firstName;
     }
@@ -620,46 +637,53 @@ const deletePhoneNumber = async (userId, context) => {
 
 const isVerifiedOrNot = async (query, context) => {
     const log = context.logger.start(`services:providers:isVerifiedOrNot`);
-    // let pageNo = Number(query.pageNo) || 1;
-    // let pageSize = Number(query.pageSize) || 10;
-    // let skipCount = pageSize * (pageNo - 1);
-    // const providers = await db.user.find({ role: 'provider' }).sort({ date: -1 }).skip(skipCount).limit(pageSize);
-    const providers = await db.user.find({ role: 'provider' })
-    let finalProviders = [];
+    let pageNo = Number(query.pageNo) || 1;
+    let pageSize = Number(query.pageSize) || 10;
+    let skipCount = pageSize * (pageNo - 1);
+    let providers;
     if (query.type == 'verified') {
-        providers.forEach((providr, index) => {
-            if (providr.firstName != '' && providr.firstName != "string" && providr.phoneNumber != '' && providr.phoneNumber != "string"
-                && providr.addressLine1 != '' && providr.addressLine1 != "string" && providr.city != '' && providr.city != "string"
-                && providr.state != '' && providr.state != "string"
-                && providr.country != '' && providr.country != "string") {
-                finalProviders.push(providr);
-            }
-            else {
-                console.log('');
-            }
-        })
+        providers = await db.user.find({ role: 'provider', isProviderVerified: true }).sort({ date: -1 }).skip(skipCount).limit(pageSize);
+        providers.count = await db.user.find({ role: 'provider', isProviderVerified: true }).count()
     }
     if (query.type == 'unverified') {
-        providers.forEach((providr, index) => {
-            if (providr.firstName == '' || providr.firstName == "string" || providr.phoneNumber == '' || providr.phoneNumber == "string"
-                || providr.addressLine1 == '' || providr.addressLine1 == "string" || providr.city == '' || providr.city == "string"
-                || providr.state == '' || providr.state == "string"
-                || providr.country == '' || providr.country == "string") {
-                finalProviders.push(providr);
-            }
-            else {
-                console.log('');
-            }
-        })
+        providers = await db.user.find({ role: 'provider', isProviderVerified: false }).sort({ date: -1 }).skip(skipCount).limit(pageSize);
+        providers.count = await db.user.find({ role: 'provider', isProviderVerified: false }).count()
     }
+    // let finalProviders = [];
+    // if (query.type == 'verified') {
+    //     providers.forEach((providr, index) => {
+    //         if (providr.firstName != '' && providr.firstName != "string" && providr.phoneNumber != '' && providr.phoneNumber != "string"
+    //             && providr.addressLine1 != '' && providr.addressLine1 != "string" && providr.city != '' && providr.city != "string"
+    //             && providr.state != '' && providr.state != "string"
+    //             && providr.country != '' && providr.country != "string") {
+    //             finalProviders.push(providr);
+    //         }
+    //         else {
+    //             console.log('');
+    //         }
+    //     })
+    // }
+    // if (query.type == 'unverified') {
+    //     providers.forEach((providr, index) => {
+    //         if (providr.firstName == '' || providr.firstName == "string" || providr.phoneNumber == '' || providr.phoneNumber == "string"
+    //             || providr.addressLine1 == '' || providr.addressLine1 == "string" || providr.city == '' || providr.city == "string"
+    //             || providr.state == '' || providr.state == "string"
+    //             || providr.country == '' || providr.country == "string") {
+    //             finalProviders.push(providr);
+    //         }
+    //         else {
+    //             console.log('');
+    //         }
+    //     })
+    // }
 
-    let count = await finalProviders.length;
-    let data = {
-        count,
-        providers: finalProviders
-    }
+    // let count = await finalProviders.length;
+    // let data = {
+    //     count,
+    //     providers: finalProviders
+    // }
     log.end();
-    return data;
+    return providers;
 };
 
 exports.importProvider = importProvider;
