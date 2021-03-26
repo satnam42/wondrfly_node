@@ -649,6 +649,37 @@ const isVerifiedOrNot = async (query, context) => {
         providers = await db.user.find({ role: 'provider', isUserVerified: false }).sort({ date: -1 }).skip(skipCount).limit(pageSize);
         providers.count = await db.user.find({ role: 'provider', isUserVerified: false }).count()
     }
+
+
+    providers.forEach((user, index) => {
+        let progress = 20;
+        if (user.phoneNumber !== "string" && user.phoneNumber !== undefined && user.phoneNumber !== "") {
+            progress += 10
+        }
+        if (user.avatarImages !== "string" && user.avatarImages !== undefined && user.avatarImages !== "") {
+            progress += 10
+        }
+        if (user.addressLine1 !== "string" && user.addressLine1 !== undefined && user.addressLine1 !== "") {
+            progress += 10
+        }
+        if (user.city !== "string" && user.city !== undefined && user.city !== "") {
+            progress += 10
+        }
+        if (user.state !== "string" && user.state !== undefined && user.state !== "") {
+            progress += 10
+        }
+        if (user.country !== "string" && user.country !== undefined && user.country !== "") {
+            progress += 10
+        }
+        let objUser = user;
+        providers.splice(index, 1);
+
+        objUser.progress = progress;
+        providers.splice(index, 0,
+            objUser
+        );
+    })
+
     log.end();
     return providers;
 };

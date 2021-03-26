@@ -1,7 +1,7 @@
 "use strict";
 const service = require("../services/providers");
 const response = require("../exchange/response");
-const mapper = require("../mappers/provider")
+const userMapper = require("../mappers/user");
 
 const create = async (req, res) => {
     const log = req.context.logger.start(`api:provider:create`);
@@ -217,7 +217,7 @@ const isVerifiedOrNot = async (req, res) => {
         return response.page(
             message,
             res,
-            providers,
+            userMapper.toSearchModel(providers),
             Number(req.query.pageNo) || 1,
             Number(req.query.pageSize) || 10,
             providers.count

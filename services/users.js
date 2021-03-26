@@ -416,6 +416,15 @@ const get = async (query, context) => {
         if (user.addressLine1 !== "string" && user.addressLine1 !== undefined && user.addressLine1 !== "") {
           progress += 10
         }
+        if (user.city !== "string" && user.city !== undefined && user.city !== "") {
+          progress += 10
+        }
+        if (user.state !== "string" && user.state !== undefined && user.state !== "") {
+          progress += 10
+        }
+        if (user.country !== "string" && user.country !== undefined && user.country !== "") {
+          progress += 10
+        }
         let objUser = user;
         users.splice(index, 1);
 
