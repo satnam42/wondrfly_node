@@ -42,6 +42,7 @@ exports.toModel = entity => {
     disableAlert: user.disableAlert,
     totalPoints: user.totalPoints,
     progress: user.progress,
+    isUserVerified: user.isUserVerified,
     isAmbassador: user.isAmbassador,
     isAmbassadorOn: user.isAmbassadorOn,
     token: user.token,
