@@ -539,7 +539,36 @@ const getProgramsByProvider = async (query, context) => {
     if (!user) {
         throw new Error("provider not found, So without provider programs not possible");
     }
-    let programs = await db.program.find({ user: query.userId }).sort({ createdOn: -1 }).populate('tags').skip(skipCount).limit(pageSize);
+    // let programs = await db.program.find({ user: query.userId }).sort({ createdOn: -1 }).populate('tags').skip(skipCount).limit(pageSize);
+
+    const programs = await db.program.aggregate([
+        {
+            $match:
+            {
+                user: ObjectId(query.userId)
+            }
+        },
+        {
+            $lookup:
+            {
+                from: "categories",
+                localField: "categoryId",
+                foreignField: "_id",
+                as: "category"
+            }
+        },
+        {
+            $lookup:
+            {
+                from: "providers",
+                localField: "user",
+                foreignField: "user",
+                as: "provider"
+            }
+        },
+        { "$limit": pageSize },
+        { "$skip": skipCount }
+    ])
 
 
     programs.count = await db.program.find({ user: query.userId }).count();

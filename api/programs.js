@@ -108,7 +108,7 @@ const programsByProvider = async (req, res) => {
     try {
         const programs = await service.getProgramsByProvider(req.query, req.context);
         log.end();
-        return response.data(res, programs);
+        return response.data(res, mapper.toSearchModel(programs));
     } catch (err) {
         log.error(err);
         log.end();
