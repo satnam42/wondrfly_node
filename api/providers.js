@@ -230,6 +230,19 @@ const isVerifiedOrNot = async (req, res) => {
     }
 };
 
+const searchVerifiedOrUnverified = async (req, res) => {
+    const log = req.context.logger.start(`api:providers:searchVerifiedOrUnverified:${req.query}`);
+    try {
+        const providers = await service.searchVerifiedOrUnverified(req.query, req.context);
+        log.end();
+        return response.data(res, userMapper.toSearchModel(providers));
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 exports.create = create;
 exports.list = list;
 exports.update = update;
@@ -246,3 +259,4 @@ exports.getProvidersByDate = getProvidersByDate;
 exports.govtId = govtId;
 exports.deletePhoneNumber = deletePhoneNumber;
 exports.isVerifiedOrNot = isVerifiedOrNot;
+exports.searchVerifiedOrUnverified = searchVerifiedOrUnverified

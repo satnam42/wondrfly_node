@@ -684,6 +684,60 @@ const isVerifiedOrNot = async (query, context) => {
     return providers;
 };
 
+const searchVerifiedOrUnverified = async (query, context) => {
+    const log = context.logger.start(`services:providers:searchVerifiedOrUnverified`);
+
+    if (!query.name) {
+        throw new Error("name is required");
+    }
+    let providers
+    if (query.type == 'verified') {
+        providers = await db.user.find({ firstName: { "$regex": '.*' + query.name + '.*', "$options": 'i' }, isUserVerified: true, role: 'provider' }
+        ).limit(5);
+    }
+    if (query.type == 'unverified') {
+        providers = await db.user.find({ firstName: { "$regex": '.*' + query.name + '.*', "$options": 'i' }, isUserVerified: false, role: 'provider' }
+        ).limit(5);
+    }
+
+
+    if (providers.length < 1) {
+        throw new Error("provider not found");
+    }
+
+
+    providers.forEach((user, index) => {
+        let progress = 20;
+        if (user.phoneNumber !== "string" && user.phoneNumber !== undefined && user.phoneNumber !== "") {
+            progress += 10
+        }
+        if (user.avatarImages !== "string" && user.avatarImages !== undefined && user.avatarImages !== "") {
+            progress += 10
+        }
+        if (user.addressLine1 !== "string" && user.addressLine1 !== undefined && user.addressLine1 !== "") {
+            progress += 10
+        }
+        if (user.city !== "string" && user.city !== undefined && user.city !== "") {
+            progress += 10
+        }
+        if (user.state !== "string" && user.state !== undefined && user.state !== "") {
+            progress += 10
+        }
+        if (user.country !== "string" && user.country !== undefined && user.country !== "") {
+            progress += 10
+        }
+        let objUser = user;
+        providers.splice(index, 1);
+
+        objUser.progress = progress;
+        providers.splice(index, 0,
+            objUser
+        );
+    })
+    log.end();
+    return providers;
+};
+
 exports.importProvider = importProvider;
 exports.getAllProvider = getAllProvider;
 exports.updateProvider = updateProvider;
@@ -700,3 +754,4 @@ exports.getProvidersByDate = getProvidersByDate;
 exports.govtId = govtId;
 exports.deletePhoneNumber = deletePhoneNumber;
 exports.isVerifiedOrNot = isVerifiedOrNot;
+exports.searchVerifiedOrUnverified = searchVerifiedOrUnverified;

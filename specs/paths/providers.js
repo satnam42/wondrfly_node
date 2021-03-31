@@ -640,5 +640,44 @@ module.exports = [
                 }
             }
         }
+    },
+
+    {
+        url: "/searchVerifiedOrUnverified",
+        get: {
+            summary: "search Verified Or Unverified provider",
+            description: "search verified or unverified provider by name",
+            parameters: [
+                {
+                    in: "query",
+                    name: "name",
+                    description: "name",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "query",
+                    name: "type",
+                    description: "type can be verified or unverified",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                },
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
     }
 ]

@@ -408,6 +408,12 @@ const configure = (app, logger) => {
     api.providers.isVerifiedOrNot
   );
 
+  app.get(
+    "/api/providers/searchVerifiedOrUnverified",
+    permit.context.requiresToken,
+    api.providers.searchVerifiedOrUnverified
+  );
+
   //review routes//
   app.post(
     "/api/reviews/add",
