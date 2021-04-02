@@ -987,7 +987,6 @@ const listPublishOrUnpublish = async (query, context) => {
     let skipCount = pageSize * (pageNo - 1);
     let programs
     if (query.programType == 'published') {
-        // programs = await db.program.find({ isPublished: true }).sort({ createdOn: -1 }).populate('tags').skip(skipCount).limit(pageSize);
         const programs = await db.program.aggregate([
             {
                 $match:
