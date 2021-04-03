@@ -996,6 +996,18 @@ const configure = (app, logger) => {
     api.notification.deleteNotification
   );
 
+  //==============search History api's====================
+  app.post(
+    "/api/searchHistory/create",
+    permit.context.builder,
+    api.searchHistory.create
+  );
+  app.get(
+    "/api/searchHistory/getsearcHistoryOfUser",
+    permit.context.builder,
+    api.searchHistory.getsearcHistoryOfUser
+  );
+
   log.end();
 };
 
