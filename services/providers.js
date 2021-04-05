@@ -218,6 +218,9 @@ const setBasicInfo = async (model, user, context) => {
     if (model.lng !== "string" && model.lng !== undefined) {
         user.lng = model.lng;
     }
+    if (model.location !== "string" && model.location !== undefined) {
+        user.location = model.location;
+    }
     if (model.isAmbassador !== "string" && model.isAmbassador !== undefined) {
         user.isAmbassador = model.isAmbassador;
     }

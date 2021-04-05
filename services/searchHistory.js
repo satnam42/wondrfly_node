@@ -1,10 +1,7 @@
 "use strict";
 
-const { query } = require("express");
-
 const create = async (model, context) => {
     const log = context.logger.start("services:searchHistory:create");
-    db.searchHistory.update({ _id: 1 }, { $pop: { searchhistories: -1 } })
     const search = await new db.searchHistory({
         user: model.userId,
         searchData: model.searchData,

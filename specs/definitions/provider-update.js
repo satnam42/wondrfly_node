@@ -35,6 +35,9 @@ module.exports = [
             instagram: {
                 type: 'string'
             },
+            linkedin: {
+                type: 'string'
+            },
             addressLine1: {
                 type: 'string'
             },
@@ -91,6 +94,7 @@ module.exports = [
             state: { type: 'string', },
             street: { type: 'string', },
             source: { type: 'string', },
+            location: { type: 'string', },
             note: { type: 'string', },
             securityQuestion: { type: 'string', },
             answer: { type: 'string', },

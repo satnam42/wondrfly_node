@@ -21,6 +21,7 @@ const user = mongoose.Schema({
   zipCode: { type: String, default: "" },
   lat: { type: String, default: "" },
   lng: { type: String, default: "" },
+  location: { type: String, default: "" },
   stripeToken: { type: String, default: "" },
   stripeKey: { type: String, default: "" },
   lastLoggedIn: { type: Date, default: "" },
