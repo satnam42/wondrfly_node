@@ -180,6 +180,12 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.users.search
   );
+  app.post(
+    "/api/users/facebook/login",
+    permit.context.builder,
+    // validator.users.login,
+    api.users.facebookLogin
+  );
 
   ////////events routes//////////
 

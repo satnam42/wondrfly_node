@@ -975,6 +975,48 @@ const search = async (query, context) => {
   return users;
 };
 
+
+const buildFBUser = async (model, context) => {
+  const { facebookId, firstName, lastName, email } = model;
+  const log = context.logger.start(`services:users:build${model}`);
+
+  let emailId
+  if (email) {
+    emailId = email.toLowerCase();
+  }
+  let userModel = {
+    email: emailId,
+    facebookId: facebookId,
+    firstName: firstName,
+    lastName: lastName,
+    createdOn: new Date(),
+    updatedOn: new Date()
+  }
+  const user = await new db.user(userModel).save();
+  log.end();
+  return user;
+};
+
+
+const facebookLogin = async (model, context) => {
+  const log = context.logger.start("services:users:facebookLogin");
+
+  let user = await db.user.findOne({ facebookId: model.facebookId });
+  if (!user) {
+    const createdFBUser = await buildFBUser(model, context);
+    const token = auth.getToken(createdFBUser.id, false, context);
+    createdFBUser.token = token;
+    log.end();
+    return createdFBUser;
+  }
+  const token = auth.getToken(user.id, false, context);
+  user.token = token;
+  user.updatedOn = new Date();
+  user.save();
+  log.end();
+  return user;
+};
+
 exports.register = register;
 exports.get = get;
 exports.login = login;
@@ -997,3 +1039,4 @@ exports.feedback = feedback;
 exports.getProfileProgress = getProfileProgress;
 exports.verifyAnswer = verifyAnswer;
 exports.search = search;
+exports.facebookLogin = facebookLogin;

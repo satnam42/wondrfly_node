@@ -641,5 +641,31 @@ module.exports = [
         }
       }
     }
+  },
+  {
+    url: "/facebook/login",
+    post: {
+      summary: "Sign up and Login user with facebook",
+      description: "user sign up and login with facebook and get its token to access apis",
+      parameters: [
+        {
+          in: "body",
+          name: "body",
+          description: "Model of login user with facebook",
+          required: true,
+          schema: {
+            $ref: "#/definitions/fbLogin"
+          }
+        }
+      ],
+      responses: {
+        default: {
+          description: "Unexpected error",
+          schema: {
+            $ref: "#/definitions/Error"
+          }
+        }
+      }
+    }
   }
 ];
