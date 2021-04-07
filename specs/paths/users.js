@@ -667,5 +667,31 @@ module.exports = [
         }
       }
     }
+  },
+  {
+    url: "/loginWithGoogle",
+    post: {
+      summary: "Sign up and Login user with google",
+      description: "user sign up and login with google and get its token to access apis",
+      parameters: [
+        {
+          in: "body",
+          name: "body",
+          description: "Model of login user with google",
+          required: true,
+          schema: {
+            $ref: "#/definitions/googleLogin"
+          }
+        }
+      ],
+      responses: {
+        default: {
+          description: "Unexpected error",
+          schema: {
+            $ref: "#/definitions/Error"
+          }
+        }
+      }
+    }
   }
 ];

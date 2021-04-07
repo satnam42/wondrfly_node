@@ -183,8 +183,12 @@ const configure = (app, logger) => {
   app.post(
     "/api/users/facebook/login",
     permit.context.builder,
-    // validator.users.login,
     api.users.facebookLogin
+  );
+  app.post(
+    "/api/users/loginWithGoogle",
+    permit.context.builder,
+    api.users.loginWithGoogle
   );
 
   ////////events routes//////////

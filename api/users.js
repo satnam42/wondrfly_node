@@ -318,6 +318,19 @@ const facebookLogin = async (req, res) => {
   }
 };
 
+const loginWithGoogle = async (req, res) => {
+  const log = req.context.logger.start("api:users:loginWithGoogle");
+  try {
+    const user = await service.loginWithGoogle(req.body, req.context);
+    log.end();
+    return response.authorized(res, userMapper.toModel(user), user.token);
+  } catch (err) {
+    log.error(err);
+    log.end();
+    return response.failure(res, err.message);
+  }
+};
+
 exports.create = create;
 exports.list = list;
 exports.login = login;
@@ -340,3 +353,4 @@ exports.getProfileProgress = getProfileProgress;
 exports.verifySecuirtyAns = verifySecuirtyAns;
 exports.search = search;
 exports.facebookLogin = facebookLogin;
+exports.loginWithGoogle = loginWithGoogle;

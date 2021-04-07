@@ -9,6 +9,7 @@ const user = mongoose.Schema({
   password: { type: String, default: "" },
   type: { type: String, default: "" },
   facebookId: { type: String, default: "" },
+  googleId: { type: String, default: "" },
   avatarImages: { type: String, default: "" },
   phoneNumber: { type: String, default: "" },
   addressLine1: { type: String, default: "" },

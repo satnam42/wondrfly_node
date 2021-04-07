@@ -1,8 +1,8 @@
 module.exports = [
     {
-        name: "fbLogin",
+        name: "googleLogin",
         properties: {
-            facebookId: {
+            googleId: {
                 type: "string"
             },
             firstName: {

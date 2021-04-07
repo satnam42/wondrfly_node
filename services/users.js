@@ -977,18 +977,18 @@ const search = async (query, context) => {
 
 
 const buildFBUser = async (model, context) => {
-  const { facebookId, firstName, lastName, email } = model;
+  const { facebookId, firstName, lastName, email, role } = model;
   const log = context.logger.start(`services:users:build${model}`);
 
-  let emailId
-  if (email) {
-    emailId = email.toLowerCase();
+  if (!email) {
+    throw new Error("email is required");
   }
   let userModel = {
-    email: emailId,
+    email: email.toLowerCase(),
     facebookId: facebookId,
     firstName: firstName,
     lastName: lastName,
+    role: role,
     createdOn: new Date(),
     updatedOn: new Date()
   }
@@ -1009,7 +1009,40 @@ const facebookLogin = async (model, context) => {
     log.end();
     return createdFBUser;
   }
-  const token = auth.getToken(user.id, false, context);
+  const token = auth.getToken(user, false, context);
+  user.token = token;
+  user.updatedOn = new Date();
+  user.save();
+  log.end();
+  return user;
+};
+
+const loginWithGoogle = async (model, context) => {
+  const log = context.logger.start("services:users:loginWithGoogle");
+  const { googleId, firstName, lastName, email, role } = model;
+
+  if (!email) {
+    throw new Error("email is required");
+  }
+
+  let user = await db.user.findOne({ googleId: googleId });
+  if (!user) {
+    let userModel = {
+      email: email.toLowerCase(),
+      googleId: googleId,
+      firstName: firstName,
+      lastName: lastName,
+      role: role,
+      createdOn: new Date(),
+      updatedOn: new Date()
+    }
+    const user = await new db.user(userModel).save();
+    const token = auth.getToken(user.id, false, context);
+    user.token = token;
+    log.end();
+    return user;
+  }
+  const token = auth.getToken(user, false, context);
   user.token = token;
   user.updatedOn = new Date();
   user.save();
@@ -1040,3 +1073,4 @@ exports.getProfileProgress = getProfileProgress;
 exports.verifyAnswer = verifyAnswer;
 exports.search = search;
 exports.facebookLogin = facebookLogin;
+exports.loginWithGoogle = loginWithGoogle;
