@@ -993,6 +993,13 @@ const buildFBUser = async (model, context) => {
     updatedOn: new Date()
   }
   const user = await new db.user(userModel).save();
+  if (role == 'provider') {
+    await new db.provider({
+      user: user._id,
+      createdOn: new Date(),
+      updateOn: new Date()
+    }).save();
+  }
   log.end();
   return user;
 };
@@ -1037,6 +1044,13 @@ const loginWithGoogle = async (model, context) => {
       updatedOn: new Date()
     }
     const user = await new db.user(userModel).save();
+    if (role == 'provider') {
+      await new db.provider({
+        user: user._id,
+        createdOn: new Date(),
+        updateOn: new Date()
+      }).save();
+    }
     const token = auth.getToken(user.id, false, context);
     user.token = token;
     log.end();
