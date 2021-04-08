@@ -1011,7 +1011,7 @@ const facebookLogin = async (model, context) => {
   let user = await db.user.findOne({ facebookId: model.facebookId });
   if (!user) {
     const createdFBUser = await buildFBUser(model, context);
-    const token = auth.getToken(createdFBUser.id, false, context);
+    const token = auth.getToken(createdFBUser, false, context);
     createdFBUser.token = token;
     log.end();
     return createdFBUser;
@@ -1051,7 +1051,7 @@ const loginWithGoogle = async (model, context) => {
         updateOn: new Date()
       }).save();
     }
-    const token = auth.getToken(user.id, false, context);
+    const token = auth.getToken(user, false, context);
     user.token = token;
     log.end();
     return user;
