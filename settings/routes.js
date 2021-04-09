@@ -1017,6 +1017,11 @@ const configure = (app, logger) => {
     permit.context.builder,
     api.searchHistory.getsearcHistoryOfUser
   );
+  app.delete(
+    "/api/searchHistory/deleteSearchById",
+    permit.context.requiresToken,
+    api.searchHistory.deleteSearchById
+  );
 
   log.end();
 };

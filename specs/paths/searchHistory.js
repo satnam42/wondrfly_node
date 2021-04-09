@@ -48,5 +48,43 @@ module.exports = [
                 }
             }
         }
+    },
+    {
+        url: "/deleteSearchById",
+        delete: {
+            summary: "delete Search By Id",
+            description: "Delete search by id ",
+            parameters: [
+                {
+                    in: "query",
+                    name: "id",
+                    description: "search id",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "query",
+                    name: "userId",
+                    description: "user id, who's search is to be delete",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                },
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
     }
 ]

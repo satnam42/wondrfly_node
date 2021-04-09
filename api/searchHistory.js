@@ -29,5 +29,19 @@ const getsearcHistoryOfUser = async (req, res) => {
     }
 };
 
+const deleteSearchById = async (req, res) => {
+    const log = req.context.logger.start(`api:alert:deleteSearchById`);
+    try {
+        const alert = await service.deleteSearchById(req.query, req.context);
+        log.end();
+        return response.data(res, alert);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 exports.create = create;
 exports.getsearcHistoryOfUser = getsearcHistoryOfUser;
+exports.deleteSearchById = deleteSearchById;
