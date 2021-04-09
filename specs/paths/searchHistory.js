@@ -86,5 +86,36 @@ module.exports = [
                 }
             }
         }
+    },
+    {
+        url: "/allClear/{id}",
+        delete: {
+            summary: "All Clear",
+            description: "Clear all search history",
+            parameters: [
+                {
+                    in: "path",
+                    name: "id",
+                    description: "user id",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
     }
 ]

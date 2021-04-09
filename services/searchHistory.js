@@ -32,6 +32,17 @@ const deleteSearchById = async (query, context) => {
     return 'search is Deleted Successfully'
 };
 
+const allClear = async (id, context) => {
+    const log = context.logger.start(`services:searchHistory:allClear`);
+    if (!id) {
+        throw new Error("user id is required");
+    }
+    await db.searchHistory.deleteMany({ user: id });
+    log.end();
+    return 'All search data is cleared Successfully'
+};
+
 exports.create = create;
 exports.getsearcHistoryOfUser = getsearcHistoryOfUser;
 exports.deleteSearchById = deleteSearchById;
+exports.allClear = allClear;

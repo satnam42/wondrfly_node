@@ -30,11 +30,24 @@ const getsearcHistoryOfUser = async (req, res) => {
 };
 
 const deleteSearchById = async (req, res) => {
-    const log = req.context.logger.start(`api:alert:deleteSearchById`);
+    const log = req.context.logger.start(`api:search:deleteSearchById`);
     try {
-        const alert = await service.deleteSearchById(req.query, req.context);
+        const search = await service.deleteSearchById(req.query, req.context);
         log.end();
-        return response.data(res, alert);
+        return response.data(res, search);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
+const allClear = async (req, res) => {
+    const log = req.context.logger.start(`api:search:allClear:${req.params.id}`);
+    try {
+        const search = await service.allClear(req.params.id, req.context);
+        log.end();
+        return response.data(res, search);
     } catch (err) {
         log.error(err);
         log.end();
@@ -45,3 +58,4 @@ const deleteSearchById = async (req, res) => {
 exports.create = create;
 exports.getsearcHistoryOfUser = getsearcHistoryOfUser;
 exports.deleteSearchById = deleteSearchById;
+exports.allClear = allClear;
