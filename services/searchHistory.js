@@ -3,8 +3,9 @@
 const create = async (model, context) => {
     const log = context.logger.start("services:searchHistory:create");
     const isSearchExist = await db.searchHistory.findOne({ searchData: { $eq: model.searchData } });
-    await db.searchHistory.deleteOne({ _id: isSearchExist._id, user: model.userId });
-
+    if (isSearchExist) {
+        await db.searchHistory.deleteOne({ _id: isSearchExist._id, user: model.userId });
+    }
     const search = await new db.searchHistory({
         user: model.userId,
         searchData: model.searchData.toLowerCase(),
