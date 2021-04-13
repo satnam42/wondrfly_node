@@ -42,6 +42,9 @@ module.exports = [
             lng: {
                 type: "string"
             },
+            location: {
+                type: "string"
+            },
             stripeToken: {
                 type: "string"
             },
