@@ -39,7 +39,7 @@ module.exports = [
             lat: {
                 type: "string"
             },
-            long: {
+            lng: {
                 type: "string"
             },
             stripeToken: {

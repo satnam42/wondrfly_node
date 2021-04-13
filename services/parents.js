@@ -35,8 +35,8 @@ const setParent = (model, parent, context) => {
     if (model.lat !== "string" && model.lat !== undefined) {
         parent.lat = model.lat;
     }
-    if (model.long !== "string" && model.long !== undefined) {
-        parent.long = model.long;
+    if (model.lng !== "string" && model.lng !== undefined) {
+        parent.lng = model.lng;
     }
     if (model.stripeToken !== "string" && model.stripeToken !== undefined) {
         parent.stripeToken = model.stripeToken;
@@ -69,7 +69,7 @@ const buildParent = async (model, context) => {
         country: model.country,
         zipCode: model.zipCode,
         lat: model.lat,
-        long: model.long,
+        lng: model.lng,
         stripeToken: model.stripeToken,
         stripeKey: model.stripeKey,
         ssn: model.ssn,
