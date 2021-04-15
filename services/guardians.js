@@ -79,7 +79,7 @@ const setGuardian = (model, guardian, context) => {
 
 const buildGuardian = async (model, context) => {
     const log = context.logger.start(`services:guardians:build${model}`);
-    console.log('model => build guardian ==>>>', model)
+
     const user = await new db.user({
         firstName: model.firstName,
         avtar: model.avtar,

@@ -127,9 +127,7 @@ const addActivityPoint = async (model, context) => {
     const log = context.logger.start("services:tags:addActivityPoint");
     let user = await db.user.findById(model.ambassadorId);
     const isactiviyExist = await db.rewardpoint.findOne({ activity: { $eq: model.activity } });
-    // if (isactiviyExist) {
-    //     throw new Error("activity point is already exist");
-    // }
+
     const activityPoint = await new db.rewardpoint({
         ambassador: model.ambassadorId,
         activity: model.activity,

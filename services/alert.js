@@ -54,6 +54,7 @@ const create = async (model, context) => {
     }
 
     const alert = build(model, context);
+    console.log('alert', alert);
     log.end();
     return alert;
 };
