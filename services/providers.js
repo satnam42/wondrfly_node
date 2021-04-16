@@ -73,34 +73,6 @@ const build = async (model, context) => {
         log.info(`user id Not Found for record no ${model.Sno}`)
     )
 
-
-
-    // const provider = await new db.provider({
-    //     name: model.Name,
-    //     phone: model.Phone,
-    //     category: model.Category,
-    //     description: model.Description,
-    //     email: model.Email,
-    //     facebook: model.Facebook,
-    //     fullAddress: model.Ful_Address,
-    //     hours: model.Hours,
-    //     instagram: model.Instagram,
-    //     lat: model.Lat,
-    //     long: model.Long,
-    //     linkedin: model.Linkedin,
-    //     rating: model.Rating,
-    //     reviews: model.Reviews,
-    //     twitter: model.Twitter,
-    //     website: model.Website,
-    //     youtube: model.Youtube,
-    //     merchantVerified: model.Merchant_Verified,
-    //     listingURL: model.Listing_URL,
-    //     imageURL: model.Image_URL,
-    //     createdOn: new Date(),
-    //     updateOn: new Date(),
-    // }).save();
-    // log.end();
-    // return provider;
 };
 
 const setProviderDetail = async (model, provider, context) => {
@@ -378,7 +350,6 @@ const search = async (name, context) => {
 };
 
 const addProvider = async (model, context) => {
-    // const { firstName, email, type, city, country, street, state, phoneNumber } = model;
     const log = context.logger.start("services:providers:addProvider");
     const isEmail = await db.user.findOne({ email: { $eq: model.email } });
     if (isEmail) {
@@ -581,7 +552,7 @@ const margeDupicate = async (model, context) => {
     let provider = await db.provider.findOne({ user: user.id });
     const userBasicInfo = await setBasicInfo(model, user, context);
     const providerDetail = await setProviderDetail(model, provider, context);
-    //  let provders = await db.user.find(query)
+
     log.end();
     return userBasicInfo
 };
