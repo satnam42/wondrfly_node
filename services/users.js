@@ -11,6 +11,8 @@ const authToken = 'd864b1037de18df6150de9b4bf97b200'
 // d864b1037de18df6150de9b4bf97b200;   // Your Auth Token from www.twilio.com/console
 var twilio = require('twilio');
 const crypto = require("crypto");
+const moment = require('moment');
+
 
 sendEmail = async (firstName, email, templatePath, subject, OTP) => {
   let mailBody = fs.readFileSync(path.join(__dirname, templatePath)).toString();
@@ -496,6 +498,20 @@ const resetPassword = async (id, model, context) => {
     user.updatedOn = new Date();
     user.lastModifiedBy = context.user.id
     await user.save();
+
+    if (user) {
+      const today = new Date()
+      let date = moment(today).format('YYYY-MM-DD');
+      let time = moment(today).format('hh:mm A');
+      await new db.notification({
+        title: 'change password',
+        description: `Your password is changed successfully on ${date} at ${time}`,
+        user: user._id,
+        createdOn: new Date(),
+        updateOn: new Date(),
+      }).save();
+    }
+
     let templatePath = '../emailTemplates/change_password.html';
     let subject = "Password changed";
 
@@ -721,6 +737,8 @@ const sendOtp = async (email, context) => {
   for (let i = 0; i < 4; i++) {
     OTP += digits[Math.floor(Math.random() * 10)];
   }
+
+  console.log('OTP =============>>>>>>', OTP)
   // let message = `Your 4 digit One Time Password: <br>${OTP}<br></br>
   //   otp valid only 4 minutes`
   let = subject = "One Time Password"
@@ -774,6 +792,20 @@ const forgotPassword = async (model, context) => {
   }
   user.password = await encrypt.getHash(model.newPassword, context)
   await user.save()
+
+  if (user) {
+    const today = new Date()
+    let date = moment(today).format('YYYY-MM-DD');
+    let time = moment(today).format('hh:mm A');
+    await new db.notification({
+      title: 'reset password',
+      description: `Your password is reset successfully on ${date} at ${time}`,
+      user: user._id,
+      createdOn: new Date(),
+      updateOn: new Date(),
+    }).save();
+  }
+
   let = subject = "Reset password"
   let templatePath = '../emailTemplates/change_password.html';
 
