@@ -147,7 +147,7 @@ module.exports = [
                     in: "path",
                     type: "string",
                     name: "id",
-                    description: "user id",
+                    description: "category id",
                     required: true
                 },
                 {
