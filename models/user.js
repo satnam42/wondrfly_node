@@ -40,6 +40,7 @@ const user = mongoose.Schema({
   token: { type: String, default: "" },
   createdBy: { type: String, default: "" },
   note: { type: String, default: "" },
+  notificationsOnOff: { type: Boolean, default: false },
   profileCompleteEmail: { type: Boolean, default: false },
   profileCompleteNotification: { type: Boolean, default: false },
   isAmbassador: { type: Boolean, default: false },
