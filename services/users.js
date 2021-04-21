@@ -364,19 +364,23 @@ const getById = async (id, context) => {
   if (!user) {
     throw new Error("user Not found");
   }
-  let notification = {}
-  const notifications = await db.notification.find({ user: id });
-  notification.notifications = notifications
-  notification.count = await db.notification.count({ user: id });
 
-  if (user.role == 'provider') {
-    const provider = await db.provider.findOne({ user: id });
-    data.user = user
-    data.provider = provider
-    data.notifications = notification;
-    log.end();
-    return data;
+  if (user.notificationsOnOff) {
+    let notification = {}
+    const notifications = await db.notification.find({ user: id });
+    notification.notifications = notifications
+    notification.count = await db.notification.count({ user: id });
+
+    if (user.role == 'provider') {
+      const provider = await db.provider.findOne({ user: id });
+      data.user = user
+      data.provider = provider
+      data.notifications = notification;
+      log.end();
+      return data;
+    }
   }
+
   log.end();
   return user;
 };

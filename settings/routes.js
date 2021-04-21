@@ -1006,7 +1006,7 @@ const configure = (app, logger) => {
     api.notification.deleteNotification
   );
   app.put(
-    "/api/notification/notificationOnOff",
+    "/api/notification/onOff",
     permit.context.requiresToken,
     api.notification.notificationOnOff
   );

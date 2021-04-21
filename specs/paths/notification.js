@@ -38,7 +38,7 @@ module.exports = [
         }
     },
     {
-        url: "/notificationOnOff",
+        url: "/onOff",
         put: {
             summary: "On or Off notifications",
             description: "Enable or Disable notifications",
