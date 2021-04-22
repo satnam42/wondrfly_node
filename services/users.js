@@ -370,6 +370,9 @@ const getById = async (id, context) => {
     const notifications = await db.notification.find({ user: id });
     notification.notifications = notifications
     notification.count = await db.notification.count({ user: id });
+    if (user.role !== 'provider') {
+      user.notifications = notification;
+    }
 
     if (user.role == 'provider') {
       const provider = await db.provider.findOne({ user: id });
