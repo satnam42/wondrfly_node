@@ -745,7 +745,6 @@ const sendOtp = async (email, context) => {
     OTP += digits[Math.floor(Math.random() * 10)];
   }
 
-  console.log('OTP =============>>>>>>', OTP)
   // let message = `Your 4 digit One Time Password: <br>${OTP}<br></br>
   //   otp valid only 4 minutes`
   let = subject = "One Time Password"
@@ -973,6 +972,43 @@ const getProfileProgress = async (query, context) => {
     }
   }
 
+  let today = moment(new Date()).format('YYYY-MM-DD')
+
+  var new_date = moment(new Date()).add(7, 'days');
+  let day = moment(new_date._d).format('YYYY-MM-DD');
+
+  if (progress !== 100) {
+    if (user.weeklyDate) {
+      if (user.weeklyDate == today) {
+        await new db.notification({
+          title: 'About Profile',
+          description: `Your profile is not 100% complete please complete it`,
+          user: user._id,
+          createdOn: new Date(),
+          updateOn: new Date(),
+        }).save();
+        await db.user.findByIdAndUpdate(query.id, {
+          $set: {
+            weeklyDate: day,
+          }
+        })
+      }
+    }
+    else {
+      await new db.notification({
+        title: 'About Profile',
+        description: `Your profile is not 100% complete please complete it`,
+        user: user._id,
+        createdOn: new Date(),
+        updateOn: new Date(),
+      }).save();
+      await db.user.findByIdAndUpdate(query.id, {
+        $set: {
+          weeklyDate: day,
+        }
+      })
+    }
+  }
   log.end();
   let data = {
     profileProgress: progress

@@ -23,13 +23,13 @@ const notificationOnOff = async (query, context) => {
             notificationsOnOff: query.status,
         }
     })
-    log.end();
     if (query.status == 'true') {
         return 'notifications enabled successfully'
     }
     if (query.status == 'false') {
         return 'notifications disabled successfully'
     }
+    log.end();
 };
 
 exports.deleteNotification = deleteNotification;

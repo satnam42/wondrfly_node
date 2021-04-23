@@ -46,6 +46,7 @@ const user = mongoose.Schema({
   isAmbassador: { type: Boolean, default: false },
   isUserVerified: { type: Boolean, default: false },
   isAmbassadorOn: { type: Date, default: Date.now },
+  weeklyDate: { type: String, default: "" },
   role: { type: String, default: "" },
   resetPasswordToken: {
     type: String,
