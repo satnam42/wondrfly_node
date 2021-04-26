@@ -48,6 +48,7 @@ exports.toModel = entity => {
     isAmbassadorOn: user.isAmbassadorOn,
     token: user.token,
     interests: user.interests,
+    notificationsOnOff: user.notificationsOnOff,
     securityQuestion: user.securityQuestion,
     permissions: user.permissions || [],
     notices: entity.notifications ? entity.notifications : [],
