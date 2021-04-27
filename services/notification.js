@@ -32,5 +32,16 @@ const notificationOnOff = async (query, context) => {
     log.end();
 };
 
+const deleteAllNotification = async (query, context) => {
+    const log = context.logger.start(`services:notification:deleteAllNotification:${query.id}`);
+    if (!query.id) {
+        throw new Error("notification id is required");
+    }
+    await db.notification.deleteMany({ user: query.id });
+    log.end();
+    return 'notifications removed successfully'
+};
+
 exports.deleteNotification = deleteNotification;
 exports.notificationOnOff = notificationOnOff;
+exports.deleteAllNotification = deleteAllNotification;

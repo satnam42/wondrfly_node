@@ -41,6 +41,20 @@ const notificationOnOff = async (req, res) => {
     }
 };
 
+const deleteAll = async (req, res) => {
+    const log = req.context.logger.start(`api:notification:deleteAll:${req.query.id}`);
+    try {
+        const notification = await service.deleteAllNotification(req.query, req.context);
+        log.end();
+        return response.data(res, notification);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 exports.showNotification = showNotification;
 exports.deleteNotification = deleteNotification;
 exports.notificationOnOff = notificationOnOff;
+exports.deleteAll = deleteAll;

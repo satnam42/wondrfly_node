@@ -74,5 +74,36 @@ module.exports = [
                 }
             }
         }
+    },
+    {
+        url: "/deleteAll",
+        delete: {
+            summary: "Remove all",
+            description: "Remove All Notifications",
+            parameters: [
+                {
+                    in: "query",
+                    name: "id",
+                    description: "user id",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
     }
 ]

@@ -1010,6 +1010,11 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.notification.notificationOnOff
   );
+  app.delete(
+    "/api/notification/deleteAll",
+    permit.context.requiresToken,
+    api.notification.deleteAll
+  );
 
   //==============search History api's====================
   app.post(

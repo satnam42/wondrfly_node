@@ -383,6 +383,13 @@ const getById = async (id, context) => {
       return data;
     }
   }
+  if (user.role == 'provider') {
+    const provider = await db.provider.findOne({ user: id });
+    data.user = user
+    data.provider = provider
+    log.end();
+    return data;
+  }
 
   log.end();
   return user;
