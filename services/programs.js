@@ -979,6 +979,53 @@ const publish = async (query, context) => {
     return program
 };
 
+// const listPublishOrUnpublish = async (query, context) => {
+//     const log = context.logger.start(`services:providers:listPublishOrUnpublish`);
+//     let pageNo = Number(query.pageNo) || 1;
+//     let pageSize = Number(query.pageSize) || 10;
+//     let skipCount = pageSize * (pageNo - 1);
+//     let programs
+//     if (query.programType == 'published') {
+//         const programs = await db.program.aggregate([
+//             {
+//                 $match:
+//                 {
+//                     isPublished: true
+//                 }
+//             },
+//             {
+//                 $lookup:
+//                 {
+//                     from: "categories",
+//                     localField: "categoryId",
+//                     foreignField: "_id",
+//                     as: "category"
+//                 }
+//             },
+//             {
+//                 $lookup:
+//                 {
+//                     from: "providers",
+//                     localField: "user",
+//                     foreignField: "user",
+//                     as: "provider"
+//                 }
+//             },
+//             { "$limit": pageSize },
+//             { "$skip": skipCount }
+//         ])
+//         programs.count = await db.program.find({ isPublished: true }).count();
+//         log.end();
+//         return programs;
+
+//     }
+//     if (query.programType == 'unpublished') {
+//         programs = await db.program.find({ isPublished: false }).sort({ createdOn: -1 }).populate('tags').skip(skipCount).limit(pageSize);
+//         programs.count = await db.program.find({ isPublished: false }).count();
+//     }
+//     log.end();
+//     return programs
+// };
 const listPublishOrUnpublish = async (query, context) => {
     const log = context.logger.start(`services:providers:listPublishOrUnpublish`);
     let pageNo = Number(query.pageNo) || 1;
@@ -986,34 +1033,8 @@ const listPublishOrUnpublish = async (query, context) => {
     let skipCount = pageSize * (pageNo - 1);
     let programs
     if (query.programType == 'published') {
-        const programs = await db.program.aggregate([
-            {
-                $match:
-                {
-                    isPublished: true
-                }
-            },
-            {
-                $lookup:
-                {
-                    from: "categories",
-                    localField: "categoryId",
-                    foreignField: "_id",
-                    as: "category"
-                }
-            },
-            {
-                $lookup:
-                {
-                    from: "providers",
-                    localField: "user",
-                    foreignField: "user",
-                    as: "provider"
-                }
-            },
-            { "$limit": pageSize },
-            { "$skip": skipCount }
-        ])
+        let programs = await db.program.find().sort({ createdOn: -1 }).populate('tags').populate('user', 'firstName').skip(skipCount).limit(pageSize);
+
         programs.count = await db.program.find({ isPublished: true }).count();
         log.end();
         return programs;
