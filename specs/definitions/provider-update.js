@@ -80,12 +80,14 @@ module.exports = [
                 type: 'array',
                 items: {
                     properties: {
-                        socialDistancing: { type: 'boolean' },
-                        cleaningProtocol: { type: 'boolean' },
-                        temperatureScreening: { type: 'boolean' },
-                        virtualTraining: { type: 'boolean' },
-                        airFiltration: { type: 'boolean' },
-                        classReservation: { type: 'boolean' }
+                        disposableMasksProvided: { type: 'boolean' },
+                        qrCodeRegistration: { type: 'boolean' },
+                        staffHealthAndHygieneProtocols: { type: 'boolean' },
+                        dailyEquipment: { type: 'boolean' },
+                        sanitizerStations: { type: 'boolean' },
+                        limitedClassSizes: { type: 'boolean' },
+                        limitedClassSizes: { type: 'boolean' },
+                        parentObservation: { type: 'boolean' }
                     }
                 }
             },

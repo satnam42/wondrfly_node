@@ -34,12 +34,13 @@ const provider = mongoose.Schema({
     govtIdUrl: { type: String, default: "" },
     govtIdNote: { type: String, default: "" },
     healthAndSafety: [{
-        socialDistancing: { type: Boolean, default: false },
-        cleaningProtocol: { type: Boolean, default: false },
-        temperatureScreening: { type: Boolean, default: false },
-        virtualTraining: { type: Boolean, default: false },
-        airFiltration: { type: Boolean, default: false },
-        classReservation: { type: Boolean, default: false },
+        disposableMasksProvided: { type: Boolean, default: false },
+        qrCodeRegistration: { type: Boolean, default: false },
+        staffHealthAndHygieneProtocols: { type: Boolean, default: false },
+        dailyEquipment: { type: Boolean, default: false },
+        sanitizerStations: { type: Boolean, default: false },
+        limitedClassSizes: { type: Boolean, default: false },
+        parentObservation: { type: Boolean, default: false },
         _id: false
     }],
 
