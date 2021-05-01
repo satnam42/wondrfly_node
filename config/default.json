@@ -1,42 +1,42 @@
 {
-    "db": {
-        "url": "mongodb://localhost:33017",
-        "database": "letsPlay"
+  "db": {
+    "url": "mongodb://localhost:27017",
+    "database": "letsPlay"
+  },
+  "app": {
+    "url": "https://bacca.store/",
+    "port": 8406
+  },
+  "webServer": {
+    "url": "https://bacca.store/",
+    "port": 8406
+  },
+  "auth": {
+    "jwtKey": "supersecret"
+  },
+  "image": {
+    "url": "images/",
+    "baseUrl": "https://bacca.store/",
+    "port": 8406
+  },
+  "providers": {},
+  "logger": {
+    "logStart": false,
+    "file": {
+      "filename": "logs/logs.json",
+      "level": "silly",
+      "handleExceptions": true,
+      "json": true,
+      "maxsize": 512000,
+      "maxFiles": 5,
+      "colorize": false
     },
-    "app": {
-        "url": "https://bacca.store/",
-        "port": 8406
+    "console": {
+      "level": "debug",
+      "handleExceptions": true,
+      "json": false,
+      "colorize": true
     },
-    "webServer": {
-        "url": "https://bacca.store/",
-        "port": 8406
-    },
-    "auth": {
-        "jwtKey": "supersecret"
-    },
-    "image": {
-        "url": "images/",
-        "baseUrl": "https://bacca.store/",
-        "port": 8406
-    },
-    "providers": {},
-    "logger": {
-        "logStart": false,
-        "file": {
-            "filename": "logs/logs.json",
-            "level": "silly",
-            "handleExceptions": true,
-            "json": true,
-            "maxsize": 512000,
-            "maxFiles": 5,
-            "colorize": false
-        },
-        "console": {
-            "level": "debug",
-            "handleExceptions": true,
-            "json": false,
-            "colorize": true
-        },
-        "http": {}
-    }
+    "http": {}
+  }
 }
