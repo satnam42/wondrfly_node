@@ -1,6 +1,6 @@
 {
   "db": {
-    "url": "mongodb://localhost:27017",
+    "url": "mongodb://localhost:33017",
     "database": "letsPlay"
   },
   "app": {
