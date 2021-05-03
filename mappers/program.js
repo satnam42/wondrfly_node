@@ -1,8 +1,6 @@
 'use strict'
 const baseUrl = require('config').get('image').baseUrl
-console.log('===>>>>>>', baseUrl)
 exports.toModel = (entity) => {
-  console.log('===>>>>', entity)
   let model = {
     _id: entity._id || '',
     ageGroup: entity.ageGroup || '',
@@ -52,7 +50,7 @@ exports.toModel = (entity) => {
   }
 
   if (entity.provider && entity.provider != undefined) {
-    ;(model.about = entity.provider[0].about),
+    ; (model.about = entity.provider[0].about),
       // model.description = entity.provider[0].description,
       (model.facebook = entity.provider[0].facebook),
       (model.fullAddress = entity.provider[0].fullAddress),
