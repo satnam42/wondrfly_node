@@ -1173,37 +1173,6 @@ const listPublishOrUnpublish = async (query, context) => {
   log.end()
   return programs
 }
-// const listPublishOrUnpublish = async (query, context) => {
-//   const log = context.logger.start(`services:providers:listPublishOrUnpublish`)
-//   let pageNo = Number(query.pageNo) || 1
-//   let pageSize = Number(query.pageSize) || 10
-//   let skipCount = pageSize * (pageNo - 1)
-//   let programs
-//   if (query.programType == 'published') {
-//     let programs = await db.program
-//       .find({ isPublished: true })
-//       .sort({ createdOn: -1 })
-//       .populate('tags')
-//       .populate('user', 'firstName')
-//       .skip(skipCount)
-//       .limit(pageSize)
-
-//     programs.count = await db.program.find({ isPublished: true }).count()
-//     log.end()
-//     return programs
-//   }
-//   if (query.programType == 'unpublished') {
-//     programs = await db.program
-//       .find({ isPublished: false })
-//       .sort({ createdOn: -1 })
-//       .populate('tags')
-//       .skip(skipCount)
-//       .limit(pageSize)
-//     programs.count = await db.program.find({ isPublished: false }).count()
-//   }
-//   log.end()
-//   return programs
-// }
 
 const searchByNameAndDate = async (query, context) => {
   const { programName, date } = query
