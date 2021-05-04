@@ -57,7 +57,7 @@ exports.toModel = (entity) => {
   }
 
   if (entity.provider && entity.provider != undefined) {
-    ;(model.about = entity.provider[0].about),
+    ; (model.about = entity.provider[0].about),
       // model.description = entity.provider[0].description,
       (model.facebook = entity.provider[0].facebook),
       (model.fullAddress = entity.provider[0].fullAddress),
