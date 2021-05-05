@@ -270,6 +270,7 @@ const build = async (model, context) => {
     user: model.userId,
     addresses: model.addresses,
     categoryId: model.categoryId,
+    sessions: model.sessions,
     createdOn: new Date(),
     updateOn: new Date(),
   }).save()
@@ -427,6 +428,9 @@ const set = async (model, program, context) => {
   }
   if (model.categoryId !== 'string' && model.categoryId !== undefined) {
     program.categoryId = model.categoryId
+  }
+  if (model.sessions.length) {
+    program.sessions = model.sessions
   }
   program.updateOn = new Date()
   log.end()

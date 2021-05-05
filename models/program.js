@@ -73,6 +73,16 @@ const programSchema = mongoose.Schema({
     ref: 'category',
     required: true,
   },
+  sessions: [
+    {
+      sessionName: { type: String, default: '' },
+      sessionAddress: { type: String, default: '' },
+      sessionStartDate: { type: Date, default: '' },
+      sessionEndDate: { type: Date, default: '' },
+      sessionStartTime: { type: Date, default: '' },
+      sessionEndTime: { type: Date, default: '' },
+    },
+  ],
   programImage: { type: String, default: '' },
   createdOn: { type: Date, default: Date.now },
   updatedOn: { type: Date, default: Date.now },

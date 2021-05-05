@@ -118,6 +118,19 @@ module.exports = [
       categoryId: {
         type: 'string',
       },
+      sessions: {
+        type: 'array',
+        items: {
+          properties: {
+            sessionName: { type: 'string' },
+            sessionAddress: { type: 'string' },
+            sessionStartDate: { type: 'date' },
+            sessionEndDate: { type: 'date' },
+            sessionStartTime: { type: 'date' },
+            sessionEndTime: { type: 'date' },
+          },
+        },
+      },
     },
   },
 ]
