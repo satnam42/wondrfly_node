@@ -128,6 +128,7 @@ module.exports = [
             sessionEndDate: { type: 'date' },
             sessionStartTime: { type: 'date' },
             sessionEndTime: { type: 'date' },
+            noOfSeats: { type: 'string' },
           },
         },
       },

@@ -648,7 +648,6 @@ const getProgramsByProvider = async (query, context) => {
     )
   }
   // let programs = await db.program.find({ user: query.userId }).sort({ createdOn: -1 }).populate('tags').skip(skipCount).limit(pageSize);
-
   const programs = await db.program.aggregate([
     {
       $match: {
