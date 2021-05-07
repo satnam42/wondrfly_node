@@ -11,6 +11,9 @@ module.exports = [
       phoneNumber: {
         type: 'string',
       },
+      secondaryPhonenumber: {
+        type: 'string',
+      },
       category: {
         type: 'string',
       },

@@ -1,12 +1,11 @@
-"use strict";
+'use strict'
 const baseUrl = require('config').get('image').baseUrl
 
-exports.toModel = entity => {
+exports.toModel = (entity) => {
   let user
   if (entity.user) {
     user = entity.user
-  }
-  else {
+  } else {
     user = entity
   }
   let model = {
@@ -14,6 +13,7 @@ exports.toModel = entity => {
     firstName: user.firstName,
     lastName: user.lastName,
     phoneNumber: user.phoneNumber,
+    secondaryPhonenumber: user.secondaryPhonenumber,
     isPhoneVerified: user.isPhoneVerified,
     avatarImages: user.avatarImages ? baseUrl + user.avatarImages : '',
     email: user.email,
@@ -57,37 +57,37 @@ exports.toModel = entity => {
   }
 
   if (entity.provider !== undefined && entity.provider !== null) {
-    model.about = entity.provider.about || '',
-      model.description = entity.provider.description || '',
-      model.facebook = entity.provider.facebook || '',
-      model.fullAddress = entity.provider.fullAddress || '',
-      model.hours = entity.provider.hours || '',
-      model.imageURL = entity.provider.imageURL || '',
-      model.linkedin = entity.provider.linkedin,
-      model.listingURL = entity.provider.listingURL || '',
-      model.banners = entity.provider.banners || '',
-      model.rating = entity.provider.rating || '',
-      model.reviews = entity.provider.reviews || '',
-      model.twitter = entity.provider.twitter || '',
-      model.website = entity.provider.website || '',
-      model.youtube = entity.provider.youtube || '',
-      model.instagram = entity.provider.instagram || '',
-      model.awards = entity.provider.awards || '',
-      model.taxNumber = entity.provider.taxNumber || '',
-      model.workingFrom = entity.provider.workingFrom || '',
-      model.isAssociate = entity.provider.isAssociate || '',
+    ;(model.about = entity.provider.about || ''),
+      (model.description = entity.provider.description || ''),
+      (model.facebook = entity.provider.facebook || ''),
+      (model.fullAddress = entity.provider.fullAddress || ''),
+      (model.hours = entity.provider.hours || ''),
+      (model.imageURL = entity.provider.imageURL || ''),
+      (model.linkedin = entity.provider.linkedin),
+      (model.listingURL = entity.provider.listingURL || ''),
+      (model.banners = entity.provider.banners || ''),
+      (model.rating = entity.provider.rating || ''),
+      (model.reviews = entity.provider.reviews || ''),
+      (model.twitter = entity.provider.twitter || ''),
+      (model.website = entity.provider.website || ''),
+      (model.youtube = entity.provider.youtube || ''),
+      (model.instagram = entity.provider.instagram || ''),
+      (model.awards = entity.provider.awards || ''),
+      (model.taxNumber = entity.provider.taxNumber || ''),
+      (model.workingFrom = entity.provider.workingFrom || ''),
+      (model.isAssociate = entity.provider.isAssociate || ''),
       // model.tier= entity.provider.tier || '',
-      model.healthAndSafety = entity.provider.healthAndSafety || '',
-      model.notes = entity.provider.notes || '',
-      model.adminNotes = entity.provider.adminNotes || '',
-      model.provider_logo = entity.provider_logo || ''
+      (model.healthAndSafety = entity.provider.healthAndSafety || ''),
+      (model.notes = entity.provider.notes || ''),
+      (model.adminNotes = entity.provider.adminNotes || ''),
+      (model.provider_logo = entity.provider_logo || '')
   }
 
-  return model;
-};
+  return model
+}
 
-exports.toSearchModel = entities => {
-  return entities.map(entity => {
-    return exports.toModel(entity);
-  });
-};
+exports.toSearchModel = (entities) => {
+  return entities.map((entity) => {
+    return exports.toModel(entity)
+  })
+}

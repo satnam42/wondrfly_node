@@ -82,6 +82,7 @@ const programSchema = mongoose.Schema({
       sessionStartTime: { type: Date, default: '' },
       sessionEndTime: { type: Date, default: '' },
       noOfSeats: { type: String, default: '' },
+      instructor: { type: String, default: '' },
     },
   ],
   programImage: { type: String, default: '' },

@@ -33,6 +33,7 @@ const buildUser = async (model, context) => {
     type: model.type || '',
     email: model.email,
     phoneNumber: model.phoneNumber,
+    secondaryPhonenumber: model.secondaryPhonenumber,
     password: model.password,
     role: 'provider',
     addressLine1: model.addressLine1,
@@ -173,6 +174,12 @@ const setBasicInfo = async (model, user, context) => {
   }
   if (model.phoneNumber !== 'string' && model.phoneNumber !== undefined) {
     user.phoneNumber = model.phoneNumber
+  }
+  if (
+    model.secondaryPhonenumber !== 'string' &&
+    model.secondaryPhonenumber !== undefined
+  ) {
+    user.secondaryPhonenumber = model.secondaryPhonenumber
   }
   if (model.addressLine1 !== 'string' && model.addressLine1 !== undefined) {
     user.addressLine1 = model.addressLine1
