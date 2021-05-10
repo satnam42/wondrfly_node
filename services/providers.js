@@ -239,6 +239,7 @@ const setBasicInfo = async (model, user, context) => {
     user.interests = model.interests
   }
   // user.lastModifiedBy = context.user.id
+
   user.updateOn = new Date()
   log.end()
   await user.save()
@@ -401,6 +402,7 @@ const addProvider = async (model, context) => {
     length: 10,
     numbers: true,
   })
+
   // model.password = await encrypt.getHash('321@LetsPlay!@#$%', context);
   model.password = await encrypt.getHash(genPassword, context)
   const user = await buildUser(model, context)

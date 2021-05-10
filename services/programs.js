@@ -419,6 +419,7 @@ const set = async (model, program, context) => {
   // if (model.emails.length > 1) {
   //     program.emails = model.emails;
   // }
+
   program.isPublished = isPublished
   if (model.batches.length) {
     program.batches = model.batches
@@ -511,41 +512,32 @@ const getById = async (id, context) => {
   if (!id) {
     throw new Error('id not found')
   }
-  let program = await db.program
-    .findById(id)
-    .sort({ createdOn: -1 })
-    .populate('tags')
-    .populate('user', 'firstName')
-
-  // const program = await db.program.aggregate([
-  //     {
-  //         $match:
-  //         {
-  //             _id: ObjectId(id)
-  //         }
-  //     },
-  //     {
-  //         $lookup:
-  //         {
-  //             from: "categories",
-  //             localField: "categoryId",
-  //             foreignField: "_id",
-  //             as: "category"
-  //         }
-  //     },
-  //     {
-  //         $lookup:
-  //         {
-  //             from: "users",
-  //             localField: "user",
-  //             foreignField: "_id",
-  //             as: "user"
-  //         }
-  //     }
-  // ])
-  // let progrm = program[0];
+  const program = await db.program.aggregate([
+    {
+      $match: {
+        _id: ObjectId(id),
+      },
+    },
+    {
+      $lookup: {
+        from: 'categories',
+        localField: 'categoryId',
+        foreignField: '_id',
+        as: 'category',
+      },
+    },
+    {
+      $lookup: {
+        from: 'users',
+        localField: 'user',
+        foreignField: '_id',
+        as: 'provider',
+      },
+    },
+  ])
+  let progrm = program[0]
   log.end()
-  return program
+  return progrm
 }
 
 const update = async (id, model, context) => {
