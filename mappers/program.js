@@ -42,8 +42,8 @@ exports.toModel = (entity) => {
       (model.programOwner = entity.user.firstName || '')
   }
   if (entity.provider) {
-    ;(model.user = entity.provider[0]._id || ''),
-      (model.programOwner = entity.provider[0].firstName || '')
+    ;(model.programOwner = entity.provider[0].firstName || ''),
+      (model.user = entity.provider[0]._id || '')
   }
 
   if (

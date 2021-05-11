@@ -512,32 +512,37 @@ const getById = async (id, context) => {
   if (!id) {
     throw new Error('id not found')
   }
-  const program = await db.program.aggregate([
-    {
-      $match: {
-        _id: ObjectId(id),
-      },
-    },
-    {
-      $lookup: {
-        from: 'categories',
-        localField: 'categoryId',
-        foreignField: '_id',
-        as: 'category',
-      },
-    },
-    {
-      $lookup: {
-        from: 'users',
-        localField: 'user',
-        foreignField: '_id',
-        as: 'provider',
-      },
-    },
-  ])
-  let progrm = program[0]
+  let program = await db.program
+    .findById(id)
+    .sort({ createdOn: -1 })
+    .populate('tags')
+    .populate('user', 'firstName')
+  // const program = await db.program.aggregate([
+  //   {
+  //     $match: {
+  //       _id: ObjectId(id),
+  //     },
+  //   },
+  //   {
+  //     $lookup: {
+  //       from: 'categories',
+  //       localField: 'categoryId',
+  //       foreignField: '_id',
+  //       as: 'category',
+  //     },
+  //   },
+  //   {
+  //     $lookup: {
+  //       from: 'users',
+  //       localField: 'user',
+  //       foreignField: '_id',
+  //       as: 'provider',
+  //     },
+  //   },
+  // ])
+  // let progrm = program[0]
   log.end()
-  return progrm
+  return program
 }
 
 const update = async (id, model, context) => {
