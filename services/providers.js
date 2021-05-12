@@ -835,7 +835,6 @@ const searchVerifiedOrUnverified = async (query, context) => {
     }
     let objUser = user
     providers.splice(index, 1)
-
     objUser.progress = progress
     providers.splice(index, 0, objUser)
   })

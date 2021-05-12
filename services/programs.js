@@ -163,7 +163,7 @@ const buildImportProgram = async (model, context) => {
 
   if (!category) {
     category = await new db.category({
-      name: model.Catogory ? model.Catogory : 'undefine',
+      name: model.Catogory ? model.Catogory : 'undefined',
       description: 'csv file data',
       createdOn: new Date(),
       updateOn: new Date(),
@@ -182,7 +182,7 @@ const buildImportProgram = async (model, context) => {
 
   if (!tagByCategoryId) {
     tag = await new db.tag({
-      name: model.SubCategory ? model.SubCategory : 'undefine',
+      name: model.SubCategory ? model.SubCategory : 'undefined',
       description: 'csv file data',
       categoryIds: categories,
       createdOn: new Date(),
@@ -517,30 +517,7 @@ const getById = async (id, context) => {
     .sort({ createdOn: -1 })
     .populate('tags')
     .populate('user', 'firstName')
-  // const program = await db.program.aggregate([
-  //   {
-  //     $match: {
-  //       _id: ObjectId(id),
-  //     },
-  //   },
-  //   {
-  //     $lookup: {
-  //       from: 'categories',
-  //       localField: 'categoryId',
-  //       foreignField: '_id',
-  //       as: 'category',
-  //     },
-  //   },
-  //   {
-  //     $lookup: {
-  //       from: 'users',
-  //       localField: 'user',
-  //       foreignField: '_id',
-  //       as: 'provider',
-  //     },
-  //   },
-  // ])
-  // let progrm = program[0]
+
   log.end()
   return program
 }
