@@ -14,6 +14,7 @@ const guardianSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
     },
+    relationToChild: { type: String, default: "" },
     updatedOn: { type: Date, default: Date.now },
     createdOn: { type: Date, default: Date.now },
 },

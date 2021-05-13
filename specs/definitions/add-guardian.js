@@ -29,6 +29,9 @@ module.exports = [
             parentId: {
                 type: "string"
             },
+            relationToChild: {
+                type: "string"
+            },
             otp: {
                 type: "string"
             },

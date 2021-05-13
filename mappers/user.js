@@ -17,6 +17,8 @@ exports.toModel = (entity) => {
     isPhoneVerified: user.isPhoneVerified,
     avatarImages: user.avatarImages ? baseUrl + user.avatarImages : '',
     email: user.email,
+    age: user.age,
+    personalNote: user.personalNote,
     isOnBoardingDone: user.isOnBoardingDone,
     sex: user.sex,
     addressLine1: user.addressLine1,
@@ -57,7 +59,7 @@ exports.toModel = (entity) => {
   }
 
   if (entity.provider !== undefined && entity.provider !== null) {
-    ;(model.about = entity.provider.about || ''),
+    ; (model.about = entity.provider.about || ''),
       (model.description = entity.provider.description || ''),
       (model.facebook = entity.provider.facebook || ''),
       (model.fullAddress = entity.provider.fullAddress || ''),

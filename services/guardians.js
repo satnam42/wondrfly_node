@@ -135,6 +135,7 @@ const addGuardian = async (model, context) => {
     const guardian = await buildGuardian(model, context);
     if (guardianEmail && guardian) {
         guardianEmail.user = guardian.id;
+        guardianEmail.relationToChild = model.relationToChild;
         await guardianEmail.save();
     }
 
@@ -172,7 +173,6 @@ const updateGuardian = async (id, model, context) => {
     }
 
     const guardian = await setGuardian(model, entity, context);
-
     log.end();
     return guardian
 };
