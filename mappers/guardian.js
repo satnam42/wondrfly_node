@@ -10,6 +10,7 @@ exports.toModel = (entity) => {
             model.phoneNumber = entity.user.phoneNumber,
             model.avatarImages = entity.user.avatarImages,
             model.email = entity.user.email,
+            model.personalNote = entity.user.personalNote,
             model.isOnBoardingDone = entity.user.isOnBoardingDone,
             model.sex = entity.user.sex,
             model.addressLine1 = entity.user.addressLine1,
