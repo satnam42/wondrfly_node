@@ -8,6 +8,12 @@ module.exports = [
             sex: {
                 type: "string"
             },
+            age: {
+                type: 'number'
+            },
+            dob: {
+                type: "date"
+            },
             email: {
                 type: "string"
             },

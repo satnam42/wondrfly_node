@@ -5,6 +5,8 @@ const user = mongoose.Schema({
   firstName: { type: String, default: '' },
   lastName: { type: String, default: '' },
   sex: { type: String, default: '' },
+  age: { type: Number, default: '' },
+  dob: { type: Date, default: '' },
   email: { type: String, default: '', required: true },
   password: { type: String, default: '' },
   type: { type: String, default: '' },

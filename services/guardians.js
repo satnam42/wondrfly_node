@@ -62,6 +62,9 @@ const setGuardian = (model, guardian, context) => {
     if (model.age !== "string" && model.age !== undefined && model.age !== '') {
         guardian.age = model.age;
     }
+    if (model.dob !== "string" && model.dob !== undefined && model.dob !== '') {
+        guardian.dob = model.dob;
+    }
     if (model.sex !== "string" && model.sex !== undefined && model.sex !== '') {
         guardian.sex = model.sex;
     }
@@ -84,6 +87,8 @@ const buildGuardian = async (model, context) => {
         firstName: model.firstName,
         avtar: model.avtar,
         email: model.email,
+        age: model.age,
+        dob: model.dob,
         sex: model.sex,
         password: model.password,
         role: 'guardian',
