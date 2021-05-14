@@ -568,6 +568,11 @@ const login = async (model, context) => {
     throw new Error("user not found");
   }
 
+  if (!user.isActivated) {
+    log.end();
+    throw new Error("You can not login to this website because you are deactivated");
+  }
+
   const isMatched = encrypt.compareHash(model.password, user.password, context);
 
   if (!isMatched) {

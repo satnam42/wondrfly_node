@@ -213,7 +213,7 @@ const deleteGuardian = async (id, context) => {
 };
 
 const sendOtp = async (model, context) => {
-    const log = context.logger.start('services/users/sendOtp')
+    const log = context.logger.start('services/guardians/sendOtp')
     const { parentId } = model;
     if (!model.email) {
         throw new Error("Email is required");
@@ -258,9 +258,35 @@ const sendOtp = async (model, context) => {
     return data
 }
 
+
+const activateAndDeactive = async (context, id, isActivated) => {
+    const log = context.logger.start(`services:guardians:activateAndDeactive`);
+    if (context.user.role != 'superAdmin') {
+        throw new Error("you are not authorized to perform this operation");
+    }
+    if (!id) {
+        throw new Error("Id is requried");
+    }
+    if (!isActivated) {
+        throw new Error("isActivated requried");
+    }
+    let user = await db.user.findById(id);
+    if (!user) {
+        throw new Error("user not found");
+    }
+    user.isActivated = isActivated
+    user.lastModifiedBy = context.user.id
+    user.updatedOn = Date.now()
+    user.save()
+    log.end();
+    return user
+};
+
+
 exports.addGuardian = addGuardian;
 exports.get = get;
 exports.updateGuardian = updateGuardian;
 exports.getGuardianByParentId = getGuardianByParentId;
 exports.deleteGuardian = deleteGuardian;
 exports.sendOtp = sendOtp;
+exports.activateAndDeactive = activateAndDeactive;

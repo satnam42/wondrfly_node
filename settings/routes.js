@@ -542,6 +542,11 @@ const configure = (app, logger) => {
     // permit.context.requiresToken,
     api.guardians.sendOtp
   );
+  app.put(
+    "/api/guardians/activeOrDeactive",
+    permit.context.requiresToken,
+    api.guardians.activeOrDeactive
+  );
 
   //program routes//
   app.post(
