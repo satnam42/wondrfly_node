@@ -176,6 +176,29 @@ const childByGuardianId = async (id, context) => {
 };
 
 
+const activateAndDeactive = async (context, id, isActivated) => {
+    const log = context.logger.start(`services:child:activateAndDeactive`);
+    console.log('activate and deactivate child')
+    if (context.user.role != 'superAdmin') {
+        throw new Error("you are not authorized to perform this operation");
+    }
+    if (!id) {
+        throw new Error("Id is requried");
+    }
+    if (!isActivated) {
+        throw new Error("isActivated requried");
+    }
+    let child = await db.child.findById(id);
+    if (!child) {
+        throw new Error("child not found");
+    }
+    child.isActivated = isActivated
+    child.lastModifiedBy = context.user.id
+    child.updatedOn = Date.now()
+    child.save()
+    log.end();
+    return child
+};
 
 exports.addChild = addChild;
 exports.getList = getList;
@@ -183,3 +206,4 @@ exports.updateChild = updateChild;
 exports.childByParentId = childByParentId;
 exports.deleteChild = deleteChild
 exports.childByGuardianId = childByGuardianId
+exports.activateAndDeactive = activateAndDeactive

@@ -90,10 +90,24 @@ const childByGuardianId = async (req, res) => {
     }
 };
 
+const activeOrDeactive = async (req, res) => {
+    const log = req.context.logger.start(`api:child:activeOrDeactive`);
+    try {
+        const count = await service.activateAndDeactive(req.context, req.query.id, req.query.isActivated);
+        log.end();
+        return response.data(res, count);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 exports.add = add;
 exports.list = list;
 exports.update = update;
 exports.childByParentId = childByParentId;
 exports.deleteChild = deleteChild;
 exports.childByGuardianId = childByGuardianId;
+exports.activeOrDeactive = activeOrDeactive;
 

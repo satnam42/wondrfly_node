@@ -36,7 +36,7 @@ const childSchema = mongoose.Schema({
         ref: 'User',
         required: true
     },
-
+    isActivated: { type: Boolean, default: true },
     updatedOn: { type: Date, default: Date.now },
     createdOn: { type: Date, default: Date.now },
 },
