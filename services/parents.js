@@ -3,6 +3,8 @@ const imageUrl = require('config').get('image').url
 const generator = require('generate-password');
 const ObjectId = require("mongodb").ObjectID;
 const auth = require("../permit/auth");
+const moment = require('moment');
+
 const setParent = (model, parent, context) => {
     const log = context.logger.start("services:parents:setParent");
     if (model.firstName !== "string" && model.firstName !== undefined) {
@@ -151,11 +153,25 @@ const resetPassword = async (model, context) => {
 
 const updateParent = async (id, model, context) => {
     const log = context.logger.start(`services:parents:updateParent`);
+    const { firstName, lastName, phoneNumber } = model;
     let entity = await db.user.findById(id);
     if (!entity) {
         throw new Error("Parent Not Found");
     }
     const parent = await setParent(model, entity, context);
+
+    if (parent) {
+        const today = new Date()
+        let date = moment(today).format('YYYY-MM-DD');
+        let time = moment(today).format('hh:mm A');
+        await new db.notification({
+            title: 'update Profile',
+            description: `Your profile is updated on ${date} at ${time}`,
+            user: id,
+            createdOn: new Date(),
+            updateOn: new Date(),
+        }).save();
+    }
     log.end();
     return parent
 };
