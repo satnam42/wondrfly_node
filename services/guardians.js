@@ -158,7 +158,7 @@ const addGuardian = async (model, context) => {
 // { "fieldToCheck": { $exists: true, $ne: null } }
 const get = async (query, context) => {
     const log = context.logger.start(`services:guardians:get`);
-    let guardians = await db.guardian.find({}).populate('user')
+    let guardians = await db.guardian.find({ "user": { $exists: true, $ne: null } }).populate('user')
 
     // let guardians = await db.guardian.find({}).populate('user')
     log.end();
@@ -184,7 +184,7 @@ const getGuardianByParentId = async (id, context) => {
     if (!id) {
         throw new Error("parentId Not Found");
     }
-    let guardians = await db.guardian.find({ parent: id }).populate('user')
+    let guardians = await db.guardian.find({ parent: id, "user": { $exists: true, $ne: null } }).populate('user')
     if (!guardians.length) {
         throw new Error("guardian Not Found");
     }
