@@ -130,7 +130,7 @@ const deleteChild = async (id, context) => {
 
 const childByParentId = async (id, context) => {
     const log = context.logger.start(`services:child:update`);
-    let children = await db.child.find({ parent: id, isActivated: true }).populate('interestInfo')
+    let children = await db.child.find({ parent: id }).populate('interestInfo')
     let finalchilds = [];
     if (!children) {
         throw new Error("child Not Found");
@@ -155,7 +155,7 @@ const childByGuardianId = async (id, context) => {
     if (!guardian) {
         throw new Error("Guardian does not exist");
     }
-    let children = await db.child.find({ parent: guardian.parent, isActivated: true }).populate('interestInfo')
+    let children = await db.child.find({ parent: guardian.parent }).populate('interestInfo')
     let finalchilds = [];
     if (!children) {
         throw new Error("child Not Found");
