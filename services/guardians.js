@@ -258,12 +258,12 @@ const sendOtp = async (model, context) => {
     return data
 }
 
+// if (context.user.role != 'superAdmin') {
+//     throw new Error("you are not authorized to perform this operation");
+// }
 
 const activateAndDeactive = async (context, id, isActivated) => {
     const log = context.logger.start(`services:guardians:activateAndDeactive`);
-    if (context.user.role != 'superAdmin') {
-        throw new Error("you are not authorized to perform this operation");
-    }
     if (!id) {
         throw new Error("Id is requried");
     }

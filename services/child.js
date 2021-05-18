@@ -126,7 +126,6 @@ const deleteChild = async (id, context) => {
 
     log.end();
     return 'child deleted succesfully'
-
 };
 
 const childByParentId = async (id, context) => {
@@ -179,9 +178,6 @@ const childByGuardianId = async (id, context) => {
 const activateAndDeactive = async (context, id, isActivated) => {
     const log = context.logger.start(`services:child:activateAndDeactive`);
     console.log('activate and deactivate child')
-    if (context.user.role != 'superAdmin') {
-        throw new Error("you are not authorized to perform this operation");
-    }
     if (!id) {
         throw new Error("Id is requried");
     }
