@@ -31,12 +31,6 @@ module.exports = [
             },
             relationToChild: {
                 type: "string"
-            },
-            otp: {
-                type: "string"
-            },
-            otpToken: {
-                type: "string"
             }
         },
     },
