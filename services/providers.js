@@ -364,7 +364,7 @@ const search = async (name, context) => {
     throw new Error('name is required')
   }
   const providers = await db.user
-    .find({ firstName: { $regex: '.*' + name + '.*', $options: 'i' } })
+    .find({ firstName: { $regex: '.*' + name + '.*', $options: 'i' }, role: 'provider' })
     .limit(5)
 
   if (providers.length < 1) {
