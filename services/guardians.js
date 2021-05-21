@@ -74,7 +74,19 @@ const setGuardian = (model, guardian, context) => {
     if (model.personalNote !== "string" && model.personalNote !== undefined && model.personalNote !== '') {
         guardian.personalNote = model.personalNote;
     }
-    guardian.updateOn = new Date()
+    guardian.updatedOn = new Date()
+    log.end();
+    guardian.save();
+    return guardian;
+};
+const setGuardianDetail = (model, guardian, context) => {
+
+    const log = context.logger.start("services:guardians:set");
+    if (model.relationToChild !== "string" && model.relationToChild !== undefined && model.relationToChild !== '') {
+        guardian.relationToChild = model.relationToChild;
+    }
+
+    guardian.updatedOn = new Date()
     log.end();
     guardian.save();
     return guardian;
@@ -170,11 +182,16 @@ const updateGuardian = async (id, model, context) => {
     const log = context.logger.start(`services:guardians:update`);
 
     let entity = await db.user.findById(id);
+    let guardianData = await db.guardian.findOne({ user: id })
     if (!entity) {
         throw new Error("guardian Not Found");
     }
 
     const guardian = await setGuardian(model, entity, context);
+    if (guardianData) {
+        const guardianDetail = await setGuardianDetail(model, guardianData, context)
+    }
+
     log.end();
     return guardian
 };
@@ -258,9 +275,6 @@ const sendOtp = async (model, context) => {
     return data
 }
 
-// if (context.user.role != 'superAdmin') {
-//     throw new Error("you are not authorized to perform this operation");
-// }
 
 const activateAndDeactive = async (context, id, isActivated) => {
     const log = context.logger.start(`services:guardians:activateAndDeactive`);
