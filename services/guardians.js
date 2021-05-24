@@ -1,6 +1,7 @@
 const ObjectId = require("mongodb").ObjectID;
 const auth = require("../permit/auth");
 const encrypt = require("../permit/crypto.js");
+const mobile = require('is-mobile');
 
 sendOtpEmail = async (firstName, email, templatePath, subject) => {
     let mailBody = fs.readFileSync(path.join(__dirname, templatePath)).toString();
@@ -246,7 +247,7 @@ const sendOtp = async (model, context) => {
     if (isGuardianEmail) {
         throw new Error("Email is already sent to register guardian at this email address");
     }
-
+    console.log('is mobile request =====>>>>>', mobile());
     // four digit otp genration logic
     // var digits = '0123456789';
     // let OTP = '';

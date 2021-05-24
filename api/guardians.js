@@ -2,6 +2,8 @@
 const service = require("../services/guardians");
 const response = require("../exchange/response");
 const guardianMapper = require("../mappers/guardian");
+const mobile = require('is-mobile');
+
 const add = async (req, res) => {
     const log = req.context.logger.start(`api:guardian:add`);
     try {
@@ -70,6 +72,7 @@ const remove = async (req, res) => {
 
 const sendOtp = async (req, res) => {
     const log = req.context.logger.start("api:guardians:sendOtp");
+    console.log('mob===>>>>>>>>>>>> ', (mobile({ ua: req })));
     try {
         const data = await service.sendOtp(req.body, req.context);
         log.end();
