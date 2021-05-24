@@ -72,9 +72,10 @@ const remove = async (req, res) => {
 
 const sendOtp = async (req, res) => {
     const log = req.context.logger.start("api:guardians:sendOtp");
-    console.log('mob===>>>>>>>>>>>> ', (mobile({ ua: req })));
+    const mob = (mobile({ ua: req }));
+
     try {
-        const data = await service.sendOtp(req.body, req.context);
+        const data = await service.sendOtp(mob, req.body, req.context);
         log.end();
         return response.success(res, data);
     } catch (err) {

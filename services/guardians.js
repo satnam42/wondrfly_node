@@ -81,7 +81,6 @@ const setGuardian = (model, guardian, context) => {
     return guardian;
 };
 const setGuardianDetail = (model, guardian, context) => {
-
     const log = context.logger.start("services:guardians:set");
     if (model.relationToChild !== "string" && model.relationToChild !== undefined && model.relationToChild !== '') {
         guardian.relationToChild = model.relationToChild;
@@ -230,7 +229,7 @@ const deleteGuardian = async (id, context) => {
     return 'guardian delete successfully'
 };
 
-const sendOtp = async (model, context) => {
+const sendOtp = async (mob, model, context) => {
     const log = context.logger.start('services/guardians/sendOtp')
     const { parentId } = model;
     if (!model.email) {
@@ -247,7 +246,7 @@ const sendOtp = async (model, context) => {
     if (isGuardianEmail) {
         throw new Error("Email is already sent to register guardian at this email address");
     }
-    console.log('is mobile request =====>>>>>', mobile());
+
     // four digit otp genration logic
     // var digits = '0123456789';
     // let OTP = '';
@@ -256,24 +255,46 @@ const sendOtp = async (model, context) => {
     // }
     // let message = `Your 4 digit One Time Password: <br>${OTP}<br></br>
     //   otp valid only 4 minutes`
-    let = subject = "Register Guardian"
-    let templatePath = '../emailTemplates/guardian_otp.html';
-
-    let mailsent = await sendOtpEmail(model.firstName, model.email, templatePath, subject);
-    // await sendMail(email, message, subject)
-    console.log('mail send====>>>>')
-    // let otpToken = auth.getOtpToken(OTP, true, context)
-    await new db.guardian({
-        parent: parentId,
-        email: model.email,
-        createdOn: new Date(),
-        updatedOn: new Date()
-    }).save();
-    let data = {
-        message: 'Please register guardian, link is sent on your email',
+    if (mob) {
+        let = subject = "Register Guardian"
+        let templatePath = '../emailTemplates/pwaGuardian_otp.html';
+        console.log('========if for mob===========')
+        let mailsent = await sendOtpEmail(model.firstName, model.email, templatePath, subject);
+        // await sendMail(email, message, subject)
+        console.log('mail send====>>>>')
+        // let otpToken = auth.getOtpToken(OTP, true, context)
+        await new db.guardian({
+            parent: parentId,
+            email: model.email,
+            createdOn: new Date(),
+            updatedOn: new Date()
+        }).save();
+        let data = {
+            message: 'Please register guardian, link is sent on your email',
+        }
+        log.end()
+        return data
+    } else {
+        let = subject = "Register Guardian"
+        let templatePath = '../emailTemplates/guardian_otp.html';
+        console.log('========else for web =========')
+        let mailsent = await sendOtpEmail(model.firstName, model.email, templatePath, subject);
+        // await sendMail(email, message, subject)
+        console.log('mail send====>>>>')
+        // let otpToken = auth.getOtpToken(OTP, true, context)
+        await new db.guardian({
+            parent: parentId,
+            email: model.email,
+            createdOn: new Date(),
+            updatedOn: new Date()
+        }).save();
+        let data = {
+            message: 'Please register guardian, link is sent on your email',
+        }
+        log.end()
+        return data
     }
-    log.end()
-    return data
+
 }
 
 
