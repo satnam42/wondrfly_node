@@ -150,19 +150,6 @@ const addGuardian = async (model, context) => {
         guardianEmail.relationToChild = model.relationToChild;
         await guardianEmail.save();
     }
-
-
-
-
-
-    // if (guardian) {
-    //     await new db.guardian({
-    //         parent: model.parentId,
-    //         user: guardian.id,
-    //         createdOn: new Date(),
-    //         updatedOn: new Date()
-    //     }).save();
-    // }
     log.end();
     return guardian;
 };
@@ -258,9 +245,8 @@ const sendOtp = async (mob, model, context) => {
     if (mob) {
         let = subject = "Register Guardian"
         let templatePath = '../emailTemplates/pwaGuardian_otp.html';
-        console.log('========if for mob===========')
         let mailsent = await sendOtpEmail(model.firstName, model.email, templatePath, subject);
-        // await sendMail(email, message, subject)
+
         console.log('mail send====>>>>')
         // let otpToken = auth.getOtpToken(OTP, true, context)
         await new db.guardian({
@@ -277,9 +263,8 @@ const sendOtp = async (mob, model, context) => {
     } else {
         let = subject = "Register Guardian"
         let templatePath = '../emailTemplates/guardian_otp.html';
-        console.log('========else for web =========')
         let mailsent = await sendOtpEmail(model.firstName, model.email, templatePath, subject);
-        // await sendMail(email, message, subject)
+
         console.log('mail send====>>>>')
         // let otpToken = auth.getOtpToken(OTP, true, context)
         await new db.guardian({
