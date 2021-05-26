@@ -98,7 +98,7 @@ module.exports = [
                 {
                     in: "path",
                     name: "id",
-                    description: "guardian id",
+                    description: "parent id",
                     required: true,
                     type: "string"
                 },
