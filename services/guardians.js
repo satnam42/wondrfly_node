@@ -158,8 +158,6 @@ const addGuardian = async (model, context) => {
 const get = async (query, context) => {
     const log = context.logger.start(`services:guardians:get`);
     let guardians = await db.guardian.find({ "user": { $exists: true, $ne: null } }).populate('user')
-
-    // let guardians = await db.guardian.find({}).populate('user')
     log.end();
     return guardians;
 };
@@ -242,6 +240,7 @@ const sendOtp = async (mob, model, context) => {
     // }
     // let message = `Your 4 digit One Time Password: <br>${OTP}<br></br>
     //   otp valid only 4 minutes`
+
     if (mob) {
         let = subject = "Register Guardian"
         let templatePath = '../emailTemplates/pwaGuardian_otp.html';
@@ -266,7 +265,6 @@ const sendOtp = async (mob, model, context) => {
         let mailsent = await sendOtpEmail(model.firstName, model.email, templatePath, subject);
 
         console.log('mail send====>>>>')
-        // let otpToken = auth.getOtpToken(OTP, true, context)
         await new db.guardian({
             parent: parentId,
             email: model.email,
