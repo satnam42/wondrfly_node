@@ -63,6 +63,16 @@ module.exports = [
           //     { type: "string", default: "" },
         },
       },
+      links: {
+        type: 'array',
+        items: {
+          type: 'string',
+          default: '',
+        },
+      },
+      cycle: {
+        type: 'string',
+      },
       tagsId: {
         type: 'array',
         items: {

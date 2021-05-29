@@ -242,6 +242,13 @@ const build = async (model, context) => {
   const program = await new db.program({
     name: model.name,
     description: model.description,
+    providerName: model.providerName,
+    indoorOroutdoor: model.indoorOroutdoor,
+    source: model.source,
+    sourceUrl: model.sourceUrl,
+    city: model.city,
+    cycle: model.cycle,
+
     type: model.type,
     price: model.price,
     code: model.code,
@@ -316,6 +323,26 @@ const set = async (model, program, context) => {
   if (model.name !== 'string' && model.name !== undefined) {
     program.name = model.name
   }
+  if (model.providerName !== 'string' && model.providerName !== undefined) {
+    program.providerName = model.providerName
+  }
+  if (model.indoorOroutdoor !== 'string' && model.indoorOroutdoor !== undefined) {
+    program.indoorOroutdoor = model.indoorOroutdoor
+  }
+  if (model.source !== 'string' && model.source !== undefined) {
+    program.source = model.source
+  }
+  if (model.sourceUrl !== 'string' && model.sourceUrl !== undefined) {
+    program.sourceUrl = model.sourceUrl
+  }
+  if (model.city !== 'string' && model.city !== undefined) {
+    program.city = model.city
+  }
+  if (model.cycle !== 'string' && model.cycle !== undefined) {
+    program.cycle = model.cycle
+  }
+
+
   if (model.description !== 'string' && model.description !== undefined) {
     program.description = model.description
   }

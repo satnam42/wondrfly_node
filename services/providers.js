@@ -91,6 +91,13 @@ const setProviderDetail = async (model, provider, context) => {
   if (model.bio !== 'string' && model.bio !== undefined) {
     provider.bio = model.bio
   }
+  if (!model.links.length && model.links !== undefined) {
+    provider.links = model.links
+  }
+  if (model.cycle !== 'string' && model.cycle !== undefined) {
+    provider.cycle = model.cycle
+  }
+
   if (model.description !== 'string' && model.description !== undefined) {
     provider.description = model.description
   }
@@ -411,6 +418,8 @@ const addProvider = async (model, context) => {
       user: user._id,
       categories: model.categoryIds,
       website: model.website,
+      links: model.links,
+      cycle: model.cycle,
       healthAndSafety: model.healthAndSafety,
       createdOn: new Date(),
       updateOn: new Date(),

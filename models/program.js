@@ -2,6 +2,13 @@
 const mongoose = require('mongoose')
 const programSchema = mongoose.Schema({
   name: { type: String, default: '' },
+  providerName: { type: String, default: '' },
+  indoorOroutdoor: { type: String, default: '' },
+  source: { type: String, default: '' },
+  sourceUrl: { type: String, default: '' },
+  city: { type: String, default: '' },
+  cycle: { type: String, default: '' },
+
   description: { type: String, default: '' },
   type: { type: String, default: '' },
   price: { type: Number, default: '' },

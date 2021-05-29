@@ -5,6 +5,24 @@ module.exports = [
       name: {
         type: 'string',
       },
+      providerName: {
+        type: 'string',
+      },
+      indoorOroutdoor: {
+        type: 'string',
+      },
+      source: {
+        type: 'string',
+      },
+      sourceUrl: {
+        type: 'string',
+      },
+      city: {
+        type: 'string',
+      },
+      cycle: {
+        type: 'string',
+      },
       description: {
         type: 'string',
       },
