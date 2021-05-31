@@ -45,16 +45,25 @@ const getAlltags = async (context) => {
     log.end();
     return tags;
 };
+// const tagByCategoryId = async (categoriesId, context) => {
+//     let ids = JSON.parse(categoriesId)// array like  "['1','2']"
+//     if (ids.length < 0) {
+//         throw new Error("category id not found");
+//     } const log = context.logger.start(`services:tags:getAlltags`);
+//     const tags = await db.tag.find({ categoryIds: { $in: ids } })
+//     log.end();
+//     return tags;
+// };
+
 const tagByCategoryId = async (categoriesId, context) => {
-    let ids = JSON.parse(categoriesId)// array like  "['1','2']"
-    if (ids.length < 0) {
+    console.log('category id ', categoriesId)
+    if (!categoriesId) {
         throw new Error("category id not found");
     } const log = context.logger.start(`services:tags:getAlltags`);
-    const tags = await db.tag.find({ categoryIds: { $in: ids } })
+    const tags = await db.tag.find({ categoryIds: categoriesId })
     log.end();
     return tags;
 };
-
 const update = async (id, model, context) => {
     const log = context.logger.start(`services:tags:update`);
     let istag = await db.tag.findById(id);
