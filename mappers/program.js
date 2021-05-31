@@ -10,6 +10,15 @@ exports.toModel = (entity) => {
     capacity: entity.capacity || '',
     name: entity.name,
     description: entity.description || '',
+
+    providerName: entity.providerName || '',
+    indoorOroutdoor: entity.indoorOroutdoor || '',
+    source: entity.source || '',
+    sourceUrl: entity.sourceUrl || '',
+    city: entity.city || '',
+    cycle: entity.cycle || '',
+    activeStatus: entity.activeStatus || '',
+
     type: entity.type || '',
     price: entity.price || '',
     code: entity.code || '',
@@ -38,11 +47,11 @@ exports.toModel = (entity) => {
   }
 
   if (entity.user) {
-    ;(model.user = entity.user._id || ''),
+    ; (model.user = entity.user._id || ''),
       (model.programOwner = entity.user.firstName || '')
   }
   if (entity.provider) {
-    ;(model.programOwner = entity.provider[0].firstName || ''),
+    ; (model.programOwner = entity.provider[0].firstName || ''),
       (model.user = entity.provider[0]._id || '')
   }
 
@@ -58,7 +67,7 @@ exports.toModel = (entity) => {
   }
 
   if (entity.provider && entity.provider != undefined) {
-    ;(model.about = entity.provider[0].about),
+    ; (model.about = entity.provider[0].about),
       // model.description = entity.provider[0].description,
       (model.facebook = entity.provider[0].facebook),
       (model.fullAddress = entity.provider[0].fullAddress),

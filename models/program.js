@@ -8,6 +8,7 @@ const programSchema = mongoose.Schema({
   sourceUrl: { type: String, default: '' },
   city: { type: String, default: '' },
   cycle: { type: String, default: '' },
+  activeStatus: { type: String, default: '' },
 
   description: { type: String, default: '' },
   type: { type: String, default: '' },

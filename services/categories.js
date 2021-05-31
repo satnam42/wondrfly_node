@@ -1,5 +1,3 @@
-
-
 "use strict";
 const imageUrl = require('config').get('image').url
 const fs = require('fs');

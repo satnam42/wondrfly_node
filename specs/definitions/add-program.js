@@ -23,6 +23,9 @@ module.exports = [
       cycle: {
         type: 'string',
       },
+      activeStatus: {
+        type: 'string',
+      },
       description: {
         type: 'string',
       },

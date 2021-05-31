@@ -248,6 +248,7 @@ const build = async (model, context) => {
     sourceUrl: model.sourceUrl,
     city: model.city,
     cycle: model.cycle,
+    activeStatus: model.activeStatus,
 
     type: model.type,
     price: model.price,
@@ -342,7 +343,9 @@ const set = async (model, program, context) => {
   if (model.cycle !== 'string' && model.cycle !== undefined) {
     program.cycle = model.cycle
   }
-
+  if (model.activeStatus !== 'string' && model.activeStatus !== undefined) {
+    program.activeStatus = model.activeStatus
+  }
 
   if (model.description !== 'string' && model.description !== undefined) {
     program.description = model.description
