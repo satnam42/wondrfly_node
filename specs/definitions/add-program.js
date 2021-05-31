@@ -80,6 +80,9 @@ module.exports = [
       lng: {
         type: 'string',
       },
+      joiningLink: {
+        type: 'string',
+      },
       specialInstructions: {
         type: 'string',
       },
@@ -135,6 +138,13 @@ module.exports = [
       },
       categoryId: {
         type: 'string',
+      },
+      subCategoryIds: {
+        type: 'array',
+        items: {
+          type: 'string',
+          default: '',
+        },
       },
       sessions: {
         type: 'array',

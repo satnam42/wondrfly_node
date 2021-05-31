@@ -277,6 +277,7 @@ const build = async (model, context) => {
     user: model.userId,
     addresses: model.addresses,
     categoryId: model.categoryId,
+    subCategoryIds: model.subCategoryIds,
     sessions: model.sessions,
     createdOn: new Date(),
     updateOn: new Date(),
@@ -457,6 +458,12 @@ const set = async (model, program, context) => {
   if (model.categoryId !== 'string' && model.categoryId !== undefined) {
     program.categoryId = model.categoryId
   }
+  if (model.subCategoryIds[0] !== 'string' && model.subCategoryIds[0] !== '') {
+    program.subCategoryIds = model.subCategoryIds
+  }
+  // if (model.subCategoryIds !== 'string' && model.subCategoryIds !== undefined) {
+  //   program.subCategoryIds = model.subCategoryIds
+  // }
   if (model.sessions.length) {
     program.sessions = model.sessions
   }

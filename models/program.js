@@ -80,6 +80,12 @@ const programSchema = mongoose.Schema({
     ref: 'category',
     required: true,
   },
+  subCategoryIds: [{
+    type: mongoose.Schema.Types.ObjectId,
+    default: [],
+    ref: 'tag',
+    required: true,
+  }],
   sessions: [
     {
       sessionName: { type: String, default: '' },
