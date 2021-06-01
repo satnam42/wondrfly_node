@@ -896,23 +896,23 @@ const getProfileProgress = async (query, context) => {
   let progress = 10;
   let user = await db.user.findById(query.id);
   if (user.phoneNumber !== "string" && user.phoneNumber !== undefined && user.phoneNumber !== "") {
-    progress += 10
+    progress += 20
   }
   if (user.avatarImages !== "string" && user.avatarImages !== undefined && user.avatarImages !== "") {
-    progress += 10
+    progress += 20
   }
   if (user.addressLine1 !== "string" && user.addressLine1 !== undefined && user.addressLine1 !== "") {
-    progress += 10
+    progress += 20
   }
-  if (user.city !== "string" && user.city !== undefined && user.city !== "") {
-    progress += 10
-  }
-  if (user.state !== "string" && user.state !== undefined && user.state !== "") {
-    progress += 10
-  }
-  if (user.country !== "string" && user.country !== undefined && user.country !== "") {
-    progress += 10
-  }
+  // if (user.city !== "string" && user.city !== undefined && user.city !== "") {
+  //   progress += 15
+  // }
+  // if (user.state !== "string" && user.state !== undefined && user.state !== "") {
+  //   progress += 15
+  // }
+  // if (user.country !== "string" && user.country !== undefined && user.country !== "") {
+  //   progress += 15
+  // }
 
   if (query.role == 'parent') {
     let children = await db.child.find({ parent: user.id })
