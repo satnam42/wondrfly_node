@@ -35,6 +35,9 @@ module.exports = [
       lng: {
         type: 'string',
       },
+      activeStatus: {
+        type: 'string',
+      },
       instagram: {
         type: 'string',
       },
@@ -61,6 +64,13 @@ module.exports = [
           default: '',
           // properties:
           //     { type: "string", default: "" },
+        },
+      },
+      subCategoryIds: {
+        type: 'array',
+        items: {
+          type: 'string',
+          default: '',
         },
       },
       links: {

@@ -53,6 +53,12 @@ module.exports = [
       lng: {
         type: 'string',
       },
+      activeStatus: {
+        type: 'string',
+      },
+      description: {
+        type: 'string',
+      },
       categoryIds: {
         type: 'array',
         items: {
@@ -61,6 +67,13 @@ module.exports = [
           default: '',
           // properties:
           //     { type: "string", default: "" },
+        },
+      },
+      subCategoryIds: {
+        type: 'array',
+        items: {
+          type: 'string',
+          default: '',
         },
       },
       links: {

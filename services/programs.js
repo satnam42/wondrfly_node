@@ -5,6 +5,19 @@ const csv = require('csvtojson')
 const fs = require('fs')
 const baseUrl = require('config').get('image').baseUrl
 
+
+function humanize(str) {
+  var i, frags = str.split(' ');
+  for (i = 0; i < frags.length; i++) {
+    frags[i] = frags[i].charAt(0).toLowerCase() + frags[i].slice(1);
+  }
+  return frags.join('_');
+}
+
+
+
+
+
 const buildImportProgram = async (model, context) => {
   const log = context.logger.start(
     `services:programs:buildImportProgram${model}`
@@ -222,6 +235,10 @@ const buildImportProgram = async (model, context) => {
 
 const build = async (model, context) => {
   const log = context.logger.start(`services:programs:build${model}`)
+  let word
+  if (model.name) {
+    word = humanize(model.name);
+  }
   let isPublished = false
   if (
     model.name != '' &&
@@ -249,6 +266,7 @@ const build = async (model, context) => {
     city: model.city,
     cycle: model.cycle,
     activeStatus: model.activeStatus,
+    alias: word ? word : '',
 
     type: model.type,
     price: model.price,
@@ -325,6 +343,10 @@ const set = async (model, program, context) => {
   if (model.name !== 'string' && model.name !== undefined) {
     program.name = model.name
   }
+  if (model.name !== 'string' && model.name !== undefined) {
+    program.alias = humanize(model.name)
+  }
+
   if (model.providerName !== 'string' && model.providerName !== undefined) {
     program.providerName = model.providerName
   }
@@ -346,6 +368,10 @@ const set = async (model, program, context) => {
   if (model.activeStatus !== 'string' && model.activeStatus !== undefined) {
     program.activeStatus = model.activeStatus
   }
+  if (model.alias !== 'string' && model.alias !== undefined) {
+    program.alias = model.alias
+  }
+
 
   if (model.description !== 'string' && model.description !== undefined) {
     program.description = model.description
@@ -541,7 +567,6 @@ const getAllprograms = async (query, context) => {
       }
     }
   }
-
   log.end()
   return programs
 }
@@ -556,6 +581,7 @@ const getById = async (id, context) => {
     .sort({ createdOn: -1 })
     .populate('tags')
     .populate('user', 'firstName')
+    .populate('subCategoryIds')
 
   log.end()
   return program
@@ -618,6 +644,7 @@ const search = async (query, context) => {
   const program = await db.program
     .find({ name: { $regex: '.*' + query.name + '.*', $options: 'i' } })
     .populate('tags')
+    .populate('subCategoryIds')
     .limit(5)
   log.end()
   let finalProgram = []
@@ -1016,7 +1043,7 @@ const getProgramsByDate = async (query, context) => {
     $gte: moment(fromDate, 'DD-MM-YYYY').startOf('day').toDate(),
     $lt: moment(toDate, 'DD-MM-YYYY').endOf('day').toDate(),
   }
-  let programs = await db.program.find({ createdOn: dat })
+  let programs = await db.program.find({ createdOn: dat }).populate('subCategoryIds')
   let count = await db.program.find({ createdOn: dat }).count()
   log.end()
   return programs
@@ -1030,7 +1057,7 @@ const publishedOrUnPublishedPrograms = async (query, context) => {
   if (!userId) {
     throw new Error('user id is required')
   }
-  let programs = await db.program.find({ user: userId })
+  let programs = await db.program.find({ user: userId }).populate('subCategoryIds')
   if (!programs) {
     throw new Error('programs not found')
   }
@@ -1098,6 +1125,7 @@ const openPrograms = async (query, context) => {
     .find({ isPublished: true })
     .sort({ createdOn: -1 })
     .populate('tags')
+    .populate('subCategoryIds')
     .skip(skipCount)
     .limit(pageSize)
   let finalProgram = []

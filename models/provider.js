@@ -12,6 +12,11 @@ const provider = mongoose.Schema({
       // required: true
     },
   ],
+  subCategoryIds: [{
+    type: mongoose.Schema.Types.ObjectId,
+    default: [],
+    ref: 'tag',
+  }],
   about: { type: String, default: '' },
   bio: { type: String, default: '' },
   description: { type: String, default: '' },
@@ -24,6 +29,9 @@ const provider = mongoose.Schema({
   banners: [{ type: String, default: '' }],
   links: [{ type: String, default: '' }],
   cycle: { type: String, default: '' },
+  alias: { type: String, default: '' },
+  activeStatus: { type: String, default: '' },
+
 
   rating: { type: String, default: '' },
   reviews: { type: String, default: '' },

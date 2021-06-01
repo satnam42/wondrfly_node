@@ -8,6 +8,17 @@ const imageUrl = require('config').get('image').url
 const baseUrl = require('config').get('image').baseUrl
 const ObjectId = require('mongodb').ObjectID
 const moment = require('moment')
+
+
+function humanize(str) {
+  var i, frags = str.split(' ');
+  for (i = 0; i < frags.length; i++) {
+    frags[i] = frags[i].charAt(0).toLowerCase() + frags[i].slice(1);
+  }
+  return frags.join('_');
+}
+
+
 const buildUser = async (model, context) => {
   const log = context.logger.start(`services:users:buildUser${model}`)
   let isVerified = false
@@ -27,6 +38,7 @@ const buildUser = async (model, context) => {
   ) {
     isVerified = true
   }
+
 
   const user = await new db.user({
     firstName: model.firstName,
@@ -88,6 +100,9 @@ const setProviderDetail = async (model, provider, context) => {
   if (model.about !== 'string' && model.about !== undefined) {
     provider.about = model.about
   }
+  if (model.firstName !== 'string' && model.firstName !== undefined) {
+    provider.alias = humanize(model.firstName)
+  }
   if (model.bio !== 'string' && model.bio !== undefined) {
     provider.bio = model.bio
   }
@@ -96,6 +111,9 @@ const setProviderDetail = async (model, provider, context) => {
   }
   if (model.cycle !== 'string' && model.cycle !== undefined) {
     provider.cycle = model.cycle
+  }
+  if (model.alias !== 'string' && model.alias !== undefined) {
+    provider.alias = model.alias
   }
 
   if (model.description !== 'string' && model.description !== undefined) {
@@ -140,8 +158,14 @@ const setProviderDetail = async (model, provider, context) => {
   if (model.logo !== 'string' && model.logo !== undefined) {
     provider.logo = model.logo
   }
+  if (model.activeStatus !== 'string' && model.activeStatus !== undefined) {
+    provider.activeStatus = model.activeStatus
+  }
   if (model.healthAndSafety.length) {
     provider.healthAndSafety = model.healthAndSafety
+  }
+  if (model.subCategoryIds[0] !== 'string' && model.subCategoryIds[0] !== '') {
+    provider.subCategoryIds = model.subCategoryIds
   }
 
   provider.updateOn = new Date()
@@ -410,13 +434,21 @@ const addProvider = async (model, context) => {
     numbers: true,
   })
 
+  let word
+  if (model.firstName) {
+    word = humanize(model.firstName);
+  }
   // model.password = await encrypt.getHash('321@LetsPlay!@#$%', context);
   model.password = await encrypt.getHash(genPassword, context)
   const user = await buildUser(model, context)
   if (user.role == 'provider') {
     await new db.provider({
       user: user._id,
+      alias: word ? word : '',
       categories: model.categoryIds,
+      subCategoryIds: model.subCategoryIds,
+      activeStatus: model.activeStatus,
+      description: model.description,
       website: model.website,
       links: model.links,
       cycle: model.cycle,

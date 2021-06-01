@@ -9,7 +9,7 @@ const programSchema = mongoose.Schema({
   city: { type: String, default: '' },
   cycle: { type: String, default: '' },
   activeStatus: { type: String, default: '' },
-
+  alias: { type: String, default: '' },
   description: { type: String, default: '' },
   type: { type: String, default: '' },
   price: { type: Number, default: '' },
