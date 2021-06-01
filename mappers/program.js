@@ -41,6 +41,7 @@ exports.toModel = (entity) => {
     emails: entity.emails || '',
     addresses: entity.addresses || '',
     tags: entity.tags || '',
+    subCategoryIds: entity.subCategoryIds || [],
     batches: entity.batches || '',
     sessions: entity.sessions || '',
     programImage: entity.programImage ? baseUrl + entity.programImage : '',

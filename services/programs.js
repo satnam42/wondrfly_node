@@ -467,6 +467,7 @@ const set = async (model, program, context) => {
   // if (model.subCategoryIds !== 'string' && model.subCategoryIds !== undefined) {
   //   program.subCategoryIds = model.subCategoryIds
   // }
+
   if (model.sessions.length) {
     program.sessions = model.sessions
   }
@@ -515,6 +516,7 @@ const getAllprograms = async (query, context) => {
     .sort({ createdOn: -1 })
     .populate('tags')
     .populate('user', 'firstName')
+    .populate('subCategoryIds')
     .skip(skipCount)
     .limit(pageSize)
   programs.count = await db.program.find().count()
