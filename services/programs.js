@@ -1189,6 +1189,14 @@ const listPublishOrUnpublish = async (query, context) => {
       },
       {
         $lookup: {
+          from: 'tags',
+          localField: 'subCategoryIds',
+          foreignField: '_id',
+          as: 'subCategories',
+        },
+      },
+      {
+        $lookup: {
           from: 'users',
           localField: 'user',
           foreignField: '_id',
@@ -1214,6 +1222,8 @@ const listPublishOrUnpublish = async (query, context) => {
   log.end()
   return programs
 }
+
+
 
 const searchByNameAndDate = async (query, context) => {
   const { programName, date } = query
