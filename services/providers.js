@@ -112,10 +112,6 @@ const setProviderDetail = async (model, provider, context) => {
   if (model.cycle !== 'string' && model.cycle !== undefined) {
     provider.cycle = model.cycle
   }
-  if (model.alias !== 'string' && model.alias !== undefined) {
-    provider.alias = model.alias
-  }
-
   if (model.description !== 'string' && model.description !== undefined) {
     provider.description = model.description
   }

@@ -13,6 +13,8 @@ exports.toModel = entity => {
         contactOtherInfo: entity.contactOtherInfo,
         schoolInfo: entity.schoolInfo,
         interestInfo: entity.interestInfo,
+        gradeLevel: entity.gradeLevel,
+        fromWhereYouHeard: entity.fromWhereYouHeard,
         dislikes: entity.dislikes,
         alergies: entity.alergies,
         parentNotes: entity.parentNotes,

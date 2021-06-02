@@ -38,6 +38,12 @@ const setChild = async (model, child, context) => {
     if (model.interestInfo !== "string" && model.interestInfo !== undefined) {
         child.interestInfo = model.interestInfo;
     }
+    if (model.gradeLevel !== "string" && model.gradeLevel !== undefined) {
+        child.gradeLevel = model.gradeLevel;
+    }
+    if (model.fromWhereYouHeard !== "string" && model.fromWhereYouHeard !== undefined) {
+        child.fromWhereYouHeard = model.fromWhereYouHeard;
+    }
     if (model.dislikes !== "string" && model.dislikes !== undefined) {
         child.dislikes = model.dislikes;
     }
@@ -66,6 +72,8 @@ const buildChild = async (model, context) => {
         contactOtherInfo: model.contactOtherInfo,
         schoolInfo: model.schoolInfo,
         interestInfo: model.interestInfo,
+        gradeLevel: model.gradeLevel,
+        fromWhereYouHeard: model.fromWhereYouHeard,
         dislikes: model.dislikes,
         alergies: model.alergies,
         parent: model.parentId,

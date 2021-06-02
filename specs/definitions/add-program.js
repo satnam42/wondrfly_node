@@ -8,6 +8,9 @@ module.exports = [
       providerName: {
         type: 'string',
       },
+      type: {
+        type: 'string',
+      },
       indoorOroutdoor: {
         type: 'string',
       },
@@ -39,6 +42,9 @@ module.exports = [
         type: 'string',
       },
       code: {
+        type: 'string',
+      },
+      presenter: {
         type: 'string',
       },
       time: {

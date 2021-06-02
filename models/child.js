@@ -18,6 +18,8 @@ const childSchema = mongoose.Schema({
             required: true
         },
     ],
+    gradeLevel: { type: String, default: "", },
+    fromWhereYouHeard: { type: String, default: "", },
     dislikes: { type: String, default: "", },
     alergies: { type: String, default: "" },
     parentNotes: { type: String, default: "", },

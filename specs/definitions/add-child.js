@@ -32,6 +32,12 @@ module.exports = [
             schoolInfo: {
                 type: "string"
             },
+            gradeLevel: {
+                type: "string"
+            },
+            fromWhereYouHeard: {
+                type: "string"
+            },
             dislikes: {
                 type: "string"
             },

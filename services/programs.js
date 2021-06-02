@@ -368,10 +368,6 @@ const set = async (model, program, context) => {
   if (model.activeStatus !== 'string' && model.activeStatus !== undefined) {
     program.activeStatus = model.activeStatus
   }
-  if (model.alias !== 'string' && model.alias !== undefined) {
-    program.alias = model.alias
-  }
-
 
   if (model.description !== 'string' && model.description !== undefined) {
     program.description = model.description
