@@ -1166,6 +1166,7 @@ const publish = async (query, context) => {
   return program
 }
 
+
 const listPublishOrUnpublish = async (query, context) => {
   const log = context.logger.start(`services:providers:listPublishOrUnpublish`)
   let pageNo = Number(query.pageNo) || 1
@@ -1189,11 +1190,24 @@ const listPublishOrUnpublish = async (query, context) => {
       },
       {
         $lookup: {
-          from: 'tags',
-          localField: 'subCategoryIds',
-          foreignField: '_id',
-          as: 'subCategories',
-        },
+          from: "tags",
+          let: { "subCategoryIds": "$subCategoryIds" },
+          // pipeline: [
+          //   { "$match": { "$expr": { "$in": ["$_id", "$$subCategoryIds"] } } }
+          // ],
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $in: ['$_id', { $ifNull: ['$$subCategoryIds', []] }] },
+                  ]
+                }
+              }
+            }
+          ],
+          as: "subCategoryIds"
+        }
       },
       {
         $lookup: {
@@ -1222,6 +1236,9 @@ const listPublishOrUnpublish = async (query, context) => {
   log.end()
   return programs
 }
+
+
+
 
 
 

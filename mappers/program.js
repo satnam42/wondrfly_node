@@ -1,7 +1,6 @@
 'use strict'
 const baseUrl = require('config').get('image').baseUrl
 exports.toModel = (entity) => {
-  // console.log('entity ==>>>>', entity)
   let model = {
     _id: entity._id || '',
     ageGroup: entity.ageGroup || '',
@@ -42,6 +41,7 @@ exports.toModel = (entity) => {
     emails: entity.emails || '',
     addresses: entity.addresses || '',
     tags: entity.tags || '',
+    category: entity.category || [],
     subCategoryIds: entity.subCategoryIds || [],
     batches: entity.batches || '',
     sessions: entity.sessions || '',
