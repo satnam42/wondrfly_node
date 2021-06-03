@@ -139,22 +139,11 @@ const deleteChild = async (id, context) => {
 const childByParentId = async (id, context) => {
     const log = context.logger.start(`services:child:update`);
     let children = await db.child.find({ parent: id }).populate('interestInfo')
-    let finalchilds = [];
     if (!children) {
         throw new Error("child Not Found");
     }
-    children.forEach((child, index) => {
-        if (child.avtar) {
-            child.avtar = baseUrl + child.avtar;
-            finalchilds.push(child);
-        }
-        else {
-            finalchilds.push(child);
-        }
-
-    });
     log.end();
-    return finalchilds
+    return children
 };
 
 const childByGuardianId = async (id, context) => {

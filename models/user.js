@@ -43,6 +43,10 @@ const user = mongoose.Schema({
   token: { type: String, default: '' },
   createdBy: { type: String, default: '' },
   note: { type: String, default: '' },
+  inviteLinked: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'guardian',
+  },
   notificationsOnOff: { type: Boolean, default: true },
   profileCompleteEmail: { type: Boolean, default: false },
   profileCompleteNotification: { type: Boolean, default: false },
