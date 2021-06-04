@@ -21,7 +21,7 @@ exports.toModel = (entity) => {
 
     type: entity.type || '',
     price: entity.price || '',
-    perTimePeriod: entity.perTimePeriod || '',
+    pricePeriod: entity.pricePeriod || '',
     code: entity.code || '',
     location: entity.location || '',
     joiningLink: entity.joiningLink || '',

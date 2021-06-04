@@ -51,7 +51,10 @@ const programSchema = mongoose.Schema({
   specialInstructions: { type: String, default: '' },
   specialInstructions: { type: String, default: '' },
   adultAssistanceIsRequried: { type: Boolean, default: false },
-  perTimePeriod: { type: String, default: '' },
+  pricePeriod: {
+    periodAmount: { type: String, default: '' },
+    periodCount: { type: Number, default: 0 },
+  },
   capacity: {
     min: { type: Number, default: 0 },
     max: { type: Number, default: 0 },

@@ -38,9 +38,6 @@ module.exports = [
       price: {
         type: 'number',
       },
-      perTimePeriod: {
-        type: 'string',
-      },
       location: {
         type: 'string',
       },
@@ -107,6 +104,12 @@ module.exports = [
       },
       adultAssistanceIsRequried: {
         type: 'boolean',
+      },
+      pricePeriod: {
+        properties: {
+          periodAmount: { type: 'string' },
+          periodCount: { type: 'number' },
+        },
       },
       capacity: {
         properties: {

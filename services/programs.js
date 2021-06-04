@@ -270,7 +270,7 @@ const build = async (model, context) => {
 
     type: model.type,
     price: model.price,
-    perTimePeriod: model.perTimePeriod,
+    pricePeriod: model.pricePeriod,
     code: model.code,
     lat: model.lat,
     lng: model.lng,
@@ -379,8 +379,8 @@ const set = async (model, program, context) => {
   if (model.price !== 'string' && model.price !== undefined) {
     program.price = model.price
   }
-  if (model.perTimePeriod !== 'string' && model.perTimePeriod !== undefined) {
-    program.perTimePeriod = model.perTimePeriod
+  if (model.pricePeriod !== 'string' && model.pricePeriod !== undefined) {
+    program.pricePeriod = model.pricePeriod
   }
   if (model.joiningLink !== 'string' && model.joiningLink !== undefined) {
     program.joiningLink = model.joiningLink
