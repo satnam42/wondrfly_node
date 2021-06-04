@@ -504,6 +504,18 @@ module.exports = [
         },
         {
           in: 'query',
+          name: 'durationMin',
+          description: 'durationMin',
+          type: 'integer',
+        },
+        {
+          in: 'query',
+          name: 'durationMax',
+          description: 'durationMax',
+          type: 'integer',
+        },
+        {
+          in: 'query',
           name: 'categoryId',
           description: 'category id',
           type: 'string',

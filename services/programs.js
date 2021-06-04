@@ -270,6 +270,7 @@ const build = async (model, context) => {
 
     type: model.type,
     price: model.price,
+    perTimePeriod: model.perTimePeriod,
     code: model.code,
     lat: model.lat,
     lng: model.lng,
@@ -377,6 +378,9 @@ const set = async (model, program, context) => {
   }
   if (model.price !== 'string' && model.price !== undefined) {
     program.price = model.price
+  }
+  if (model.perTimePeriod !== 'string' && model.perTimePeriod !== undefined) {
+    program.perTimePeriod = model.perTimePeriod
   }
   if (model.joiningLink !== 'string' && model.joiningLink !== undefined) {
     program.joiningLink = model.joiningLink
@@ -939,7 +943,6 @@ const getFilterProgram = async (query, context) => {
   let pageNo = Number(query.pageNo) || 1
   let pageSize = Number(query.pageSize) || 10
   let skipCount = pageSize * (pageNo - 1)
-
   let programs
 
   if (query.fromDate && query.toDate) {
@@ -988,6 +991,18 @@ const getFilterProgram = async (query, context) => {
     }
     programs = await db.program
       .find({ price: byPrice, isPublished: true })
+      .populate('tags')
+      .skip(skipCount)
+      .limit(pageSize)
+  }
+
+  if (query.durationMin && query.durationMax) {
+    const byduration = {
+      $gte: query.durationMin,
+      $lte: query.durationMax,
+    }
+    programs = await db.program
+      .find({ duration: byduration, isPublished: true })
       .populate('tags')
       .skip(skipCount)
       .limit(pageSize)

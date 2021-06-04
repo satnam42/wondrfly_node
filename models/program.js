@@ -42,7 +42,7 @@ const programSchema = mongoose.Schema({
   },
   lat: { type: String, default: '' },
   lng: { type: String, default: '' },
-  duration: { type: String, default: '' },
+  duration: { type: Number, default: '' },
   isPublished: { type: Boolean, default: false },
   isFree: { type: Boolean, default: false },
   isFav: { type: Boolean, default: false },
@@ -51,6 +51,7 @@ const programSchema = mongoose.Schema({
   specialInstructions: { type: String, default: '' },
   specialInstructions: { type: String, default: '' },
   adultAssistanceIsRequried: { type: Boolean, default: false },
+  perTimePeriod: { type: String, default: '' },
   capacity: {
     min: { type: Number, default: 0 },
     max: { type: Number, default: 0 },

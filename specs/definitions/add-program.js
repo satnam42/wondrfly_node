@@ -36,6 +36,9 @@ module.exports = [
         type: 'string',
       },
       price: {
+        type: 'number',
+      },
+      perTimePeriod: {
         type: 'string',
       },
       location: {
@@ -72,7 +75,7 @@ module.exports = [
         },
       },
       duration: {
-        type: 'string',
+        type: 'number',
       },
       isFree: {
         type: 'boolean',
