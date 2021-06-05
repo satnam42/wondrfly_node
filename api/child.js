@@ -45,6 +45,8 @@ const childByParentId = async (req, res) => {
         const children = await service.childByParentId(req.params.id, req.context);
         log.end();
         return response.data(res, childMapper.toSearchModel(children));
+        // return response.data(res, children);
+
     } catch (err) {
         log.error(err);
         log.end();

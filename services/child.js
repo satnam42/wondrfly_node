@@ -138,11 +138,45 @@ const deleteChild = async (id, context) => {
 
 const childByParentId = async (id, context) => {
     const log = context.logger.start(`services:child:update`);
-    let children = await db.child.find({ parent: id }).populate('interestInfo')
-    if (!children) {
+    // inviteLinked
+    let children = []
+    let childrenGuardian
+    let usrParent = await db.user.findById(id)
+    if (usrParent.inviteLinked) {
+        // console.log('if parent invited')
+        let guardian = await db.guardian.findById(usrParent.inviteLinked)
+        if (id == guardian.invitedBy) {
+            childrenGuardian = await db.child.find({ parent: guardian.invitedTo }).populate('interestInfo')
+        }
+        if (id == guardian.invitedTo) {
+            childrenGuardian = await db.child.find({ parent: guardian.invitedBy }).populate('interestInfo')
+        }
+        let children1 = await db.child.find({ parent: id }).populate('interestInfo')
+
+        if (children1.length >= 1) {
+            for (var x of children1) {
+                children.push(x);
+            }
+        }
+        if (childrenGuardian.length >= 1) {
+            for (var x of childrenGuardian) {
+                children.push(x);
+            }
+        }
+
+        if (children.length < 1) {
+            throw new Error("child Not Found");
+        }
+        log.end();
+        return children
+    }
+
+
+    children = await db.child.find({ parent: id }).populate('interestInfo')
+    if (children.length < 1) {
         throw new Error("child Not Found");
     }
-    log.end();
+
     return children
 };
 
