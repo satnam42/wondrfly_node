@@ -3,34 +3,34 @@
 exports.toModel = (entity) => {
     let model = {}
 
-    if (entity.user && entity.user != undefined) {
-        model.id = entity.user.id,
-            model.firstName = entity.user.firstName,
-            model.lastName = entity.user.lastName,
-            model.phoneNumber = entity.user.phoneNumber,
-            model.avatarImages = entity.user.avatarImages,
+    if (entity.invitedTo && entity.invitedTo != undefined) {
+        model.id = entity.invitedTo.id,
+            model.firstName = entity.invitedTo.firstName,
+            model.lastName = entity.invitedTo.lastName,
+            model.phoneNumber = entity.invitedTo.phoneNumber,
+            model.avatarImages = entity.invitedTo.avatarImages,
             model.relationToChild = entity.relationToChild
-        model.email = entity.user.email,
-            model.age = entity.user.age,
-            model.personalNote = entity.user.personalNote,
-            model.isOnBoardingDone = entity.user.isOnBoardingDone,
-            model.sex = entity.user.sex,
-            model.addressLine1 = entity.user.addressLine1,
-            model.addressLine2 = entity.user.addressLine2,
-            model.city = entity.user.city,
-            model.country = entity.user.country,
-            model.zipCode = entity.user.zipCode,
-            model.lat = entity.user.lat,
-            model.long = entity.user.long,
-            model.stripeToken = entity.user.stripeToken,
-            model.stripeKey = entity.user.stripeKey,
-            model.ssn = entity.user.ssn,
-            model.isActivated = entity.user.isActivated,
-            model.lastModifiedBy = entity.user.lastModifiedBy,
-            model.createdBy = entity.user.createdBy,
-            model.deviceToken = entity.user.deviceToken,
-            model.role = entity.user.role,
-            model.token = entity.user.token
+        model.email = entity.invitedTo.email,
+            model.age = entity.invitedTo.age,
+            model.personalNote = entity.invitedTo.personalNote,
+            model.isOnBoardingDone = entity.invitedTo.isOnBoardingDone,
+            model.sex = entity.invitedTo.sex,
+            model.addressLine1 = entity.invitedTo.addressLine1,
+            model.addressLine2 = entity.invitedTo.addressLine2,
+            model.city = entity.invitedTo.city,
+            model.country = entity.invitedTo.country,
+            model.zipCode = entity.invitedTo.zipCode,
+            model.lat = entity.invitedTo.lat,
+            model.long = entity.invitedTo.long,
+            model.stripeToken = entity.invitedTo.stripeToken,
+            model.stripeKey = entity.invitedTo.stripeKey,
+            model.ssn = entity.invitedTo.ssn,
+            model.isActivated = entity.invitedTo.isActivated,
+            model.lastModifiedBy = entity.invitedTo.lastModifiedBy,
+            model.createdBy = entity.invitedTo.createdBy,
+            model.deviceToken = entity.invitedTo.deviceToken,
+            model.role = entity.invitedTo.role,
+            model.token = entity.invitedTo.token
 
     }
     return model;

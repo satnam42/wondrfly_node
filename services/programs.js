@@ -457,7 +457,6 @@ const set = async (model, program, context) => {
   ) {
     program.priceForSiblings = model.priceForSiblings
   }
-
   if (
     model.specialInstructions !== 'string' &&
     model.specialInstructions !== undefined
@@ -542,6 +541,7 @@ const getAllprograms = async (query, context) => {
     .sort({ createdOn: -1 })
     .populate('tags')
     .populate('user', 'firstName')
+    .populate('categoryId')
     .populate('subCategoryIds')
     .skip(skipCount)
     .limit(pageSize)
@@ -581,6 +581,7 @@ const getById = async (id, context) => {
     .sort({ createdOn: -1 })
     .populate('tags')
     .populate('user', 'firstName')
+    .populate('categoryId')
     .populate('subCategoryIds')
 
   log.end()
@@ -700,7 +701,7 @@ const getProgramsByProvider = async (query, context) => {
         from: 'categories',
         localField: 'categoryId',
         foreignField: '_id',
-        as: 'category',
+        as: 'categoryId',
       },
     },
     {
@@ -1200,7 +1201,7 @@ const listPublishOrUnpublish = async (query, context) => {
           from: 'categories',
           localField: 'categoryId',
           foreignField: '_id',
-          as: 'category',
+          as: 'categoryId',
         },
       },
       {

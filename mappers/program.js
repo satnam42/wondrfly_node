@@ -42,7 +42,7 @@ exports.toModel = (entity) => {
     emails: entity.emails || '',
     addresses: entity.addresses || '',
     tags: entity.tags || '',
-    category: entity.category || [],
+    category: entity.categoryId || [],
     subCategoryIds: entity.subCategoryIds || [],
     batches: entity.batches || '',
     sessions: entity.sessions || '',
