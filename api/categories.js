@@ -49,7 +49,8 @@ const search = async (req, res) => {
     try {
         const category = await service.search(req.query, req.context);
         log.end();
-        return response.data(res, category);
+        return response.data(res, categoryMapper.toSearchModel(category));
+
     } catch (err) {
         log.error(err);
         log.end();
