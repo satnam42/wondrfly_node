@@ -187,22 +187,10 @@ const childByGuardianId = async (id, context) => {
         throw new Error("Guardian does not exist");
     }
     let children = await db.child.find({ parent: guardian.parent }).populate('interestInfo')
-    let finalchilds = [];
     if (!children) {
         throw new Error("child Not Found");
     }
-    children.forEach((child, index) => {
-        if (child.avtar) {
-            child.avtar = baseUrl + child.avtar;
-            finalchilds.push(child);
-        }
-        else {
-            finalchilds.push(child);
-        }
-
-    });
     log.end();
-    return finalchilds
 };
 
 
