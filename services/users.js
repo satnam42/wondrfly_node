@@ -1101,6 +1101,11 @@ const facebookLogin = async (model, context) => {
     const createdFBUser = await buildFBUser(model, context);
     const token = auth.getToken(createdFBUser, false, context);
     createdFBUser.token = token;
+    let templatePath = '../emailTemplates/welcome_parent.html';
+    let subject = "welcome to join wonderfly";
+    if (createdFBUser) {
+      sendEmail(model.firstName, model.email, templatePath, subject);
+    }
     log.end();
     return createdFBUser;
   }
