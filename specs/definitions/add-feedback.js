@@ -6,8 +6,8 @@ module.exports = [
                 type: "string"
             },
             feedback: {
-                type: "string"
-            },
+                type: "string",
+            }
         }
     }
 ];

@@ -15,104 +15,6 @@ const moment = require('moment');
 var smtpPassword = require('aws-smtp-credentials');
 
 
-// sendEmail = async (firstName, email, templatePath, subject, OTP) => {
-//   let mailBody = fs.readFileSync(path.join(__dirname, templatePath)).toString();
-//   mailBody = mailBody.replace(/{{firstname}}/g, firstName);
-
-//   if (OTP) {
-//     mailBody = mailBody.replace(/{{OTP}}/g, OTP);
-//   }
-
-//   let smtpTransport = nodemailer.createTransport({
-//     host: 'localhost',
-//     port: 465,
-//     secure: true,
-//     service: 'Gmail',
-//     auth: {
-//       user: `wondrfly@gmail.com`,
-//       pass: `wondrfly@123`
-//     }
-//   });
-
-//   let mailOptions = {
-//     from: "smtp.mailtrap.io",
-//     to: email, //sending to: E-mail
-//     subject: subject,
-//     html: mailBody,
-//     attachments: [{
-//       filename: 'welcome_img1.png',
-//       path: `${__dirname}/../public/images/welcome_img1.png`,
-//       cid: 'welcome_img1' //same cid value as in the html img src
-//     },
-//     {
-//       filename: 'complete_profile.png',
-//       path: `${__dirname}/../public/images/complete_profile.png`,
-//       cid: 'complete_profile' //same cid value as in the html img src
-//     },
-//     {
-//       filename: 'logo.png',
-//       path: `${__dirname}/../public/images/logo.png`,
-//       cid: 'logo1' //same cid value as in the html img src
-//     },
-//     {
-//       filename: 'welcome_img2.png',
-//       path: `${__dirname}/../public/images/welcome_img2.png`,
-//       cid: 'welcome_img2' //same cid value as in the html img src
-//     },
-//     {
-//       filename: 'welcome_img3.png',
-//       path: `${__dirname}/../public/images/welcome_img3.png`,
-//       cid: 'welcome_img3' //same cid value as in the html img src
-//     },
-//     {
-//       filename: 'welcome_img4.png',
-//       path: `${__dirname}/../public/images/welcome_img4.png`,
-//       cid: 'welcome_img4' //same cid value as in the html img src
-//     },
-//     {
-//       filename: 'welcome_img5.png',
-//       path: `${__dirname}/../public/images/welcome_img5.png`,
-//       cid: 'welcome_img5' //same cid value as in the html img src
-//     },
-//     {
-//       filename: 'welcome_img6.png',
-//       path: `${__dirname}/../public/images/welcome_img6.png`,
-//       cid: 'welcome_img6' //same cid value as in the html img src
-//     },
-//     {
-//       filename: 'logo_white.png',
-//       path: `${__dirname}/../public/images/logo_white.png`,
-//       cid: 'logo_white' //same cid value as in the html img src
-//     },
-//     {
-//       filename: 'fb.png',
-//       path: `${__dirname}/../public/images/fb.png`,
-//       cid: 'fb' //same cid value as in the html img src
-//     },
-//     {
-//       filename: 'insta.png',
-//       path: `${__dirname}/../public/images/insta.png`,
-//       cid: 'insta' //same cid value as in the html img src
-//     },
-//     {
-//       filename: 'pinterest.png',
-//       path: `${__dirname}/../public/images/pinterest.png`,
-//       cid: 'pinterest' //same cid value as in the html img src
-//     }
-//     ]
-
-//   };
-//   let mailSent = await smtpTransport.sendMail(mailOptions)
-//   if (mailSent) {
-//     console.log("Message sent: %s", mailSent.messageId);
-//     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(mailSent));
-//     return
-//   } else {
-//     log.end()
-//     throw new Error("Unable to send email try after sometime");
-//   }
-// }
-
 sendEmail = async (firstName, email, templatePath, subject, OTP) => {
   let mailBody = fs.readFileSync(path.join(__dirname, templatePath)).toString();
   mailBody = mailBody.replace(/{{firstname}}/g, firstName);
@@ -122,22 +24,15 @@ sendEmail = async (firstName, email, templatePath, subject, OTP) => {
   }
 
   let smtpTransport = nodemailer.createTransport({
-    host: 'email-smtp.us-east-2.amazonaws.com',
+    host: 'localhost',
     port: 465,
     secure: true,
+    service: 'Gmail',
     auth: {
-      user: 'AKIAQTQZBF3N4QKSCMMP',
-      pass: smtpPassword('uPsM19LpD63Z7tLUkUxkPM8hm4Lan/KuqrC7d8Gd')
-    },
-    debug: true
-  });
-  function callback(error, info) {
-    if (error) {
-      console.log('error mail ==>>>>', error);
-    } else {
-      console.log('Message sent: ' + info.response);
+      user: `wondrfly@gmail.com`,
+      pass: `wondrfly@123`
     }
-  }
+  });
 
   let mailOptions = {
     from: "smtp.mailtrap.io",
@@ -207,15 +102,15 @@ sendEmail = async (firstName, email, templatePath, subject, OTP) => {
     ]
 
   };
-  smtpTransport.sendMail(mailOptions, callback)
-  // if (mailSent) {
-  //   console.log("Message sent: %s", mailSent.messageId);
-  //   console.log("Preview URL: %s", nodemailer.getTestMessageUrl(mailSent));
-  //   return
-  // } else {
-  //   log.end()
-  //   throw new Error("Unable to send email try after sometime");
-  // }
+  let mailSent = await smtpTransport.sendMail(mailOptions)
+  if (mailSent) {
+    console.log("Message sent: %s", mailSent.messageId);
+    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(mailSent));
+    return
+  } else {
+    log.end()
+    throw new Error("Unable to send email try after sometime");
+  }
 }
 
 

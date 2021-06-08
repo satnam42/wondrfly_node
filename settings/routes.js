@@ -1048,6 +1048,20 @@ const configure = (app, logger) => {
     api.searchHistory.allClear
   );
 
+  //==========feedback=============
+  app.post(
+    "/api/feedback/create",
+    permit.context.builder,
+    // permit.context.requiresToken,
+    api.feedback.create
+  );
+  app.get(
+    "/api/feedback/list",
+    // permit.context.requiresToken,
+    permit.context.builder,
+    api.feedback.list
+  );
+
   log.end();
 };
 
