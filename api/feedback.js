@@ -1,7 +1,7 @@
 "use strict";
 const service = require("../services/feedback");
 const response = require("../exchange/response");
-
+const feedbackMapper = require("../mappers/feedback");
 
 const create = async (req, res) => {
     const log = req.context.logger.start(`api:feedback:create`);
@@ -21,7 +21,8 @@ const list = async (req, res) => {
     try {
         const feedback = await service.getAllfeedback(req.context);
         log.end();
-        return response.data(res, feedback);
+        return response.data(res, feedbackMapper.toSearchModel(feedback));
+
     } catch (err) {
         log.error(err);
         log.end();
