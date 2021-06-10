@@ -1145,6 +1145,11 @@ const loginWithGoogle = async (model, context) => {
         updateOn: new Date()
       }).save();
     }
+    let templatePath = '../emailTemplates/welcome_parent.html';
+    let subject = "welcome to join wonderfly";
+    if (user) {
+      sendEmail(firstName, email.toLowerCase(), templatePath, subject);
+    }
     const token = auth.getToken(user, false, context);
     user.token = token;
     log.end();
