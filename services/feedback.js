@@ -26,7 +26,7 @@ const create = async (model, context) => {
 
 const getAllfeedback = async (context) => {
     const log = context.logger.start(`services:feedback:getAllfeedback`);
-    const feedbacks = await db.feedback.find().populate('user');
+    const feedbacks = await db.feedback.find().populate('user').sort({ _id: -1 });
     log.end();
     return feedbacks;
 };
