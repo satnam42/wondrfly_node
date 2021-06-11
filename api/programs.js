@@ -185,7 +185,7 @@ const filter = async (req, res) => {
     try {
         const data = await service.getFilterProgram(req.query, req.context);
         log.end();
-        return response.data(res, data);
+        return response.data(res, mapper.toSearchModel(data));
     } catch (err) {
         log.error(err);
         log.end();

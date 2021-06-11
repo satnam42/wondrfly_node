@@ -954,6 +954,8 @@ const getFilterProgram = async (query, context) => {
     programs = await db.program
       .find({ createdOn: dat, isPublished: true })
       .populate('tags')
+      .populate('categoryId')
+      .populate('subCategoryIds')
       .skip(skipCount)
       .limit(pageSize)
   }
@@ -969,6 +971,8 @@ const getFilterProgram = async (query, context) => {
         $or: [{ 'ageGroup.from': age, 'ageGroup.to': age, isPublished: true }],
       })
       .populate('tags')
+      .populate('categoryId')
+      .populate('subCategoryIds')
       .skip(skipCount)
       .limit(pageSize)
   }
@@ -981,6 +985,8 @@ const getFilterProgram = async (query, context) => {
     programs = await db.program
       .find({ 'time.from': tme, isPublished: true })
       .populate('tags')
+      .populate('categoryId')
+      .populate('subCategoryIds')
       .skip(skipCount)
       .limit(pageSize)
   }
@@ -993,6 +999,8 @@ const getFilterProgram = async (query, context) => {
     programs = await db.program
       .find({ price: byPrice, isPublished: true })
       .populate('tags')
+      .populate('categoryId')
+      .populate('subCategoryIds')
       .skip(skipCount)
       .limit(pageSize)
   }
@@ -1005,6 +1013,8 @@ const getFilterProgram = async (query, context) => {
     programs = await db.program
       .find({ duration: byduration, isPublished: true })
       .populate('tags')
+      .populate('categoryId')
+      .populate('subCategoryIds')
       .skip(skipCount)
       .limit(pageSize)
   }
@@ -1013,6 +1023,8 @@ const getFilterProgram = async (query, context) => {
     programs = await db.program
       .find({ categoryId: query.categoryId, isPublished: true })
       .populate('tags')
+      .populate('categoryId')
+      .populate('subCategoryIds')
       .skip(skipCount)
       .limit(pageSize)
   }
