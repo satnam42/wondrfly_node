@@ -489,9 +489,6 @@ const set = async (model, program, context) => {
   if (model.subCategoryIds[0] !== 'string' && model.subCategoryIds[0] !== '') {
     program.subCategoryIds = model.subCategoryIds
   }
-  // if (model.subCategoryIds !== 'string' && model.subCategoryIds !== undefined) {
-  //   program.subCategoryIds = model.subCategoryIds
-  // }
 
   if (model.sessions.length) {
     program.sessions = model.sessions
@@ -1264,11 +1261,6 @@ const listPublishOrUnpublish = async (query, context) => {
   log.end()
   return programs
 }
-
-
-
-
-
 
 const searchByNameAndDate = async (query, context) => {
   const { programName, date } = query
