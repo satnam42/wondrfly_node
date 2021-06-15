@@ -795,4 +795,29 @@ module.exports = [
       },
     },
   },
+
+  {
+    url: "/uploadExcel",
+    post: {
+      summary: "upload ",
+      description: "upload excel sheet data",
+      parameters: [
+        {
+          in: "formData",
+          name: "excel",
+          type: "file",
+          description: "The file to upload.",
+          required: true,
+        }
+      ],
+      responses: {
+        default: {
+          description: "Unexpected error",
+          schema: {
+            $ref: "#/definitions/Error"
+          }
+        }
+      }
+    }
+  }
 ]

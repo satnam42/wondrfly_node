@@ -676,6 +676,12 @@ const configure = (app, logger) => {
     api.programs.searchByNameAndDate
   );
 
+  app.post(
+    "/api/programs/uploadExcel",
+    permit.context.builder,
+    api.programs.uploadExcel
+  );
+
 
   //=============favourites api=====================//
   app.post(

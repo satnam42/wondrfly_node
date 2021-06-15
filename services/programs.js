@@ -1294,6 +1294,17 @@ const searchByNameAndDate = async (query, context) => {
   return programs
 }
 
+const uploadExcel = async (file, context) => {
+  const log = context.logger.start(`services:programs:uploadExcel`);
+  if (!file) {
+    throw new Error("file not found");
+  }
+
+
+  log.end();
+  return 'file uploaded successfully'
+};
+
 exports.create = create
 exports.getAllprograms = getAllprograms
 exports.update = update
@@ -1315,3 +1326,4 @@ exports.openPrograms = openPrograms
 exports.publish = publish
 exports.listPublishOrUnpublish = listPublishOrUnpublish
 exports.searchByNameAndDate = searchByNameAndDate
+exports.uploadExcel = uploadExcel

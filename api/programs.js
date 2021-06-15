@@ -300,6 +300,19 @@ const searchByNameAndDate = async (req, res) => {
     }
 };
 
+const uploadExcel = async (req, res) => {
+    const log = req.context.logger.start(`api:programs:uploadExcel`);
+    try {
+        const url = await service.uploadExcel(req.file, req.context);
+        log.end();
+        return response.data(res, url);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 
 exports.create = create;
 exports.list = list;
@@ -322,3 +335,4 @@ exports.openPrograms = openPrograms;
 exports.publish = publish;
 exports.listPublishOrUnpublish = listPublishOrUnpublish;
 exports.searchByNameAndDate = searchByNameAndDate;
+exports.uploadExcel = uploadExcel;
