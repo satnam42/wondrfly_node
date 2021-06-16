@@ -37,6 +37,7 @@
     "nodemailer": "^6.4.8",
     "param-case": "^2.1.1",
     "socket.io": "^2.2.0",
-    "twilio": "^3.42.2"
+    "twilio": "^3.42.2",
+    "xlsx-to-json": "^0.3.0"
   }
 }

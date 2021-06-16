@@ -804,7 +804,7 @@ module.exports = [
       parameters: [
         {
           in: "formData",
-          name: "excel",
+          name: "csv",
           type: "file",
           description: "The file to upload.",
           required: true,

@@ -4,6 +4,7 @@ var moment = require('moment') // require for date formating
 const csv = require('csvtojson')
 const fs = require('fs')
 const baseUrl = require('config').get('image').baseUrl
+var xlsxtojson = require("xlsx-to-json");
 
 
 function humanize(str) {
@@ -1299,10 +1300,30 @@ const uploadExcel = async (file, context) => {
   if (!file) {
     throw new Error("file not found");
   }
+  xlsxtojson({
+    input: file.path,  // input xls
+    output: "output.json", // output json 
+    lowerCaseHeaders: true
+  }, async function (err, result) {
+    if (err) {
+      console.log('error in xlsx ==>>>>', err);
+    }
+    if (result) {
+      await db.program.insertMany(result, (error, res) => {
+        // if (error) throw error;
+        console.log('error in insert data ===>>>>>>>>>>', error)
+        if (error) {
+          throw new Error('error occured in inserting data in db');
+        }
+        else {
+          console.log("Number of documents inserted: " + res.insertedCount);
+          log.end();
+          return 'file uploaded successfully'
+        }
 
-
-  log.end();
-  return 'file uploaded successfully'
+      });
+    }
+  });
 };
 
 exports.create = create
