@@ -11,20 +11,15 @@ sendOtpEmail = async (firstName, email, templatePath, subject) => {
         mailBody = mailBody.replace(/{{OTP}}/g, OTP);
     }
 
-
-    let smtpTransport = nodemailer.createTransport({
-        host: 'localhost',
-        port: 465,
-        secure: true,
-        service: 'Gmail',
-        auth: {
-            user: `wondrfly@gmail.com`,
-            pass: `wondrfly@123`
-        }
-    });
+    // Send e-mail using AWS SES
+    var sesTransporter = nodemailer.createTransport(sesTransport({
+        accessKeyId: aws_accessKey,
+        secretAccessKey: aws_secretKey,
+        region: aws_region
+    }));
 
     let mailOptions = {
-        from: "smtp.mailtrap.io",
+        from: "accounts@wondrfly.com",
         to: email, //sending to: E-mail
         subject: subject,
         html: mailBody,
@@ -43,7 +38,7 @@ sendOtpEmail = async (firstName, email, templatePath, subject) => {
         ]
 
     };
-    let mailSent = await smtpTransport.sendMail(mailOptions)
+    let mailSent = await sesTransporter.sendMail(mailOptions);
     if (mailSent) {
         console.log("Message sent: %s", mailSent.messageId);
         console.log("Preview URL: %s", nodemailer.getTestMessageUrl(mailSent));

@@ -13,6 +13,10 @@ var twilio = require('twilio');
 const crypto = require("crypto");
 const moment = require('moment');
 var smtpPassword = require('aws-smtp-credentials');
+const aws_accessKey = require('config').get('awsSes').accessKey
+const aws_secretKey = require('config').get('awsSes').secretKey
+const aws_region = require('config').get('awsSes').region
+var sesTransport = require('nodemailer-ses-transport');
 
 
 sendEmail = async (firstName, email, templatePath, subject, OTP) => {
@@ -23,19 +27,16 @@ sendEmail = async (firstName, email, templatePath, subject, OTP) => {
     mailBody = mailBody.replace(/{{OTP}}/g, OTP);
   }
 
-  let smtpTransport = nodemailer.createTransport({
-    host: 'localhost',
-    port: 465,
-    secure: true,
-    service: 'Gmail',
-    auth: {
-      user: `wondrfly@gmail.com`,
-      pass: `wondrfly@123`
-    }
-  });
+  // Send e-mail using AWS SES
+  var sesTransporter = nodemailer.createTransport(sesTransport({
+    accessKeyId: aws_accessKey,
+    secretAccessKey: aws_secretKey,
+    region: aws_region
+  }));
+
 
   let mailOptions = {
-    from: "smtp.mailtrap.io",
+    from: "accounts@wondrfly.com",
     to: email, //sending to: E-mail
     subject: subject,
     html: mailBody,
@@ -102,7 +103,7 @@ sendEmail = async (firstName, email, templatePath, subject, OTP) => {
     ]
 
   };
-  let mailSent = await smtpTransport.sendMail(mailOptions)
+  let mailSent = await sesTransporter.sendMail(mailOptions);
   if (mailSent) {
     console.log("Message sent: %s", mailSent.messageId);
     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(mailSent));
@@ -122,19 +123,16 @@ changePasswordEmail = async (firstName, email, templatePath, subject, OTP) => {
     mailBody = mailBody.replace(/{{OTP}}/g, OTP);
   }
 
-  let smtpTransport = nodemailer.createTransport({
-    host: 'localhost',
-    port: 465,
-    secure: true,
-    service: 'Gmail',
-    auth: {
-      user: `wondrfly@gmail.com`,
-      pass: `wondrfly@123`
-    }
-  });
+  // Send e-mail using AWS SES
+  var sesTransporter = nodemailer.createTransport(sesTransport({
+    accessKeyId: aws_accessKey,
+    secretAccessKey: aws_secretKey,
+    region: aws_region
+  }));
+
 
   let mailOptions = {
-    from: "smtp.mailtrap.io",
+    from: "accounts@wondrfly.com",
     to: email, //sending to: E-mail
     subject: subject,
     html: mailBody,
@@ -153,7 +151,7 @@ changePasswordEmail = async (firstName, email, templatePath, subject, OTP) => {
     ]
 
   };
-  let mailSent = await smtpTransport.sendMail(mailOptions)
+  let mailSent = await sesTransporter.sendMail(mailOptions);
   if (mailSent) {
     console.log("Message sent: %s", mailSent.messageId);
     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(mailSent));
@@ -173,19 +171,15 @@ sendOtpEmail = async (firstName, email, templatePath, subject, OTP) => {
     mailBody = mailBody.replace(/{{OTP}}/g, OTP);
   }
 
-  let smtpTransport = nodemailer.createTransport({
-    host: 'localhost',
-    port: 465,
-    secure: true,
-    service: 'Gmail',
-    auth: {
-      user: `wondrfly@gmail.com`,
-      pass: `wondrfly@123`
-    }
-  });
+  // Send e-mail using AWS SES
+  var sesTransporter = nodemailer.createTransport(sesTransport({
+    accessKeyId: aws_accessKey,
+    secretAccessKey: aws_secretKey,
+    region: aws_region
+  }));
 
   let mailOptions = {
-    from: "smtp.mailtrap.io",
+    from: "accounts@wondrfly.com",
     to: email, //sending to: E-mail
     subject: subject,
     html: mailBody,
@@ -204,7 +198,7 @@ sendOtpEmail = async (firstName, email, templatePath, subject, OTP) => {
     ]
 
   };
-  let mailSent = await smtpTransport.sendMail(mailOptions)
+  let mailSent = await sesTransporter.sendMail(mailOptions);
   if (mailSent) {
     console.log("Message sent: %s", mailSent.messageId);
     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(mailSent));
@@ -220,19 +214,15 @@ completeProfileEmail = async (userId, firstName, email, templatePath, subject) =
   let mailBody = fs.readFileSync(path.join(__dirname, templatePath)).toString();
   mailBody = mailBody.replace(/{{firstname}}/g, firstName);
 
-  let smtpTransport = nodemailer.createTransport({
-    host: 'localhost',
-    port: 465,
-    secure: true,
-    service: 'Gmail',
-    auth: {
-      user: `wondrfly@gmail.com`,
-      pass: `wondrfly@123`
-    }
-  });
+  // Send e-mail using AWS SES
+  var sesTransporter = nodemailer.createTransport(sesTransport({
+    accessKeyId: aws_accessKey,
+    secretAccessKey: aws_secretKey,
+    region: aws_region
+  }));
 
   let mailOptions = {
-    from: "smtp.mailtrap.io",
+    from: "accounts@wondrfly.com",
     to: email, //sending to: E-mail
     subject: subject,
     html: mailBody,
@@ -276,7 +266,7 @@ completeProfileEmail = async (userId, firstName, email, templatePath, subject) =
     ]
 
   };
-  let mailSent = await smtpTransport.sendMail(mailOptions)
+  let mailSent = await sesTransporter.sendMail(mailOptions);
   if (mailSent) {
     console.log("Message sent: %s", mailSent.messageId);
     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(mailSent));
@@ -347,6 +337,9 @@ const register = async (model, context) => {
       updateOn: new Date()
     }).save();
   }
+  //-----------------------------
+
+  //------------------------------
   let templatePath = '../emailTemplates/welcome_parent.html';
   let subject = "welcome to join wonderfly";
   if (user) {
@@ -955,7 +948,7 @@ const getProfileProgress = async (query, context) => {
       progress += 10
     }
   }
-  if (user.role == 'parent' && user.profileCompleteEmail != true && progress == 50) {
+  if (user.role == 'parent' && user.profileCompleteEmail != true && progress >= 50) {
 
     let templatePath = '../emailTemplates/complete_profile_parent.html';
     let subject = "parent profile completness";
