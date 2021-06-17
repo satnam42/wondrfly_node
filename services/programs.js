@@ -1317,13 +1317,13 @@ const uploadExcel = async (file, context) => {
         }
         else {
           console.log("Number of documents inserted: " + res.insertedCount);
-          log.end();
-          return 'file uploaded successfully'
         }
 
       });
     }
   });
+  log.end();
+  return 'file uploaded successfully'
 };
 
 exports.create = create

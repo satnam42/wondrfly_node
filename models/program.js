@@ -83,13 +83,13 @@ const programSchema = mongoose.Schema({
   categoryId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'category',
-    required: true,
+    // required: true,
   },
   subCategoryIds: [{
     type: mongoose.Schema.Types.ObjectId,
     default: [],
     ref: 'tag',
-    required: true,
+    // required: true,
   }],
   sessions: [
     {
