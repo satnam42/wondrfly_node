@@ -1069,6 +1069,14 @@ const configure = (app, logger) => {
     api.feedback.list
   );
 
+  //========reports================
+  app.get(
+    "/api/reports/search",
+    permit.context.requiresToken,
+    // validator.users.update,
+    api.reports.search
+  );
+
   log.end();
 };
 
