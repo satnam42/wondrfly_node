@@ -99,8 +99,15 @@ const addChild = async (model, context) => {
 
 
 const getList = async (query, context) => {
+    let pageNo = Number(query.pageNo) || 1;
+    let pageSize = Number(query.pageSize) || 10;
+    let skipCount = pageSize * (pageNo - 1);
+
     const log = context.logger.start(`services:childs:get`);
-    let childs = await db.child.find({}).populate('interestInfo')
+    let childs = await db.child.find({})
+        .populate('interestInfo')
+        .skip(skipCount)
+        .limit(pageSize);
     childs.count = await db.child.count();
     log.end();
     return childs;
