@@ -451,10 +451,9 @@ const get = async (query, context) => {
   return users;
 
 };
+
 const getCount = async (context) => {
-
   const log = context.logger.start(`services:users:getCount`);
-
   const userCount = await db.user.find({}).count();
   const providerCount = await db.user.find({ role: 'provider' }).count();
   const parentCount = await db.user.find({ role: 'parent' }).count();
@@ -469,18 +468,15 @@ const getCount = async (context) => {
   log.end();
   return count;
 };
-const recentAddedByRole = async (context, query) => {
 
+const recentAddedByRole = async (context, query) => {
   const log = context.logger.start(`services:users:recentAddedByRole`);
   const user = await db.user.find({ role: query.role }).sort({ _id: -1 }).limit(5)
-
   if (!user) {
     throw new Error("user not found");
   }
-
   log.end();
   return user;
-
 };
 
 const getRecentAdded = async (context) => {
