@@ -49,7 +49,6 @@ const programSchema = mongoose.Schema({
   pricePerParticipant: { type: String, default: '' },
   priceForSiblings: { type: String, default: '' },
   specialInstructions: { type: String, default: '' },
-  specialInstructions: { type: String, default: '' },
   adultAssistanceIsRequried: { type: Boolean, default: false },
   pricePeriod: {
     periodAmount: { type: String, default: '' },
@@ -104,6 +103,10 @@ const programSchema = mongoose.Schema({
     },
   ],
   programImage: { type: String, default: '' },
+  lastModifiedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user'
+  },
   createdOn: { type: Date, default: Date.now },
   updatedOn: { type: Date, default: Date.now },
 })

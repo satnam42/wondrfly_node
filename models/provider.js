@@ -57,7 +57,8 @@ const provider = mongoose.Schema({
       _id: false,
     },
   ],
-
+  source: [{ type: String, default: '' }],
+  sourceUrl: [{ type: String, default: '' }],
   // tier: { type: String, default: "" },
   createdBy: { type: String, default: '' },
   adminNotes: { type: String, default: '' },

@@ -122,13 +122,27 @@ module.exports = [
       country: { type: 'string' },
       state: { type: 'string' },
       street: { type: 'string' },
-      source: { type: 'string' },
+      // source: { type: 'string' },
       location: { type: 'string' },
       note: { type: 'string' },
       securityQuestion: { type: 'string' },
       answer: { type: 'string' },
       zipCode: { type: 'string' },
       logo: { type: 'string' },
+      source: {
+        type: 'array',
+        items: {
+          type: 'string',
+          default: '',
+        },
+      },
+      sourceUrl: {
+        type: 'array',
+        items: {
+          type: 'string',
+          default: '',
+        },
+      },
     },
   },
 ]

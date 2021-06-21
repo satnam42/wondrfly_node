@@ -322,6 +322,14 @@ const buildUser = async (model, context) => {
   return user;
 };
 
+function humanize(str) {
+  var i, frags = str.split(' ');
+  for (i = 0; i < frags.length; i++) {
+    frags[i] = frags[i].charAt(0).toLowerCase() + frags[i].slice(1);
+  }
+  return frags.join('_');
+}
+
 const register = async (model, context) => {
   const log = context.logger.start("services:users:register");
   const isEmail = await db.user.findOne({ email: { $eq: model.email } });
@@ -331,8 +339,12 @@ const register = async (model, context) => {
   model.password = await encrypt.getHash(model.password, context);
   const user = await buildUser(model, context);
   if (user.role == 'provider') {
+    if (user.firstName) {
+      word = humanize(user.firstName);
+    }
     await new db.provider({
       user: user._id,
+      alias: word,
       createdOn: new Date(),
       updateOn: new Date()
     }).save();

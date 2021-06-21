@@ -163,6 +163,13 @@ const setProviderDetail = async (model, provider, context) => {
   if (model.subCategoryIds[0] !== 'string' && model.subCategoryIds[0] !== '') {
     provider.subCategoryIds = model.subCategoryIds
   }
+  if (model.source[0] !== 'string' && model.source[0] !== '') {
+    provider.source = model.source
+  }
+  if (model.sourceUrl[0] !== 'string' && model.sourceUrl[0] !== '') {
+    provider.sourceUrl = model.sourceUrl
+  }
+
 
   provider.updateOn = new Date()
   log.end()
@@ -449,6 +456,8 @@ const addProvider = async (model, context) => {
       links: model.links,
       cycle: model.cycle,
       healthAndSafety: model.healthAndSafety,
+      source: model.source,
+      sourceUrl: model.sourceUrl,
       createdOn: new Date(),
       updateOn: new Date(),
     }).save()

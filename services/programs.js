@@ -494,6 +494,7 @@ const set = async (model, program, context) => {
   if (model.sessions.length) {
     program.sessions = model.sessions
   }
+  program.lastModifiedBy = context.user.id
   program.updateOn = new Date()
   log.end()
   await program.save()

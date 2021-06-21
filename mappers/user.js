@@ -60,7 +60,8 @@ exports.toModel = (entity) => {
 
   if (entity.provider !== undefined && entity.provider !== null) {
     ; (model.about = entity.provider.about || ''),
-      (model.description = entity.provider.description || ''),
+      (model.alias = entity.provider.alias || '')
+        (model.description = entity.provider.description || ''),
       (model.facebook = entity.provider.facebook || ''),
       (model.fullAddress = entity.provider.fullAddress || ''),
       (model.hours = entity.provider.hours || ''),

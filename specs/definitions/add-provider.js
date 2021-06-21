@@ -35,9 +35,9 @@ module.exports = [
       secondaryPhonenumber: {
         type: 'string',
       },
-      source: {
-        type: 'string',
-      },
+      // source: {
+      //   type: 'string',
+      // },
       note: {
         type: 'string',
       },
@@ -99,6 +99,20 @@ module.exports = [
             limitedClassSizes: { type: 'boolean' },
             parentObservation: { type: 'boolean' },
           },
+        },
+      },
+      source: {
+        type: 'array',
+        items: {
+          type: 'string',
+          default: '',
+        },
+      },
+      sourceUrl: {
+        type: 'array',
+        items: {
+          type: 'string',
+          default: '',
         },
       },
     },
