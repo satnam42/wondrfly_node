@@ -4,6 +4,7 @@ exports.toModel = (entity) => {
   console.log('seonadary', entity)
   let model = {
     about: entity.about || '',
+    alias: entity.alias || '',
     bio: entity.bio || '',
     description: entity.description || '',
     facebook: entity.facebook || '',
@@ -32,7 +33,7 @@ exports.toModel = (entity) => {
   }
 
   if (entity.user && entity.user != undefined) {
-    ;(model.id = entity.user.id),
+    ; (model.id = entity.user.id),
       (model.firstName = entity.user.firstName),
       (model.lastName = entity.user.lastName),
       (model.phoneNumber = entity.user.phoneNumber),

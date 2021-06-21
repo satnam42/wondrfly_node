@@ -18,7 +18,7 @@ exports.toModel = (entity) => {
     city: entity.city || '',
     cycle: entity.cycle || '',
     activeStatus: entity.activeStatus || '',
-
+    alias: entity.activeStatus || '',
     type: entity.type || '',
     price: entity.price || '',
     pricePeriod: entity.pricePeriod || '',
