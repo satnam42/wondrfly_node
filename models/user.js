@@ -21,7 +21,7 @@ const user = mongoose.Schema({
   state: { type: String, default: '' },
   city: { type: String, default: '' },
   country: { type: String, default: '' },
-  source: { type: String, default: '' },
+  // source: { type: String, default: '' },
   isClaimed: { type: Boolean, default: false },
   zipCode: { type: String, default: '' },
   lat: { type: String, default: '' },

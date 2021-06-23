@@ -55,7 +55,7 @@ const buildUser = async (model, context) => {
     state: model.state,
     lng: model.lng,
     lat: model.lat,
-    source: model.source,
+    // source: model.source,
     city: model.city,
     country: model.country,
     note: model.note,
@@ -233,9 +233,9 @@ const setBasicInfo = async (model, user, context) => {
   if (model.street !== 'string' && model.street !== undefined) {
     user.street = model.street
   }
-  if (model.source !== 'string' && model.source !== undefined) {
-    user.source = model.source
-  }
+  // if (model.source !== 'string' && model.source !== undefined) {
+  //   user.source = model.source
+  // }
   if (model.note !== 'string' && model.note !== undefined) {
     user.note = model.note
   }

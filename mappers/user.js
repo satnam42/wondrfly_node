@@ -34,7 +34,7 @@ exports.toModel = (entity) => {
     ssn: user.ssn,
     isActivated: user.isActivated,
     lastModifiedBy: user.lastModifiedBy,
-    source: user.source,
+    // source: user.source,
     state: user.state,
     createdBy: user.createdBy,
     deviceToken: user.deviceToken,
@@ -83,7 +83,10 @@ exports.toModel = (entity) => {
       (model.healthAndSafety = entity.provider.healthAndSafety || ''),
       (model.notes = entity.provider.notes || ''),
       (model.adminNotes = entity.provider.adminNotes || ''),
-      (model.provider_logo = entity.provider_logo || '')
+      (model.provider_logo = entity.provider_logo || ''),
+      (model.source = entity.provider.source || ''),
+      (model.sourceUrl = entity.provider.sourceUrl || '')
+
   }
 
   return model
