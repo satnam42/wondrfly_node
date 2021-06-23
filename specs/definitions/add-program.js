@@ -161,6 +161,24 @@ module.exports = [
           default: '',
         },
       },
+      extractionDate: {
+        type: 'date',
+      },
+      proofreaderObservation: {
+        type: 'string',
+      },
+      extractionComment: {
+        type: 'string',
+      },
+      cyrilComment: {
+        type: 'string',
+      },
+      cyrilApproval: {
+        type: 'string',
+      },
+      proofreaderRating: {
+        type: 'number',
+      },
       sessions: {
         type: 'array',
         items: {
