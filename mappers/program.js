@@ -74,14 +74,14 @@ exports.toModel = (entity) => {
     modifiedBy.firstName = entity.lastModifiedBy.firstName
     modifiedBy.email = entity.lastModifiedBy.email
     modifiedBy.role = entity.lastModifiedBy.role
-
+    modifiedBy.updatedOn = entity.updatedOn
     model.lastModifiedBy = modifiedBy
   }
   if (entity.user) {
     createdBy.firstName = entity.user.firstName
     createdBy.email = entity.user.email
     createdBy.role = entity.user.role
-
+    createdBy.createdOn = entity.createdOn
     model.addedBy = createdBy
   }
 

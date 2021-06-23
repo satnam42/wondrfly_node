@@ -519,7 +519,7 @@ const set = async (model, program, context) => {
     program.sessions = model.sessions
   }
   program.lastModifiedBy = context.user.id
-  program.updateOn = new Date()
+  program.updatedOn = new Date()
   log.end()
   await program.save()
   return program
