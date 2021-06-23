@@ -1,6 +1,7 @@
 'use strict'
 const baseUrl = require('config').get('image').baseUrl
 exports.toModel = (entity) => {
+  let modifiedBy = {}
   let model = {
     _id: entity._id || '',
     ageGroup: entity.ageGroup || '',
@@ -67,6 +68,13 @@ exports.toModel = (entity) => {
     model.categoryImage = entity.category[0].imageUrl
       ? baseUrl + entity.category[0].imageUrl
       : ''
+  }
+  if (entity.lastModifiedBy) {
+    modifiedBy.firstName = entity.lastModifiedBy.firstName
+    modifiedBy.email = entity.lastModifiedBy.email
+    modifiedBy.role = entity.lastModifiedBy.role
+
+    model.lastModifiedBy = modifiedBy
   }
 
   if (entity.provider && entity.provider != undefined) {

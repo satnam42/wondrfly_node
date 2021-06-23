@@ -542,6 +542,7 @@ const getAllprograms = async (query, context) => {
     .populate('user', 'firstName')
     .populate('categoryId')
     .populate('subCategoryIds')
+    .populate('lastModifiedBy')
     .skip(skipCount)
     .limit(pageSize)
   programs.count = await db.program.find().count()
@@ -582,7 +583,7 @@ const getById = async (id, context) => {
     .populate('user', 'firstName')
     .populate('categoryId')
     .populate('subCategoryIds')
-
+    .populate('lastModifiedBy')
   log.end()
   return program
 }
