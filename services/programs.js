@@ -300,6 +300,12 @@ const build = async (model, context) => {
     categoryId: model.categoryId,
     subCategoryIds: model.subCategoryIds,
     sessions: model.sessions,
+    extractionDate: model.extractionDate,
+    proofreaderObservation: model.proofreaderObservation,
+    extractionComment: model.extractionComment,
+    cyrilComment: model.cyrilComment,
+    cyrilApproval: model.cyrilApproval,
+    proofreaderRating: proofreaderRating,
     createdOn: new Date(),
     updateOn: new Date(),
   }).save()
@@ -490,6 +496,24 @@ const set = async (model, program, context) => {
   if (model.subCategoryIds[0] !== 'string' && model.subCategoryIds[0] !== '') {
     program.subCategoryIds = model.subCategoryIds
   }
+  if (model.extractionDate !== 'string' && model.extractionDate !== undefined) {
+    program.extractionDate = model.extractionDate
+  }
+  if (model.proofreaderObservation !== 'string' && model.proofreaderObservation !== undefined) {
+    program.proofreaderObservation = model.proofreaderObservation
+  }
+  if (model.extractionComment !== 'string' && model.extractionComment !== undefined) {
+    program.extractionComment = model.extractionComment
+  }
+  if (model.cyrilComment !== 'string' && model.cyrilComment !== undefined) {
+    program.cyrilComment = model.cyrilComment
+  }
+  if (model.cyrilApproval !== 'string' && model.cyrilApproval !== undefined) {
+    program.cyrilApproval = model.cyrilApproval
+  }
+  if (model.proofreaderRating !== 'string' && model.proofreaderRating !== undefined) {
+    program.proofreaderRating = model.proofreaderRating
+  }
 
   if (model.sessions.length) {
     program.sessions = model.sessions
@@ -580,7 +604,7 @@ const getById = async (id, context) => {
     .findById(id)
     .sort({ createdOn: -1 })
     .populate('tags')
-    .populate('user', 'firstName')
+    .populate('user')
     .populate('categoryId')
     .populate('subCategoryIds')
     .populate('lastModifiedBy')

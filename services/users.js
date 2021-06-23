@@ -381,7 +381,7 @@ const getById = async (id, context) => {
     }
 
     if (user.role == 'provider') {
-      const provider = await db.provider.findOne({ user: id });
+      const provider = await db.provider.findOne({ user: id }).populate('addedBy');
       data.user = user
       data.provider = provider
       data.notifications = notification;
@@ -390,7 +390,7 @@ const getById = async (id, context) => {
     }
   }
   if (user.role == 'provider') {
-    const provider = await db.provider.findOne({ user: id });
+    const provider = await db.provider.findOne({ user: id }).populate('addedBy');
     data.user = user
     data.provider = provider
     log.end();

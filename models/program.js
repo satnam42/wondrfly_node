@@ -107,6 +107,12 @@ const programSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user'
   },
+  extractionDate: { type: Date, default: '' },
+  proofreaderObservation: { type: String, default: '' },
+  extractionComment: { type: String, default: '' },
+  cyrilComment: { type: String, default: '' },
+  cyrilApproval: { type: String, default: '' },
+  proofreaderRating: { type: Number, default: '' },
   createdOn: { type: Date, default: Date.now },
   updatedOn: { type: Date, default: Date.now },
 })

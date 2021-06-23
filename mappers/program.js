@@ -2,6 +2,7 @@
 const baseUrl = require('config').get('image').baseUrl
 exports.toModel = (entity) => {
   let modifiedBy = {}
+  let addedBy = {}
   let model = {
     _id: entity._id || '',
     ageGroup: entity.ageGroup || '',
@@ -75,6 +76,13 @@ exports.toModel = (entity) => {
     modifiedBy.role = entity.lastModifiedBy.role
 
     model.lastModifiedBy = modifiedBy
+  }
+  if (entity.user) {
+    addedBy.firstName = entity.user.firstName
+    addedBy.email = entity.user.email
+    addedBy.role = entity.user.role
+
+    model.CreatedBy = addedBy
   }
 
   if (entity.provider && entity.provider != undefined) {

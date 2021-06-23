@@ -17,6 +17,10 @@ const provider = mongoose.Schema({
     default: [],
     ref: 'tag',
   }],
+  addedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user',
+  },
   about: { type: String, default: '' },
   bio: { type: String, default: '' },
   description: { type: String, default: '' },

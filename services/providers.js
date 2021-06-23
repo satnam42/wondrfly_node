@@ -373,6 +373,7 @@ const getProvideById = async (id, context) => {
     .findOne({ user: id })
     .populate('user')
     .populate('categories')
+    .populate('addedBy')
   if (provider.logo) {
     provider.logo = baseUrl + provider.logo
   }
@@ -458,6 +459,7 @@ const addProvider = async (model, context) => {
       healthAndSafety: model.healthAndSafety,
       source: model.source,
       sourceUrl: model.sourceUrl,
+      addedBy: context.user.id,
       createdOn: new Date(),
       updateOn: new Date(),
     }).save()

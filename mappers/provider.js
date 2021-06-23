@@ -1,7 +1,7 @@
 'use strict'
 
 exports.toModel = (entity) => {
-  console.log('seonadary', entity)
+  let createdBy = {}
   let model = {
     about: entity.about || '',
     alias: entity.alias || '',
@@ -30,6 +30,13 @@ exports.toModel = (entity) => {
     adminNotes: entity.adminNotes || '',
     logo: entity.logo || '',
     token: entity.token || '',
+  }
+  if (entity.addedBy) {
+    createdBy.firstName = entity.addedBy.firstName
+    createdBy.email = entity.addedBy.email
+    createdBy.role = entity.addedBy.role
+
+    model.addedBy = createdBy
   }
 
   if (entity.user && entity.user != undefined) {
