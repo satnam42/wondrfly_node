@@ -14,6 +14,9 @@ module.exports = [
       indoorOroutdoor: {
         type: 'string',
       },
+      inpersonOrVirtual: {
+        type: 'string',
+      },
       source: {
         type: 'string',
       },

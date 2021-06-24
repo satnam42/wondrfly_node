@@ -262,6 +262,7 @@ const build = async (model, context) => {
     description: model.description,
     providerName: model.providerName,
     indoorOroutdoor: model.indoorOroutdoor,
+    inpersonOrVirtual: model.inpersonOrVirtual,
     source: model.source,
     sourceUrl: model.sourceUrl,
     city: model.city,
@@ -360,6 +361,9 @@ const set = async (model, program, context) => {
   }
   if (model.indoorOroutdoor !== 'string' && model.indoorOroutdoor !== undefined) {
     program.indoorOroutdoor = model.indoorOroutdoor
+  }
+  if (model.inpersonOrVirtual !== 'string' && model.inpersonOrVirtual !== undefined) {
+    program.inpersonOrVirtual = model.inpersonOrVirtual
   }
   if (model.source !== 'string' && model.source !== undefined) {
     program.source = model.source

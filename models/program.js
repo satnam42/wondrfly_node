@@ -4,6 +4,7 @@ const programSchema = mongoose.Schema({
   name: { type: String, default: '' },
   providerName: { type: String, default: '' },
   indoorOroutdoor: { type: String, default: '' },
+  inpersonOrVirtual: { type: String, default: '' },
   source: { type: String, default: '' },
   sourceUrl: { type: String, default: '' },
   city: { type: String, default: '' },
