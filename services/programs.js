@@ -306,7 +306,7 @@ const build = async (model, context) => {
     extractionComment: model.extractionComment,
     cyrilComment: model.cyrilComment,
     cyrilApproval: model.cyrilApproval,
-    proofreaderRating: proofreaderRating,
+    proofreaderRating: model.proofreaderRating,
     createdOn: new Date(),
     updateOn: new Date(),
   }).save()
