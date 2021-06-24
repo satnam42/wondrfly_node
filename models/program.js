@@ -80,11 +80,12 @@ const programSchema = mongoose.Schema({
     required: true,
   },
   addresses: [{ type: String, default: '' }],
-  categoryId: {
+  categoryId: [{
     type: mongoose.Schema.Types.ObjectId,
+    default: [],
     ref: 'category',
     // required: true,
-  },
+  }],
   subCategoryIds: [{
     type: mongoose.Schema.Types.ObjectId,
     default: [],

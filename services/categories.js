@@ -5,11 +5,12 @@ const baseUrl = require('config').get('image').baseUrl
 
 
 const build = async (model, context) => {
-    const { name, imageUrl, description } = model;
+    const { name, imageUrl, iconUrl, description } = model;
     const log = context.logger.start(`services:categories:build${model}`);
     const category = await new db.category({
         name: name,
         imageUrl: imageUrl,
+        iconUrl: iconUrl,
         description: description,
         createdOn: new Date(),
         updateOn: new Date(),
@@ -28,6 +29,9 @@ const set = (model, category, context) => {
     }
     if (model.imageUrl !== "string" && model.imageUrl !== undefined) {
         category.imageUrl = model.imageUrl;
+    }
+    if (model.iconUrl !== "string" && model.iconUrl !== undefined) {
+        category.iconUrl = model.iconUrl;
     }
     category.updateOn = new Date()
     log.end();

@@ -155,7 +155,11 @@ module.exports = [
         },
       },
       categoryId: {
-        type: 'string',
+        type: 'array',
+        items: {
+          type: 'string',
+          default: '',
+        },
       },
       subCategoryIds: {
         type: 'array',

@@ -11,6 +11,9 @@ module.exports = [
             imageUrl: {
                 type: "string"
             },
+            iconUrl: {
+                type: "string"
+            }
         }
     }
 ];
