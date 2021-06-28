@@ -264,6 +264,19 @@ const searchVerifiedOrUnverified = async (req, res) => {
   }
 }
 
+const uploadExcel = async (req, res) => {
+  const log = req.context.logger.start(`api:providers:uploadExcel`);
+  try {
+    const url = await service.uploadExcel(req.file, req.context);
+    log.end();
+    return response.data(res, url);
+  } catch (err) {
+    log.error(err);
+    log.end();
+    return response.failure(res, err.message);
+  }
+};
+
 exports.create = create
 exports.list = list
 exports.update = update
@@ -281,3 +294,4 @@ exports.govtId = govtId
 exports.deletePhoneNumber = deletePhoneNumber
 exports.isVerifiedOrNot = isVerifiedOrNot
 exports.searchVerifiedOrUnverified = searchVerifiedOrUnverified
+exports.uploadExcel = uploadExcel

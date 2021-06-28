@@ -424,6 +424,14 @@ const configure = (app, logger) => {
     api.providers.searchVerifiedOrUnverified
   );
 
+  app.post(
+    "/api/providers/uploadExcel",
+    // permit.context.builder,
+    permit.context.requiresToken,
+    upload.single('csv'),
+    api.providers.uploadExcel
+  );
+
   //review routes//
   app.post(
     "/api/reviews/add",

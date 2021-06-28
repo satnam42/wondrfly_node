@@ -8,7 +8,7 @@ const imageUrl = require('config').get('image').url
 const baseUrl = require('config').get('image').baseUrl
 const ObjectId = require('mongodb').ObjectID
 const moment = require('moment')
-
+var xlsxtojson = require("xlsx-to-json");
 
 function humanize(str) {
   var i, frags = str.split(' ');
@@ -890,6 +890,97 @@ const searchVerifiedOrUnverified = async (query, context) => {
   return providers
 }
 
+
+///====================================================================================================================
+
+const addExcelProvider = async (model, context, categoriesIds, subcategoriesIds) => {
+  const log = context.logger.start('services:providers:addProvider')
+  let word
+  if (model.firstName) {
+    word = humanize(model.firstName);
+  }
+
+  // model.password = await encrypt.getHash('321@LetsPlay!@#$%', context);
+  const user = await buildUser(model, context)
+  if (user.role == 'provider') {
+    await new db.provider({
+      user: user._id,
+      alias: word ? word : '',
+      categories: categoriesIds,
+      subCategoryIds: subcategoriesIds,
+      activeStatus: model.activeStatus,
+      description: model.description,
+      website: model.website,
+      links: model.links,
+      cycle: model.cycle,
+      healthAndSafety: model.healthAndSafety,
+      source: model.source,
+      sourceUrl: model.sourceUrl,
+      addedBy: context.user.id,
+      createdOn: new Date(),
+      updateOn: new Date(),
+    }).save()
+  }
+  log.end()
+  return user
+}
+
+// get categories and subcategories id's function ====
+async function getIds(str, type) {
+  let ids = []
+  var str_array = str.split(',');
+  if (type == 'category') {
+    for (var i = 0; i < str_array.length; i++) {
+      str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
+      let cate = await db.category.findOne({ name: { $eq: str_array[i] } })
+      ids.push(cate._id)
+    }
+    return ids;
+  }
+  if (type == 'subcategory') {
+    for (var i = 0; i < str_array.length; i++) {
+      str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
+      let cate = await db.tag.findOne({ name: { $eq: str_array[i] } })
+      ids.push(cate._id)
+    }
+    return ids;
+  }
+
+}
+
+
+
+const uploadExcel = async (file, context) => {
+  const log = context.logger.start(`services:providers:uploadExcel`);
+  if (!file) {
+    throw new Error("file not found");
+  }
+
+  xlsxtojson({
+    input: file.path,  // input xls
+    output: "output.json", // output json 
+    lowerCaseHeaders: true
+  }, async function (err, records) {
+    if (err) {
+      console.log('error in xlsx ==>>>>', err);
+    }
+    if (records) {
+      console.log('===xls => records', records)
+      let categries = []
+      let subcategries = []
+      records.forEach(async function (record) {
+        console.log('record', record.sourceUrl)
+        categries = await getIds(record.categories, 'category');
+        subcategries = await getIds(record.subCategoryIds, 'subcategory');
+        // const isEmail = await db.user.findOne({ email: { $eq: record.email } })
+        // if (!isEmail) {
+        //   addExcelProvider(record, context, categries, subcategries)
+        // }
+      });
+    }
+  });
+};
+
 exports.importProvider = importProvider
 exports.getAllProvider = getAllProvider
 exports.updateProvider = updateProvider
@@ -907,3 +998,4 @@ exports.govtId = govtId
 exports.deletePhoneNumber = deletePhoneNumber
 exports.isVerifiedOrNot = isVerifiedOrNot
 exports.searchVerifiedOrUnverified = searchVerifiedOrUnverified
+exports.uploadExcel = uploadExcel
