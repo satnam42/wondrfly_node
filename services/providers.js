@@ -999,7 +999,10 @@ const uploadExcel = async (file, context) => {
         sourcsUrl = await getSourcesUrl(record.sourceUrl, 'sourceUrl');
 
         const isEmail = await db.user.findOne({ email: { $eq: record.email } })
-        if (!isEmail) {
+        if (isEmail) {
+          console.log('email is already registered')
+        }
+        else {
           addExcelProvider(record, context, categries, subcategries, sourcs, sourcsUrl)
         }
       });
