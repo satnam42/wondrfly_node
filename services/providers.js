@@ -893,7 +893,7 @@ const searchVerifiedOrUnverified = async (query, context) => {
 
 ///====================================================================================================================
 
-const addExcelProvider = async (model, context, categoriesIds, subcategoriesIds) => {
+const addExcelProvider = async (model, context, categoriesIds, subcategoriesIds, sourcs, sourcsUrl) => {
   const log = context.logger.start('services:providers:addProvider')
   let word
   if (model.firstName) {
@@ -914,8 +914,8 @@ const addExcelProvider = async (model, context, categoriesIds, subcategoriesIds)
       links: model.links,
       cycle: model.cycle,
       healthAndSafety: model.healthAndSafety,
-      source: model.source,
-      sourceUrl: model.sourceUrl,
+      source: sourcs,
+      sourceUrl: sourcsUrl,
       addedBy: context.user.id,
       createdOn: new Date(),
       updateOn: new Date(),
@@ -948,6 +948,27 @@ async function getIds(str, type) {
 
 }
 
+async function getSources(str) {
+  let arr = []
+  var str_array = str.split('and');
+  for (var i = 0; i < str_array.length; i++) {
+    str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
+    arr.push(str_array[i])
+  }
+  return arr
+
+}
+
+async function getSourcesUrl(str) {
+  let arr = []
+  var str_array = str.split(';');
+  for (var i = 0; i < str_array.length; i++) {
+    str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
+    arr.push(str_array[i])
+  }
+  return arr
+
+}
 
 
 const uploadExcel = async (file, context) => {
@@ -965,20 +986,27 @@ const uploadExcel = async (file, context) => {
       console.log('error in xlsx ==>>>>', err);
     }
     if (records) {
-      console.log('===xls => records', records)
+      // console.log('===xls => records', records)
       let categries = []
       let subcategries = []
+      let sourcs = []
+      let sourcsUrl = []
       records.forEach(async function (record) {
         console.log('record', record.sourceUrl)
         categries = await getIds(record.categories, 'category');
         subcategries = await getIds(record.subCategoryIds, 'subcategory');
-        // const isEmail = await db.user.findOne({ email: { $eq: record.email } })
-        // if (!isEmail) {
-        //   addExcelProvider(record, context, categries, subcategries)
-        // }
+        sourcs = await getSources(record.source, 'source');
+        sourcsUrl = await getSourcesUrl(record.sourceUrl, 'sourceUrl');
+
+        const isEmail = await db.user.findOne({ email: { $eq: record.email } })
+        if (!isEmail) {
+          addExcelProvider(record, context, categries, subcategries, sourcs, sourcsUrl)
+        }
       });
     }
   });
+  await fs.unlinkSync(file.path)
+  return "excel file uploaded successfully"
 };
 
 exports.importProvider = importProvider
