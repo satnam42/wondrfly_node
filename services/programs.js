@@ -1325,6 +1325,157 @@ const searchByNameAndDate = async (query, context) => {
   return programs
 }
 
+//==-----------------------------------------------------------
+const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds, sourcs, sourcsUrl, age) => {
+  const log = context.logger.start(`services:programs:build${model}`)
+  let word
+  if (model.name) {
+    word = humanize(model.name);
+  }
+  let isPublished = false
+  // if (
+  //   model.name != '' &&
+  //   model.name != 'string' &&
+  //   model.type != '' &&
+  //   model.type != 'string' &&
+  //   model.description != '' &&
+  //   model.description != 'string' &&
+  //   model.date.from != '' &&
+  //   model.date.from != 'string' &&
+  //   model.location != '' &&
+  //   model.location != 'string' &&
+  //   model.ageGroup.from != '' &&
+  //   model.ageGroup.from != 'string'
+  // ) {
+  //   isPublished = true
+  // }
+  const program = await new db.program({
+    name: model.name,
+    description: model.description,
+    providerName: model.providerName,
+    indoorOroutdoor: model.indoorOroutdoor,
+    inpersonOrVirtual: model.inpersonOrVirtual,
+    source: sourcs,
+    sourceUrl: sourcsUrl,
+    city: model.city,
+    cycle: model.cycle,
+    activeStatus: model.activeStatus,
+    alias: word ? word : '',
+
+    type: model.type,
+    price: model.price,
+    pricePeriod: model.pricePeriod,
+    code: model.code,
+    lat: model.lat,
+    lng: model.lng,
+    programCoverPic: model.programCoverPic,
+    location: model.location,
+    ageGroup: age,
+    date: model.date,
+    time: model.time,
+    bookingCancelledIn: model.bookingCancelledIn,
+    duration: model.duration,
+    isFree: model.isFree,
+    pricePerParticipant: model.pricePerParticipant,
+    priceForSiblings: model.priceForSiblings,
+    specialInstructions: model.specialInstructions,
+    adultAssistanceIsRequried: model.adultAssistanceIsRequried,
+    capacity: model.capacity,
+    joiningLink: model.joiningLink,
+    presenter: model.presenter,
+    emails: model.emails,
+    batches: model.batches,
+    programImage: model.programImage,
+    isPublished,
+    // status: model.status || 'active',
+    user: model.user,
+    addresses: model.addresses,
+    categoryId: categoriesIds,
+    subCategoryIds: subcategoriesIds,
+    sessions: model.sessions,
+    extractionDate: model.extractionDate,
+    proofreaderObservation: model.proofreaderObservation,
+    extractionComment: model.extractionComment,
+    cyrilComment: model.cyrilComment,
+    cyrilApproval: model.cyrilApproval,
+    proofreaderRating: model.proofreaderRating,
+    createdOn: new Date(),
+    updateOn: new Date(),
+  }).save()
+  // const notification = await new db.notification({
+  //   title: 'creating program',
+  //   description: 'Congratulations! your program is created successfully',
+  //   user: model.user,
+  //   createdOn: new Date(),
+  //   updateOn: new Date(),
+  // }).save()
+
+  log.end()
+  return program
+}
+
+// get categories and subcategories id's function ====
+async function getIds(str, type) {
+  let ids = []
+  var str_array = str.split(',');
+  if (type == 'category') {
+    for (var i = 0; i < str_array.length; i++) {
+      str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
+      let cate = await db.category.findOne({ name: { $eq: str_array[i] } })
+      if (cate) {
+        ids.push(cate._id)
+      }
+    }
+    return ids;
+  }
+  if (type == 'subcategory') {
+    for (var i = 0; i < str_array.length; i++) {
+      str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
+      let cate = await db.tag.findOne({ name: { $eq: str_array[i] } })
+      if (cate) {
+        ids.push(cate._id)
+      }
+    }
+    return ids;
+  }
+
+}
+
+async function getSources(str) {
+  let arr = []
+  var str_array = str.split('and');
+  for (var i = 0; i < str_array.length; i++) {
+    str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
+    arr.push(str_array[i])
+  }
+  return arr
+
+}
+
+async function getSourcesUrl(str) {
+  let arr = []
+  var str_array = str.split(';');
+  for (var i = 0; i < str_array.length; i++) {
+    str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
+    arr.push(str_array[i])
+  }
+  return arr
+
+}
+
+async function getAge(str) {
+  let ageGroup = {}
+  var str_array = str.split('-');
+  for (var i = 0; i < str_array.length; i++) {
+    str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
+    ageGroup.from = str_array[0]
+    ageGroup.to = str_array[1]
+
+  }
+  return ageGroup
+
+}
+
 const uploadExcel = async (file, context) => {
   const log = context.logger.start(`services:programs:uploadExcel`);
   if (!file) {
@@ -1339,21 +1490,28 @@ const uploadExcel = async (file, context) => {
       console.log('error in xlsx ==>>>>', err);
     }
     if (result) {
-      await db.program.insertMany(result, (error, res) => {
-        // if (error) throw error;
-        console.log('error in insert data ===>>>>>>>>>>', error)
-        if (error) {
-          throw new Error('error occured in inserting data in db');
-        }
-        else {
-          console.log("Number of documents inserted: " + res.insertedCount);
-        }
+      console.log('result =>>', result);
+      let categries = []
+      let subcategries = []
+      let sourcs = []
+      let sourcsUrl = []
+      let age = []
+      result.forEach(async function (record) {
+        console.log('record', record.source, record.sourceUrl, record.categoryId, record.subCategoryIds)
+        categries = await getIds(record.categoryId, 'category');
+        subcategries = await getIds(record.subCategoryIds, 'subcategory');
+        sourcs = await getSources(record.source, 'source');
+        sourcsUrl = await getSourcesUrl(record.sourceUrl, 'sourceUrl');
+        age = await getAge(record.ageGroup)
 
+        addExcelPrograms(record, context, categries, subcategries, sourcs, sourcsUrl, age)
       });
+
     }
   });
   log.end();
-  return 'file uploaded successfully'
+  await fs.unlinkSync(file.path)
+  return "excel file uploaded successfully"
 };
 
 exports.create = create

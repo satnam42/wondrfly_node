@@ -933,7 +933,9 @@ async function getIds(str, type) {
     for (var i = 0; i < str_array.length; i++) {
       str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
       let cate = await db.category.findOne({ name: { $eq: str_array[i] } })
+      if(cate) {
       ids.push(cate._id)
+      }
     }
     return ids;
   }
@@ -941,7 +943,9 @@ async function getIds(str, type) {
     for (var i = 0; i < str_array.length; i++) {
       str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
       let cate = await db.tag.findOne({ name: { $eq: str_array[i] } })
+       if(cate) {
       ids.push(cate._id)
+      }
     }
     return ids;
   }

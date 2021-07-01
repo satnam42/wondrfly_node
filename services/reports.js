@@ -25,7 +25,7 @@ const search = async (query, context) => {
     response.data.push(parents);
     response.labels.push('parents')
 
-    console.log('response =>', response)
+    // console.log('response =>', response)
     log.end()
     return response
 }
