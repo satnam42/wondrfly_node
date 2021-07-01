@@ -40,7 +40,8 @@ const provider = mongoose.Schema({
   {
     facebook: { type: Number, default: 0 },
     google: { type: Number, default: 0 },
-    yelp: { type: String, default: '' },
+    yelp: { type: Number, default: 0 },
+    instagram: { type: Number, default: 0 },
   },
   reviews: { type: String, default: '' },
   twitter: { type: String, default: '' },

@@ -119,7 +119,9 @@ module.exports = [
         properties: {
           facebook: { type: 'number' },
           google: { type: 'number' },
-          yelp: { type: 'string' },
+          yelp: { type: 'number' },
+          instagram: { type: 'number' },
+
         },
       },
     },
