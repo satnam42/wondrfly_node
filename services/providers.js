@@ -163,6 +163,9 @@ const setProviderDetail = async (model, provider, context) => {
   if (model.subCategoryIds[0] !== 'string' && model.subCategoryIds[0] !== '') {
     provider.subCategoryIds = model.subCategoryIds
   }
+  if (model.rating !== 'string' && model.rating !== '') {
+    provider.rating = model.rating
+  }
   if (model.source[0] !== 'string' && model.source[0] !== '') {
     provider.source = model.source
   }
@@ -457,6 +460,7 @@ const addProvider = async (model, context) => {
       links: model.links,
       cycle: model.cycle,
       healthAndSafety: model.healthAndSafety,
+      rating: model.rating,
       source: model.source,
       sourceUrl: model.sourceUrl,
       addedBy: context.user.id,
@@ -933,8 +937,8 @@ async function getIds(str, type) {
     for (var i = 0; i < str_array.length; i++) {
       str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
       let cate = await db.category.findOne({ name: { $eq: str_array[i] } })
-      if(cate) {
-      ids.push(cate._id)
+      if (cate) {
+        ids.push(cate._id)
       }
     }
     return ids;
@@ -943,8 +947,8 @@ async function getIds(str, type) {
     for (var i = 0; i < str_array.length; i++) {
       str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
       let cate = await db.tag.findOne({ name: { $eq: str_array[i] } })
-       if(cate) {
-      ids.push(cate._id)
+      if (cate) {
+        ids.push(cate._id)
       }
     }
     return ids;

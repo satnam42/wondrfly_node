@@ -36,9 +36,12 @@ const provider = mongoose.Schema({
   cycle: { type: String, default: '' },
   alias: { type: String, default: '' },
   activeStatus: { type: String, default: '' },
-
-
-  rating: { type: String, default: '' },
+  rating:
+  {
+    facebook: { type: Number, default: 0 },
+    google: { type: Number, default: 0 },
+    yelp: { type: String, default: '' },
+  },
   reviews: { type: String, default: '' },
   twitter: { type: String, default: '' },
   website: { type: String, default: '' },

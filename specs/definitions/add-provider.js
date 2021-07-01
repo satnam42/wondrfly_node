@@ -115,6 +115,13 @@ module.exports = [
           default: '',
         },
       },
+      rating: {
+        properties: {
+          facebook: { type: 'number' },
+          google: { type: 'number' },
+          yelp: { type: 'string' },
+        },
+      },
     },
   },
 ]
