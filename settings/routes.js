@@ -177,7 +177,8 @@ const configure = (app, logger) => {
 
   app.get(
     "/api/users/search",
-    permit.context.requiresToken,
+    permit.context.builder,
+    // permit.context.requiresToken,
     api.users.search
   );
   app.post(
@@ -236,7 +237,7 @@ const configure = (app, logger) => {
   app.get(
     "/api/categories/search",
     permit.context.builder,
-    permit.context.requiresToken,
+    // permit.context.requiresToken,
     api.categories.search
   );
   app.put(
