@@ -57,7 +57,7 @@ exports.toModel = (entity) => {
   }
   if (entity.provider) {
     ; (model.programOwner = entity.provider[0].firstName || ''),
-      (model.user = entity.provider[0]._id || '')
+      (model.userId = entity.provider[0]._id || '')
   }
 
   if (
@@ -81,6 +81,11 @@ exports.toModel = (entity) => {
     createdBy.firstName = entity.user.firstName
     createdBy.email = entity.user.email
     createdBy.role = entity.user.role
+    createdBy.createdOn = entity.createdOn
+    model.addedBy = createdBy
+  }
+  if (entity.provider) {
+    createdBy.firstName = entity.provider[0].firstName
     createdBy.createdOn = entity.createdOn
     model.addedBy = createdBy
   }
