@@ -1326,7 +1326,7 @@ const searchByNameAndDate = async (query, context) => {
 }
 
 //==-----------------------------------------------------------
-const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds, sourcs, sourcsUrl, age) => {
+const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds, sourcs, sourcsUrl) => {
   const log = context.logger.start(`services:programs:build${model}`)
   let word
   if (model.name) {
@@ -1370,7 +1370,7 @@ const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds,
     lng: model.lng,
     programCoverPic: model.programCoverPic,
     location: model.location,
-    ageGroup: age,
+    // ageGroup: age,
     date: model.date,
     time: model.time,
     bookingCancelledIn: model.bookingCancelledIn,
@@ -1490,7 +1490,7 @@ const uploadExcel = async (file, context) => {
       console.log('error in xlsx ==>>>>', err);
     }
     if (result) {
-      console.log('result =>>', result);
+      // console.log('result =>>', result);
       let categries = []
       let subcategries = []
       let sourcs = []
@@ -1504,7 +1504,13 @@ const uploadExcel = async (file, context) => {
         sourcsUrl = await getSourcesUrl(record.sourceUrl, 'sourceUrl');
         age = await getAge(record.ageGroup)
 
-        addExcelPrograms(record, context, categries, subcategries, sourcs, sourcsUrl, age)
+        // console.log('record', record);
+        // console.log('category', categries);
+        // console.log('sub', subcategries);
+        // console.log('sources', sourcs);
+        // console.log('sourceUrl', sourcsUrl);
+        // console.log('age', age);
+        addExcelPrograms(record, context, categries, subcategries, sourcs, sourcsUrl)
       });
 
     }
