@@ -277,6 +277,19 @@ const uploadExcel = async (req, res) => {
   }
 };
 
+const getRatingByUser = async (req, res) => {
+  const log = req.context.logger.start(`api:providers:getRatingByUser:${req.params.id}`)
+  try {
+    const provider = await service.getRatingByUser(req.params.id, req.context)
+    log.end()
+    return response.data(res, mapper.toModel(provider))
+  } catch (err) { 
+    log.error(err)
+    log.end()
+    return response.failure(res, err.message)
+  }
+}
+
 exports.create = create
 exports.list = list
 exports.update = update
@@ -295,3 +308,4 @@ exports.deletePhoneNumber = deletePhoneNumber
 exports.isVerifiedOrNot = isVerifiedOrNot
 exports.searchVerifiedOrUnverified = searchVerifiedOrUnverified
 exports.uploadExcel = uploadExcel
+exports.getRatingByUser = getRatingByUser
