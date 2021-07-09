@@ -1402,14 +1402,6 @@ const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds,
     createdOn: new Date(),
     updateOn: new Date(),
   }).save()
-  // const notification = await new db.notification({
-  //   title: 'creating program',
-  //   description: 'Congratulations! your program is created successfully',
-  //   user: model.user,
-  //   createdOn: new Date(),
-  //   updateOn: new Date(),
-  // }).save()
-
   log.end()
   return program
 }
@@ -1490,26 +1482,18 @@ const uploadExcel = async (file, context) => {
       console.log('error in xlsx ==>>>>', err);
     }
     if (result) {
-      // console.log('result =>>', result);
       let categries = []
       let subcategries = []
       let sourcs = []
       let sourcsUrl = []
       let age = []
       result.forEach(async function (record) {
-        console.log('record', record.source, record.sourceUrl, record.categoryId, record.subCategoryIds)
+        // console.log('record', record.source, record.sourceUrl, record.categoryId, record.subCategoryIds)
         categries = await getIds(record.categoryId, 'category');
         subcategries = await getIds(record.subCategoryIds, 'subcategory');
         sourcs = await getSources(record.source, 'source');
         sourcsUrl = await getSourcesUrl(record.sourceUrl, 'sourceUrl');
         age = await getAge(record.ageGroup)
-
-        // console.log('record', record);
-        // console.log('category', categries);
-        // console.log('sub', subcategries);
-        // console.log('sources', sourcs);
-        // console.log('sourceUrl', sourcsUrl);
-        // console.log('age', age);
         addExcelPrograms(record, context, categries, subcategries, sourcs, sourcsUrl)
       });
 
