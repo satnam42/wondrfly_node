@@ -39,8 +39,11 @@ const provider = mongoose.Schema({
   rating:
   {
     facebook: { type: Number, default: 0 },
+    numberOfFacebook: { type: Number, default: 0 },
     google: { type: Number, default: 0 },
+    numberOfGoogle: { type: Number, default: 0 },
     yelp: { type: Number, default: 0 },
+    numberOfYelp: { type: Number, default: 0 },
     instagram: { type: Number, default: 0 },
   },
   reviews: { type: String, default: '' },
