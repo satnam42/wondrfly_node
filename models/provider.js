@@ -38,13 +38,13 @@ const provider = mongoose.Schema({
   activeStatus: { type: String, default: '' },
   rating:
   {
-    facebook: { type: Number, default: 0 },
+    facebookRating: { type: Number, default: 0 },
     numberOfFacebook: { type: Number, default: 0 },
-    google: { type: Number, default: 0 },
+    googleRating: { type: Number, default: 0 },
     numberOfGoogle: { type: Number, default: 0 },
-    yelp: { type: Number, default: 0 },
+    yelpRating: { type: Number, default: 0 },
     numberOfYelp: { type: Number, default: 0 },
-    instagram: { type: Number, default: 0 },
+    instagramFollowers: { type: Number, default: 0 },
   },
   reviews: { type: String, default: '' },
   twitter: { type: String, default: '' },

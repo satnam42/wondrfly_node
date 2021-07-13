@@ -280,10 +280,10 @@ const uploadExcel = async (req, res) => {
 const getRatingByUser = async (req, res) => {
   const log = req.context.logger.start(`api:providers:getRatingByUser:${req.params.id}`)
   try {
-    const provider = await service.getRatingByUser(req.params.id, req.context)
+    const rating = await service.getRatingByUser(req.params.id, req.context)
     log.end()
-    return response.data(res, mapper.toModel(provider))
-  } catch (err) { 
+    return response.data(res, rating)
+  } catch (err) {
     log.error(err)
     log.end()
     return response.failure(res, err.message)

@@ -117,11 +117,13 @@ module.exports = [
       },
       rating: {
         properties: {
-          facebook: { type: 'number' },
-          google: { type: 'number' },
-          yelp: { type: 'number' },
-          instagram: { type: 'number' },
-
+          facebookRating: { type: 'number' },
+          numberOfFacebook: { type: 'number' },
+          googleRating: { type: 'number' },
+          numberOfGoogle: { type: 'number' },
+          yelpRating: { type: 'number' },
+          numberOfYelp: { type: 'number' },
+          instagramFollowers: { type: 'number' },
         },
       },
     },

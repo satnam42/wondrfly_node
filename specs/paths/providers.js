@@ -680,6 +680,37 @@ module.exports = [
             }
         }
     },
+    {
+        url: "/getRatingByUser/{id}",
+        get: {
+            summary: "get rating",
+            description: "getRatingByUser",
+            parameters: [
+                {
+                    in: "path",
+                    name: "id",
+                    description: "user id",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
 
     {
         url: "/uploadExcel",

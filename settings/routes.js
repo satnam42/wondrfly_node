@@ -425,6 +425,13 @@ const configure = (app, logger) => {
     api.providers.searchVerifiedOrUnverified
   );
 
+  app.get(
+    "/api/providers/getRatingByUser/:id",
+    permit.context.requiresToken,
+    // validator.users.update,
+    api.providers.getRatingByUser
+  );
+
   app.post(
     "/api/providers/uploadExcel",
     // permit.context.builder,

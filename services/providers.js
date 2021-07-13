@@ -894,6 +894,32 @@ const searchVerifiedOrUnverified = async (query, context) => {
   return providers
 }
 
+const getRatingByUser = async (id, context) => {
+  const log = context.logger.start(`services:providers:getRatingByUser`)
+  const provider = await db.provider.findOne({ user: id })
+  const data = {}
+  const { instagramFollowers, facebookRating, numberOfFacebook, googleRating, numberOfGoogle, yelpRating, numberOfYelp } = provider.rating;
+  let totalRatingOnInstagram = instagramFollowers * 4
+  let totalRatingOnGoogle = numberOfGoogle * googleRating
+  let totalRatingOnYelp = numberOfYelp * yelpRating
+  let totalRatingOnFacebook = numberOfFacebook * facebookRating
+
+  let totalAll = totalRatingOnInstagram + totalRatingOnGoogle + totalRatingOnYelp + totalRatingOnFacebook;
+  let totalNumberOf = instagramFollowers + numberOfGoogle + numberOfYelp + numberOfFacebook
+  let finalRatingAverage = totalAll / totalNumberOf
+
+  data.facebookRating = facebookRating
+  data.numberOfFacebook = numberOfFacebook
+  data.googleRating = googleRating
+  data.numberOfGoogle = numberOfGoogle
+  data.yelpRating = yelpRating
+  data.numberOfYelp = numberOfYelp
+  data.instagramFollowers = instagramFollowers
+  data.finalAverageRating = finalRatingAverage.toFixed(2)
+  log.end()
+  return data
+}
+
 
 ///====================================================================================================================
 
@@ -903,7 +929,14 @@ const addExcelProvider = async (model, context, categoriesIds, subcategoriesIds,
   if (model.firstName) {
     word = humanize(model.firstName);
   }
-
+  const rating = {}
+  rating.facebookRating = model.facebookRating
+  rating.numberOfFacebook = model.numberOfFacebook
+  rating.googleRating = model.googleRating
+  rating.numberOfGoogle = model.numberOfGoogle
+  rating.yelpRating = model.yelpRating
+  rating.numberOfYelp = model.numberOfYelp
+  rating.instagramFollowers = model.instagramFollowers
   // model.password = await encrypt.getHash('321@LetsPlay!@#$%', context);
   const user = await buildUser(model, context)
   if (user.role == 'provider') {
@@ -920,6 +953,7 @@ const addExcelProvider = async (model, context, categoriesIds, subcategoriesIds,
       healthAndSafety: model.healthAndSafety,
       source: sourcs,
       sourceUrl: sourcsUrl,
+      rating: rating,
       addedBy: context.user.id,
       createdOn: new Date(),
       updateOn: new Date(),
@@ -1035,3 +1069,4 @@ exports.deletePhoneNumber = deletePhoneNumber
 exports.isVerifiedOrNot = isVerifiedOrNot
 exports.searchVerifiedOrUnverified = searchVerifiedOrUnverified
 exports.uploadExcel = uploadExcel
+exports.getRatingByUser = getRatingByUser
