@@ -1278,7 +1278,7 @@ const listPublishOrUnpublish = async (query, context) => {
     ])
     programs.count = await db.program.find({ isPublished: true }).count()
     log.end()
-    return programs
+    return programs.reverse()
   }
   if (query.programType == 'unpublished') {
     programs = await db.program
