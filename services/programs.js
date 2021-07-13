@@ -1326,7 +1326,7 @@ const searchByNameAndDate = async (query, context) => {
 }
 
 //==-----------------------------------------------------------
-const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds, sourcs, sourcsUrl) => {
+const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds, sourcs, sourcsUrl, age) => {
   const log = context.logger.start(`services:programs:build${model}`)
   let word
   if (model.name) {
@@ -1370,7 +1370,7 @@ const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds,
     lng: model.lng,
     programCoverPic: model.programCoverPic,
     location: model.location,
-    // ageGroup: age,
+    ageGroup: age,
     date: model.date,
     time: model.time,
     bookingCancelledIn: model.bookingCancelledIn,
@@ -1494,7 +1494,7 @@ const uploadExcel = async (file, context) => {
         sourcs = await getSources(record.source, 'source');
         sourcsUrl = await getSourcesUrl(record.sourceUrl, 'sourceUrl');
         age = await getAge(record.ageGroup)
-        addExcelPrograms(record, context, categries, subcategries, sourcs, sourcsUrl)
+        addExcelPrograms(record, context, categries, subcategries, sourcs, sourcsUrl, age)
       });
 
     }
