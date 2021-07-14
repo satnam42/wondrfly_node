@@ -53,11 +53,13 @@ exports.toModel = (entity) => {
 
   if (entity.user) {
     ; (model.user = entity.user._id || ''),
-      (model.programOwner = entity.user.firstName || '')
+      (model.programOwner = entity.user.firstName || ''),
+      (model.averageFinalRating = entity.user.averageFinalRating || '')
   }
   if (entity.provider) {
     ; (model.programOwner = entity.provider[0].firstName || ''),
-      (model.userId = entity.provider[0]._id || '')
+      (model.userId = entity.provider[0]._id || ''),
+      (model.averageFinalRating = entity.provider[0].averageFinalRating || '')
   }
 
   if (

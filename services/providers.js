@@ -897,7 +897,6 @@ const searchVerifiedOrUnverified = async (query, context) => {
 const getRatingByUser = async (id, context) => {
   const log = context.logger.start(`services:providers:getRatingByUser`)
   const provider = await db.provider.findOne({ user: id })
-  const user = await db.user.findById(id)
   const data = {}
   const { instagramFollowers, facebookRating, numberOfFacebook, googleRating, numberOfGoogle, yelpRating, numberOfYelp } = provider.rating;
   let totalRatingOnInstagram = instagramFollowers * 4
@@ -918,8 +917,11 @@ const getRatingByUser = async (id, context) => {
   data.instagramFollowers = instagramFollowers
   data.finalAverageRating = finalRatingAverage.toFixed(2)
 
-  user.averageFinalRating = finalRatingAverage
-  await user.save();
+  await db.user.findByIdAndUpdate(id, {
+    $set: {
+      averageFinalRating: finalRatingAverage.toFixed(2),
+    }
+  })
   log.end()
   return data
 }
