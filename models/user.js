@@ -47,6 +47,7 @@ const user = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'guardian',
   },
+  averageFinalRating: { type: Number, default: 0 },
   notificationsOnOff: { type: Boolean, default: true },
   profileCompleteEmail: { type: Boolean, default: false },
   profileCompleteNotification: { type: Boolean, default: false },
