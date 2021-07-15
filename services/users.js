@@ -1164,6 +1164,32 @@ const loginWithGoogle = async (model, context) => {
   return user;
 };
 
+contactUs = async (model, context) => {
+  const log = context.logger.start("services:users:facebookLogin");
+  // Send e-mail using AWS SES
+  var sesTransporter = nodemailer.createTransport(sesTransport({
+    accessKeyId: aws_accessKey,
+    secretAccessKey: aws_secretKey,
+    region: aws_region
+  }));
+
+  let mailOptions = {
+    from: "accounts@wondrfly.com",
+    to: model.email, //sending to: E-mail
+    subject: 'contact us',
+    text: 'This mail for contact to wondrfly by user',
+  };
+  let mailSent = await sesTransporter.sendMail(mailOptions);
+  if (mailSent) {
+    console.log("Message sent: %s", mailSent.messageId);
+    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(mailSent));
+    return 'contact us mail sent sucessfully'
+  } else {
+    log.end()
+    throw new Error("Unable to send email try after sometime");
+  }
+};
+
 exports.register = register;
 exports.get = get;
 exports.login = login;
@@ -1188,3 +1214,4 @@ exports.verifyAnswer = verifyAnswer;
 exports.search = search;
 exports.facebookLogin = facebookLogin;
 exports.loginWithGoogle = loginWithGoogle;
+exports.contactUs = contactUs;

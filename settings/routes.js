@@ -191,6 +191,11 @@ const configure = (app, logger) => {
     permit.context.builder,
     api.users.loginWithGoogle
   );
+  app.post(
+    "/api/users/contactUs",
+    permit.context.builder,
+    api.users.contactUs
+  );
 
   ////////events routes//////////
 

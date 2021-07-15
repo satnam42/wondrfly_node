@@ -331,6 +331,19 @@ const loginWithGoogle = async (req, res) => {
   }
 };
 
+const contactUs = async (req, res) => {
+  const log = req.context.logger.start("api:users:contactUs");
+  try {
+    const contact = await service.contactUs(req.body, req.context);
+    log.end();
+    return response.data(res, contact);
+  } catch (err) {
+    log.error(err);
+    log.end();
+    return response.failure(res, err.message);
+  }
+};
+
 exports.create = create;
 exports.list = list;
 exports.login = login;
@@ -354,3 +367,4 @@ exports.verifySecuirtyAns = verifySecuirtyAns;
 exports.search = search;
 exports.facebookLogin = facebookLogin;
 exports.loginWithGoogle = loginWithGoogle;
+exports.contactUs = contactUs;

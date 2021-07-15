@@ -693,5 +693,31 @@ module.exports = [
         }
       }
     }
+  },
+  {
+    url: "/contactUs",
+    post: {
+      summary: "contact us",
+      description: "contact us",
+      parameters: [
+        {
+          in: "body",
+          name: "body",
+          description: "Model of contact us",
+          required: true,
+          schema: {
+            $ref: "#/definitions/contactUs"
+          }
+        }
+      ],
+      responses: {
+        default: {
+          description: "Unexpected error",
+          schema: {
+            $ref: "#/definitions/Error"
+          }
+        }
+      }
+    }
   }
 ];
