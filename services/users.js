@@ -1175,7 +1175,7 @@ contactUs = async (model, context) => {
 
   let mailOptions = {
     from: "accounts@wondrfly.com",
-    to: model.email, //sending to: E-mail
+    to: 'accounts@wondrfly.com', //sending to: E-mail
     subject: 'contact us',
     text: 'This mail for contact to wondrfly by user',
   };
