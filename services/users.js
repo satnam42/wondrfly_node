@@ -1183,7 +1183,7 @@ contactUs = async (model, context) => {
   if (mailSent) {
     console.log("Message sent: %s", mailSent.messageId);
     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(mailSent));
-    return 'contact us mail sent sucessfully'
+    return 'Mail sent sucessfully'
   } else {
     log.end()
     throw new Error("Unable to send email try after sometime");

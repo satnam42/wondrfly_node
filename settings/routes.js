@@ -432,7 +432,7 @@ const configure = (app, logger) => {
 
   app.get(
     "/api/providers/getRatingByUser/:id",
-    permit.context.requiresToken,
+    permit.context.builder,
     // validator.users.update,
     api.providers.getRatingByUser
   );
