@@ -76,7 +76,7 @@ module.exports = [
       },
       duration: {
         properties: {
-          mins: { type: 'number' },
+          minutes: { type: 'number' },
           hours: { type: 'number' },
         },
       },

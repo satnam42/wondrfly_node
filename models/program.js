@@ -44,7 +44,7 @@ const programSchema = mongoose.Schema({
   lat: { type: String, default: '' },
   lng: { type: String, default: '' },
   duration: {
-    mins: { type: Number, default: '' },
+    minutes: { type: Number, default: '' },
     hours: { type: Number, default: '' },
   },
   isPublished: { type: Boolean, default: false },
