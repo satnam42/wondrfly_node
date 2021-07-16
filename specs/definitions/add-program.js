@@ -76,8 +76,8 @@ module.exports = [
       },
       duration: {
         properties: {
-          mins: { type: 'string' },
-          hours: { type: 'string' },
+          mins: { type: 'number' },
+          hours: { type: 'number' },
         },
       },
       isFree: {
