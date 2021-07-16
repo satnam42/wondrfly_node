@@ -1164,7 +1164,7 @@ const loginWithGoogle = async (model, context) => {
   return user;
 };
 
-contactUs = async (model, context) => {
+const contactUs = async (model, context) => {
   const log = context.logger.start("services:users:facebookLogin");
   // Send e-mail using AWS SES
   var sesTransporter = nodemailer.createTransport(sesTransport({
