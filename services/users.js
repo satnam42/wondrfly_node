@@ -381,7 +381,8 @@ const getById = async (id, context) => {
     }
 
     if (user.role == 'provider') {
-      const provider = await db.provider.findOne({ user: id }).populate('addedBy');
+      const provider = await db.provider.findOne({ user: id }).populate('addedBy')
+        .populate('categories').populate('subCategoryIds');
       data.user = user
       data.provider = provider
       data.notifications = notification;

@@ -85,7 +85,9 @@ exports.toModel = (entity) => {
       (model.adminNotes = entity.provider.adminNotes || ''),
       (model.provider_logo = entity.provider_logo || ''),
       (model.source = entity.provider.source || ''),
-      (model.sourceUrl = entity.provider.sourceUrl || '')
+      (model.sourceUrl = entity.provider.sourceUrl || ''),
+      (model.categories = entity.provider.categories || ''),
+      (model.subCategoryIds = entity.provider.subCategoryIds || '')
 
   }
 

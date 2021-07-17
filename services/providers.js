@@ -160,6 +160,9 @@ const setProviderDetail = async (model, provider, context) => {
   if (model.healthAndSafety.length) {
     provider.healthAndSafety = model.healthAndSafety
   }
+  if (model.categoryIds[0] !== 'string' && model.categoryIds[0] !== '') {
+    provider.categories = model.categoryIds
+  }
   if (model.subCategoryIds[0] !== 'string' && model.subCategoryIds[0] !== '') {
     provider.subCategoryIds = model.subCategoryIds
   }
