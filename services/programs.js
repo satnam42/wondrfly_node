@@ -494,7 +494,7 @@ const set = async (model, program, context) => {
   if (model.addresses.length) {
     program.addresses = model.addresses
   }
-  if (model.categoryId !== 'string' && model.categoryId !== undefined) {
+  if (model.categoryId[0] !== 'string' && model.categoryId[0] !== undefined) {
     program.categoryId = model.categoryId
   }
   if (model.subCategoryIds[0] !== 'string' && model.subCategoryIds[0] !== '') {
