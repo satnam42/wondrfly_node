@@ -956,9 +956,6 @@ const getGraphData = async (query, context) => {
 //         query["date.to"] = { $lte: new Date(model.toTime).getTime() }
 //     }
 
-//     if (model.userId) {
-//         query.user = model.userId
-//     }
 
 //     let programs = await db.program.find(query).populate('tags').skip(skipCount).limit(pageSize);
 //     programs.count = await db.program.find({ user: query.userId }).count();
