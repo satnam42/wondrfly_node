@@ -1438,7 +1438,6 @@ async function getSources(str) {
     arr.push(str_array[i])
   }
   return arr
-
 }
 
 async function getSourcesUrl(str) {
@@ -1449,7 +1448,6 @@ async function getSourcesUrl(str) {
     arr.push(str_array[i])
   }
   return arr
-
 }
 
 async function getAge(str) {
@@ -1459,10 +1457,8 @@ async function getAge(str) {
     str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
     ageGroup.from = str_array[0]
     ageGroup.to = str_array[1]
-
   }
   return ageGroup
-
 }
 
 const uploadExcel = async (file, context) => {
@@ -1493,7 +1489,6 @@ const uploadExcel = async (file, context) => {
         age = await getAge(record.ageGroup)
         addExcelPrograms(record, context, categries, subcategries, sourcs, sourcsUrl, age)
       });
-
     }
   });
   log.end();
