@@ -981,6 +981,7 @@ const getFilterProgram = async (query, context) => {
       .populate('tags')
       .populate('categoryId')
       .populate('subCategoryIds')
+      .populate('user')
       .skip(skipCount)
       .limit(pageSize)
   }
@@ -998,6 +999,7 @@ const getFilterProgram = async (query, context) => {
       .populate('tags')
       .populate('categoryId')
       .populate('subCategoryIds')
+      .populate('user')
       .skip(skipCount)
       .limit(pageSize)
   }
@@ -1012,6 +1014,7 @@ const getFilterProgram = async (query, context) => {
       .populate('tags')
       .populate('categoryId')
       .populate('subCategoryIds')
+      .populate('user')
       .skip(skipCount)
       .limit(pageSize)
   }
@@ -1026,6 +1029,7 @@ const getFilterProgram = async (query, context) => {
       .populate('tags')
       .populate('categoryId')
       .populate('subCategoryIds')
+      .populate('user')
       .skip(skipCount)
       .limit(pageSize)
   }
@@ -1040,6 +1044,7 @@ const getFilterProgram = async (query, context) => {
       .populate('tags')
       .populate('categoryId')
       .populate('subCategoryIds')
+      .populate('user')
       .skip(skipCount)
       .limit(pageSize)
   }
@@ -1050,6 +1055,7 @@ const getFilterProgram = async (query, context) => {
       .populate('tags')
       .populate('categoryId')
       .populate('subCategoryIds')
+      .populate('user')
       .skip(skipCount)
       .limit(pageSize)
   }
