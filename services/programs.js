@@ -1311,10 +1311,16 @@ const searchByNameAndDate = async (query, context) => {
         name: { $regex: '.*' + programName + '.*', $options: 'i' },
         isPublished: true,
       })
+      .populate('categoryId')
+      .populate('subCategoryIds')
+      .populate('user')
       .limit(5)
   }
   if (date) {
     programs = await db.program.find({ createdOn: d, isPublished: true })
+      .populate('categoryId')
+      .populate('subCategoryIds')
+      .populate('user')
   }
   if (programName && date) {
     programs = await db.program.find({
@@ -1322,6 +1328,9 @@ const searchByNameAndDate = async (query, context) => {
       createdOn: d,
       isPublished: true,
     })
+      .populate('categoryId')
+      .populate('subCategoryIds')
+      .populate('user')
   }
 
   log.end()
