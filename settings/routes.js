@@ -439,8 +439,7 @@ const configure = (app, logger) => {
 
   app.post(
     "/api/providers/uploadExcel",
-    // permit.context.builder,
-    permit.context.requiresToken,
+    permit.context.builder,
     upload.single('csv'),
     api.providers.uploadExcel
   );

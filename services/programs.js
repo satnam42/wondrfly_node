@@ -1332,7 +1332,6 @@ const searchByNameAndDate = async (query, context) => {
       .populate('subCategoryIds')
       .populate('user')
   }
-
   log.end()
   return programs
 }

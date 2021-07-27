@@ -717,14 +717,7 @@ module.exports = [
                     type: "file",
                     description: "The file to upload.",
                     required: true,
-                },
-                {
-                    in: "header",
-                    name: "x-access-token",
-                    description: "token to access api",
-                    required: true,
-                    type: "string"
-                },
+                }
             ],
             responses: {
                 default: {
