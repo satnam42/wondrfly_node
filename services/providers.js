@@ -918,11 +918,11 @@ const getRatingByUser = async (id, context) => {
   data.yelpRating = yelpRating
   data.numberOfYelp = numberOfYelp
   data.instagramFollowers = instagramFollowers
-  data.finalAverageRating = finalRatingAverage.toFixed(2)
+  data.finalAverageRating = finalRatingAverage.toFixed(1)
 
   await db.user.findByIdAndUpdate(id, {
     $set: {
-      averageFinalRating: finalRatingAverage.toFixed(2),
+      averageFinalRating: finalRatingAverage.toFixed(1),
     }
   })
   log.end()
