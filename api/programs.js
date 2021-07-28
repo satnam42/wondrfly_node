@@ -313,6 +313,20 @@ const uploadExcel = async (req, res) => {
     }
 };
 
+const topRating = async (req, res) => {
+    const log = req.context.logger.start(`api:programs:topRating`);
+    try {
+        const programs = await service.topRating(req.context);
+        log.end();
+        // return response.data(res, programs);
+        return response.data(res, mapper.toSearchModel(programs));
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 
 exports.create = create;
 exports.list = list;
@@ -336,3 +350,4 @@ exports.publish = publish;
 exports.listPublishOrUnpublish = listPublishOrUnpublish;
 exports.searchByNameAndDate = searchByNameAndDate;
 exports.uploadExcel = uploadExcel;
+exports.topRating = topRating;

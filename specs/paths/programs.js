@@ -819,5 +819,21 @@ module.exports = [
         }
       }
     }
+  },
+
+  {
+    url: "/topRating",
+    get: {
+      summary: "get programs list of high rated providers",
+      description: "get programs list of high rated providers",
+      responses: {
+        default: {
+          description: "Unexpected error",
+          schema: {
+            $ref: "#/definitions/Error"
+          }
+        }
+      }
+    }
   }
 ]

@@ -703,6 +703,12 @@ const configure = (app, logger) => {
     api.programs.uploadExcel
   );
 
+  app.get(
+    "/api/programs/topRating",
+    permit.context.builder,
+    api.programs.topRating
+  );
+
 
   //=============favourites api=====================//
   app.post(

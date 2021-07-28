@@ -1336,6 +1336,35 @@ const searchByNameAndDate = async (query, context) => {
   return programs
 }
 
+const topRating = async (context) => {
+  const log = context.logger.start(`services:programs:topRating`)
+  const users = await db.user.find({ averageFinalRating: { $gte: 4.0, $lte: 5.0 } });
+  let totalPrograms = []
+  for (let user of users) {
+    console.log(user.id);
+    const programs = await db.program.find({ user: user.id })
+      .populate('tags')
+      .populate('categoryId')
+      .populate('subCategoryIds')
+      .populate('user')
+    totalPrograms.push(...programs)
+    console.log('user id ==>>>>', user.id);
+  }
+  console.log('user programs ==>>>>', totalPrograms.length);
+
+  log.end()
+  return totalPrograms
+
+  // programs = await db.program
+  //   .find({ createdOn: dat, isPublished: true })
+  //   .populate('tags')
+  //   .populate('categoryId')
+  //   .populate('subCategoryIds')
+  //   .populate('user')
+  //   .skip(skipCount)
+  //   .limit(pageSize)
+}
+
 //==-----------------------------------------------------------
 const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds, sourcs, sourcsUrl, age) => {
   const log = context.logger.start(`services:programs:build${model}`)
@@ -1532,3 +1561,4 @@ exports.publish = publish
 exports.listPublishOrUnpublish = listPublishOrUnpublish
 exports.searchByNameAndDate = searchByNameAndDate
 exports.uploadExcel = uploadExcel
+exports.topRating = topRating
