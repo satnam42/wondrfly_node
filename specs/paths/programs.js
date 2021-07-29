@@ -522,6 +522,12 @@ module.exports = [
         },
         {
           in: 'query',
+          name: 'type',
+          description: 'type of program',
+          type: 'string',
+        },
+        {
+          in: 'query',
           name: 'pageSize',
           description: 'pageSize',
           type: 'integer',

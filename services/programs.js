@@ -970,6 +970,7 @@ const getFilterProgram = async (query, context) => {
   let pageSize = Number(query.pageSize) || 10
   let skipCount = pageSize * (pageNo - 1)
   let programs
+  let filters = query;
 
   if (query.fromDate && query.toDate) {
     const dat = {
@@ -1052,6 +1053,17 @@ const getFilterProgram = async (query, context) => {
   if (query.categoryId) {
     programs = await db.program
       .find({ categoryId: query.categoryId, isPublished: true })
+      .populate('tags')
+      .populate('categoryId')
+      .populate('subCategoryIds')
+      .populate('user')
+      .skip(skipCount)
+      .limit(pageSize)
+  }
+
+  if (query.type) {
+    programs = await db.program
+      .find({ type: query.type, isPublished: true })
       .populate('tags')
       .populate('categoryId')
       .populate('subCategoryIds')
@@ -1354,15 +1366,6 @@ const topRating = async (context) => {
 
   log.end()
   return totalPrograms
-
-  // programs = await db.program
-  //   .find({ createdOn: dat, isPublished: true })
-  //   .populate('tags')
-  //   .populate('categoryId')
-  //   .populate('subCategoryIds')
-  //   .populate('user')
-  //   .skip(skipCount)
-  //   .limit(pageSize)
 }
 
 //==-----------------------------------------------------------

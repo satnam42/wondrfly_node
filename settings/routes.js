@@ -276,7 +276,7 @@ const configure = (app, logger) => {
   );
   app.get(
     "/api/tags/byCategoryId",
-    permit.context.requiresToken,
+    permit.context.builder,
     api.tags.tagByCategoryId
   );
 

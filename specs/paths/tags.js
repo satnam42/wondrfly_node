@@ -62,13 +62,13 @@ module.exports = [
             summary: "get tag by categoryId",
             description: "get tag by categoryId",
             parameters: [
-                {
-                    in: "header",
-                    name: "x-access-token",
-                    description: "token to access api",
-                    required: true,
-                    type: "string"
-                },
+                // {
+                //     in: "header",
+                //     name: "x-access-token",
+                //     description: "token to access api",
+                //     required: true,
+                //     type: "string"
+                // },
                 {
                     in: "query",
                     name: "catrgoryIds",
