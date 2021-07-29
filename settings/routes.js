@@ -708,7 +708,11 @@ const configure = (app, logger) => {
     permit.context.builder,
     api.programs.topRating
   );
-
+  app.get(
+    "/api/programs/multiFilter",
+    permit.context.builder,
+    api.programs.multiFilter
+  );
 
   //=============favourites api=====================//
   app.post(

@@ -970,7 +970,6 @@ const getFilterProgram = async (query, context) => {
   let pageSize = Number(query.pageSize) || 10
   let skipCount = pageSize * (pageNo - 1)
   let programs
-  let filters = query;
 
   if (query.fromDate && query.toDate) {
     const dat = {
@@ -1368,6 +1367,34 @@ const topRating = async (context) => {
   return totalPrograms
 }
 
+const multiFilter = async (query, context) => {
+  const log = context.logger.start(`services:programs:multiFilter`)
+  let pageNo = Number(query.pageNo) || 1
+  let pageSize = Number(query.pageSize) || 10
+  let skipCount = pageSize * (pageNo - 1)
+  let programs
+  let filters = query;
+  console.log('multi filters hit', filters);
+
+  if (query.fromDate && query.toDate) {
+    const dat = {
+      $gte: moment(query.fromDate, 'DD-MM-YYYY').startOf('day').toDate(),
+      $lt: moment(query.toDate, 'DD-MM-YYYY').endOf('day').toDate(),
+    }
+    programs = await db.program
+      .find({ createdOn: dat, isPublished: true })
+      .populate('tags')
+      .populate('categoryId')
+      .populate('subCategoryIds')
+      .populate('user')
+      .skip(skipCount)
+      .limit(pageSize)
+  }
+
+  log.end()
+  return programs
+}
+
 //==-----------------------------------------------------------
 const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds, sourcs, sourcsUrl, age) => {
   const log = context.logger.start(`services:programs:build${model}`)
@@ -1565,3 +1592,4 @@ exports.listPublishOrUnpublish = listPublishOrUnpublish
 exports.searchByNameAndDate = searchByNameAndDate
 exports.uploadExcel = uploadExcel
 exports.topRating = topRating
+exports.multiFilter = multiFilter
