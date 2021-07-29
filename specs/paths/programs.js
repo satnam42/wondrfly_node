@@ -522,7 +522,13 @@ module.exports = [
         },
         {
           in: 'query',
-          name: 'type',
+          name: 'type1',
+          description: 'type of program',
+          type: 'string',
+        },
+        {
+          in: 'query',
+          name: 'type2',
           description: 'type of program',
           type: 'string',
         },

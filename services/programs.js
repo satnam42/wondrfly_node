@@ -1060,9 +1060,9 @@ const getFilterProgram = async (query, context) => {
       .limit(pageSize)
   }
 
-  if (query.type) {
+  if (query.type1 || query.type2) {
     programs = await db.program
-      .find({ type: query.type, isPublished: true })
+      .find({ $or: [{ type: query.type1 }, { type: query.type2 }], isPublished: true })
       .populate('tags')
       .populate('categoryId')
       .populate('subCategoryIds')
