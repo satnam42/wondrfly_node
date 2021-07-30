@@ -1367,29 +1367,28 @@ const topRating = async (context) => {
   return totalPrograms
 }
 
-const multiFilter = async (query, context) => {
+const multiFilter = async (model, context) => {
   const log = context.logger.start(`services:programs:multiFilter`)
-  let pageNo = Number(query.pageNo) || 1
-  let pageSize = Number(query.pageSize) || 10
-  let skipCount = pageSize * (pageNo - 1)
+  // let pageNo = Number(query.pageNo) || 1
+  // let pageSize = Number(query.pageSize) || 10
+  // let skipCount = pageSize * (pageNo - 1)
   let programs
-  let filters = query;
-  console.log('multi filters hit', filters);
+  console.log('multi filters hit', model);
 
-  if (query.fromDate && query.toDate) {
-    const dat = {
-      $gte: moment(query.fromDate, 'DD-MM-YYYY').startOf('day').toDate(),
-      $lt: moment(query.toDate, 'DD-MM-YYYY').endOf('day').toDate(),
-    }
-    programs = await db.program
-      .find({ createdOn: dat, isPublished: true })
-      .populate('tags')
-      .populate('categoryId')
-      .populate('subCategoryIds')
-      .populate('user')
-      .skip(skipCount)
-      .limit(pageSize)
-  }
+  // if (query.fromDate && query.toDate) {
+  //   const dat = {
+  //     $gte: moment(query.fromDate, 'DD-MM-YYYY').startOf('day').toDate(),
+  //     $lt: moment(query.toDate, 'DD-MM-YYYY').endOf('day').toDate(),
+  //   }
+  //   programs = await db.program
+  //     .find({ createdOn: dat, isPublished: true })
+  //     .populate('tags')
+  //     .populate('categoryId')
+  //     .populate('subCategoryIds')
+  //     .populate('user')
+  //     .skip(skipCount)
+  //     .limit(pageSize)
+  // }
 
   log.end()
   return programs

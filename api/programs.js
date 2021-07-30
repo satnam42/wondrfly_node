@@ -329,8 +329,9 @@ const topRating = async (req, res) => {
 
 const multiFilter = async (req, res) => {
     const log = req.context.logger.start(`api:programs:multiFilter`);
+    console.log('req =>', req.body);
     try {
-        const data = await service.multiFilter(req.query, req.context);
+        const data = await service.multiFilter(req.body, req.context);
         log.end();
         return response.data(res, mapper.toSearchModel(data));
     } catch (err) {
