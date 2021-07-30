@@ -56,12 +56,14 @@ module.exports = [
           from: { type: 'date' },
         },
       },
+      isTimeNotMention: { type: 'boolean' },
       date: {
         properties: {
           to: { type: 'date' },
           from: { type: 'date' },
         },
       },
+      isDateNotMention: { type: 'boolean' },
       ageGroup: {
         properties: {
           to: { type: 'number' },
