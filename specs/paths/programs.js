@@ -848,61 +848,61 @@ module.exports = [
       }
     }
   },
-  // {
-  //   url: '/multiFilter',
-  //   get: {
-  //     summary: 'multi filter',
-  //     description: 'get programs by multi filter ',
-  //     parameters: [
-  //       {
-  //         in: 'query',
-  //         name: 'fromDate',
-  //         description: 'fromDate',
-  //         // required: true,
-  //         type: 'date',
-  //       },
-  //       {
-  //         in: 'query',
-  //         name: 'toDate',
-  //         description: 'toDate',
-  //         // required: true,
-  //         type: 'date',
-  //       },
-  //       {
-  //         in: 'query',
-  //         name: 'toTime',
-  //         description: 'toTime',
-  //         // required: true,
-  //         type: 'date',
-  //       },
-  //       {
-  //         in: 'query',
-  //         name: 'fromTime',
-  //         description: 'fromTime',
-  //         // required: true,
-  //         type: 'date',
-  //       },
-  //       {
-  //         in: 'query',
-  //         name: 'pageSize',
-  //         description: 'pageSize',
-  //         type: 'integer',
-  //       },
-  //       {
-  //         in: 'query',
-  //         name: 'pageNo',
-  //         description: 'pageNo',
-  //         type: 'integer',
-  //       },
-  //     ],
-  //     responses: {
-  //       default: {
-  //         description: 'Unexpected error',
-  //         schema: {
-  //           $ref: '#/definitions/Error',
-  //         },
-  //       },
-  //     },
-  //   },
-  // },
+  {
+    url: '/multiFilter',
+    get: {
+      summary: 'multi filter',
+      description: 'get programs by multi filter ',
+      parameters: [
+        {
+          in: 'query',
+          name: 'fromDate',
+          description: 'fromDate',
+          // required: true,
+          type: 'date',
+        },
+        {
+          in: 'query',
+          name: 'toDate',
+          description: 'toDate',
+          // required: true,
+          type: 'date',
+        },
+        {
+          in: 'query',
+          name: 'toTime',
+          description: 'toTime',
+          // required: true,
+          type: 'date',
+        },
+        {
+          in: 'query',
+          name: 'fromTime',
+          description: 'fromTime',
+          // required: true,
+          type: 'date',
+        },
+        {
+          in: 'query',
+          name: 'pageSize',
+          description: 'pageSize',
+          type: 'integer',
+        },
+        {
+          in: 'query',
+          name: 'pageNo',
+          description: 'pageNo',
+          type: 'integer',
+        },
+      ],
+      responses: {
+        default: {
+          description: 'Unexpected error',
+          schema: {
+            $ref: '#/definitions/Error',
+          },
+        },
+      },
+    },
+  },
 ]
