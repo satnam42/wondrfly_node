@@ -35,8 +35,8 @@ const programSchema = mongoose.Schema({
   },
   isDateNotMention: { type: Boolean, default: false },
   time: {
-    from: { type: Date, default: '' },
-    to: { type: Date, default: '' },
+    from: { type: String, default: '' },
+    to: { type: String, default: '' },
   },
   isTimeNotMention: { type: Boolean, default: false },
   bookingCancelledIn: {

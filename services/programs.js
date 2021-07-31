@@ -1364,7 +1364,6 @@ const topRating = async (context) => {
     console.log('user id ==>>>>', user.id);
   }
   console.log('user programs ==>>>>', totalPrograms.length);
-
   log.end()
   return totalPrograms
 }
@@ -1404,6 +1403,9 @@ const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds,
     word = humanize(model.name);
   }
   let isPublished = false
+  let programTime = {}
+  programTime.from = model.startTime;
+  programTime.to = model.EndTime;
   // if (
   //   model.name != '' &&
   //   model.name != 'string' &&
@@ -1443,7 +1445,7 @@ const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds,
     location: model.location,
     ageGroup: age,
     date: model.date,
-    time: model.time,
+    time: programTime,
     bookingCancelledIn: model.bookingCancelledIn,
     duration: model.duration,
     isFree: model.isFree,
