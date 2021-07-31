@@ -1402,7 +1402,7 @@ const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds,
   if (model.name) {
     word = humanize(model.name);
   }
-  let isPublished = false
+  let isPublished = true
   let programTime = {}
   programTime.from = model.startTime;
   programTime.to = model.EndTime;
@@ -1460,6 +1460,8 @@ const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds,
     batches: model.batches,
     programImage: model.programImage,
     isPublished,
+    inpersonOrVirtual: model.inpersonOrVirtual,
+    days: model.days,
     // status: model.status || 'active',
     user: model.user,
     addresses: model.addresses,
