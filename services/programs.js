@@ -1405,7 +1405,7 @@ const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds,
   let isPublished = true
   let programTime = {}
   programTime.from = model.startTime;
-  programTime.to = model.EndTime;
+  programTime.to = model.endTime;
   // if (
   //   model.name != '' &&
   //   model.name != 'string' &&
@@ -1436,7 +1436,8 @@ const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds,
     alias: word ? word : '',
 
     type: model.type,
-    price: model.price,
+    // price: model.price,
+    pricePerParticipant: model.price,
     pricePeriod: model.pricePeriod,
     code: model.code,
     lat: model.lat,
@@ -1449,7 +1450,6 @@ const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds,
     bookingCancelledIn: model.bookingCancelledIn,
     duration: model.duration,
     isFree: model.isFree,
-    pricePerParticipant: model.pricePerParticipant,
     priceForSiblings: model.priceForSiblings,
     specialInstructions: model.specialInstructions,
     adultAssistanceIsRequried: model.adultAssistanceIsRequried,

@@ -114,6 +114,7 @@ const programSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user'
   },
+  days: { type: String, default: '' },
   extractionDate: { type: Date, default: '' },
   proofreaderObservation: { type: String, default: '' },
   extractionComment: { type: String, default: '' },
