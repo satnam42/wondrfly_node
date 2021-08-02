@@ -1484,28 +1484,32 @@ const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds,
 // get categories and subcategories id's function ====
 async function getIds(str, type) {
   let ids = []
-  var str_array = str.split(',');
-  if (type == 'category') {
-    for (var i = 0; i < str_array.length; i++) {
-      str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
-      let cate = await db.category.findOne({ name: { $eq: str_array[i] } })
-      if (cate) {
-        ids.push(cate._id)
+  if (str) {
+    var str_array = str.split(',');
+    if (type == 'category') {
+      for (var i = 0; i < str_array.length; i++) {
+        str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
+        let cate = await db.category.findOne({ name: { $eq: str_array[i] } })
+        if (cate) {
+          ids.push(cate._id)
+        }
       }
+      return ids;
     }
+    if (type == 'subcategory') {
+      for (var i = 0; i < str_array.length; i++) {
+        str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
+        let cate = await db.tag.findOne({ name: { $eq: str_array[i] } })
+        if (cate) {
+          ids.push(cate._id)
+        }
+      }
+      return ids;
+    }
+  }
+  else {
     return ids;
   }
-  if (type == 'subcategory') {
-    for (var i = 0; i < str_array.length; i++) {
-      str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
-      let cate = await db.tag.findOne({ name: { $eq: str_array[i] } })
-      if (cate) {
-        ids.push(cate._id)
-      }
-    }
-    return ids;
-  }
-
 }
 
 async function getSources(str) {
