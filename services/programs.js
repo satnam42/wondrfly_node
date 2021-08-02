@@ -1396,7 +1396,8 @@ const multiFilter = async (model, context) => {
 }
 
 //==-----------------------------------------------------------
-const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds, sourcs, sourcsUrl, age) => {
+// const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds, sourcs, sourcsUrl, age) => {
+const addExcelPrograms = async (model, context, sourcs, sourcsUrl, age) => {
   const log = context.logger.start(`services:programs:build${model}`)
   let word
   if (model.name) {
@@ -1465,8 +1466,10 @@ const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds,
     // status: model.status || 'active',
     user: model.user,
     addresses: model.addresses,
-    categoryId: categoriesIds,
-    subCategoryIds: subcategoriesIds,
+    // categoryId: categoriesIds,
+    // subCategoryIds: subcategoriesIds,
+    categoryId: model.categoryId,
+    subCategoryIds: model.subCategoryIds,
     sessions: model.sessions,
     extractionDate: model.extractionDate,
     proofreaderObservation: model.proofreaderObservation,
@@ -1484,30 +1487,25 @@ const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds,
 // get categories and subcategories id's function ====
 async function getIds(str, type) {
   let ids = []
-  if (str) {
-    var str_array = str.split(',');
-    if (type == 'category') {
-      for (var i = 0; i < str_array.length; i++) {
-        str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
-        let cate = await db.category.findOne({ name: { $eq: str_array[i] } })
-        if (cate) {
-          ids.push(cate._id)
-        }
+  var str_array = str.split(',');
+  if (type == 'category') {
+    for (var i = 0; i < str_array.length; i++) {
+      str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
+      let cate = await db.category.findOne({ name: { $eq: str_array[i] } })
+      if (cate) {
+        ids.push(cate._id)
       }
-      return ids;
     }
-    if (type == 'subcategory') {
-      for (var i = 0; i < str_array.length; i++) {
-        str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
-        let cate = await db.tag.findOne({ name: { $eq: str_array[i] } })
-        if (cate) {
-          ids.push(cate._id)
-        }
-      }
-      return ids;
-    }
+    return ids;
   }
-  else {
+  if (type == 'subcategory') {
+    for (var i = 0; i < str_array.length; i++) {
+      str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
+      let cate = await db.tag.findOne({ name: { $eq: str_array[i] } })
+      if (cate) {
+        ids.push(cate._id)
+      }
+    }
     return ids;
   }
 }
@@ -1564,12 +1562,13 @@ const uploadExcel = async (file, context) => {
       let age = []
       result.forEach(async function (record) {
         // console.log('record', record.source, record.sourceUrl, record.categoryId, record.subCategoryIds)
-        categries = await getIds(record.categoryId, 'category');
-        subcategries = await getIds(record.subCategoryIds, 'subcategory');
+        // categries = await getIds(record.categoryId, 'category');
+        // subcategries = await getIds(record.subCategoryIds, 'subcategory');
         sourcs = await getSources(record.source, 'source');
         sourcsUrl = await getSourcesUrl(record.sourceUrl, 'sourceUrl');
         age = await getAge(record.ageGroup)
-        addExcelPrograms(record, context, categries, subcategries, sourcs, sourcsUrl, age)
+        // addExcelPrograms(record, context, categries, subcategries, sourcs, sourcsUrl, age)
+        addExcelPrograms(record, context, sourcs, sourcsUrl, age)
       });
     }
   });
