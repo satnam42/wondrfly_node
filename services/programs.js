@@ -280,9 +280,9 @@ const build = async (model, context) => {
     location: model.location,
     ageGroup: model.ageGroup,
     date: model.date,
-    isDateNotMention: model.date,
+    isDateNotMention: model.isDateNotMention,
     time: model.time,
-    isTimeNotMention: model.date,
+    isTimeNotMention: model.isTimeNotMention,
     bookingCancelledIn: model.bookingCancelledIn,
     duration: model.duration,
     isFree: model.isFree,
@@ -1400,21 +1400,21 @@ const multiFilter = async (model, context) => {
     query["time.from"] = { $gte: new Date(model.fromTime).getTime() }
     query["time.to"] = { $lte: new Date(model.toTime).getTime() }
   }
-  if (model.priceFrom !== undefined && model.priceTo) {
+  if (model.priceFrom !== undefined && model.priceTo !== undefined && model.priceFrom !== "" && model.priceTo !== "" && model.priceFrom !== null && model.priceTo !== null) {
     const byPrice = {
       $gte: model.priceFrom,
       $lte: model.priceTo,
     }
     query["price"] = byPrice
   }
-  if (query.durationMin && query.durationMax) {
+  if (query.durationMin !== undefined && query.durationMax !== undefined && query.durationMin !== "" && query.durationMax !== "" && query.durationMin !== null && query.durationMax !== null) {
     const byduration = {
       $gte: model.durationMin,
       $lte: model.durationMax,
     }
     query["duration"] = byduration
   }
-  // query[isPublished] = true
+  query[isPublished] = true
   let programs = await db.program.find(query)
     .populate('tags')
     .populate('categoryId')
