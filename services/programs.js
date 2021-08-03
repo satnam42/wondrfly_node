@@ -938,32 +938,32 @@ const getGraphData = async (query, context) => {
 }
 
 // const getFilterProgram = async (model, context) => {
-//     const log = context.logger.start(`services:programs:getFilterProgram`);
-//     let pageNo = Number(model.pageNo) || 1;
-//     let pageSize = Number(model.pageSize) || 10;
-//     let skipCount = pageSize * (pageNo - 1);
+//   const log = context.logger.start(`services:programs:getFilterProgram`);
+//   let pageNo = Number(model.pageNo) || 1;
+//   let pageSize = Number(model.pageSize) || 10;
+//   let skipCount = pageSize * (pageNo - 1);
+//   let query = {}
+//   if (model.ageFrom && model.ageTo) {
+//     query["ageGroup.from"] = { $gte: Number(model.ageFrom) }
+//     query["ageGroup.to"] = { $lte: Number(model.ageTo) }
+//   }
 
-//     if (model.ageFrom && model.ageTo) {
-//         query["ageGroup.from"] = { $gte: Number(model.ageFrom) }
-//         query["ageGroup.to"] = { $lte: Number(model.ageTo) }
-//     }
+//   if (model.fromDate !== undefined && model.toDate !== undefined && model.fromDate !== "" && model.toDate !== "" && model.fromDate !== null && model.toDate !== null) {
+//     query["date.from"] = { $gte: model.fromDate }
+//     query["date.to"] = { $lte: model.toDate }
+//   }
 
-//     if (model.fromDate !== "undefined" && model.toDate !== "undefined" && model.fromDate !== "" && model.toDate !== "" && model.fromDate !== null && model.toDate !== null) {
-//         query["date.from"] = { $gte: model.fromDate }
-//         query["date.to"] = { $lte: model.toDate }
-//     }
-
-//     if (model.toTime !== "undefined" && model.fromTime !== "undefined" && model.toTime !== "" && model.fromTime !== "" && model.toTime !== null && model.fromTime !== null) {
-//         query["time.from"] = { $gte: new Date(model.fromTime).getTime() }
-//         query["date.to"] = { $lte: new Date(model.toTime).getTime() }
-//     }
+//   if (model.toTime !== undefined && model.fromTime !== undefined && model.toTime !== "" && model.fromTime !== "" && model.toTime !== null && model.fromTime !== null) {
+//     query["time.from"] = { $gte: new Date(model.fromTime).getTime() }
+//     query["date.to"] = { $lte: new Date(model.toTime).getTime() }
+//   }
 
 
-//     let programs = await db.program.find(query).populate('tags').skip(skipCount).limit(pageSize);
-//     programs.count = await db.program.find({ user: query.userId }).count();
+//   let programs = await db.program.find(query).populate('tags').skip(skipCount).limit(pageSize);
+//   programs.count = await db.program.find({ user: query.userId }).count();
 
-//     log.end();
-//     return programs;
+//   log.end();
+//   return programs;
 // };
 
 const getFilterProgram = async (query, context) => {
@@ -972,6 +972,15 @@ const getFilterProgram = async (query, context) => {
   let pageSize = Number(query.pageSize) || 10
   let skipCount = pageSize * (pageNo - 1)
   let programs
+  let filterQueries = query;
+  // programs = await db.program
+  //   .find({ createdOn: dat, isPublished: true })
+  //   .populate('tags')
+  //   .populate('categoryId')
+  //   .populate('subCategoryIds')
+  //   .populate('user')
+  //   .skip(skipCount)
+  //   .limit(pageSize)
 
   if (query.fromDate && query.toDate) {
     const dat = {
@@ -1361,35 +1370,59 @@ const topRating = async (context) => {
       .populate('subCategoryIds')
       .populate('user')
     totalPrograms.push(...programs)
-    console.log('user id ==>>>>', user.id);
   }
-  console.log('user programs ==>>>>', totalPrograms.length);
   log.end()
   return totalPrograms
 }
 
 const multiFilter = async (model, context) => {
   const log = context.logger.start(`services:programs:multiFilter`)
-  // let pageNo = Number(query.pageNo) || 1
-  // let pageSize = Number(query.pageSize) || 10
-  // let skipCount = pageSize * (pageNo - 1)
-  let programs
-  console.log('multi filters hit', model);
+  let pageNo = Number(model.pageNo) || 1
+  let pageSize = Number(model.pageSize) || 10
+  let skipCount = pageSize * (pageNo - 1)
 
-  // if (query.fromDate && query.toDate) {
-  //   const dat = {
-  //     $gte: moment(query.fromDate, 'DD-MM-YYYY').startOf('day').toDate(),
-  //     $lt: moment(query.toDate, 'DD-MM-YYYY').endOf('day').toDate(),
-  //   }
+  // if (query.type1 || query.type2) {
   //   programs = await db.program
-  //     .find({ createdOn: dat, isPublished: true })
-  //     .populate('tags')
-  //     .populate('categoryId')
-  //     .populate('subCategoryIds')
-  //     .populate('user')
-  //     .skip(skipCount)
-  //     .limit(pageSize)
+  //     .find({ $or: [{ type: query.type1 }, { type: query.type2 }], isPublished: true })
   // }
+  let query = {}
+  if (model.ageFrom && model.ageTo) {
+    query["ageGroup.from"] = { $gte: Number(model.ageFrom) }
+    query["ageGroup.to"] = { $lte: Number(model.ageTo) }
+  }
+
+  if (model.fromDate !== undefined && model.toDate !== undefined && model.fromDate !== "" && model.toDate !== "" && model.fromDate !== null && model.toDate !== null) {
+    query["date.from"] = { $gte: model.fromDate }
+    query["date.to"] = { $lte: model.toDate }
+  }
+
+  if (model.toTime !== undefined && model.fromTime !== undefined && model.toTime !== "" && model.fromTime !== "" && model.toTime !== null && model.fromTime !== null) {
+    query["time.from"] = { $gte: new Date(model.fromTime).getTime() }
+    query["time.to"] = { $lte: new Date(model.toTime).getTime() }
+  }
+  if (model.priceFrom !== undefined && model.priceTo) {
+    const byPrice = {
+      $gte: model.priceFrom,
+      $lte: model.priceTo,
+    }
+    query["price"] = byPrice
+  }
+  if (query.durationMin && query.durationMax) {
+    const byduration = {
+      $gte: model.durationMin,
+      $lte: model.durationMax,
+    }
+    query["duration"] = byduration
+  }
+  // query[isPublished] = true
+  let programs = await db.program.find(query)
+    .populate('tags')
+    .populate('categoryId')
+    .populate('subCategoryIds')
+    .populate('user')
+    .skip(skipCount)
+    .limit(pageSize)
+    .skip(skipCount).limit(pageSize);
 
   log.end()
   return programs
