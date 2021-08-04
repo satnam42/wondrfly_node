@@ -52,8 +52,8 @@ module.exports = [
       },
       time: {
         properties: {
-          to: { type: 'string' },
-          from: { type: 'string' },
+          to: { type: 'date' },
+          from: { type: 'date' },
         },
       },
       isTimeNotMention: { type: 'boolean' },
