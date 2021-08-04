@@ -270,6 +270,7 @@ const build = async (model, context) => {
     activeStatus: model.activeStatus,
     alias: word ? word : '',
 
+    days: model.days,
     type: model.type,
     price: model.price,
     pricePeriod: model.pricePeriod,
@@ -523,6 +524,9 @@ const set = async (model, program, context) => {
 
   if (model.sessions.length) {
     program.sessions = model.sessions
+  }
+  if (model.days.length) {
+    program.days = model.days
   }
   program.lastModifiedBy = context.user.id
   program.updatedOn = new Date()
@@ -1414,7 +1418,7 @@ const multiFilter = async (model, context) => {
     }
     query["duration"] = byduration
   }
-  query[isPublished] = true
+  query["isPublished"] = true
   let programs = await db.program.find(query)
     .populate('tags')
     .populate('categoryId')

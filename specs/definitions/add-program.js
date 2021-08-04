@@ -206,6 +206,20 @@ module.exports = [
           },
         },
       },
+      days: {
+        type: 'array',
+        items: {
+          properties: {
+            sunday: { type: 'boolean' },
+            monday: { type: 'boolean' },
+            tuesday: { type: 'boolean' },
+            wednesday: { type: 'boolean' },
+            thursday: { type: 'boolean' },
+            friday: { type: 'boolean' },
+            saturday: { type: 'boolean' },
+          },
+        },
+      },
     },
   },
 ]
