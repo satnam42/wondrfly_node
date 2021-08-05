@@ -44,6 +44,7 @@ exports.toModel = (entity) => {
     emails: entity.emails || '',
     addresses: entity.addresses || '',
     tags: entity.tags || '',
+    days: entity.days || '',
     category: entity.categoryId || [],
     subCategoryIds: entity.subCategoryIds || [],
     batches: entity.batches || '',

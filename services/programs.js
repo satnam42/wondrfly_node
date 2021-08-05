@@ -1431,13 +1431,33 @@ const multiFilter = async (model, context) => {
   if (model.inpersonOrVirtual == 'online') {
     query["inpersonOrVirtual"] = 'virtual'
   }
-  // if (model.days !== undefined && model.days !== "" && model.days !== null) {
-  //   query["days"] = days;
-  // }
+  if (model.day !== undefined && model.day !== "" && model.day !== null) {
+    if (model.day == "monday") {
+      query["days.monday"] = true;
+    }
+    if (model.day == "tuesday") {
+      query["days.tuesday"] = true;
+    }
+    if (model.day == "wednesday") {
+      query["days.wednesday"] = true;
+    }
+    if (model.day == "thursday") {
+      query["days.thursday"] = true;
+    }
+    if (model.day == "friday") {
+      query["days.friday"] = true;
+    }
+    if (model.day == "saturday") {
+      query["days.saturday"] = true;
+    }
+    if (model.day == "sunday") {
+      query["days.sunday"] = true;
+    }
+  }
   if (model.ageFrom || model.fromDate || model.toTime || model.priceFrom || model.durationMin || model.categoryId || model.type1 || model.type2) {
     query["isPublished"] = true
   }
-
+  console.log('query ==>>>>', query);
   let programs = await db.program.find(query)
     .populate('tags')
     .populate('categoryId')

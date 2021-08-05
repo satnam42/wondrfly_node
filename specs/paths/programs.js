@@ -952,7 +952,13 @@ module.exports = [
           in: 'query',
           name: 'inpersonOrVirtual',
           description: 'plz enter:-- inperson or online or all',
-          type: 'integer',
+          type: 'string',
+        },
+        {
+          in: 'query',
+          name: 'day',
+          description: 'days name like:- monday, tuesday, wednesday, thursday, friday, saturday, sunday',
+          type: 'string',
         },
       ],
       responses: {
