@@ -1419,7 +1419,7 @@ const multiFilter = async (model, context) => {
     query["duration"] = byduration
   }
   if (model.inpersonOrVirtual == 'inperson') {
-    query["inpersonOrVirtual"] = model.inpersonOrVirtual
+    query["inpersonOrVirtual"] = 'Inperson'
   }
   if (model.inpersonOrVirtual == 'online') {
     query["inpersonOrVirtual"] = 'virtual'
