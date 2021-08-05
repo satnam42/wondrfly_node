@@ -1384,7 +1384,6 @@ const multiFilter = async (model, context) => {
   let pageNo = Number(model.pageNo) || 1
   let pageSize = Number(model.pageSize) || 10
   let skipCount = pageSize * (pageNo - 1)
-
   // if (query.type1 || query.type2) {
   //   programs = await db.program
   //     .find({ $or: [{ type: query.type1 }, { type: query.type2 }], isPublished: true })
@@ -1418,13 +1417,27 @@ const multiFilter = async (model, context) => {
     }
     query["duration"] = byduration
   }
+  if (model.categoryId !== undefined && model.categoryId !== "" && model.categoryId !== null) {
+    query["categoryId"] = model.categoryId;
+  }
+  if (model.type1 !== undefined && model.type1 !== "" && model.type1 !== null ||
+    model.type2 !== undefined && model.type2 !== "" && model.type2 !== null) {
+    query["type"] = model.type1;
+    query["type"] = model.type2;
+  }
   if (model.inpersonOrVirtual == 'inperson') {
     query["inpersonOrVirtual"] = 'Inperson'
   }
   if (model.inpersonOrVirtual == 'online') {
     query["inpersonOrVirtual"] = 'virtual'
   }
-  query["isPublished"] = true
+  // if (model.days !== undefined && model.days !== "" && model.days !== null) {
+  //   query["days"] = days;
+  // }
+  if (model.ageFrom || model.fromDate || model.toTime || model.priceFrom || model.durationMin || model.categoryId || model.type1 || model.type2) {
+    query["isPublished"] = true
+  }
+
   let programs = await db.program.find(query)
     .populate('tags')
     .populate('categoryId')

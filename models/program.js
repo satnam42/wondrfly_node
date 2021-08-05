@@ -114,17 +114,15 @@ const programSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user'
   },
-  days: [
-    {
-      sunday: { type: Boolean, default: false },
-      monday: { type: Boolean, default: false },
-      tuesday: { type: Boolean, default: false },
-      wednesday: { type: Boolean, default: false },
-      thursday: { type: Boolean, default: false },
-      friday: { type: Boolean, default: false },
-      saturday: { type: Boolean, default: false },
-    },
-  ],
+  days: {
+    sunday: { type: Boolean, default: false },
+    monday: { type: Boolean, default: false },
+    tuesday: { type: Boolean, default: false },
+    wednesday: { type: Boolean, default: false },
+    thursday: { type: Boolean, default: false },
+    friday: { type: Boolean, default: false },
+    saturday: { type: Boolean, default: false },
+  },
   extractionDate: { type: Date, default: '' },
   proofreaderObservation: { type: String, default: '' },
   extractionComment: { type: String, default: '' },
