@@ -1411,12 +1411,18 @@ const multiFilter = async (model, context) => {
     }
     query["price"] = byPrice
   }
-  if (query.durationMin !== undefined && query.durationMax !== undefined && query.durationMin !== "" && query.durationMax !== "" && query.durationMin !== null && query.durationMax !== null) {
+  if (model.durationMin !== undefined && model.durationMax !== undefined && model.durationMin !== "" && model.durationMax !== "" && model.durationMin !== null && model.durationMax !== null) {
     const byduration = {
       $gte: model.durationMin,
       $lte: model.durationMax,
     }
     query["duration"] = byduration
+  }
+  if (model.inpersonOrVirtual == 'inperson') {
+    query["inpersonOrVirtual"] = model.inpersonOrVirtual
+  }
+  if (model.inpersonOrVirtual == 'online') {
+    query["inpersonOrVirtual"] = 'virtual'
   }
   query["isPublished"] = true
   let programs = await db.program.find(query)

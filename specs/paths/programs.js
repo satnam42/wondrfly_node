@@ -948,6 +948,12 @@ module.exports = [
           description: 'pageNo',
           type: 'integer',
         },
+        {
+          in: 'query',
+          name: 'inpersonOrVirtual',
+          description: 'plz enter:-- inperson or online or all',
+          type: 'integer',
+        },
       ],
       responses: {
         default: {
