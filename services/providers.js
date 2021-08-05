@@ -910,6 +910,8 @@ const getRatingByUser = async (id, context) => {
   let totalAll = totalRatingOnInstagram + totalRatingOnGoogle + totalRatingOnYelp + totalRatingOnFacebook;
   let totalNumberOf = instagramFollowers + numberOfGoogle + numberOfYelp + numberOfFacebook
   let finalRatingAverage = totalAll / totalNumberOf
+  console.log('reviews', numberOfFacebook, numberOfGoogle, numberOfYelp);
+  let totalReviews = numberOfFacebook + numberOfGoogle + numberOfYelp
 
   data.facebookRating = facebookRating
   data.numberOfFacebook = numberOfFacebook
@@ -919,10 +921,12 @@ const getRatingByUser = async (id, context) => {
   data.numberOfYelp = numberOfYelp
   data.instagramFollowers = instagramFollowers
   data.finalAverageRating = finalRatingAverage.toFixed(1)
+  data.totalReviews = totalReviews
 
   await db.user.findByIdAndUpdate(id, {
     $set: {
       averageFinalRating: finalRatingAverage.toFixed(1),
+      totalReviews
     }
   })
   log.end()
