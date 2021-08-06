@@ -26,7 +26,7 @@ const app = express();
 
 // Define the static file path
 app.use(express.static(__dirname + '/public'));
-
+process.env.TZ = 'UTC'
 
 const options = {
   cert: fs.readFileSync('/etc/letsencrypt/live/bacca.store/fullchain.pem'),
