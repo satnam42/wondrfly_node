@@ -1395,17 +1395,13 @@ const multiFilter = async (model, context) => {
   }
 
   if (model.fromDate !== undefined && model.toDate !== undefined && model.fromDate !== "" && model.toDate !== "" && model.fromDate !== null && model.toDate !== null) {
-    // query["date.from"] = { $gte: model.fromDate }
-    // query["date.to"] = { $lte: model.toDate }
-    query["date.from"] = { $gte: moment(model.fromDate, 'DD-MM-YYYY').startOf('day').toDate() }
-    query["date.to"] = { $lt: moment(model.toDate, 'DD-MM-YYYY').endOf('day').toDate() }
+    query["date.from"] = { $gte: model.fromDate }
+    query["date.to"] = { $lte: model.toDate }
   }
 
   if (model.toTime !== undefined && model.fromTime !== undefined && model.toTime !== "" && model.fromTime !== "" && model.toTime !== null && model.fromTime !== null) {
-    // query["time.from"] = { $gte: new Date(model.fromTime).getTime() }
-    // query["time.to"] = { $lte: new Date(model.toTime).getTime() }
-    query["time.from"] = { $gte: moment(model.fromTime, 'DD-MM-YYYY').startOf('day').toDate() }
-    query["time.to"] = { $lt: moment(model.toTime, 'DD-MM-YYYY').endOf('day').toDate() }
+    query["time.from"] = { $gte: new Date(model.fromTime).getTime() }
+    query["time.to"] = { $lte: new Date(model.toTime).getTime() }
   }
   if (model.priceFrom !== undefined && model.priceTo !== undefined && model.priceFrom !== "" && model.priceTo !== "" && model.priceFrom !== null && model.priceTo !== null) {
     const byPrice = {
@@ -1461,18 +1457,23 @@ const multiFilter = async (model, context) => {
   if (model.ageFrom || model.fromDate || model.toTime || model.priceFrom || model.durationMin || model.categoryId || model.type1 || model.type2) {
     query["isPublished"] = true
   }
-  console.log('query ==>>>>', query);
-  let programs = await db.program.find(query)
-    .populate('tags')
-    .populate('categoryId')
-    .populate('subCategoryIds')
-    .populate('user')
-    .skip(skipCount)
-    .limit(pageSize)
-    .skip(skipCount).limit(pageSize);
 
-  log.end()
-  return programs
+  const isEmpty = Object.keys(query).length === 0
+  let programs
+  if (!isEmpty) {
+    programs = await db.program.find(query)
+      .populate('tags')
+      .populate('categoryId')
+      .populate('subCategoryIds')
+      .populate('user')
+      .skip(skipCount)
+      .limit(pageSize)
+      .skip(skipCount).limit(pageSize);
+    log.end()
+    return programs
+  }
+
+  return []
 }
 
 //==-----------------------------------------------------------
