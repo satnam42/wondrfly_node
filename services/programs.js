@@ -1395,20 +1395,24 @@ const multiFilter = async (model, context) => {
   }
 
   if (model.fromDate !== undefined && model.toDate !== undefined && model.fromDate !== "" && model.toDate !== "" && model.fromDate !== null && model.toDate !== null) {
-    query["date.from"] = { $gte: model.fromDate }
-    query["date.to"] = { $lte: model.toDate }
+    // query["date.from"] = { $gte: model.fromDate }
+    // query["date.to"] = { $lte: model.toDate }
+    query["date.from"] = { $gte: moment(model.fromDate, 'DD-MM-YYYY').startOf('day').toDate() }
+    query["date.to"] = { $lt: moment(model.toDate, 'DD-MM-YYYY').endOf('day').toDate() }
   }
 
   if (model.toTime !== undefined && model.fromTime !== undefined && model.toTime !== "" && model.fromTime !== "" && model.toTime !== null && model.fromTime !== null) {
-    query["time.from"] = { $gte: new Date(model.fromTime).getTime() }
-    query["time.to"] = { $lte: new Date(model.toTime).getTime() }
+    // query["time.from"] = { $gte: new Date(model.fromTime).getTime() }
+    // query["time.to"] = { $lte: new Date(model.toTime).getTime() }
+    query["time.from"] = { $gte: moment(model.fromTime, 'DD-MM-YYYY').startOf('day').toDate() }
+    query["time.to"] = { $lt: moment(model.toTime, 'DD-MM-YYYY').endOf('day').toDate() }
   }
   if (model.priceFrom !== undefined && model.priceTo !== undefined && model.priceFrom !== "" && model.priceTo !== "" && model.priceFrom !== null && model.priceTo !== null) {
     const byPrice = {
       $gte: model.priceFrom,
       $lte: model.priceTo,
     }
-    query["price"] = byPrice
+    query["pricePerParticipant"] = byPrice
   }
   if (model.durationMin !== undefined && model.durationMax !== undefined && model.durationMin !== "" && model.durationMax !== "" && model.durationMin !== null && model.durationMax !== null) {
     const byduration = {
