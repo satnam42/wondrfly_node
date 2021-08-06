@@ -86,7 +86,7 @@ module.exports = [
         type: 'boolean',
       },
       pricePerParticipant: {
-        type: 'string',
+        type: 'number',
       },
       priceForSiblings: {
         type: 'string',
