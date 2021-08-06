@@ -1420,10 +1420,8 @@ const multiFilter = async (model, context) => {
   if (model.categoryId !== undefined && model.categoryId !== "" && model.categoryId !== null) {
     query["categoryId"] = model.categoryId;
   }
-  if (model.type1 !== undefined && model.type1 !== "" && model.type1 !== null ||
-    model.type2 !== undefined && model.type2 !== "" && model.type2 !== null) {
+  if (model.type1 !== undefined && model.type1 !== "" && model.type1 !== null) {
     query["type"] = model.type1;
-    query["type"] = model.type2;
   }
   if (model.inpersonOrVirtual == 'inperson') {
     query["inpersonOrVirtual"] = 'Inperson'
