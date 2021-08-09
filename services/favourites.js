@@ -1,6 +1,13 @@
-
-
 "use strict";
+const moment = require('moment');
+const fs = require('fs');
+var nodemailer = require('nodemailer')
+let path = require('path');
+const aws_accessKey = require('config').get('awsSes').accessKey
+const aws_secretKey = require('config').get('awsSes').secretKey
+const aws_region = require('config').get('awsSes').region
+var sesTransport = require('nodemailer-ses-transport');
+
 const ObjectId = require("mongodb").ObjectID;
 const build = async (model, context) => {
     const { userId, programId } = model;
@@ -15,13 +22,78 @@ const build = async (model, context) => {
     return favourite;
 };
 
+const saveProgramEmail = async (firstName, email, templatePath, subject, OTP) => {
+    let mailBody = fs.readFileSync(path.join(__dirname, templatePath)).toString();
+    mailBody = mailBody.replace(/{{firstname}}/g, firstName);
+
+    if (OTP) {
+        mailBody = mailBody.replace(/{{OTP}}/g, OTP);
+    }
+
+    // Send e-mail using AWS SES
+    var sesTransporter = nodemailer.createTransport(sesTransport({
+        accessKeyId: aws_accessKey,
+        secretAccessKey: aws_secretKey,
+        region: aws_region
+    }));
+
+
+    let mailOptions = {
+        from: "accounts@wondrfly.com",
+        to: email, //sending to: E-mail
+        subject: subject,
+        html: mailBody,
+        attachments: [
+            {
+                filename: 'logo.png',
+                path: `${__dirname}/../public/images/logo.png`,
+                cid: 'logo1' //same cid value as in the html img src
+            },
+
+            {
+                filename: 'logo_white.png',
+                path: `${__dirname}/../public/images/logo_white.png`,
+                cid: 'logo_white' //same cid value as in the html img src
+            }
+        ]
+
+    };
+    let mailSent = await sesTransporter.sendMail(mailOptions);
+    if (mailSent) {
+        console.log("Message sent: %s", mailSent.messageId);
+        console.log("Preview URL: %s", nodemailer.getTestMessageUrl(mailSent));
+        return
+    } else {
+        log.end()
+        throw new Error("Unable to send email try after sometime");
+    }
+}
+
 const create = async (model, context) => {
     const log = context.logger.start("services:favourites:create");
     const Favourites = await db.favourite.find({ $and: [{ user: model.userId }, { program: model.programId }] })
+    const user = await db.user.findById(model.userId);
+    console.log('user ==>>>', user.id, user.email);
     if (Favourites.length > 0) {
         return "favourite already exist";
     }
     const favourite = build(model, context);
+    if (user) {
+        const today = new Date()
+        let date = moment(today).format('YYYY-MM-DD');
+        await new db.notification({
+            title: 'Save Program',
+            description: `you saved the program on ${date}`,
+            user: user.id,
+            createdOn: new Date(),
+            updateOn: new Date(),
+        }).save();
+        let templatePath = '../emailTemplates/save_program.html';
+        let subject = "Program saving";
+
+        saveProgramEmail(user.firstName, user.email, templatePath, subject);
+    }
+
     log.end();
     return favourite;
 };
