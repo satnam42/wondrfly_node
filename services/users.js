@@ -314,7 +314,7 @@ const buildUser = async (model, context) => {
     type: model.type || '',
     email: model.email,
     password: model.password,
-    role: model.role,
+    role: model.role.toLowerCase(),
     createdOn: new Date(),
     updateOn: new Date()
   }).save();
@@ -355,6 +355,18 @@ const register = async (model, context) => {
   let templatePath = '../emailTemplates/welcome_parent.html';
   let subject = "welcome to join wonderfly";
   if (user) {
+    if (user.role == 'parent') {
+      const today = new Date()
+      let date = moment(today).format('YYYY-MM-DD');
+      // let time = moment(today).format('hh:mm A');
+      await new db.notification({
+        title: 'Parent Sign up',
+        description: `You registered as a parent successfully on ${date}`,
+        user: user._id,
+        createdOn: new Date(),
+        updateOn: new Date(),
+      }).save();
+    }
     sendEmail(user.firstName, user.email, templatePath, subject);
   }
   const token = auth.getToken(user, false, context);
