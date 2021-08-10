@@ -1,7 +1,58 @@
 const imageUrl = require('config').get('image').url
 const baseUrl = require('config').get('image').baseUrl
 const ObjectId = require("mongodb").ObjectID;
+const moment = require('moment');
 const fs = require('fs');
+var nodemailer = require('nodemailer')
+let path = require('path');
+const aws_accessKey = require('config').get('awsSes').accessKey
+const aws_secretKey = require('config').get('awsSes').secretKey
+const aws_region = require('config').get('awsSes').region
+var sesTransport = require('nodemailer-ses-transport');
+
+
+const addChildEmail = async (firstName, email, templatePath, subject) => {
+    let mailBody = fs.readFileSync(path.join(__dirname, templatePath)).toString();
+    mailBody = mailBody.replace(/{{firstname}}/g, firstName);
+
+    // Send e-mail using AWS SES
+    var sesTransporter = nodemailer.createTransport(sesTransport({
+        accessKeyId: aws_accessKey,
+        secretAccessKey: aws_secretKey,
+        region: aws_region
+    }));
+
+
+    let mailOptions = {
+        from: "accounts@wondrfly.com",
+        to: email, //sending to: E-mail
+        subject: subject,
+        html: mailBody,
+        attachments: [
+            {
+                filename: 'logo.png',
+                path: `${__dirname}/../public/images/logo.png`,
+                cid: 'logo1' //same cid value as in the html img src
+            },
+
+            {
+                filename: 'logo_white.png',
+                path: `${__dirname}/../public/images/logo_white.png`,
+                cid: 'logo_white' //same cid value as in the html img src
+            }
+        ]
+
+    };
+    let mailSent = await sesTransporter.sendMail(mailOptions);
+    if (mailSent) {
+        console.log("Message sent: %s", mailSent.messageId);
+        console.log("Preview URL: %s", nodemailer.getTestMessageUrl(mailSent));
+        return
+    } else {
+        log.end()
+        throw new Error("Unable to send email try after sometime");
+    }
+}
 
 const setChild = async (model, child, context) => {
     const log = context.logger.start("services:childs:set");
@@ -87,12 +138,31 @@ const buildChild = async (model, context) => {
 };
 
 const addChild = async (model, context) => {
+    const log = context.logger.start("services:childs:create");
+    const user = await db.user.findById(model.parentId);
+    if (!user) {
+        throw new Error("parent not found");
+    }
     let isChild = await db.child.findOne({ $and: [{ parent: model.parentId }, { name: { "$regex": '^' + model.name, "$options": 'i' } }] });
     if (isChild) {
         throw new Error("child already exits with this name");
     }
-    const log = context.logger.start("services:childs:create");
     const child = buildChild(model, context);
+    if (child) {
+        const today = new Date()
+        let date = moment(today).format('YYYY-MM-DD');
+        await new db.notification({
+            title: 'Add child',
+            description: `Child is added successfully on ${date}`,
+            user: model.parentId,
+            createdOn: new Date(),
+            updateOn: new Date(),
+        }).save();
+        let templatePath = '../emailTemplates/add_child.html';
+        let subject = "Add child";
+
+        addChildEmail(user.firstName, user.email, templatePath, subject);
+    }
     log.end();
     return child;
 };
