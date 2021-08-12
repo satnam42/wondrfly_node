@@ -2,6 +2,15 @@ const ObjectId = require("mongodb").ObjectID;
 const auth = require("../permit/auth");
 const encrypt = require("../permit/crypto.js");
 const mobile = require('is-mobile');
+const moment = require('moment');
+var nodemailer = require('nodemailer')
+let path = require('path');
+const fs = require('fs');
+const aws_accessKey = require('config').get('awsSes').accessKey
+const aws_secretKey = require('config').get('awsSes').secretKey
+const aws_region = require('config').get('awsSes').region
+var sesTransport = require('nodemailer-ses-transport');
+
 
 sendOtpEmail = async (firstName, email, templatePath, subject) => {
     let mailBody = fs.readFileSync(path.join(__dirname, templatePath)).toString();
@@ -43,6 +52,53 @@ sendOtpEmail = async (firstName, email, templatePath, subject) => {
         console.log("Message sent: %s", mailSent.messageId);
         console.log("Preview URL: %s", nodemailer.getTestMessageUrl(mailSent));
         return mailSent
+    } else {
+        log.end()
+        throw new Error("Unable to send email try after sometime");
+    }
+}
+
+const invitaionApprovedEmail = async (firstName, email, templatePath, subject, OTP) => {
+    let mailBody = fs.readFileSync(path.join(__dirname, templatePath)).toString();
+    mailBody = mailBody.replace(/{{firstname}}/g, firstName);
+
+    if (OTP) {
+        mailBody = mailBody.replace(/{{OTP}}/g, OTP);
+    }
+
+    // Send e-mail using AWS SES
+    var sesTransporter = nodemailer.createTransport(sesTransport({
+        accessKeyId: aws_accessKey,
+        secretAccessKey: aws_secretKey,
+        region: aws_region
+    }));
+
+
+    let mailOptions = {
+        from: "accounts@wondrfly.com",
+        to: email, //sending to: E-mail
+        subject: subject,
+        html: mailBody,
+        attachments: [
+            {
+                filename: 'logo.png',
+                path: `${__dirname}/../public/images/logo.png`,
+                cid: 'logo1' //same cid value as in the html img src
+            },
+
+            {
+                filename: 'logo_white.png',
+                path: `${__dirname}/../public/images/logo_white.png`,
+                cid: 'logo_white' //same cid value as in the html img src
+            }
+        ]
+
+    };
+    let mailSent = await sesTransporter.sendMail(mailOptions);
+    if (mailSent) {
+        console.log("Message sent: %s", mailSent.messageId);
+        console.log("Preview URL: %s", nodemailer.getTestMessageUrl(mailSent));
+        return
     } else {
         log.end()
         throw new Error("Unable to send email try after sometime");
@@ -177,6 +233,21 @@ const addGuardian = async (model, context) => {
         guardianEmail.relationToChild = model.relationToChild;
         await guardianEmail.save();
     }
+    const today = new Date()
+    let date = moment(today).format('YYYY-MM-DD');
+    await new db.notification({
+        title: 'Invitation approved',
+        description: `Guardian invitaion approved on ${date}`,
+        user: model.parentId,
+        createdOn: new Date(),
+        updateOn: new Date(),
+    }).save();
+
+    const user = await db.user.findById(model.parentId);
+    let templatePath = '../emailTemplates/invitation_approved.html';
+    let subject = "Guardian invitation approved";
+
+    invitaionApprovedEmail(user.firstName, user.email, templatePath, subject);
     log.end();
     return guardian;
 };

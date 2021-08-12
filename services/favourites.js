@@ -73,7 +73,6 @@ const create = async (model, context) => {
     const log = context.logger.start("services:favourites:create");
     const Favourites = await db.favourite.find({ $and: [{ user: model.userId }, { program: model.programId }] })
     const user = await db.user.findById(model.userId);
-    console.log('user ==>>>', user.id, user.email);
     if (Favourites.length > 0) {
         return "favourite already exist";
     }
