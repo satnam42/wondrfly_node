@@ -1475,8 +1475,8 @@ const multiFilter = async (model, context) => {
 }
 
 //==-----------------------------------------------------------
-// const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds, sourcs, sourcsUrl, age) => {
-const addExcelPrograms = async (model, context, sourcs, sourcsUrl, age) => {
+const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds, sourcs, sourcsUrl, age) => {
+  // const addExcelPrograms = async (model, context, sourcs, sourcsUrl, age) => {
   const log = context.logger.start(`services:programs:build${model}`)
   let word
   if (model.name) {
@@ -1545,10 +1545,10 @@ const addExcelPrograms = async (model, context, sourcs, sourcsUrl, age) => {
     // status: model.status || 'active',
     user: model.user,
     addresses: model.addresses,
-    // categoryId: categoriesIds,
-    // subCategoryIds: subcategoriesIds,
-    categoryId: model.categoryId,
-    subCategoryIds: model.subCategoryIds,
+    categoryId: categoriesIds,
+    subCategoryIds: subcategoriesIds,
+    // categoryId: model.categoryId,
+    // subCategoryIds: model.subCategoryIds,
     sessions: model.sessions,
     extractionDate: model.extractionDate,
     proofreaderObservation: model.proofreaderObservation,
@@ -1640,14 +1640,14 @@ const uploadExcel = async (file, context) => {
       let sourcsUrl = []
       let age = []
       result.forEach(async function (record) {
-        // console.log('record', record.source, record.sourceUrl, record.categoryId, record.subCategoryIds)
-        // categries = await getIds(record.categoryId, 'category');
-        // subcategries = await getIds(record.subCategoryIds, 'subcategory');
+        console.log('record', record.source, record.sourceUrl, record.categoryId, record.subCategoryIds)
+        categries = await getIds(record.categoryId, 'category');
+        subcategries = await getIds(record.subCategoryIds, 'subcategory');
         sourcs = await getSources(record.source, 'source');
         sourcsUrl = await getSourcesUrl(record.sourceUrl, 'sourceUrl');
         age = await getAge(record.ageGroup)
-        // addExcelPrograms(record, context, categries, subcategries, sourcs, sourcsUrl, age)
-        addExcelPrograms(record, context, sourcs, sourcsUrl, age)
+        addExcelPrograms(record, context, categries, subcategries, sourcs, sourcsUrl, age)
+        // addExcelPrograms(record, context, sourcs, sourcsUrl, age)
       });
     }
   });
