@@ -1508,12 +1508,12 @@ const nearBy = async (query, context) => {
     },
     {
       $lookup: {
-        from: 'providers',
+        from: 'users',
         localField: 'user',
-        foreignField: 'user',
+        foreignField: '_id',
         as: 'provider',
       },
-    }
+    },
 
   ])
   log.end()
