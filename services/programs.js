@@ -1481,21 +1481,41 @@ const nearBy = async (query, context) => {
   var lt = lat.substring(0, 3)
   var lg = lng.substring(0, 3)
 
-  const programs = await db.program.aggregate([{
-    $match: {
-      $and: [{
-        lat: {
-          $regex: lt,
-          $options: 'i'
+  const programs = await db.program.aggregate([
+    {
+      $match: {
+        $and: [{
+          lat: {
+            $regex: lt,
+            $options: 'i'
+          }
+        }, {
+          lng: {
+            $regex: lg,
+            $options: 'i'
+          }
         }
-      }, {
-        lng: {
-          $regex: lg,
-          $options: 'i'
-        }
-      }]
+        ]
+      },
+    },
+    {
+      $lookup: {
+        from: 'categories',
+        localField: 'categoryId',
+        foreignField: '_id',
+        as: 'categoryId',
+      },
+    },
+    {
+      $lookup: {
+        from: 'providers',
+        localField: 'user',
+        foreignField: 'user',
+        as: 'provider',
+      },
     }
-  }]).limit(10)
+
+  ])
   log.end()
   return programs
 }
