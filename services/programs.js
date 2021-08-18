@@ -1514,8 +1514,7 @@ const nearBy = async (query, context) => {
         as: 'provider',
       },
     },
-
-  ])
+  ]).limit(10)
   log.end()
   return programs
 }
