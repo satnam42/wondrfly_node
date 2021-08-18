@@ -340,6 +340,19 @@ const multiFilter = async (req, res) => {
     }
 };
 
+const nearBy = async (req, res) => {
+    const log = req.context.logger.start(`api:programs:nearBy`);
+    try {
+        const data = await service.nearBy(req.query, req.context);
+        log.end();
+        return response.data(res, mapper.toSearchModel(data));
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 
 exports.create = create;
 exports.list = list;
@@ -365,3 +378,4 @@ exports.searchByNameAndDate = searchByNameAndDate;
 exports.uploadExcel = uploadExcel;
 exports.topRating = topRating;
 exports.multiFilter = multiFilter;
+exports.nearBy = nearBy;

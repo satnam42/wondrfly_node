@@ -713,6 +713,11 @@ const configure = (app, logger) => {
     permit.context.builder,
     api.programs.multiFilter
   );
+  app.get(
+    "/api/programs/nearBy",
+    permit.context.builder,
+    api.programs.nearBy
+  );
 
   //=============favourites api=====================//
   app.post(

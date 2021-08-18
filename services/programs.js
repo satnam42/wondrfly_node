@@ -1415,7 +1415,7 @@ const multiFilter = async (model, context) => {
       $gte: model.durationMin,
       $lte: model.durationMax,
     }
-    query["duration"] = byduration
+    query["duration.hours"] = byduration
   }
   if (model.categoryId !== undefined && model.categoryId !== "" && model.categoryId !== null) {
     query["categoryId"] = model.categoryId;
@@ -1472,6 +1472,32 @@ const multiFilter = async (model, context) => {
   }
 
   return []
+}
+
+// programs list near by location
+const nearBy = async (query, context) => {
+  const log = context.logger.start(`services:programs:nearBy`)
+  const { lat, lng } = query;
+  var lt = lat.substring(0, 3)
+  var lg = lng.substring(0, 3)
+
+  const programs = await db.program.aggregate([{
+    $match: {
+      $and: [{
+        lat: {
+          $regex: lt,
+          $options: 'i'
+        }
+      }, {
+        lng: {
+          $regex: lg,
+          $options: 'i'
+        }
+      }]
+    }
+  }]).limit(10)
+  log.end()
+  return programs
 }
 
 //==-----------------------------------------------------------
@@ -1680,3 +1706,4 @@ exports.searchByNameAndDate = searchByNameAndDate
 exports.uploadExcel = uploadExcel
 exports.topRating = topRating
 exports.multiFilter = multiFilter
+exports.nearBy = nearBy

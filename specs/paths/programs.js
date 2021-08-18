@@ -971,4 +971,35 @@ module.exports = [
       },
     },
   },
+  {
+    url: "/nearBy",
+    get: {
+      summary: "near by location",
+      description: "get programs near by location",
+      parameters: [
+        {
+          in: 'query',
+          name: 'lat',
+          description: 'lat',
+          required: true,
+          type: 'string',
+        },
+        {
+          in: 'query',
+          name: 'lng',
+          description: 'lng',
+          required: true,
+          type: 'string',
+        }
+      ],
+      responses: {
+        default: {
+          description: "Unexpected error",
+          schema: {
+            $ref: "#/definitions/Error"
+          }
+        }
+      }
+    }
+  }
 ]
