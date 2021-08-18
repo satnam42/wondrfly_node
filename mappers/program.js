@@ -36,7 +36,7 @@ exports.toModel = (entity) => {
     duration: entity.duration || '',
     isPublished: entity.isPublished || '',
     isFree: entity.isFree || '',
-    isFav: entity.isFav || '',
+    isFav: entity.isFav,
     pricePerParticipant: entity.pricePerParticipant || '',
     priceForSiblings: entity.priceForSiblings || '',
     specialInstructions: entity.specialInstructions || '',
