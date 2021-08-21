@@ -43,6 +43,8 @@ exports.toModel = (entity) => {
     adultAssistanceIsRequried: entity.adultAssistanceIsRequried || '',
     emails: entity.emails || '',
     addresses: entity.addresses || '',
+    isDateNotMention: entity.isDateNotMention,
+    isTimeNotMention: entity.isTimeNotMention,
     tags: entity.tags || '',
     days: entity.days || '',
     category: entity.categoryId || [],
