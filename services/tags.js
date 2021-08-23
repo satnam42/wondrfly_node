@@ -31,9 +31,10 @@ const set = (model, tag, context) => {
 };
 const create = async (model, context) => {
     const log = context.logger.start("services:tags:create");
-    const istagExist = await db.tag.findOne({ name: { $eq: model.name } });
+    const categoryId = model.categoryIds[0]
+    const istagExist = await db.tag.findOne({ name: model.name, categoryIds: categoryId });
     if (istagExist) {
-        return "tag already exist";
+        return "tag already exist for this category";
     }
     const tag = build(model, context);
     log.end();
