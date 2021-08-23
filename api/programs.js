@@ -96,7 +96,7 @@ const search = async (req, res) => {
     try {
         const program = await service.search(req.query, req.context);
         log.end();
-        return response.data(res, program);
+        return response.data(res, mapper.toSearchModel(program));
     } catch (err) {
         log.error(err);
         log.end();
