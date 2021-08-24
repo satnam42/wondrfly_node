@@ -15,8 +15,7 @@ const build = async (model, context) => {
 
 const create = async (model, context) => {
     const log = context.logger.start("services:suggestion:create");
-    const name = model.name[0]
-    const issuggestionExist = await db.suggestion.findOne({ name: model.name[0], subcategoires: model.subcategoires[0] });
+    // const issuggestionExist = await db.suggestion.findOne({ name: model.name[0], subcategoires: model.subcategoires[0] });
     if (issuggestionExist) {
         return "suggestion already exist for this category";
     }
