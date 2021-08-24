@@ -16,13 +16,13 @@ const build = async (model, context) => {
 const create = async (model, context) => {
     const log = context.logger.start("services:suggestion:create");
     // const issuggestionExist = await db.suggestion.findOne({ name: model.name[0], subcategoires: model.subcategoires[0] });
-    if (issuggestionExist) {
-        return "suggestion already exist for this category";
-    }
+    // if (issuggestionExist) {
+    //     return "suggestion already exist for this category";
+    // }
     console.log('suggestion service api hit!!!');
     const suggestion = build(model, context);
     log.end();
-    return model;
+    return suggestion;
 };
 
 exports.create = create;
