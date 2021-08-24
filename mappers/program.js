@@ -65,7 +65,7 @@ exports.toModel = (entity) => {
     ; (model.programOwner = entity.provider[0].firstName || ''),
       (model.userId = entity.provider[0]._id || ''),
       (model.averageFinalRating = entity.provider[0].averageFinalRating || ''),
-      (model.totalReviews = entity.user.totalReviews || '')
+      (model.totalReviews = entity.provider[0].totalReviews || '')
 
   }
 
