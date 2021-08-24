@@ -1519,6 +1519,33 @@ const nearBy = async (query, context) => {
   return programs
 }
 
+
+const subCategoryFilter = async (model, context) => {
+  const log = context.logger.start(`services:programs:subCategoryFilter`)
+  let pageNo = Number(model.pageNo) || 1
+  let pageSize = Number(model.pageSize) || 10
+  let skipCount = pageSize * (pageNo - 1)
+  let filter = []
+  if (model.subId1 !== undefined && model.subId1 !== "" && model.subId1 !== null) {
+    filter.push(model.subId1);
+  }
+  if (model.subId2 !== undefined && model.subId2 !== "" && model.subId2 !== null) {
+    filter.push(model.subId2);
+  }
+  if (model.subId3 !== undefined && model.subId3 !== "" && model.subId3 !== null) {
+    filter.push(model.subId3);
+  }
+  if (model.subId4 !== undefined && model.subId4 !== "" && model.subId4 !== null) {
+    filter.push(model.subId4);
+  }
+  if (model.subId5 !== undefined && model.subId5 !== "" && model.subId5 !== null) {
+    filter.push(model.subId5);
+  }
+  const programs = await db.program.find({ subCategoryIds: { $in: filter }, }).skip(skipCount)
+  log.end()
+  return programs
+}
+
 //==-----------------------------------------------------------
 const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds, sourcs, sourcsUrl, age) => {
   // const addExcelPrograms = async (model, context, sourcs, sourcsUrl, age) => {
@@ -1726,3 +1753,4 @@ exports.uploadExcel = uploadExcel
 exports.topRating = topRating
 exports.multiFilter = multiFilter
 exports.nearBy = nearBy
+exports.subCategoryFilter = subCategoryFilter

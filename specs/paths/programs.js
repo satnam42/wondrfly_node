@@ -1001,5 +1001,65 @@ module.exports = [
         }
       }
     }
+  },
+  {
+    url: '/subCategoryFilter',
+    get: {
+      summary: 'subcategory filter',
+      description: 'get programs by subcategory filter ',
+      parameters: [
+        {
+          in: 'query',
+          name: 'subId1',
+          description: 'sub category id 1',
+          type: 'string',
+        },
+        {
+          in: 'query',
+          name: 'subId2',
+          description: 'sub category id 2',
+          type: 'string',
+        },
+        {
+          in: 'query',
+          name: 'subId3',
+          description: 'sub category id 3',
+          type: 'string',
+        },
+        {
+          in: 'query',
+          name: 'subId4',
+          description: 'sub category id 4',
+          type: 'string',
+        },
+        {
+          in: 'query',
+          name: 'subId5',
+          description: 'sub category id 5',
+          type: 'string',
+        },
+        {
+          in: 'query',
+          name: 'pageSize',
+          description: 'pageSize',
+          type: 'integer',
+        },
+        {
+          in: 'query',
+          name: 'pageNo',
+          description: 'pageNo',
+          type: 'integer',
+        },
+
+      ],
+      responses: {
+        default: {
+          description: 'Unexpected error',
+          schema: {
+            $ref: '#/definitions/Error',
+          },
+        },
+      },
+    },
   }
 ]
