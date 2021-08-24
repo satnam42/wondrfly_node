@@ -1117,6 +1117,14 @@ const configure = (app, logger) => {
     api.reports.search
   );
 
+  //=========suggestion==============
+  app.post(
+    "/api/suggestion/create",
+    permit.context.builder,
+    // permit.context.requiresToken,
+    api.suggestion.create
+  );
+
   log.end();
 };
 

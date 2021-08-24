@@ -1545,7 +1545,7 @@ const subCategoryFilter = async (model, context) => {
   log.end()
   return programs
 }
-
+// const programs = await db.program.find({ subCategoryIds: { $in: filter }, }).skip(skipCount)
 //==-----------------------------------------------------------
 const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds, sourcs, sourcsUrl, age) => {
   // const addExcelPrograms = async (model, context, sourcs, sourcsUrl, age) => {
