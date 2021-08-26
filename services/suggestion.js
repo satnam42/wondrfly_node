@@ -40,8 +40,8 @@ const bySubcategoryId = async (id, context) => {
         const category = await db.category.findById(suggestion.category)
         const imageUrl = category.imageUrl ? baseUrl + category.imageUrl : ''
         const iconUrl = category.iconUrl ? baseUrl + category.iconUrl : ''
-        const newSuggestion = {}
         suggestions.map(suggestion => {
+            let newSuggestion = {}
             newSuggestion.id = suggestion.id
             newSuggestion.name = suggestion.name
             newSuggestion.imageUrl = imageUrl
