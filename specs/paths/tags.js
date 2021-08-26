@@ -140,15 +140,7 @@ module.exports = [
                     name: "name",
                     description: "tags name",
                     required: true
-                },
-                {
-                    in: "header",
-                    name: "x-access-token",
-                    description: "token to access api",
-                    required: true,
-                    type: "string"
                 }
-
             ],
             responses: {
                 default: {

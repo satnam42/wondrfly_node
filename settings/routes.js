@@ -289,7 +289,7 @@ const configure = (app, logger) => {
   app.get(
     "/api/tags/search",
     permit.context.builder,
-    permit.context.requiresToken,
+    // permit.context.requiresToken,
     api.tags.search
   );
   app.delete(
@@ -1123,6 +1123,11 @@ const configure = (app, logger) => {
     permit.context.builder,
     // permit.context.requiresToken,
     api.suggestion.create
+  );
+  app.get(
+    "/api/suggestion/bySubcategoryId/:id",
+    permit.context.builder,
+    api.suggestion.bySubcategoryId
   );
 
   log.end();

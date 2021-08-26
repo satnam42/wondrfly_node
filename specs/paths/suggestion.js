@@ -31,5 +31,29 @@ module.exports = [
                 }
             }
         }
+    },
+    {
+        url: "/bySubcategoryId/{id}",
+        get: {
+            summary: "suggestions by subcategory Id",
+            description: "suggestions by subcategory Id",
+            parameters: [
+                {
+                    in: "path",
+                    name: "id",
+                    description: "subcategory id",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
     }
 ]

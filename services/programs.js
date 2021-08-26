@@ -1541,7 +1541,6 @@ const subCategoryFilter = async (model, context) => {
   if (model.subId5 !== undefined && model.subId5 !== "" && model.subId5 !== null) {
     filter.push(model.subId5);
   }
-
   const programs = await db.program.find({ subCategoryIds: { $in: filter }, })
     .populate('tags')
     .populate('user')
@@ -1549,7 +1548,7 @@ const subCategoryFilter = async (model, context) => {
     .populate('subCategoryIds')
     .populate('lastModifiedBy')
     .skip(skipCount)
-  log.end()
+  log.end();
   return programs
 }
 // const programs = await db.program.find({ subCategoryIds: { $in: filter }, }).skip(skipCount)
