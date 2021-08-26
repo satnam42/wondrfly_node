@@ -873,14 +873,14 @@ module.exports = [
           name: 'toTime',
           description: 'toTime',
           // required: true,
-          type: 'date',
+          type: 'string',
         },
         {
           in: 'query',
           name: 'fromTime',
           description: 'fromTime',
           // required: true,
-          type: 'date',
+          type: 'string',
         },
         {
           in: 'query',
