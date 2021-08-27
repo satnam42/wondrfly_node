@@ -283,13 +283,11 @@ const configure = (app, logger) => {
   app.put(
     "/api/tags/update/:id",
     permit.context.requiresToken,
-    // validator.users.update,
     api.tags.update
   );
   app.get(
     "/api/tags/search",
     permit.context.builder,
-    // permit.context.requiresToken,
     api.tags.search
   );
   app.delete(
