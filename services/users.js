@@ -40,67 +40,67 @@ sendEmail = async (firstName, email, templatePath, subject, OTP) => {
     to: email, //sending to: E-mail
     subject: subject,
     html: mailBody,
-    attachments: [{
-      filename: 'welcome_img1.png',
-      path: `${__dirname}/../public/images/welcome_img1.png`,
-      cid: 'welcome_img1' //same cid value as in the html img src
-    },
-    {
-      filename: 'complete_profile.png',
-      path: `${__dirname}/../public/images/complete_profile.png`,
-      cid: 'complete_profile' //same cid value as in the html img src
-    },
-    {
-      filename: 'logo.png',
-      path: `${__dirname}/../public/images/logo.png`,
-      cid: 'logo1' //same cid value as in the html img src
-    },
-    {
-      filename: 'welcome_img2.png',
-      path: `${__dirname}/../public/images/welcome_img2.png`,
-      cid: 'welcome_img2' //same cid value as in the html img src
-    },
-    {
-      filename: 'welcome_img3.png',
-      path: `${__dirname}/../public/images/welcome_img3.png`,
-      cid: 'welcome_img3' //same cid value as in the html img src
-    },
-    {
-      filename: 'welcome_img4.png',
-      path: `${__dirname}/../public/images/welcome_img4.png`,
-      cid: 'welcome_img4' //same cid value as in the html img src
-    },
-    {
-      filename: 'welcome_img5.png',
-      path: `${__dirname}/../public/images/welcome_img5.png`,
-      cid: 'welcome_img5' //same cid value as in the html img src
-    },
-    {
-      filename: 'welcome_img6.png',
-      path: `${__dirname}/../public/images/welcome_img6.png`,
-      cid: 'welcome_img6' //same cid value as in the html img src
-    },
-    {
-      filename: 'logo_white.png',
-      path: `${__dirname}/../public/images/logo_white.png`,
-      cid: 'logo_white' //same cid value as in the html img src
-    },
-    {
-      filename: 'fb.png',
-      path: `${__dirname}/../public/images/fb.png`,
-      cid: 'fb' //same cid value as in the html img src
-    },
-    {
-      filename: 'insta.png',
-      path: `${__dirname}/../public/images/insta.png`,
-      cid: 'insta' //same cid value as in the html img src
-    },
-    {
-      filename: 'pinterest.png',
-      path: `${__dirname}/../public/images/pinterest.png`,
-      cid: 'pinterest' //same cid value as in the html img src
-    }
-    ]
+    // attachments: [{
+    //   filename: 'welcome_img1.png',
+    //   path: `${__dirname}/../public/images/welcome_img1.png`,
+    //   cid: 'welcome_img1' //same cid value as in the html img src
+    // },
+    // {
+    //   filename: 'complete_profile.png',
+    //   path: `${__dirname}/../public/images/complete_profile.png`,
+    //   cid: 'complete_profile' //same cid value as in the html img src
+    // },
+    // {
+    //   filename: 'logo.png',
+    //   path: `${__dirname}/../public/images/logo.png`,
+    //   cid: 'logo1' //same cid value as in the html img src
+    // },
+    // {
+    //   filename: 'welcome_img2.png',
+    //   path: `${__dirname}/../public/images/welcome_img2.png`,
+    //   cid: 'welcome_img2' //same cid value as in the html img src
+    // },
+    // {
+    //   filename: 'welcome_img3.png',
+    //   path: `${__dirname}/../public/images/welcome_img3.png`,
+    //   cid: 'welcome_img3' //same cid value as in the html img src
+    // },
+    // {
+    //   filename: 'welcome_img4.png',
+    //   path: `${__dirname}/../public/images/welcome_img4.png`,
+    //   cid: 'welcome_img4' //same cid value as in the html img src
+    // },
+    // {
+    //   filename: 'welcome_img5.png',
+    //   path: `${__dirname}/../public/images/welcome_img5.png`,
+    //   cid: 'welcome_img5' //same cid value as in the html img src
+    // },
+    // {
+    //   filename: 'welcome_img6.png',
+    //   path: `${__dirname}/../public/images/welcome_img6.png`,
+    //   cid: 'welcome_img6' //same cid value as in the html img src
+    // },
+    // {
+    //   filename: 'logo_white.png',
+    //   path: `${__dirname}/../public/images/logo_white.png`,
+    //   cid: 'logo_white' //same cid value as in the html img src
+    // },
+    // {
+    //   filename: 'fb.png',
+    //   path: `${__dirname}/../public/images/fb.png`,
+    //   cid: 'fb' //same cid value as in the html img src
+    // },
+    // {
+    //   filename: 'insta.png',
+    //   path: `${__dirname}/../public/images/insta.png`,
+    //   cid: 'insta' //same cid value as in the html img src
+    // },
+    // {
+    //   filename: 'pinterest.png',
+    //   path: `${__dirname}/../public/images/pinterest.png`,
+    //   cid: 'pinterest' //same cid value as in the html img src
+    // }
+    // ]
 
   };
   let mailSent = await sesTransporter.sendMail(mailOptions);
@@ -352,7 +352,7 @@ const register = async (model, context) => {
   //-----------------------------
 
   //------------------------------
-  let templatePath = '../emailTemplates/welcome_parent.html';
+  let templatePath = '../emailTemplates/newWelcome.html';
   let subject = "welcome to join wonderfly";
   if (user) {
     if (user.role == 'parent') {
@@ -1116,7 +1116,7 @@ const facebookLogin = async (model, context) => {
     const createdFBUser = await buildFBUser(model, context);
     const token = auth.getToken(createdFBUser, false, context);
     createdFBUser.token = token;
-    let templatePath = '../emailTemplates/welcome_parent.html';
+    let templatePath = '../emailTemplates/newWelcome.html';
     let subject = "welcome to join wonderfly";
     if (createdFBUser) {
       sendEmail(model.firstName, model.email, templatePath, subject);
@@ -1159,7 +1159,7 @@ const loginWithGoogle = async (model, context) => {
         updateOn: new Date()
       }).save();
     }
-    let templatePath = '../emailTemplates/welcome_parent.html';
+    let templatePath = '../emailTemplates/newWelcome.html';
     let subject = "welcome to join wonderfly";
     if (user) {
       sendEmail(firstName, email.toLowerCase(), templatePath, subject);
