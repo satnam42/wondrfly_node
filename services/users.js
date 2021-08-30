@@ -934,7 +934,7 @@ const getProfileProgress = async (query, context) => {
     if (children.length > 1) {
       let childCount = 1
       children.forEach(child => {
-        while (childCount < 4) {
+        while (childCount < 2) {
           // if (child.name !== "string" && child.name !== undefined && child.name !== "") {
           //   progress += 2
           // }
@@ -956,7 +956,7 @@ const getProfileProgress = async (query, context) => {
           // if (child.interestInfo.length >= 1) {
           //   progress += 2
           // }
-          progress += 10
+          progress += 30
           childCount++
         }
       });
