@@ -366,6 +366,19 @@ const subCategoryFilter = async (req, res) => {
     }
 };
 
+const countForCategory = async (req, res) => {
+    const log = req.context.logger.start(`api:programs:countForCategory`);
+    try {
+        const data = await service.countForCategory(req.query, req.context);
+        log.end();
+        return response.data(res, mapper.toSearchModel(data));
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 
 exports.create = create;
 exports.list = list;
@@ -393,3 +406,4 @@ exports.topRating = topRating;
 exports.multiFilter = multiFilter;
 exports.nearBy = nearBy;
 exports.subCategoryFilter = subCategoryFilter;
+exports.countForCategory = countForCategory;
