@@ -8,6 +8,7 @@ const tag = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'category'
     }],
+    programCount: { type: Number, default: 0 },
     createdOn: { type: Date, default: Date.now },
     updatedOn: { type: Date, default: Date.now }
 });

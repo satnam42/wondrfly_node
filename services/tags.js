@@ -57,11 +57,18 @@ const getAlltags = async (context) => {
 // };
 
 const tagByCategoryId = async (categoriesId, context) => {
-    console.log('category id ', categoriesId)
+    const log = context.logger.start(`services:tags:tagByCategoryId`);
     if (!categoriesId) {
         throw new Error("category id not found");
-    } const log = context.logger.start(`services:tags:getAlltags`);
-    const tags = await db.tag.find({ categoryIds: categoriesId })
+    }
+    let tags = []
+    const subcategories = await db.tag.find({ categoryIds: categoriesId })
+    for (var i = 0; i < subcategories.length; i++) {
+        const tag = subcategories[i]
+        const count = await db.program.find({ subCategoryIds: subcategories[i].id }).count()
+        tag.programCount = count;
+        tags.push(tag)
+    }
     log.end();
     return tags;
 };
