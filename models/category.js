@@ -5,6 +5,7 @@ const category = mongoose.Schema({
     description: { type: String, default: "" },
     imageUrl: { type: String, default: "", },
     iconUrl: { type: String, default: "", },
+    logoUrl: { type: String, default: "", },
     createdOn: { type: Date, default: Date.now },
     updatedOn: { type: Date, default: Date.now }
 });
