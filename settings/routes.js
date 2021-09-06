@@ -1128,6 +1128,13 @@ const configure = (app, logger) => {
     api.suggestion.bySubcategoryId
   );
 
+  //=========invitation===============
+  app.post(
+    "/api/invitation/askToJoin",
+    permit.context.requiresToken,
+    api.invitation.askToJoin
+  );
+
   log.end();
 };
 
