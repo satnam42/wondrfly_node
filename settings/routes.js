@@ -1141,6 +1141,12 @@ const configure = (app, logger) => {
     // permit.context.builder,
     api.invitation.list
   );
+  app.post(
+    "/api/invitation/approveAll",
+    // permit.context.builder,
+    permit.context.requiresToken,
+    api.invitation.approveAll
+  );
 
   log.end();
 };

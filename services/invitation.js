@@ -49,5 +49,14 @@ const getAllInvitation = async (context) => {
     return invitations;
 };
 
+const approveAll = async (model, context) => {
+    const log = context.logger.start("services:invitation:register");
+    const invitation = await db.invitation.updateMany({ $set: { acceptance: true } })
+    console.log('invitation =>>>>', invitation)
+    log.end();
+    return invitation;
+};
+
 exports.create = create;
 exports.getAllInvitation = getAllInvitation;
+exports.approveAll = approveAll;
