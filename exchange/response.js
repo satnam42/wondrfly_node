@@ -67,6 +67,17 @@ const chatPage = (res, data, pageNo, pageSize, total) => {
   });
 };
 
+const invitation = (message, res, data, accepted, pending) => {
+  res.status(200).json({
+    message: message,
+    isSuccess: true,
+    statusCode: 200,
+    accepted: accepted,
+    pending: pending,
+    items: data
+  });
+};
+
 exports.data = data;
 exports.page = page;
 exports.success = success;
@@ -74,3 +85,4 @@ exports.failure = failure;
 exports.authorized = authorized;
 exports.unAuthorized = unAuthorized;
 exports.chatPage = chatPage;
+exports.invitation = invitation;

@@ -1134,6 +1134,12 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.invitation.askToJoin
   );
+  app.get(
+    "/api/invitation/list",
+    permit.context.requiresToken,
+    // permit.context.builder,
+    api.invitation.list
+  );
 
   log.end();
 };
