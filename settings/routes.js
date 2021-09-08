@@ -1131,7 +1131,8 @@ const configure = (app, logger) => {
   //=========invitation===============
   app.post(
     "/api/invitation/askToJoin",
-    permit.context.requiresToken,
+    permit.context.builder,
+    // permit.context.requiresToken,
     api.invitation.askToJoin
   );
   app.get(

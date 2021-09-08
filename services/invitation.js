@@ -42,7 +42,7 @@ const getAllInvitation = async (context) => {
     const accepted = await db.invitation.find({ acceptance: true }).count();
     const pending = await db.invitation.find({ acceptance: false }).count();
     invitations.invitation = invitation
-    invitations.count = `All Invitations ${count}`
+    invitations.count = count
     invitations.accepted = accepted
     invitations.pending = pending
     log.end();

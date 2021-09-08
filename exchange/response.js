@@ -69,7 +69,7 @@ const chatPage = (res, data, pageNo, pageSize, total) => {
 
 const invitation = (message, res, data, accepted, pending) => {
   res.status(200).json({
-    message: message,
+    total: message,
     isSuccess: true,
     statusCode: 200,
     accepted: accepted,
