@@ -7,6 +7,7 @@ const invitation = mongoose.Schema({
         required: true
     },
     acceptance: { type: Boolean, default: false },
+    declined: { type: Boolean, default: false },
     createdOn: { type: Date, default: Date.now },
     updatedOn: { type: Date, default: Date.now }
 });

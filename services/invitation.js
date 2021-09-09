@@ -50,13 +50,35 @@ const getAllInvitation = async (context) => {
 };
 
 const approveAll = async (model, context) => {
-    const log = context.logger.start("services:invitation:register");
+    const log = context.logger.start("services:invitation:approveAll");
     const invitation = await db.invitation.updateMany({ $set: { acceptance: true } })
     console.log('invitation =>>>>', invitation)
     log.end();
     return invitation;
 };
 
+const approveOrDecline = async (model, context) => {
+    const log = context.logger.start("services:invitation:approveOrDecline");
+    if (model.type == "approve") {
+        let invitation = await db.invitation.findOne({ _id: model.id });
+        invitation.acceptance = true;
+        invitation.declined = false;
+        await invitation.save();
+        log.end();
+        return invitation;
+    }
+    if (model.type == "decline") {
+        let invitation = await db.invitation.findOne({ _id: model.id });
+        invitation.declined = true;
+        invitation.acceptance = false;
+        await invitation.save();
+        log.end();
+        return invitation;
+    }
+
+};
+
 exports.create = create;
 exports.getAllInvitation = getAllInvitation;
 exports.approveAll = approveAll;
+exports.approveOrDecline = approveOrDecline;

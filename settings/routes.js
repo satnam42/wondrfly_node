@@ -1147,6 +1147,11 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.invitation.approveAll
   );
+  app.put(
+    "/api/invitation/approveOrDecline",
+    permit.context.requiresToken,
+    api.invitation.approveOrDecline
+  );
 
   log.end();
 };

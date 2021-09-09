@@ -80,5 +80,43 @@ module.exports = [
                 }
             }
         }
+    },
+    {
+        url: "/approveOrDecline",
+        put: {
+            summary: "Approve or Decline",
+            description: "Approve or Decline the invitation",
+            parameters: [
+                {
+                    in: "query",
+                    name: "type",
+                    description: "type can be approve or decline",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "query",
+                    name: "id",
+                    description: "invitation id",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
     }
 ]
