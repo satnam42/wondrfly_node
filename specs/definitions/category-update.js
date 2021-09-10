@@ -16,6 +16,9 @@ module.exports = [
             },
             logoUrl: {
                 type: "string"
+            },
+            alternativeText: {
+                type: "string"
             }
         }
     }

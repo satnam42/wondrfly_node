@@ -7,6 +7,7 @@ const buildUser = async (model, context) => {
         firstName: model.firstName,
         type: model.type || '',
         email: model.email,
+        role: "parent",
         password: model.password,
         createdOn: new Date(),
         updateOn: new Date()
@@ -75,7 +76,6 @@ const approveOrDecline = async (model, context) => {
         log.end();
         return invitation;
     }
-
 };
 
 exports.create = create;
