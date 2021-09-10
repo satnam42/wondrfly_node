@@ -6,6 +6,7 @@ exports.toModel = entity => {
         id: entity.id,
         name: entity.name,
         description: entity.description,
+        alternativeText: entity.alternativeText,
         imageUrl: entity.imageUrl ? baseUrl + entity.imageUrl : '',
         iconUrl: entity.iconUrl ? baseUrl + entity.iconUrl : '',
         updatedOn: entity.updatedOn,
