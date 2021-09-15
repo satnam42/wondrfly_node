@@ -43,7 +43,7 @@ const setFeedback = async (model, feedback, context) => {
 const create = async (model, context) => {
     const log = context.logger.start("services:feedback:create");
 
-    let user = await db.user.findById(model.userId);
+    let user = await db.user.findById(model.id);
     if (!user) {
         throw new Error("user not found");
     }
