@@ -1106,6 +1106,17 @@ const configure = (app, logger) => {
     permit.context.builder,
     api.feedback.list
   );
+  app.delete(
+    "/api/feedback/deleteFeedback/:id",
+    permit.context.requiresToken,
+    api.feedback.deleteFeedback
+  );
+
+  app.put(
+    "/api/feedback/update",
+    permit.context.requiresToken,
+    api.feedback.update
+  );
 
   //========reports================
   app.get(

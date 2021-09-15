@@ -3,9 +3,12 @@
 exports.toModel = entity => {
     let model = {
         id: entity.id,
-        feedback: entity.feedback,
         firstName: entity.user.firstName,
         email: entity.user.email,
+        feedback: entity.name,
+        description: entity.description,
+        startDate: entity.startDate,
+        endDate: entity.endDate,
         updatedOn: entity.updatedOn,
         createdOn: entity.createdOn,
     }
