@@ -77,7 +77,26 @@ const approveOrDecline = async (model, context) => {
     }
 };
 
+const inviteToJoin = async (model, context) => {
+    const log = context.logger.start("services:invitation:inviteToJoin");
+    const isEmail = await db.invitation.findOne({ invitedToEmail: { $eq: model.email } });
+    if (isEmail) {
+        throw new Error("This Email is already invited");
+    }
+
+    const invitation = await new db.invitation({
+        invitedBy: model.userId,
+        invitedToEmail: model.email,
+        createdOn: new Date(),
+        updateOn: new Date()
+    }).save();
+
+    log.end();
+    return invitation;
+};
+
 exports.create = create;
 exports.getAllInvitation = getAllInvitation;
 exports.approveAll = approveAll;
 exports.approveOrDecline = approveOrDecline;
+exports.inviteToJoin = inviteToJoin;

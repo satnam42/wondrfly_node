@@ -1153,6 +1153,12 @@ const configure = (app, logger) => {
     api.invitation.list
   );
   app.post(
+    "/api/invitation/inviteToJoin",
+    permit.context.builder,
+    // permit.context.requiresToken,
+    api.invitation.inviteToJoin
+  );
+  app.post(
     "/api/invitation/approveAll",
     // permit.context.builder,
     permit.context.requiresToken,

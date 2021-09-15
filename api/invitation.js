@@ -62,8 +62,22 @@ const approveOrDecline = async (req, res) => {
     }
 };
 
+const inviteToJoin = async (req, res) => {
+    const log = req.context.logger.start(`api:invitation:inviteToJoin`);
+    try {
+        const invitation = await service.inviteToJoin(req.body, req.context);
+        log.end();
+        return response.data(res, invitation);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 
 exports.askToJoin = askToJoin;
 exports.list = list;
 exports.approveAll = approveAll;
 exports.approveOrDecline = approveOrDecline;
+exports.inviteToJoin = inviteToJoin;

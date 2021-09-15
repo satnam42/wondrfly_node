@@ -118,5 +118,38 @@ module.exports = [
                 }
             }
         }
-    }
+    },
+    {
+        url: "/inviteToJoin",
+        post: {
+            summary: "inviteToJoin",
+            description: "inviteToJoin",
+            parameters: [
+                {
+                    in: "body",
+                    name: "body",
+                    description: "Model of invite parent to join",
+                    required: true,
+                    schema: {
+                        $ref: "#/definitions/invite-join"
+                    }
+                },
+                // {
+                //     in: "header",
+                //     name: "x-access-token",
+                //     description: "token to access api",
+                //     required: true,
+                //     type: "string"
+                // }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
 ]
