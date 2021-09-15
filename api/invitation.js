@@ -28,7 +28,10 @@ const list = async (req, res) => {
             res,
             mapper.toSearchModel(invitations.invitation),
             invitations.accepted,
-            invitations.pending);
+            invitations.pending,
+            invitations.declined,
+            invitations.expired
+        );
     } catch (err) {
         log.error(err);
         log.end();

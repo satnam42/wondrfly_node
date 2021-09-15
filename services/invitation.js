@@ -40,12 +40,17 @@ const getAllInvitation = async (context) => {
     let invitations = {}
     const invitation = await db.invitation.find().populate('user');
     const count = await db.invitation.count();
-    const accepted = await db.invitation.find({ acceptance: true }).count();
-    const pending = await db.invitation.find({ acceptance: false }).count();
+    console.log('invitation ==>>>', invitation)
+    const accepted = await db.invitation.find({ "status.accepted": true }).count();
+    const pending = await db.invitation.find({ "status.panding": true }).count();
+    const declined = await db.invitation.find({ "status.declined": true }).count();
+    const expired = await db.invitation.find({ "status.expired": true }).count();
     invitations.invitation = invitation
     invitations.count = count
     invitations.accepted = accepted
     invitations.pending = pending
+    invitations.declined = declined
+    invitations.expired = expired
     log.end();
     return invitations;
 };
@@ -87,6 +92,8 @@ const inviteToJoin = async (model, context) => {
     const invitation = await new db.invitation({
         invitedBy: model.userId,
         invitedToEmail: model.email,
+        invitedToName: model.firstName,
+        isInvited: "invited",
         createdOn: new Date(),
         updateOn: new Date()
     }).save();

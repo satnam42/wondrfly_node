@@ -67,13 +67,15 @@ const chatPage = (res, data, pageNo, pageSize, total) => {
   });
 };
 
-const invitation = (message, res, data, accepted, pending) => {
+const invitation = (message, res, data, accepted, pending, declined, expired) => {
   res.status(200).json({
     total: message,
     isSuccess: true,
     statusCode: 200,
     accepted: accepted,
     pending: pending,
+    declined: declined,
+    expired: expired,
     items: data
   });
 };

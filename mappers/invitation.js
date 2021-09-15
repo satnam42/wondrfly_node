@@ -3,10 +3,9 @@
 exports.toModel = entity => {
     let model = {
         invitation: entity.id,
-        user: entity.user.id,
-        name: entity.user.firstName,
-        email: entity.user.email,
-        acceptance: entity.acceptance,
+        email: entity.invitedToEmail ? entity.invitedToEmail : entity.user.email,
+        name: entity.invitedToName ? entity.invitedToName : entity.user.firstName,
+        status: entity.status,
         date: entity.createdOn
     }
     return model;
