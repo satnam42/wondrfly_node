@@ -2,24 +2,24 @@ module.exports = [
     {
         name: "addFeedback",
         properties: {
-            userId: {
+            id: {
                 type: "string",
             },
-            name: {
+            feedback: {
                 type: "string",
-            },
-            description: {
-                type: "string",
-            },
-            startDate: {
-                type: "date",
-            },
-            endDate: {
-                type: "date",
-            },
-            url: {
-                type: "string",
-            },
+            }
+            // description: {
+            //     type: "string",
+            // },
+            // startDate: {
+            //     type: "date",
+            // },
+            // endDate: {
+            //     type: "date",
+            // },
+            // url: {
+            //     type: "string",
+            // },
         }
     }
 ];

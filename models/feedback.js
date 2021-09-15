@@ -6,11 +6,12 @@ const feedback = mongoose.Schema({
         ref: 'user',
         required: true
     },
-    name: { type: String, default: "", required: true },
-    description: { type: String, default: "" },
-    url: { type: String, default: "" },
-    startDate: { type: Date, default: Date.now },
-    endDate: { type: Date, default: Date.now },
+    feedback: { type: String, default: "", required: true },
+    // name: { type: String, default: "", required: true },
+    // description: { type: String, default: "" },
+    // url: { type: String, default: "" },
+    // startDate: { type: Date, default: Date.now },
+    // endDate: { type: Date, default: Date.now },
     createdOn: { type: Date, default: Date.now },
     updatedOn: { type: Date, default: Date.now }
 });

@@ -2,12 +2,13 @@
 const build = async (model, context) => {
     const log = context.logger.start(`services:feedback:build${model}`);
     const feedback = await new db.feedback({
-        user: model.userId,
-        name: model.name,
-        description: model.description,
-        url: model.url,
-        startDate: model.startDate,
-        endDate: model.endDate,
+        user: model.id,
+        feedback: model.feedback,
+        // name: model.name,
+        // description: model.description,
+        // url: model.url,
+        // startDate: model.startDate,
+        // endDate: model.endDate,
         createdOn: new Date(),
         updateOn: new Date(),
     }).save();
