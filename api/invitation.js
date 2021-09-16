@@ -78,9 +78,23 @@ const inviteToJoin = async (req, res) => {
     }
 };
 
+const listByParentId = async (req, res) => {
+    const log = req.context.logger.start(`api:invitation:listByParentId:${req.params.id}`);
+    try {
+        const invitation = await service.listByParentId(req.params.id, req.context);
+        log.end();
+        return response.data(res, invitation);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 
 exports.askToJoin = askToJoin;
 exports.list = list;
 exports.approveAll = approveAll;
 exports.approveOrDecline = approveOrDecline;
 exports.inviteToJoin = inviteToJoin;
+exports.listByParentId = listByParentId;

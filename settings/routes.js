@@ -1169,6 +1169,12 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.invitation.approveOrDecline
   );
+  app.get(
+    "/api/invitation/listByParentId/:id",
+    // permit.context.requiresToken,
+    permit.context.builder,
+    api.invitation.listByParentId
+  );
 
   //================justfeedback=================
   app.post(

@@ -1,11 +1,16 @@
 "use strict";
 
 exports.toModel = entity => {
+    let inviter = {}
+    if (entity.invitedBy) {
+        inviter.name = entity.invitedBy.firstName
+    }
     let model = {
         invitation: entity.id,
         email: entity.invitedToEmail ? entity.invitedToEmail : entity.user.email,
         name: entity.invitedToName ? entity.invitedToName : entity.user.firstName,
         isInvited: entity.isInvited,
+        inviter: inviter.name ? inviter.name : '',
         status: entity.status,
         date: entity.createdOn
     }

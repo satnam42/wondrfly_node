@@ -152,4 +152,29 @@ module.exports = [
             }
         }
     },
+    {
+        url: "/listByParentId/{id}",
+        get: {
+            summary: "get invitations by parent id",
+            description: "get invitations by parent id",
+            parameters: [
+
+                {
+                    in: "path",
+                    name: "id",
+                    description: "alert id",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    }
 ]
