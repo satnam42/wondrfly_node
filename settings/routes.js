@@ -1170,6 +1170,31 @@ const configure = (app, logger) => {
     api.invitation.approveOrDecline
   );
 
+  //================justfeedback=================
+  app.post(
+    "/api/justfeedback/create",
+    permit.context.builder,
+    // permit.context.requiresToken,
+    api.justfeedback.create
+  );
+  app.get(
+    "/api/justfeedback/list",
+    // permit.context.requiresToken,
+    permit.context.builder,
+    api.justfeedback.list
+  );
+  app.delete(
+    "/api/justfeedback/deleteFeedback/:id",
+    permit.context.builder,
+    api.justfeedback.deleteFeedback
+  );
+
+  app.put(
+    "/api/justfeedback/update",
+    permit.context.builder,
+    api.justfeedback.update
+  );
+
   log.end();
 };
 

@@ -40,9 +40,8 @@ const getAllInvitation = async (context) => {
     let invitations = {}
     const invitation = await db.invitation.find().populate('user');
     const count = await db.invitation.count();
-    console.log('invitation ==>>>', invitation)
     const accepted = await db.invitation.find({ "status.accepted": true }).count();
-    const pending = await db.invitation.find({ "status.panding": true }).count();
+    const pending = await db.invitation.find({ "status.pending": true }).count();
     const declined = await db.invitation.find({ "status.declined": true }).count();
     const expired = await db.invitation.find({ "status.expired": true }).count();
     invitations.invitation = invitation
@@ -57,7 +56,12 @@ const getAllInvitation = async (context) => {
 
 const approveAll = async (model, context) => {
     const log = context.logger.start("services:invitation:approveAll");
-    const invitation = await db.invitation.updateMany({ $set: { acceptance: true } })
+    const invitation = await db.invitation.updateMany({
+        $set: {
+            'status.accepted': true,
+            'status.pending': false, 'status.expired': false, 'status.declined': false
+        }
+    })
     log.end();
     return invitation;
 };

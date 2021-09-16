@@ -14,7 +14,7 @@ const invitation = mongoose.Schema({
     isInvited: { type: String, default: "self" },
     status: {
         accepted: { type: Boolean, default: false },
-        panding: { type: Boolean, default: true },
+        pending: { type: Boolean, default: true },
         expired: { type: Boolean, default: false },
         declined: { type: Boolean, default: false },
     },
