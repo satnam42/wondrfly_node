@@ -76,9 +76,9 @@ const approveOrDecline = async (model, context) => {
         let invitation = await db.invitation.findByIdAndUpdate(model.id, {
             $set: {
                 'status.accepted': true,
-                'status.pending': false, 'status.expired': false, 'status.declined': false
-            }
-        })
+                'status.pending': false, 'status.expired': false, 'status.declined': false,
+            },
+        }, { new: true })
         log.end();
         return invitation;
     }
@@ -92,7 +92,7 @@ const approveOrDecline = async (model, context) => {
                 'status.accepted': false,
                 'status.pending': false, 'status.expired': false, 'status.declined': true
             }
-        })
+        }, { new: true })
         log.end();
         return invitation;
     }
