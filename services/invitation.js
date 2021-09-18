@@ -83,10 +83,6 @@ const approveOrDecline = async (model, context) => {
         return invitation;
     }
     if (model.type == "decline") {
-        // let invitation = await db.invitation.findOne({ _id: model.id });
-        // invitation.declined = true;
-        // invitation.acceptance = false;
-        // await invitation.save();
         let invitation = await db.invitation.findByIdAndUpdate(model.id, {
             $set: {
                 'status.accepted': false,
