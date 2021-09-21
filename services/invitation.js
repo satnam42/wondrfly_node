@@ -8,7 +8,9 @@ const buildUser = async (model, context) => {
         type: model.type || '',
         email: model.email,
         role: "parent",
+        isActivated: false,
         password: model.password,
+        betaUser: true,
         createdOn: new Date(),
         updateOn: new Date()
     }).save();
@@ -24,13 +26,24 @@ const create = async (model, context) => {
     }
     model.password = await encrypt.getHash(model.password, context);
     const user = await buildUser(model, context);
-    if (user) {
+    const invitedUser = await db.invitation.findOne({ invitedToEmail: { $eq: model.email } });
+    if (user && !invitedUser) {
         const invitation = await new db.invitation({
             user: user.id,
+            joined: true,
             createdOn: new Date(),
             updateOn: new Date()
         }).save();
     }
+    if (invitedUser && user) {
+        let webStatus = {}
+        webStatus.requestAccepted = true
+        invitedUser.user = user.id;
+        invitedUser.joined = true;
+        invitedUser.webStatus = webStatus
+        await invitedUser.save();
+    }
+
     log.end();
     return user;
 };
@@ -38,12 +51,12 @@ const create = async (model, context) => {
 const getAllInvitation = async (context) => {
     const log = context.logger.start(`services:invitation:getAllInvitation`);
     let invitations = {}
-    const invitation = await db.invitation.find().populate('user').populate('invitedBy');
-    const count = await db.invitation.count();
-    const accepted = await db.invitation.find({ "status.accepted": true }).count();
-    const pending = await db.invitation.find({ "status.pending": true }).count();
-    const declined = await db.invitation.find({ "status.declined": true }).count();
-    const expired = await db.invitation.find({ "status.expired": true }).count();
+    const invitation = await db.invitation.find({ joined: true }).populate('user').populate('invitedBy');
+    const count = await db.invitation.count({ joined: true });
+    const accepted = await db.invitation.find({ joined: true, "status.accepted": true }).count();
+    const pending = await db.invitation.find({ joined: true, "status.pending": true }).count();
+    const declined = await db.invitation.find({ joined: true, "status.declined": true }).count();
+    const expired = await db.invitation.find({ joined: true, "status.expired": true }).count();
     invitations.invitation = invitation
     invitations.count = count
     invitations.accepted = accepted
@@ -62,23 +75,32 @@ const approveAll = async (model, context) => {
             'status.pending': false, 'status.expired': false, 'status.declined': false
         }
     })
+    const user = await db.user.updateMany({ betaUser: true }, {
+        $set: {
+            isActivated: true
+        }
+    })
     log.end();
     return invitation;
 };
 
 const approveOrDecline = async (model, context) => {
     const log = context.logger.start("services:invitation:approveOrDecline");
+    const invitaton = await db.invitation.findById(model.id);
     if (model.type == "approve") {
-        // let invitation = await db.invitation.findOne({ _id: model.id });
-        // invitation.acceptance = true;
-        // invitation.declined = false;
-        // await invitation.save();
         let invitation = await db.invitation.findByIdAndUpdate(model.id, {
             $set: {
                 'status.accepted': true,
                 'status.pending': false, 'status.expired': false, 'status.declined': false,
             },
         }, { new: true })
+        if (invitation) {
+            const user = await db.user.findByIdAndUpdate(invitaton.user, {
+                $set: {
+                    isActivated: true,
+                }
+            });
+        }
         log.end();
         return invitation;
     }
