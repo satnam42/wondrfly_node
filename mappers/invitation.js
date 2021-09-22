@@ -1,4 +1,5 @@
 "use strict";
+var moment = require('moment') // require for date formating
 
 exports.toModel = entity => {
     let inviter = {}

@@ -1,5 +1,67 @@
 "use strict";
 const encrypt = require("../permit/crypto.js");
+var nodemailer = require('nodemailer')
+let path = require('path');
+const fs = require('fs');
+
+
+const invitaionEmail = async (firstName, email, templatePath, subject, OTP) => {
+    let mailBody = fs.readFileSync(path.join(__dirname, templatePath)).toString();
+    mailBody = mailBody.replace(/{{firstname}}/g, firstName);
+
+    if (OTP) {
+        mailBody = mailBody.replace(/{{OTP}}/g, OTP);
+    }
+
+    // Send e-mail using AWS SES
+    // var sesTransporter = nodemailer.createTransport(sesTransport({
+    //     accessKeyId: aws_accessKey,
+    //     secretAccessKey: aws_secretKey,
+    //     region: aws_region
+    // }));
+    // Send e-mail using gmail
+    let smtpTransport = nodemailer.createTransport({
+        host: 'localhost',
+        port: 465,
+        secure: true,
+        service: 'Gmail',
+        auth: {
+            user: `wondrfly@gmail.com`,
+            pass: `wondrfly@123`
+        }
+    });
+
+
+    let mailOptions = {
+        from: "smtp.mailtrap.io",
+        to: email, //sending to: E-mail
+        subject: subject,
+        html: mailBody,
+        attachments: [
+            {
+                filename: 'logo.png',
+                path: `${__dirname}/../public/images/logo.png`,
+                cid: 'logo1' //same cid value as in the html img src
+            },
+
+            {
+                filename: 'logo_white.png',
+                path: `${__dirname}/../public/images/logo_white.png`,
+                cid: 'logo_white' //same cid value as in the html img src
+            }
+        ]
+
+    };
+    let mailSent = await smtpTransport.sendMail(mailOptions);
+    if (mailSent) {
+        console.log("Message sent: %s", mailSent.messageId);
+        console.log("Preview URL: %s", nodemailer.getTestMessageUrl(mailSent));
+        return
+    } else {
+        log.end()
+        throw new Error("Unable to send email try after sometime");
+    }
+}
 
 const buildUser = async (model, context) => {
     const log = context.logger.start(`services:invitation:buildUser${model}`);
@@ -145,6 +207,10 @@ const inviteToJoin = async (model, context) => {
                 parentInvitationLimit: user.parentInvitationLimit += 1
             }
         })
+        let templatePath = '../emailTemplates/parent_invite_join.html';
+        let subject = "Invitation to join wondrlfy";
+
+        invitaionEmail(model.firstName, model.email, templatePath, subject);
     }
     log.end();
     return invitation;
