@@ -13,6 +13,7 @@ exports.toModel = entity => {
         isInvited: entity.isInvited,
         inviter: inviter.name ? inviter.name : '',
         status: entity.status,
+        joined: entity.joined,
         date: entity.createdOn,
     }
     return model;
