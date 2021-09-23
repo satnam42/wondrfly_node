@@ -3,6 +3,7 @@ const encrypt = require("../permit/crypto.js");
 var nodemailer = require('nodemailer')
 let path = require('path');
 const fs = require('fs');
+const moment = require('moment');
 
 
 const invitaionEmail = async (firstName, email, templatePath, subject, OTP) => {
@@ -218,9 +219,25 @@ const inviteToJoin = async (model, context) => {
 
 const listByParentId = async (id, context) => {
     const log = context.logger.start("services:invitation:listByParentId");
-    let invitation = await db.invitation.find({ invitedBy: id });
+    let invitations = await db.invitation.find({ invitedBy: id });
+    const user = await db.user.findById(id)
+    if (!user) {
+        throw new Error('parent not found')
+    }
+    invitations.forEach(async invitation => {
+        let threedays = moment(invitation.createdOn).add(3, 'd').toDate()
+        let current = new Date()
+        // let time = threedays <= current
+        if (threedays <= current) {
+            await db.user.findByIdAndUpdate(id, {
+                $set: {
+                    parentInvitationLimit: user.parentInvitationLimit -= 1
+                }
+            })
+        }
+    });
     log.end();
-    return invitation;
+    return invitations;
 };
 
 exports.create = create;

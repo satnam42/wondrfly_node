@@ -8,12 +8,12 @@ exports.toModel = entity => {
     }
     let model = {
         invitation: entity.id,
-        email: entity.user.email,
-        name: entity.user.firstName,
+        email: entity.invitedToEmail ? entity.invitedToEmail : entity.user.email,
+        name: entity.invitedToName ? entity.invitedToName : entity.user.firstName,
         isInvited: entity.isInvited,
         inviter: inviter.name ? inviter.name : '',
         status: entity.status,
-        date: entity.createdOn
+        date: entity.createdOn,
     }
     return model;
 };

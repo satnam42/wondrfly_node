@@ -83,7 +83,7 @@ const listByParentId = async (req, res) => {
     try {
         const invitation = await service.listByParentId(req.params.id, req.context);
         log.end();
-        return response.data(res, invitation);
+        return response.data(res, mapper.toSearchModel(invitation));
     } catch (err) {
         log.error(err);
         log.end();
