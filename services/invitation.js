@@ -14,13 +14,6 @@ const invitaionEmail = async (firstName, email, templatePath, subject, OTP) => {
         mailBody = mailBody.replace(/{{OTP}}/g, OTP);
     }
 
-    // Send e-mail using AWS SES
-    // var sesTransporter = nodemailer.createTransport(sesTransport({
-    //     accessKeyId: aws_accessKey,
-    //     secretAccessKey: aws_secretKey,
-    //     region: aws_region
-    // }));
-    // Send e-mail using gmail
     let smtpTransport = nodemailer.createTransport({
         host: 'localhost',
         port: 465,
