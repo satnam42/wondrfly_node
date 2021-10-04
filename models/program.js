@@ -38,6 +38,10 @@ const programSchema = mongoose.Schema({
     from: { type: Date, default: '' },
     to: { type: Date, default: '' },
   },
+  realTime: {
+    from: { type: Number, default: 0 },
+    to: { type: Number, default: 0 },
+  },
   isTimeNotMention: { type: Boolean, default: false },
   bookingCancelledIn: {
     days: { type: String, default: '' },

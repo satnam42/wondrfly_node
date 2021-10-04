@@ -8,6 +8,7 @@ exports.toModel = (entity) => {
     ageGroup: entity.ageGroup || '',
     date: entity.date || '',
     time: entity.time || '',
+    realTime: entity.realTime || '',
     bookingCancelledIn: entity.bookingCancelledIn || '',
     capacity: entity.capacity || '',
     name: entity.name,

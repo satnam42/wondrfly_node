@@ -283,6 +283,7 @@ const build = async (model, context) => {
     date: model.date,
     isDateNotMention: model.isDateNotMention,
     time: model.time,
+    realTime: model.realTime,
     isTimeNotMention: model.isTimeNotMention,
     bookingCancelledIn: model.bookingCancelledIn,
     duration: model.duration,
@@ -986,6 +987,7 @@ const getFilterProgram = async (query, context) => {
   //   .skip(skipCount)
   //   .limit(pageSize)
 
+
   if (query.fromDate && query.toDate) {
     const dat = {
       $gte: moment(query.fromDate, 'DD-MM-YYYY').startOf('day').toDate(),
@@ -1020,12 +1022,19 @@ const getFilterProgram = async (query, context) => {
   }
 
   if (query.fromTime && query.toTime) {
+    // const tme = {
+    //   $gte: moment(query.fromTime, 'DD-MM-YYYY').startOf('day').toDate(),
+    //   $lt: moment(query.toTime, 'DD-MM-YYYY').endOf('day').toDate(),
+    // }
     const tme = {
-      $gte: moment(query.fromTime, 'DD-MM-YYYY').startOf('day').toDate(),
-      $lt: moment(query.toTime, 'DD-MM-YYYY').endOf('day').toDate(),
+      $gte: query.fromTime,
+      $lt: query.toTime,
     }
+    // let query = {}
+    // query["realTime.from"] = { $gte: 6 }
+    // query["realTime.to"] = { $lte: 9 }
     programs = await db.program
-      .find({ 'time.from': tme, isPublished: true })
+      .find({ "realTime.from": tme })
       .populate('tags')
       .populate('categoryId')
       .populate('subCategoryIds')
