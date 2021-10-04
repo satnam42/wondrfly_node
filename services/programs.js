@@ -1409,8 +1409,13 @@ const multiFilter = async (model, context) => {
   }
 
   if (model.toTime !== undefined && model.fromTime !== undefined && model.toTime !== "" && model.fromTime !== "" && model.toTime !== null && model.fromTime !== null) {
-    query["time.from"] = { $gte: new Date(model.fromTime).getTime() }
-    query["time.from"] = { $lte: new Date(model.toTime).getTime() }
+    const tme = {
+      $gte: model.fromTime,
+      $lt: model.toTime,
+    }
+    query["realTime.from"] = tme
+    // query["realTime.from"] = { $gte: model.fromTime }
+    // query["realTime.from"] = { $lte: model.toTime }
   }
   if (model.priceFrom !== undefined && model.priceTo !== undefined && model.priceFrom !== "" && model.priceTo !== "" && model.priceFrom !== null && model.priceTo !== null) {
     const byPrice = {
