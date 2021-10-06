@@ -35,13 +35,13 @@ const invitaionEmail = async (firstName, email, templatePath, subject, OTP) => {
             {
                 filename: 'logo.png',
                 path: `${__dirname}/../public/images/logo.png`,
-                cid: 'logo1' //same cid value as in the html img src
+                cid: 'logo1'
             },
 
             {
                 filename: 'logo_white.png',
                 path: `${__dirname}/../public/images/logo_white.png`,
-                cid: 'logo_white' //same cid value as in the html img src
+                cid: 'logo_white'
             }
         ]
 
@@ -171,7 +171,7 @@ const approveOrDecline = async (model, context) => {
         return invitation;
     }
 };
-// parentInvitationLimit
+
 const inviteToJoin = async (model, context) => {
     const log = context.logger.start("services:invitation:inviteToJoin");
     const user = await db.user.findById(model.userId);
