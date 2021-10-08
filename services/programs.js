@@ -1030,9 +1030,7 @@ const getFilterProgram = async (query, context) => {
       $gte: query.fromTime,
       $lt: query.toTime,
     }
-    // let query = {}
-    // query["realTime.from"] = { $gte: 6 }
-    // query["realTime.to"] = { $lte: 9 }
+
     programs = await db.program
       .find({ "realTime.from": tme })
       .populate('tags')
