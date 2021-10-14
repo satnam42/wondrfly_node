@@ -18,3 +18,6 @@ const justfeedback = mongoose.Schema({
 
 mongoose.model("justfeedback", justfeedback);
 module.exports = justfeedback;
+
+// Access token for typeform account (superdudekannu)
+// RatbkjqDvjTJDr1F5fqhiG5R49dzVonKpRM5KNx1hHu

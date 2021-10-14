@@ -135,15 +135,24 @@ changePasswordEmail = async (firstName, email, templatePath, subject, OTP) => {
   }
 
   // Send e-mail using AWS SES
-  var sesTransporter = nodemailer.createTransport(sesTransport({
-    accessKeyId: aws_accessKey,
-    secretAccessKey: aws_secretKey,
-    region: aws_region
-  }));
-
+  // var sesTransporter = nodemailer.createTransport(sesTransport({
+  //   accessKeyId: aws_accessKey,
+  //   secretAccessKey: aws_secretKey,
+  //   region: aws_region
+  // }));
+  let smtpTransport = nodemailer.createTransport({
+    host: 'localhost',
+    port: 465,
+    secure: true,
+    service: 'Gmail',
+    auth: {
+      user: `wondrfly@gmail.com`,
+      pass: `wondrfly@123`
+    }
+  });
 
   let mailOptions = {
-    from: "accounts@wondrfly.com",
+    from: "smtp.mailtrap.io",
     to: email, //sending to: E-mail
     subject: subject,
     html: mailBody,
@@ -162,7 +171,7 @@ changePasswordEmail = async (firstName, email, templatePath, subject, OTP) => {
     ]
 
   };
-  let mailSent = await sesTransporter.sendMail(mailOptions);
+  let mailSent = await smtpTransport.sendMail(mailOptions);
   if (mailSent) {
     console.log("Message sent: %s", mailSent.messageId);
     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(mailSent));
@@ -183,14 +192,25 @@ sendOtpEmail = async (firstName, email, templatePath, subject, OTP) => {
   }
 
   // Send e-mail using AWS SES
-  var sesTransporter = nodemailer.createTransport(sesTransport({
-    accessKeyId: aws_accessKey,
-    secretAccessKey: aws_secretKey,
-    region: aws_region
-  }));
+  // var sesTransporter = nodemailer.createTransport(sesTransport({
+  //   accessKeyId: aws_accessKey,
+  //   secretAccessKey: aws_secretKey,
+  //   region: aws_region
+  // }));
+  let smtpTransport = nodemailer.createTransport({
+    host: 'localhost',
+    port: 465,
+    secure: true,
+    service: 'Gmail',
+    auth: {
+      user: `wondrfly@gmail.com`,
+      pass: `wondrfly@123`
+    }
+  });
 
   let mailOptions = {
-    from: "accounts@wondrfly.com",
+    // from: "accounts@wondrfly.com",
+    from: "smtp.mailtrap.io",
     to: email, //sending to: E-mail
     subject: subject,
     html: mailBody,
@@ -209,7 +229,7 @@ sendOtpEmail = async (firstName, email, templatePath, subject, OTP) => {
     ]
 
   };
-  let mailSent = await sesTransporter.sendMail(mailOptions);
+  let mailSent = await smtpTransport.sendMail(mailOptions);
   if (mailSent) {
     console.log("Message sent: %s", mailSent.messageId);
     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(mailSent));
@@ -226,14 +246,24 @@ completeProfileEmail = async (userId, firstName, email, templatePath, subject) =
   mailBody = mailBody.replace(/{{firstname}}/g, firstName);
 
   // Send e-mail using AWS SES
-  var sesTransporter = nodemailer.createTransport(sesTransport({
-    accessKeyId: aws_accessKey,
-    secretAccessKey: aws_secretKey,
-    region: aws_region
-  }));
+  // var sesTransporter = nodemailer.createTransport(sesTransport({
+  //   accessKeyId: aws_accessKey,
+  //   secretAccessKey: aws_secretKey,
+  //   region: aws_region
+  // }));
+  let smtpTransport = nodemailer.createTransport({
+    host: 'localhost',
+    port: 465,
+    secure: true,
+    service: 'Gmail',
+    auth: {
+      user: `wondrfly@gmail.com`,
+      pass: `wondrfly@123`
+    }
+  });
 
   let mailOptions = {
-    from: "accounts@wondrfly.com",
+    from: "smtp.mailtrap.io",
     to: email, //sending to: E-mail
     subject: subject,
     html: mailBody,
@@ -277,7 +307,7 @@ completeProfileEmail = async (userId, firstName, email, templatePath, subject) =
     ]
 
   };
-  let mailSent = await sesTransporter.sendMail(mailOptions);
+  let mailSent = await smtpTransport.sendMail(mailOptions);
   if (mailSent) {
     console.log("Message sent: %s", mailSent.messageId);
     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(mailSent));
@@ -1196,6 +1226,7 @@ const contactUs = async (model, context) => {
     secretAccessKey: aws_secretKey,
     region: aws_region
   }));
+
 
   let mailOptions = {
     from: "accounts@wondrfly.com",

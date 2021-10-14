@@ -21,14 +21,25 @@ sendOtpEmail = async (firstName, email, templatePath, subject) => {
     }
 
     // Send e-mail using AWS SES
-    var sesTransporter = nodemailer.createTransport(sesTransport({
-        accessKeyId: aws_accessKey,
-        secretAccessKey: aws_secretKey,
-        region: aws_region
-    }));
+    // var sesTransporter = nodemailer.createTransport(sesTransport({
+    //     accessKeyId: aws_accessKey,
+    //     secretAccessKey: aws_secretKey,
+    //     region: aws_region
+    // }));
+    let smtpTransport = nodemailer.createTransport({
+        host: 'localhost',
+        port: 465,
+        secure: true,
+        service: 'Gmail',
+        auth: {
+            user: `wondrfly@gmail.com`,
+            pass: `wondrfly@123`
+        }
+    });
 
     let mailOptions = {
-        from: "accounts@wondrfly.com",
+        // from: "accounts@wondrfly.com",
+        from: "smtp.mailtrap.io",
         to: email, //sending to: E-mail
         subject: subject,
         html: mailBody,
@@ -47,7 +58,7 @@ sendOtpEmail = async (firstName, email, templatePath, subject) => {
         ]
 
     };
-    let mailSent = await sesTransporter.sendMail(mailOptions);
+    let mailSent = await smtpTransport.sendMail(mailOptions);
     if (mailSent) {
         console.log("Message sent: %s", mailSent.messageId);
         console.log("Preview URL: %s", nodemailer.getTestMessageUrl(mailSent));
@@ -67,15 +78,25 @@ const invitaionApprovedEmail = async (firstName, email, templatePath, subject, O
     }
 
     // Send e-mail using AWS SES
-    var sesTransporter = nodemailer.createTransport(sesTransport({
-        accessKeyId: aws_accessKey,
-        secretAccessKey: aws_secretKey,
-        region: aws_region
-    }));
+    // var sesTransporter = nodemailer.createTransport(sesTransport({
+    //     accessKeyId: aws_accessKey,
+    //     secretAccessKey: aws_secretKey,
+    //     region: aws_region
+    // }));
+    let smtpTransport = nodemailer.createTransport({
+        host: 'localhost',
+        port: 465,
+        secure: true,
+        service: 'Gmail',
+        auth: {
+            user: `wondrfly@gmail.com`,
+            pass: `wondrfly@123`
+        }
+    });
 
 
     let mailOptions = {
-        from: "accounts@wondrfly.com",
+        from: "smtp.mailtrap.io",
         to: email, //sending to: E-mail
         subject: subject,
         html: mailBody,
@@ -94,7 +115,7 @@ const invitaionApprovedEmail = async (firstName, email, templatePath, subject, O
         ]
 
     };
-    let mailSent = await sesTransporter.sendMail(mailOptions);
+    let mailSent = await smtpTransport.sendMail(mailOptions);
     if (mailSent) {
         console.log("Message sent: %s", mailSent.messageId);
         console.log("Preview URL: %s", nodemailer.getTestMessageUrl(mailSent));
