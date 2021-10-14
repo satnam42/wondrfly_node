@@ -8,6 +8,7 @@ exports.toModel = entity => {
         dob: entity.dob,
         sex: entity.sex,
         age: entity.age,
+        isActivated: entity.isActivated,
         avtar: entity.avtar ? baseUrl + entity.avtar : '',
         relationToChild: entity.relationToChild,
         contactOtherInfo: entity.contactOtherInfo,
