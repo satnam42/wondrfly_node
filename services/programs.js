@@ -1579,16 +1579,6 @@ const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds,
   // if (
   //   model.name != '' &&
   //   model.name != 'string' &&
-  //   model.type != '' &&
-  //   model.type != 'string' &&
-  //   model.description != '' &&
-  //   model.description != 'string' &&
-  //   model.date.from != '' &&
-  //   model.date.from != 'string' &&
-  //   model.location != '' &&
-  //   model.location != 'string' &&
-  //   model.ageGroup.from != '' &&
-  //   model.ageGroup.from != 'string'
   // ) {
   //   isPublished = true
   // }
