@@ -1442,27 +1442,23 @@ const multiFilter = async (model, context) => {
     query["inpersonOrVirtual"] = 'virtual'
   }
   if (model.day !== undefined && model.day !== "" && model.day !== null) {
-    if (model.day == "monday") {
-      query["days.monday"] = true;
+    console.log('day =>', model.day);
+    const dayArray = []
+    var nameArr = model.day.split(',');
+    for (const element of nameArr) {
+      if (element == "sunday") { dayArray.push({ "days.sunday": true }) }
+      if (element == "monday") { dayArray.push({ "days.monday": true }) }
+      if (element == "tuesday") { dayArray.push({ "days.tuesday": true }) }
+      if (element == "wednesday") { dayArray.push({ "days.wednesday": true }) }
+      if (element == "thursday") { dayArray.push({ "days.thursday": true }) }
+      if (element == "friday") { dayArray.push({ "days.friday": true }) }
+      if (element == "saturday") { dayArray.push({ "days.saturday": true }) }
     }
-    if (model.day == "tuesday") {
-      query["days.tuesday"] = true;
+    const ddays = {
+      $or: dayArray
+      // $or: [{ "days.monday": true }, { "days.sunday": true }]
     }
-    if (model.day == "wednesday") {
-      query["days.wednesday"] = true;
-    }
-    if (model.day == "thursday") {
-      query["days.thursday"] = true;
-    }
-    if (model.day == "friday") {
-      query["days.friday"] = true;
-    }
-    if (model.day == "saturday") {
-      query["days.saturday"] = true;
-    }
-    if (model.day == "sunday") {
-      query["days.sunday"] = true;
-    }
+    query = ddays
   }
   if (model.ageFrom || model.fromDate || model.toTime || model.priceFrom || model.durationMin || model.categoryId || model.type1 || model.type2) {
     query["isPublished"] = true
