@@ -9,6 +9,7 @@ exports.toModel = entity => {
         alternativeText: entity.alternativeText,
         imageUrl: entity.imageUrl ? baseUrl + entity.imageUrl : '',
         iconUrl: entity.iconUrl ? baseUrl + entity.iconUrl : '',
+        isActivated: entity.isActivated,
         updatedOn: entity.updatedOn,
         createdOn: entity.createdOn,
     }

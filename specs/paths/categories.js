@@ -199,4 +199,42 @@ module.exports = [
             }
         }
     },
+    {
+        url: "/activeOrDeactive",
+        put: {
+            summary: "activeOrDeactive ",
+            description: "activeOrDeactive category by id",
+            parameters: [
+                {
+                    in: "query",
+                    type: "string",
+                    name: "id",
+                    description: "category id",
+                    required: true
+                },
+                {
+                    in: "query",
+                    type: "string",
+                    name: "isActivated",
+                    description: "true,false",
+                    required: true
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    }
 ]

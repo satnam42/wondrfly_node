@@ -262,6 +262,11 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.categories.remove
   );
+  app.put(
+    "/api/categories/activeOrDeactive",
+    permit.context.requiresToken,
+    api.categories.activeOrDeactive
+  );
 
   //tag routes //
   app.post(
@@ -295,6 +300,11 @@ const configure = (app, logger) => {
     permit.context.builder,
     permit.context.requiresToken,
     api.tags.remove
+  );
+  app.put(
+    "/api/tags/activeOrDeactive",
+    permit.context.requiresToken,
+    api.tags.activeOrDeactive
   );
 
   //permission routes //

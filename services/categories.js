@@ -129,9 +129,32 @@ const removeById = async (id, context) => {
     return 'category deleted succesfully'
 };
 
+const activateAndDeactive = async (context, id, isActivated) => {
+    const log = context.logger.start(`services:categories:activateAndDeactive`);
+    // if (context.user.role != 'superAdmin') {
+    //   throw new Error("you are not authorized to perform this operation");
+    // }
+    if (!id) {
+        throw new Error("category id is requried");
+    }
+    if (!isActivated) {
+        throw new Error("isActivated requried");
+    }
+    let category = await db.category.findById(id);
+    if (!category) {
+        throw new Error("category not found");
+    }
+    category.isActivated = isActivated
+    category.updatedOn = Date.now()
+    category.save()
+    log.end();
+    return category
+};
+
 exports.create = create;
 exports.getAllcategories = getAllcategories;
 exports.update = update;
 exports.search = search;
 exports.uploadPic = uploadPic;
-exports.removeById = removeById
+exports.removeById = removeById;
+exports.activateAndDeactive = activateAndDeactive;

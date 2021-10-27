@@ -77,9 +77,23 @@ const remove = async (req, res) => {
     }
 };
 
+const activeOrDeactive = async (req, res) => {
+    const log = req.context.logger.start(`api:tags:activeOrDeactive`);
+    try {
+        const tag = await service.activateAndDeactive(req.context, req.query.id, req.query.isActivated);
+        log.end();
+        return response.data(res, tag);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 exports.create = create;
 exports.list = list;
 exports.update = update;
 exports.tagByCategoryId = tagByCategoryId;
 exports.search = search;
 exports.remove = remove;
+exports.activeOrDeactive = activeOrDeactive;

@@ -100,9 +100,32 @@ const deleteTag = async (id, context) => {
     return 'Tag is Deleted Successfully'
 };
 
+const activateAndDeactive = async (context, id, isActivated) => {
+    const log = context.logger.start(`services:tags:activateAndDeactive`);
+    // if (context.user.role != 'superAdmin') {
+    //   throw new Error("you are not authorized to perform this operation");
+    // }
+    if (!id) {
+        throw new Error("tag id is requried");
+    }
+    if (!isActivated) {
+        throw new Error("isActivated requried");
+    }
+    let tag = await db.tag.findById(id);
+    if (!tag) {
+        throw new Error("tag not found");
+    }
+    tag.isActivated = isActivated
+    tag.updatedOn = Date.now()
+    tag.save()
+    log.end();
+    return tag
+};
+
 exports.create = create;
 exports.getAlltags = getAlltags;
 exports.update = update;
 exports.tagByCategoryId = tagByCategoryId
 exports.search = search
 exports.deleteTag = deleteTag;
+exports.activateAndDeactive = activateAndDeactive;

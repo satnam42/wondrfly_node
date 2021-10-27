@@ -1456,9 +1456,9 @@ const multiFilter = async (model, context) => {
     }
     const ddays = {
       $or: dayArray
-      // $or: [{ "days.monday": true }, { "days.sunday": true }]
     }
     query = ddays
+    // $or: [{ "days.monday": true }, { "days.sunday": true }]
   }
   if (model.ageFrom || model.fromDate || model.toTime || model.priceFrom || model.durationMin || model.categoryId || model.type1 || model.type2) {
     query["isPublished"] = true
