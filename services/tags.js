@@ -42,7 +42,7 @@ const create = async (model, context) => {
 };
 const getAlltags = async (context) => {
     const log = context.logger.start(`services:tags:getAlltags`);
-    const tags = await db.tag.find({}).populate('categoryIds').sort({ _id: -1 });
+    const tags = await db.tag.find({ isActivated: true }).populate('categoryIds').sort({ _id: -1 });
     log.end();
     return tags;
 };
