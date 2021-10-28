@@ -41,8 +41,9 @@ const create = async (model, context) => {
     return tag;
 };
 const getAlltags = async (context) => {
-    const log = context.logger.start(`services:tags:getAlltags`);
-    const tags = await db.tag.find({ isActivated: { $ne: false } }).populate('categoryIds').sort({ _id: -1 });
+    const log = context.logger.start(`services:tags:getAlltags`); ``
+    const tags = await db.tag.find({}).populate('categoryIds').sort({ _id: -1 });
+    // { isActivated: { $ne: false } }
     log.end();
     return tags;
 };

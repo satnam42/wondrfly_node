@@ -60,7 +60,8 @@ const create = async (model, context) => {
 
 const getAllcategories = async (context) => {
     const log = context.logger.start(`services:categories:getAllcategories`);
-    const categories = await db.category.find({ isActivated: true }).sort({ _id: -1 });
+    const categories = await db.category.find().sort({ _id: -1 });
+    // { isActivated: true }
     log.end();
     return categories;
 };
