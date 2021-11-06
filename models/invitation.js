@@ -24,6 +24,9 @@ const invitation = mongoose.Schema({
         requestAccepted: { type: Boolean, default: false }
     },
     joined: { type: Boolean, default: false },
+    lookingKidsActivitiesIn: { type: String, default: "" },
+    bookedActivitiesFor: { type: String, default: "" },
+    occupation: { type: String, default: "" },
     // acceptance: { type: Boolean, default: false },
     // declined: { type: Boolean, default: false },
     createdOn: { type: Date, default: Date.now },

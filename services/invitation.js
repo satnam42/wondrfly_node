@@ -67,6 +67,9 @@ const buildUser = async (model, context) => {
         isActivated: false,
         password: model.password,
         betaUser: true,
+        lookingKidsActivitiesIn: model.lookingKidsActivitiesIn,
+        bookedActivitiesFor: model.bookedActivitiesFor,
+        occupation: model.occupation,
         createdOn: new Date(),
         updateOn: new Date()
     }).save();
