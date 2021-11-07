@@ -15,6 +15,14 @@ exports.toModel = entity => {
         status: entity.status,
         joined: entity.joined,
         date: entity.createdOn,
+        bookedActivityFor: entity.bookedActivityFor,
+        lookingkidsActivityIn: entity.lookingkidsActivityIn,
+        lat: entity.lat,
+        lng: entity.lng,
+        bookedActivityInLastSixMonths: entity.bookedActivityInLastSixMonths,
+        wantWondrflyBetaUserBecause: entity.wantWondrflyBetaUserBecause,
+        occupation: entity.occupation,
+        willActive: entity.willActive
     }
     return model;
 };

@@ -14,15 +14,30 @@ module.exports = [
             password: {
                 type: "string"
             },
-            lookingKidsActivitiesIn: {
+            bookedActivityFor: {
                 type: "string"
             },
-            bookedActivitiesFor: {
+            lookingkidsActivityIn: {
+                type: "string"
+            },
+            lat: {
+                type: "string"
+            },
+            lng: {
+                type: "string"
+            },
+            bookedActivityInLastSixMonths: {
+                type: "boolean"
+            },
+            wantWondrflyBetaUserBecause: {
                 type: "string"
             },
             occupation: {
                 type: "string"
             },
+            willActive: {
+                type: "boolean"
+            }
             // role: {
             //     type: "string"
             // }

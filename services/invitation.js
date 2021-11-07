@@ -67,9 +67,14 @@ const buildUser = async (model, context) => {
         isActivated: false,
         password: model.password,
         betaUser: true,
-        lookingKidsActivitiesIn: model.lookingKidsActivitiesIn,
-        bookedActivitiesFor: model.bookedActivitiesFor,
+        bookedActivityFor: model.bookedActivityFor,
+        lookingkidsActivityIn: model.lookingkidsActivityIn,
+        lat: model.lat,
+        lng: model.lng,
+        bookedActivityInLastSixMonths: model.bookedActivityInLastSixMonths,
+        wantWondrflyBetaUserBecause: model.wantWondrflyBetaUserBecause,
         occupation: model.occupation,
+        willActive: model.willActive,
         createdOn: new Date(),
         updateOn: new Date()
     }).save();
