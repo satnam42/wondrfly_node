@@ -67,14 +67,6 @@ const buildUser = async (model, context) => {
         isActivated: false,
         password: model.password,
         betaUser: true,
-        bookedActivityFor: model.bookedActivityFor,
-        lookingkidsActivityIn: model.lookingkidsActivityIn,
-        lat: model.lat,
-        lng: model.lng,
-        bookedActivityInLastSixMonths: model.bookedActivityInLastSixMonths,
-        wantWondrflyBetaUserBecause: model.wantWondrflyBetaUserBecause,
-        occupation: model.occupation,
-        willActive: model.willActive,
         createdOn: new Date(),
         updateOn: new Date()
     }).save();
@@ -95,6 +87,14 @@ const create = async (model, context) => {
         const invitation = await new db.invitation({
             user: user.id,
             joined: true,
+            bookedActivityFor: model.bookedActivityFor,
+            lookingkidsActivityIn: model.lookingkidsActivityIn,
+            lat: model.lat,
+            lng: model.lng,
+            bookedActivityInLastSixMonths: model.bookedActivityInLastSixMonths,
+            wantWondrflyBetaUserBecause: model.wantWondrflyBetaUserBecause,
+            occupation: model.occupation,
+            willActive: model.willActive,
             createdOn: new Date(),
             updateOn: new Date()
         }).save();
@@ -104,7 +104,15 @@ const create = async (model, context) => {
         webStatus.requestAccepted = true
         invitedUser.user = user.id;
         invitedUser.joined = true;
-        invitedUser.webStatus = webStatus
+        invitedUser.webStatus = webStatus;
+        bookedActivityFor = model.bookedActivityFor;
+        lookingkidsActivityIn = model.lookingkidsActivityIn;
+        lat = model.lat;
+        lng = model.lng;
+        bookedActivityInLastSixMonths = model.bookedActivityInLastSixMonths;
+        wantWondrflyBetaUserBecause = model.wantWondrflyBetaUserBecause;
+        occupation = model.occupation;
+        willActive = model.willActive;
         await invitedUser.save();
     }
 
