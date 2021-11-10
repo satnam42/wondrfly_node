@@ -27,7 +27,7 @@ module.exports = [
                 type: "string"
             },
             bookedActivityInLastMonths: {
-                type: "number"
+                type: "string"
             },
             wantWondrflyBetaUserBecause: {
                 type: "string"

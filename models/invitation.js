@@ -28,7 +28,7 @@ const invitation = mongoose.Schema({
     lookingkidsActivityIn: { type: String, default: "" },
     lat: { type: String, default: '' },
     lng: { type: String, default: '' },
-    bookedActivityInLastMonths: { type: Number, default: 0 },
+    bookedActivityInLastMonths: { type: String, default: "" },
     wantWondrflyBetaUserBecause: { type: String, default: '' },
     occupation: { type: String, default: "" },
     willActive: { type: Boolean, default: false },
