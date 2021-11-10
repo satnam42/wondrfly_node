@@ -91,7 +91,7 @@ const create = async (model, context) => {
             lookingkidsActivityIn: model.lookingkidsActivityIn,
             lat: model.lat,
             lng: model.lng,
-            bookedActivityInLastSixMonths: model.bookedActivityInLastSixMonths,
+            bookedActivityInLastMonths: model.bookedActivityInLastMonths,
             wantWondrflyBetaUserBecause: model.wantWondrflyBetaUserBecause,
             occupation: model.occupation,
             willActive: model.willActive,
@@ -109,7 +109,7 @@ const create = async (model, context) => {
         lookingkidsActivityIn = model.lookingkidsActivityIn;
         lat = model.lat;
         lng = model.lng;
-        bookedActivityInLastSixMonths = model.bookedActivityInLastSixMonths;
+        bookedActivityInLastMonths = model.bookedActivityInLastMonths;
         wantWondrflyBetaUserBecause = model.wantWondrflyBetaUserBecause;
         occupation = model.occupation;
         willActive = model.willActive;

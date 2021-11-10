@@ -26,8 +26,8 @@ module.exports = [
             lng: {
                 type: "string"
             },
-            bookedActivityInLastSixMonths: {
-                type: "boolean"
+            bookedActivityInLastMonths: {
+                type: "number"
             },
             wantWondrflyBetaUserBecause: {
                 type: "string"

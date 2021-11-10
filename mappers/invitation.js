@@ -19,7 +19,7 @@ exports.toModel = entity => {
         lookingkidsActivityIn: entity.lookingkidsActivityIn,
         lat: entity.lat,
         lng: entity.lng,
-        bookedActivityInLastSixMonths: entity.bookedActivityInLastSixMonths,
+        bookedActivityInLastMonths: entity.bookedActivityInLastMonths,
         wantWondrflyBetaUserBecause: entity.wantWondrflyBetaUserBecause,
         occupation: entity.occupation,
         willActive: entity.willActive
