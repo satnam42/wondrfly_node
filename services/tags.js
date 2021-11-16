@@ -85,10 +85,15 @@ const update = async (id, model, context) => {
 };
 const search = async (query, context) => {
     const log = context.logger.start(`services:tags:search`);
+    const allData = {}
     const tags = await db.tag.find({ name: { "$regex": '.*' + query.name + '.*', "$options": 'i' } }
     ).limit(5).sort({ name: 1 });
+    const category = await db.category.find({ name: { "$regex": '.*' + query.name + '.*', "$options": 'i' } }
+    ).limit(2).sort({ name: 1 });
+    allData.tags = tags
+    allData.category = category
     log.end();
-    return tags;
+    return allData;
 };
 
 const deleteTag = async (id, context) => {
