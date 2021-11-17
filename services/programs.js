@@ -257,6 +257,14 @@ const build = async (model, context) => {
   ) {
     isPublished = true
   }
+  // totalPrograms
+  // categoryId array
+  const count = await db.program.find({ categoryId: model.categoryId }).count();
+  await db.category.findByIdAndUpdate(model.categoryId, {
+    $set: {
+      totalPrograms: count,
+    }
+  })
   const program = await new db.program({
     name: model.name,
     description: model.description,

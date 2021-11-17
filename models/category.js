@@ -8,6 +8,7 @@ const category = mongoose.Schema({
     logoUrl: { type: String, default: "", },
     alternativeText: { type: String, default: "" },
     isActivated: { type: Boolean, default: true },
+    totalPrograms: { type: Number, default: 0 },
     createdOn: { type: Date, default: Date.now },
     updatedOn: { type: Date, default: Date.now }
 });
