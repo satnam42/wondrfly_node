@@ -10,6 +10,7 @@ exports.toModel = entity => {
         imageUrl: entity.imageUrl ? baseUrl + entity.imageUrl : '',
         iconUrl: entity.iconUrl ? baseUrl + entity.iconUrl : '',
         isActivated: entity.isActivated,
+        totalPrograms: entity.totalPrograms,
         updatedOn: entity.updatedOn,
         createdOn: entity.createdOn,
     }
