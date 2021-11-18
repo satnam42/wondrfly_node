@@ -582,7 +582,7 @@ const getAllprograms = async (query, context) => {
     .find()
     .sort({ createdOn: -1 })
     .populate('tags')
-    .populate('user', 'firstName')
+    .populate('user')
     .populate('categoryId')
     .populate('subCategoryIds')
     .populate('lastModifiedBy')
