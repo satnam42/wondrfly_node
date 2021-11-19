@@ -1440,9 +1440,17 @@ const multiFilter = async (model, context) => {
   if (model.categoryId !== undefined && model.categoryId !== "" && model.categoryId !== null) {
     query["categoryId"] = model.categoryId;
   }
-  if (model.type1 !== undefined && model.type1 !== "" && model.type1 !== null) {
-    query["type"] = model.type1;
+  if (model.type !== undefined && model.type !== "" && model.type !== null) {
+    // query["type"] = model.type;
+    const typeArray = []
+    var typeArr = model.type.split(',');
+    for (const element of typeArr) {
+      typeArray.push(element)
+    }
+    const types = { type: { $in: typeArray } }
+    query = types
   }
+  //Drops -in,Semesters,Camps,Other
   if (model.inpersonOrVirtual == 'inperson') {
     query["inpersonOrVirtual"] = 'Inperson'
   }
@@ -1467,6 +1475,16 @@ const multiFilter = async (model, context) => {
     }
     query = ddays
     // $or: [{ "days.monday": true }, { "days.sunday": true }]
+  }
+  if (model.tagsIds !== undefined && model.tagsIds !== "" && model.tagsIds !== null) {
+    console.log('tagsIds ==>>>>>', model.tagsIds)
+    const tagsArray = []
+    var tagArr = model.tagsIds.split(',');
+    for (const element of tagArr) {
+      tagsArray.push(element)
+    }
+    const tags = { subCategoryIds: { $in: tagsArray } }
+    query = tags
   }
   if (model.ageFrom || model.fromDate || model.toTime || model.priceFrom || model.durationMin || model.categoryId || model.type1 || model.type2) {
     query["isPublished"] = true

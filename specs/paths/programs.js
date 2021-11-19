@@ -926,14 +926,8 @@ module.exports = [
         },
         {
           in: 'query',
-          name: 'type1',
-          description: 'type of program',
-          type: 'string',
-        },
-        {
-          in: 'query',
-          name: 'type2',
-          description: 'type of program',
+          name: 'type',
+          description: 'types of program are:-- Drops -in,Semesters,Camps,Other',
           type: 'string',
         },
         {
@@ -951,13 +945,19 @@ module.exports = [
         {
           in: 'query',
           name: 'inpersonOrVirtual',
-          description: 'plz enter:-- inperson or online or all',
+          description: 'plz enter:-- inperson or online',
           type: 'string',
         },
         {
           in: 'query',
           name: 'day',
           description: 'days name like:- monday, tuesday, wednesday, thursday, friday, saturday, sunday',
+          type: 'string',
+        },
+        {
+          in: 'query',
+          name: 'tagsIds',
+          description: 'enter tagsIds separated by commas',
           type: 'string',
         },
       ],
