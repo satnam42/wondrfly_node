@@ -1413,7 +1413,34 @@ const multiFilter = async (model, context) => {
     query["date.from"] = { $gte: model.fromDate }
     query["date.to"] = { $lte: model.toDate }
   }
+  if (model.time !== undefined && model.time !== "" && model.time !== null) {
+    //early-morning, morning, afternoon, late-afternoon, evening
+    let timeArray = []
+    var timeArr = model.time.split(',');
+    for (const element of timeArr) {
+      if (element == "early-morning") {
+        timeArray.push({ 'realTime.from': { '$gte': 6, '$lt': 9 } })
+      }
+      if (element == "morning") {
+        timeArray.push({ 'realTime.from': { '$gte': 9, '$lt': 12 } })
+      }
+      if (element == "afternoon") {
+        timeArray.push({ 'realTime.from': { '$gte': 12, '$lt': 15 } })
+      }
+      if (element == "late-afternoon") {
+        timeArray.push({ "realTime.from": { '$gte': 15, '$lt': 18, } })
+      }
+      if (element == "evening") {
+        timeArray.push({ "realTime.from": { '$gte': 18, '$lt': 21, } })
+      }
 
+    }
+    const times = {
+      $or: timeArray
+    }
+
+    query = times
+  }
   if (model.toTime !== undefined && model.fromTime !== undefined && model.toTime !== "" && model.fromTime !== "" && model.toTime !== null && model.fromTime !== null) {
     const tme = {
       $gte: model.fromTime,
@@ -1450,7 +1477,7 @@ const multiFilter = async (model, context) => {
     const types = { type: { $in: typeArray } }
     query = types
   }
-  //Drops -in,Semesters,Camps,Other
+  //Drops-in,Semesters,Camps,Other
   if (model.inpersonOrVirtual == 'inperson') {
     query["inpersonOrVirtual"] = 'Inperson'
   }
@@ -1473,6 +1500,7 @@ const multiFilter = async (model, context) => {
     const ddays = {
       $or: dayArray
     }
+    console.log('ddays =>', ddays)
     query = ddays
     // $or: [{ "days.monday": true }, { "days.sunday": true }]
   }
