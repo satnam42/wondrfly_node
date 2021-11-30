@@ -232,12 +232,81 @@ const childByParentId = async (id, context) => {
         // console.log('if parent invited')
         let guardian = await db.guardian.findById(usrParent.inviteLinked)
         if (id == guardian.invitedBy) {
-            childrenGuardian = await db.child.find({ parent: guardian.invitedTo }).populate('interestInfo')
+            // childrenGuardian = await db.child.find({ parent: guardian.invitedTo }).populate('interestInfo')
+            childrenGuardian = await db.child.aggregate([
+                {
+                    $match: {
+                        parent: ObjectId(id),
+                    },
+                },
+                {
+                    $lookup: {
+                        from: 'tags',
+                        localField: 'interestInfo',
+                        foreignField: '_id',
+                        as: 'tags',
+                    },
+                },
+                {
+                    $lookup: {
+                        from: 'categories',
+                        localField: 'tags.categoryIds',
+                        foreignField: '_id',
+                        as: 'categories',
+                    },
+                },
+            ])
         }
         if (id == guardian.invitedTo) {
-            childrenGuardian = await db.child.find({ parent: guardian.invitedBy }).populate('interestInfo')
+            // childrenGuardian = await db.child.find({ parent: guardian.invitedBy }).populate('interestInfo')
+            childrenGuardian = await db.child.aggregate([
+                {
+                    $match: {
+                        parent: ObjectId(id),
+                    },
+                },
+                {
+                    $lookup: {
+                        from: 'tags',
+                        localField: 'interestInfo',
+                        foreignField: '_id',
+                        as: 'tags',
+                    },
+                },
+                {
+                    $lookup: {
+                        from: 'categories',
+                        localField: 'tags.categoryIds',
+                        foreignField: '_id',
+                        as: 'categories',
+                    },
+                },
+            ])
         }
-        let children1 = await db.child.find({ parent: id }).populate('interestInfo')
+        // let children1 = await db.child.find({ parent: id }).populate('interestInfo')
+        let children1 = await db.child.aggregate([
+            {
+                $match: {
+                    parent: ObjectId(id),
+                },
+            },
+            {
+                $lookup: {
+                    from: 'tags',
+                    localField: 'interestInfo',
+                    foreignField: '_id',
+                    as: 'tags',
+                },
+            },
+            {
+                $lookup: {
+                    from: 'categories',
+                    localField: 'tags.categoryIds',
+                    foreignField: '_id',
+                    as: 'categories',
+                },
+            },
+        ])
 
         if (children1.length >= 1) {
             for (var x of children1) {
@@ -258,7 +327,30 @@ const childByParentId = async (id, context) => {
     }
 
 
-    children = await db.child.find({ parent: id }).populate('interestInfo')
+    // children = await db.child.find({ parent: id }).populate('interestInfo')
+    children = await db.child.aggregate([
+        {
+            $match: {
+                parent: ObjectId(id),
+            },
+        },
+        {
+            $lookup: {
+                from: 'tags',
+                localField: 'interestInfo',
+                foreignField: '_id',
+                as: 'tags',
+            },
+        },
+        {
+            $lookup: {
+                from: 'categories',
+                localField: 'tags.categoryIds',
+                foreignField: '_id',
+                as: 'categories',
+            },
+        },
+    ])
     if (children.length < 1) {
         throw new Error("child Not Found");
     }
