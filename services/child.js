@@ -236,7 +236,7 @@ const childByParentId = async (id, context) => {
             childrenGuardian = await db.child.aggregate([
                 {
                     $match: {
-                        parent: ObjectId(id),
+                        parent: ObjectId(guardian.invitedTo),
                     },
                 },
                 {
@@ -262,7 +262,7 @@ const childByParentId = async (id, context) => {
             childrenGuardian = await db.child.aggregate([
                 {
                     $match: {
-                        parent: ObjectId(id),
+                        parent: ObjectId(guardian.invitedBy),
                     },
                 },
                 {
@@ -354,7 +354,6 @@ const childByParentId = async (id, context) => {
     if (children.length < 1) {
         throw new Error("child Not Found");
     }
-
     return children
 };
 

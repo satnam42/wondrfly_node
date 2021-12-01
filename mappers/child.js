@@ -3,7 +3,7 @@ const baseUrl = require('config').get('image').baseUrl
 
 exports.toModel = entity => {
     let model = {
-        id: entity.id,
+        id: entity._id,
         name: entity.name,
         dob: entity.dob,
         sex: entity.sex,
