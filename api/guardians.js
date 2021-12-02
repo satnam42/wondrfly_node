@@ -98,6 +98,32 @@ const activeOrDeactive = async (req, res) => {
     }
 };
 
+const inviteToJoin = async (req, res) => {
+    const log = req.context.logger.start(`api:guardians:inviteToJoin`);
+    try {
+        const invitation = await service.inviteToJoin(req.body, req.context);
+        log.end();
+        return response.data(res, invitation);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
+const askToJoin = async (req, res) => {
+    const log = req.context.logger.start(`api:guardians:askToJoin`);
+    try {
+        const invitation = await service.create(req.body, req.context);
+        log.end();
+        return response.data(res, invitation);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 exports.add = add;
 exports.list = list;
 exports.update = update;
@@ -105,3 +131,5 @@ exports.getGuardianByParentId = getGuardianByParentId;
 exports.remove = remove;
 exports.sendOtp = sendOtp;
 exports.activeOrDeactive = activeOrDeactive;
+exports.inviteToJoin = inviteToJoin;
+exports.askToJoin = askToJoin;

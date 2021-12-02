@@ -1,30 +1,30 @@
 module.exports = [
-    {
-        url: "/add",
-        post: {
-            summary: "add",
-            description: "add guardian",
-            parameters: [
-                {
-                    in: "body",
-                    name: "body",
-                    description: "Model of guardian creation",
-                    required: true,
-                    schema: {
-                        $ref: "#/definitions/guardianAdd"
-                    }
-                }
-            ],
-            responses: {
-                default: {
-                    description: "Unexpected error",
-                    schema: {
-                        $ref: "#/definitions/Error"
-                    }
-                }
-            }
-        }
-    },
+    // {
+    //     url: "/add",
+    //     post: {
+    //         summary: "add",
+    //         description: "add guardian",
+    //         parameters: [
+    //             {
+    //                 in: "body",
+    //                 name: "body",
+    //                 description: "Model of guardian creation",
+    //                 required: true,
+    //                 schema: {
+    //                     $ref: "#/definitions/guardianAdd"
+    //                 }
+    //             }
+    //         ],
+    //         responses: {
+    //             default: {
+    //                 description: "Unexpected error",
+    //                 schema: {
+    //                     $ref: "#/definitions/Error"
+    //                 }
+    //             }
+    //         }
+    //     }
+    // },
     {
         url: "/list",
         get: {
@@ -152,39 +152,39 @@ module.exports = [
         }
     },
 
-    {
-        url: "/sendOtp",
-        post: {
-            summary: "otp",
-            description: "send otp when adding guardian",
-            parameters: [
-                {
-                    in: "body",
-                    name: "body",
-                    description: "Model of guardian otp",
-                    required: true,
-                    schema: {
-                        $ref: "#/definitions/guardianOtp"
-                    }
-                },
-                {
-                    in: "header",
-                    name: "x-access-token",
-                    description: "token to access api",
-                    required: true,
-                    type: "string"
-                },
-            ],
-            responses: {
-                default: {
-                    description: "Unexpected error",
-                    schema: {
-                        $ref: "#/definitions/Error"
-                    }
-                }
-            }
-        }
-    },
+    // {
+    //     url: "/sendOtp",
+    //     post: {
+    //         summary: "otp",
+    //         description: "send otp when adding guardian",
+    //         parameters: [
+    //             {
+    //                 in: "body",
+    //                 name: "body",
+    //                 description: "Model of guardian otp",
+    //                 required: true,
+    //                 schema: {
+    //                     $ref: "#/definitions/guardianOtp"
+    //                 }
+    //             },
+    //             {
+    //                 in: "header",
+    //                 name: "x-access-token",
+    //                 description: "token to access api",
+    //                 required: true,
+    //                 type: "string"
+    //             },
+    //         ],
+    //         responses: {
+    //             default: {
+    //                 description: "Unexpected error",
+    //                 schema: {
+    //                     $ref: "#/definitions/Error"
+    //                 }
+    //             }
+    //         }
+    //     }
+    // },
     {
         url: "/activeOrDeactive",
         put: {
@@ -212,6 +212,58 @@ module.exports = [
                     description: "true,false",
                     required: true
                 },
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
+    {
+        url: "/inviteToJoin",
+        post: {
+            summary: "inviteToJoin",
+            description: "inviteToJoin",
+            parameters: [
+                {
+                    in: "body",
+                    name: "body",
+                    description: "Model of invite guardian to join",
+                    required: true,
+                    schema: {
+                        $ref: "#/definitions/guardian-inviteJoin"
+                    }
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
+    {
+        url: "/askToJoin",
+        post: {
+            summary: "askToJoin",
+            description: "askToJoin",
+            parameters: [
+                {
+                    in: "body",
+                    name: "body",
+                    description: "Model of ask to join",
+                    required: true,
+                    schema: {
+                        $ref: "#/definitions/guardianAdd"
+                    }
+                }
             ],
             responses: {
                 default: {

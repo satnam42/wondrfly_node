@@ -100,19 +100,19 @@ const create = async (model, context) => {
         }).save();
     }
     if (invitedUser && user) {
-        let webStatus = {}
-        webStatus.requestAccepted = true
+        let webStatus = { requestAccepted: true }
+        invitedUser.webStatus = webStatus;
         invitedUser.user = user.id;
         invitedUser.joined = true;
         invitedUser.webStatus = webStatus;
-        bookedActivityFor = model.bookedActivityFor;
-        lookingkidsActivityIn = model.lookingkidsActivityIn;
-        lat = model.lat;
-        lng = model.lng;
-        bookedActivityInLastMonths = model.bookedActivityInLastMonths;
-        wantWondrflyBetaUserBecause = model.wantWondrflyBetaUserBecause;
-        occupation = model.occupation;
-        willActive = model.willActive;
+        invitedUser.bookedActivityFor = model.bookedActivityFor;
+        invitedUser.lookingkidsActivityIn = model.lookingkidsActivityIn;
+        invitedUser.lat = model.lat;
+        invitedUser.lng = model.lng;
+        invitedUser.bookedActivityInLastMonths = model.bookedActivityInLastMonths;
+        invitedUser.wantWondrflyBetaUserBecause = model.wantWondrflyBetaUserBecause;
+        invitedUser.occupation = model.occupation;
+        invitedUser.willActive = model.willActive;
         await invitedUser.save();
     }
 

@@ -569,11 +569,23 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.guardians.remove
   );
+  // app.post(
+  //   "/api/guardians/sendOtp",
+  //   permit.context.builder,
+  //   // permit.context.requiresToken,
+  //   api.guardians.sendOtp
+  // );
   app.post(
-    "/api/guardians/sendOtp",
+    "/api/guardians/inviteToJoin",
     permit.context.builder,
     // permit.context.requiresToken,
-    api.guardians.sendOtp
+    api.guardians.inviteToJoin
+  );
+  app.post(
+    "/api/guardians/askToJoin",
+    permit.context.builder,
+    // permit.context.requiresToken,
+    api.guardians.askToJoin
   );
   app.put(
     "/api/guardians/activeOrDeactive",

@@ -12,13 +12,13 @@ const aws_region = require('config').get('awsSes').region
 var sesTransport = require('nodemailer-ses-transport');
 
 
-sendOtpEmail = async (firstName, email, templatePath, subject) => {
+invitaionEmail = async (firstName, email, templatePath, subject) => {
     let mailBody = fs.readFileSync(path.join(__dirname, templatePath)).toString();
     mailBody = mailBody.replace(/{{firstname}}/g, firstName);
 
-    if (OTP) {
-        mailBody = mailBody.replace(/{{OTP}}/g, OTP);
-    }
+    // if (OTP) {
+    //     mailBody = mailBody.replace(/{{OTP}}/g, OTP);
+    // }
 
     // Send e-mail using AWS SES
     // var sesTransporter = nodemailer.createTransport(sesTransport({
@@ -69,13 +69,10 @@ sendOtpEmail = async (firstName, email, templatePath, subject) => {
     }
 }
 
-const invitaionApprovedEmail = async (firstName, email, templatePath, subject, OTP) => {
+const invitaionApprovedEmail = async (firstName, email, templatePath, subject) => {
     let mailBody = fs.readFileSync(path.join(__dirname, templatePath)).toString();
     mailBody = mailBody.replace(/{{firstname}}/g, firstName);
 
-    if (OTP) {
-        mailBody = mailBody.replace(/{{OTP}}/g, OTP);
-    }
 
     // Send e-mail using AWS SES
     // var sesTransporter = nodemailer.createTransport(sesTransport({
@@ -334,6 +331,7 @@ const deleteGuardian = async (id, context) => {
     return 'guardian delete successfully'
 };
 
+// first code==>>>>>>>
 // const sendOtp = async (mob, model, context) => {
 //     const log = context.logger.start('services/guardians/sendOtp')
 //     const { parentId } = model;
@@ -401,69 +399,159 @@ const deleteGuardian = async (id, context) => {
 // }
 
 
+// second time code==>>>
+// const sendOtp = async (mob, model, context) => {
+//     const log = context.logger.start('services/guardians/sendOtp')
+//     const { parentId } = model;
+//     if (!model.email) {
+//         throw new Error("Email is required");
+//     }
+//     if (!parentId) {
+//         throw new Error("Parent id is required");
+//     }
 
-const sendOtp = async (mob, model, context) => {
-    const log = context.logger.start('services/guardians/sendOtp')
-    const { parentId } = model;
-    if (!model.email) {
-        throw new Error("Email is required");
+//     const isInvited = await db.user.findById(parentId);
+//     if (isInvited.inviteLinked) {
+//         throw new Error("You already invited a guardian. So you cannot invite guardian second time");
+//     }
+
+//     const isEmail = await db.user.findOne({ email: { $eq: model.email } });
+//     if (isEmail) {
+//         throw new Error("Email already resgister");
+//     }
+
+
+// if (mob) {
+//     let = subject = "Register Guardian"
+//     let templatePath = '../emailTemplates/pwaGuardian_otp.html';
+//     let mailsent = await sendOtpEmail(model.firstName, model.email, templatePath, subject);
+
+//     console.log('mail send====>>>>')
+//     let guard = await new db.guardian({
+//         invitedBy: parentId,
+//         invitedToEmail: model.email,
+//         createdOn: new Date(),
+//         updatedOn: new Date()
+//     }).save();
+//     let data = {
+//         message: 'Please register guardian, link is sent on your email',
+//     }
+//     isInvited.inviteLinked = guard._id
+//     isInvited.save();
+//     log.end()
+//     return data
+// } else {
+//     let = subject = "Register Guardian"
+//     let templatePath = '../emailTemplates/guardian_otp.html';
+//     let mailsent = await sendOtpEmail(model.firstName, model.email, templatePath, subject);
+
+//     console.log('mail send====>>>>')
+//     let guard = await new db.guardian({
+//         invitedBy: parentId,
+//         invitedToEmail: model.email,
+//         createdOn: new Date(),
+//         updatedOn: new Date()
+//     }).save();
+//     let data = {
+//         message: 'Please register guardian, link is sent on your email',
+//     }
+//     isInvited.inviteLinked = guard._id
+//     isInvited.save();
+//     log.end()
+//     return data
+// }
+
+// }
+
+const inviteToJoin = async (model, context) => {
+    const log = context.logger.start("services:guardians:inviteToJoin");
+    const user = await db.user.findById(model.parentId);
+    if (!user) {
+        throw new Error("This user does not exist");
     }
-    if (!parentId) {
-        throw new Error("Parent id is required");
+    if (user.guardianInvitationLimit == 1) {
+        throw new Error("only 1 user invitation limit, your limit is reached");
     }
 
-    const isInvited = await db.user.findById(parentId);
-    if (isInvited.inviteLinked) {
-        throw new Error("You already invited a guardian. So you cannot invite guardian second time");
+    const isEmail = await db.invitation.findOne({ invitedToEmail: { $eq: model.email } });
+    if (isEmail) {
+        throw new Error("This Email is already invited");
     }
+    const invitation = await new db.invitation({
+        invitedBy: model.parentId,
+        invitedToEmail: model.email,
+        invitedToName: model.firstName,
+        isInvited: "invited",
+        createdOn: new Date(),
+        updateOn: new Date()
+    }).save();
 
+    if (invitation) {
+        await db.user.findByIdAndUpdate(model.parentId, {
+            $set: {
+                guardianInvitationLimit: user.guardianInvitationLimit += 1
+            }
+        })
+        let templatePath = '../emailTemplates/parent_invite_join.html';
+        let subject = "Invitation to join wondrlfy";
+
+        invitaionEmail(model.firstName, model.email, templatePath, subject);
+    }
+    let guard = await new db.guardian({
+        invitedBy: model.parentId,
+        invitedToEmail: model.email,
+        createdOn: new Date(),
+        updatedOn: new Date()
+    }).save();
+    user.inviteLinked = guard._id
+    user.save();
+    log.end();
+    return invitation;
+};
+
+
+// ask to join after invited the user
+const create = async (model, context) => {
+    const log = context.logger.start("services:guardians:register");
     const isEmail = await db.user.findOne({ email: { $eq: model.email } });
     if (isEmail) {
-        throw new Error("Email already resgister");
+        throw new Error("This Email is already registered");
+    }
+
+    const guardianEmail = await db.guardian.findOne({ invitedToEmail: { $eq: model.email } });
+    if (!guardianEmail) {
+        console.log('condition 1')
+        throw new Error("Please enter only verified email");
+    }
+    if (guardianEmail.invitedToEmail !== model.email) {
+        console.log('condition 2')
+        throw new Error("Please enter only verified email");
+    }
+
+    model.password = await encrypt.getHash(model.password, context);
+    const guardian = await buildGuardian(model, guardianEmail._id, context);
+    if (guardianEmail && guardian) {
+        guardianEmail.invitedTo = guardian.id;
+        guardianEmail.relationToChild = model.relationToChild;
+        await guardianEmail.save();
     }
 
 
-    if (mob) {
-        let = subject = "Register Guardian"
-        let templatePath = '../emailTemplates/pwaGuardian_otp.html';
-        let mailsent = await sendOtpEmail(model.firstName, model.email, templatePath, subject);
 
-        console.log('mail send====>>>>')
-        let guard = await new db.guardian({
-            invitedBy: parentId,
-            invitedToEmail: model.email,
-            createdOn: new Date(),
-            updatedOn: new Date()
-        }).save();
-        let data = {
-            message: 'Please register guardian, link is sent on your email',
-        }
-        isInvited.inviteLinked = guard._id
-        isInvited.save();
-        log.end()
-        return data
-    } else {
-        let = subject = "Register Guardian"
-        let templatePath = '../emailTemplates/guardian_otp.html';
-        let mailsent = await sendOtpEmail(model.firstName, model.email, templatePath, subject);
-
-        console.log('mail send====>>>>')
-        let guard = await new db.guardian({
-            invitedBy: parentId,
-            invitedToEmail: model.email,
-            createdOn: new Date(),
-            updatedOn: new Date()
-        }).save();
-        let data = {
-            message: 'Please register guardian, link is sent on your email',
-        }
-        isInvited.inviteLinked = guard._id
-        isInvited.save();
-        log.end()
-        return data
+    // model.password = await encrypt.getHash(model.password, context);
+    // const user = await buildUser(model, context);
+    const invitedUser = await db.invitation.findOne({ invitedToEmail: { $eq: model.email } });
+    if (invitedUser && guardian) {
+        let webStatus = { requestAccepted: true }
+        invitedUser.webStatus = webStatus;
+        invitedUser.user = guardian.id;
+        invitedUser.joined = true;
+        await invitedUser.save();
     }
 
-}
+    log.end();
+    return guardian;
+};
 
 
 const activateAndDeactive = async (context, id, isActivated) => {
@@ -487,10 +575,12 @@ const activateAndDeactive = async (context, id, isActivated) => {
 };
 
 
-exports.addGuardian = addGuardian;
+// exports.addGuardian = addGuardian;
 exports.get = get;
 exports.updateGuardian = updateGuardian;
 exports.getGuardianByParentId = getGuardianByParentId;
 exports.deleteGuardian = deleteGuardian;
-exports.sendOtp = sendOtp;
+// exports.sendOtp = sendOtp;
 exports.activateAndDeactive = activateAndDeactive;
+exports.inviteToJoin = inviteToJoin;
+exports.create = create;

@@ -75,6 +75,7 @@ const user = mongoose.Schema({
     { type: mongoose.Schema.Types.ObjectId, default: [], ref: 'rewardpoint' },
   ],
   parentInvitationLimit: { type: Number, default: 0 },
+  guardianInvitationLimit: { type: Number, default: 0 },
   deviceToken: { type: String, default: '' },
   betaUser: { type: Boolean, default: false },
   createdOn: { type: Date, default: Date.now },
