@@ -2,12 +2,11 @@
 const baseUrl = require('config').get('image').baseUrl
 
 const build = async (model, context) => {
-    const { name, category, subcategoires } = model;
+    const { suggestedId, suggestedTags } = model;
     const log = context.logger.start(`services:suggestion:build${model}`);
-    const suggestion = await new db.suggestion({
-        name: name,
-        category: category,
-        subcategoires: subcategoires,
+    const suggestion = await new db.suggested({
+        suggestedId,
+        suggestedTags,
         createdOn: new Date(),
         updateOn: new Date(),
     }).save();

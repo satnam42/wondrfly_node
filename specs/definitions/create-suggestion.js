@@ -2,18 +2,11 @@ module.exports = [
     {
         name: "create-suggestion",
         properties: {
-            name: {
-                type: "array",
-                items: {
-                    type: 'string',
-                    default: '',
-                },
-            },
-            category: {
+            suggestedId: {
                 type: "string",
                 default: "",
             },
-            subcategoires: {
+            suggestedTags: {
                 type: 'array',
                 items: {
                     type: 'string',
