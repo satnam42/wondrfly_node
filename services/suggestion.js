@@ -1,5 +1,6 @@
 "use strict";
 const baseUrl = require('config').get('image').baseUrl
+const ObjectId = require('mongodb').ObjectID
 
 const build = async (model, context) => {
     const { suggestedId, suggestedTags } = model;
@@ -29,24 +30,52 @@ const create = async (model, context) => {
 const bySubcategoryId = async (id, context) => {
     const log = context.logger.start(`services:suggestion:bySubcategoryId`);
     if (!id) throw new Error('subcategory id is required')
-    const suggestion = await db.suggestion.findOne({ subcategoires: id }).populate('subcategoires');
-    if (!suggestion) {
+    // const suggestion = await db.suggested.findOne({ suggestedId: id }).populate('suggestedTags');
+    const suggestion = await db.suggested.aggregate([
+        {
+            $match: {
+                suggestedId: ObjectId(id),
+            },
+        },
+        {
+            $lookup: {
+                from: 'tags',
+                localField: 'suggestedTags',
+                foreignField: '_id',
+                as: 'tags',
+            },
+        },
+        {
+            $lookup: {
+                from: 'categories',
+                localField: 'tags.categoryIds',
+                foreignField: '_id',
+                as: 'category',
+            },
+        },
+    ])
+    if (suggestion.length == 0) {
         throw new Error("suggestion does not exist")
     }
     const finalSuggestion = []
     if (suggestion) {
-        const suggestions = suggestion.subcategoires;
-        const category = await db.category.findById(suggestion.category)
+        const suggestions = suggestion[0].tags;
+        const category = suggestion[0].category[0]
+        // const category = await db.category.findById(suggestion.category)
+        // console.log('image ==>>>>', suggestion[0].category[0])
         const imageUrl = category.imageUrl ? baseUrl + category.imageUrl : ''
         const iconUrl = category.iconUrl ? baseUrl + category.iconUrl : ''
+        const logoUrl = category.logoUrl ? baseUrl + category.logoUrl : ''
         suggestions.map(suggestion => {
             let newSuggestion = {}
             newSuggestion.id = suggestion.id
             newSuggestion.name = suggestion.name
             newSuggestion.imageUrl = imageUrl
             newSuggestion.iconUrl = iconUrl
+            newSuggestion.logoUrl = logoUrl
             finalSuggestion.push(newSuggestion)
         });
+        log.end();
         return finalSuggestion;
     }
 };
