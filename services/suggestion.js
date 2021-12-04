@@ -54,7 +54,7 @@ const bySubcategoryId = async (id, context) => {
             },
         },
     ])
-    if (suggestion.length == 0) {
+    if (suggestion.length == 0 || suggestion[0].tags.length == 0) {
         throw new Error("suggestion does not exist")
     }
     const finalSuggestion = []
@@ -68,7 +68,7 @@ const bySubcategoryId = async (id, context) => {
         const logoUrl = category.logoUrl ? baseUrl + category.logoUrl : ''
         suggestions.map(suggestion => {
             let newSuggestion = {}
-            newSuggestion.id = suggestion.id
+            newSuggestion.id = suggestion._id
             newSuggestion.name = suggestion.name
             newSuggestion.imageUrl = imageUrl
             newSuggestion.iconUrl = iconUrl
