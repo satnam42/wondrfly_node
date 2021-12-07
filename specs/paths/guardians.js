@@ -261,7 +261,7 @@ module.exports = [
                     description: "Model of ask to join",
                     required: true,
                     schema: {
-                        $ref: "#/definitions/guardianAdd"
+                        $ref: "#/definitions/askToJoin"
                     }
                 }
             ],

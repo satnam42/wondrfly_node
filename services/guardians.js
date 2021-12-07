@@ -532,7 +532,7 @@ const create = async (model, context) => {
     const guardian = await buildGuardian(model, guardianEmail._id, context);
     if (guardianEmail && guardian) {
         guardianEmail.invitedTo = guardian.id;
-        guardianEmail.relationToChild = model.relationToChild;
+        // guardianEmail.relationToChild = model.relationToChild;
         await guardianEmail.save();
     }
 
