@@ -45,15 +45,25 @@ invitaionEmail = async (firstName, email, templatePath, subject) => {
         html: mailBody,
         attachments: [
             {
-                filename: 'logo.png',
-                path: `${__dirname}/../public/images/logo.png`,
-                cid: 'logo1' //same cid value as in the html img src
+                filename: 'beta1.png',
+                path: `${__dirname}/../public/images/beta1.png`,
+                cid: 'beta1' //same cid value as in the html img src
             },
 
             {
-                filename: 'logo_white.png',
-                path: `${__dirname}/../public/images/logo_white.png`,
-                cid: 'logo_white' //same cid value as in the html img src
+                filename: 'beta2.png',
+                path: `${__dirname}/../public/images/beta2.png`,
+                cid: 'beta2' //same cid value as in the html img src
+            },
+            {
+                filename: 'logo_wondr.png',
+                path: `${__dirname}/../public/images/logo_wondr.png`,
+                cid: 'logo_wondr' //same cid value as in the html img src
+            },
+            {
+                filename: 'cntr-img.png',
+                path: `${__dirname}/../public/images/cntr-img.png`,
+                cid: 'cntr-img' //same cid value as in the html img src
             }
         ]
 
@@ -492,7 +502,7 @@ const inviteToJoin = async (model, context) => {
                 guardianInvitationLimit: user.guardianInvitationLimit += 1
             }
         })
-        let templatePath = '../emailTemplates/parent_invite_join.html';
+        let templatePath = '../emailTemplates/beta_welcome_guardian.html';
         let subject = "Invitation to join wondrlfy";
 
         invitaionEmail(model.firstName, model.email, templatePath, subject);

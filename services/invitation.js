@@ -33,15 +33,91 @@ const invitaionEmail = async (firstName, email, templatePath, subject, OTP) => {
         html: mailBody,
         attachments: [
             {
-                filename: 'logo.png',
-                path: `${__dirname}/../public/images/logo.png`,
-                cid: 'logo1'
+                filename: 'beta1.png',
+                path: `${__dirname}/../public/images/beta1.png`,
+                cid: 'beta1' //same cid value as in the html img src
             },
 
             {
-                filename: 'logo_white.png',
-                path: `${__dirname}/../public/images/logo_white.png`,
-                cid: 'logo_white'
+                filename: 'beta2.png',
+                path: `${__dirname}/../public/images/beta2.png`,
+                cid: 'beta2' //same cid value as in the html img src
+            },
+            {
+                filename: 'cntr-img.png',
+                path: `${__dirname}/../public/images/cntr-img.png`,
+                cid: 'cntr-img' //same cid value as in the html img src
+            }
+        ]
+
+    };
+    let mailSent = await smtpTransport.sendMail(mailOptions);
+    if (mailSent) {
+        console.log("Message sent: %s", mailSent.messageId);
+        console.log("Preview URL: %s", nodemailer.getTestMessageUrl(mailSent));
+        return
+    } else {
+        log.end()
+        throw new Error("Unable to send email try after sometime");
+    }
+}
+
+const congratsEmail = async (firstName, email, templatePath, subject) => {
+    let mailBody = fs.readFileSync(path.join(__dirname, templatePath)).toString();
+    mailBody = mailBody.replace(/{{firstname}}/g, firstName);
+
+    let smtpTransport = nodemailer.createTransport({
+        host: 'localhost',
+        port: 465,
+        secure: true,
+        service: 'Gmail',
+        auth: {
+            user: `wondrfly@gmail.com`,
+            pass: `wondrfly@123`
+        }
+    });
+
+
+    let mailOptions = {
+        from: "smtp.mailtrap.io",
+        to: email, //sending to: E-mail
+        subject: subject,
+        html: mailBody,
+        attachments: [
+            {
+                filename: 'beta1.png',
+                path: `${__dirname}/../public/images/beta1.png`,
+                cid: 'beta1' //same cid value as in the html img src
+            },
+            {
+                filename: 'beta2.png',
+                path: `${__dirname}/../public/images/beta2.png`,
+                cid: 'beta2' //same cid value as in the html img src
+            },
+            {
+                filename: 'logo_wondr.png',
+                path: `${__dirname}/../public/images/logo_wondr.png`,
+                cid: 'logo_wondr' //same cid value as in the html img src
+            },
+            {
+                filename: 'cracker.png',
+                path: `${__dirname}/../public/images/cracker.png`,
+                cid: 'cracker' //same cid value as in the html img src
+            },
+            {
+                filename: 'slide1.png',
+                path: `${__dirname}/../public/images/slide1.png`,
+                cid: 'slide1' //same cid value as in the html img src
+            },
+            {
+                filename: 'slide2.png',
+                path: `${__dirname}/../public/images/slide2.png`,
+                cid: 'slide2' //same cid value as in the html img src
+            },
+            {
+                filename: 'slide3.png',
+                path: `${__dirname}/../public/images/slide3.png`,
+                cid: 'slide3' //same cid value as in the html img src
             }
         ]
 
@@ -115,6 +191,11 @@ const create = async (model, context) => {
         invitedUser.willActive = model.willActive;
         await invitedUser.save();
     }
+
+    let templatePath = '../emailTemplates/beta_congrats.html';
+    let subject = "Congratulations!  wondrlfy";
+
+    congratsEmail(model.firstName, model.email, templatePath, subject);
 
     log.end();
     return user;
@@ -217,7 +298,7 @@ const inviteToJoin = async (model, context) => {
                 parentInvitationLimit: user.parentInvitationLimit += 1
             }
         })
-        let templatePath = '../emailTemplates/parent_invite_join.html';
+        let templatePath = '../emailTemplates/beta_welcome.html';
         let subject = "Invitation to join wondrlfy";
 
         invitaionEmail(model.firstName, model.email, templatePath, subject);
