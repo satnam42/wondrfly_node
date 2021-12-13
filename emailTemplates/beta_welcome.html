@@ -5,275 +5,313 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
-        integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
-
     <title>Become Beta Users on Wondrfly</title>
-    <style>
-        * {
-            margin: 0px;
-            padding: 0px;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 
+    <style type="text/css">
         body {
-            background-color: #F5F8FA;
+            font-family: 'Poppins', sans-serif;
+            padding: 0;
+            margin: 0;
         }
 
-        #email {
-            margin: auto;
-            width: 600px;
-            background-color: white;
-            padding-bottom: 30px;
-            padding-top: 0px;
-        }
-
-        .header img {
-            margin-left: auto;
-            margin-right: auto;
-            display: block;
-        }
-
-        .content {
-            background: #DCF3FF;
-            border-radius: 20px;
-            position: relative;
-            height: 210px;
-            width: 100%;
-            text-align: center;
-        }
-
-        .content .beta-program h1 {
-            font-style: normal;
-            font-weight: bold;
-            font-size: 33px;
-            text-align: center;
-            letter-spacing: 0.001em;
-            color: #53B2E8;
-        }
-
-        .centr-img img {
-            width: 100%;
-        }
-
-        .content .img1 {
-            position: absolute;
-            top: 5px;
-            left: 5px;
-        }
-
-        .content .img2 {
-            position: absolute;
-            bottom: 5px;
-            right: 5px;
-        }
-
-        .beta-program {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .data h2 {
-            font-style: normal;
-            font-weight: normal;
-            font-size: 16px;
-            line-height: 24px;
-            color: #494949;
-        }
-
-        button.btn.btn-cmn {
-            font-style: normal;
-            font-weight: 600;
-            font-size: 12px;
-            line-height: 18px;
-            text-align: center;
-            letter-spacing: 0.02em;
-            text-transform: uppercase;
-            color: #FFFFFF;
-            background: #53B2E8;
-            border: 1px solid #53B2E8;
-            box-sizing: border-box;
-            box-shadow: 0px 2px 2px rgb(0 0 0 / 12%);
-            border-radius: 50px;
-            padding: 10px;
-            padding-left: 20px;
-            padding-right: 20px;
-        }
-
-        .center-btn button.btn.btn-cmn {
-            margin-left: auto;
-            margin-right: auto;
-            display: block;
-        }
-
-        .whats-wondrfly h4 {
-            font-style: normal;
-            font-weight: normal;
-            font-size: 16px;
-            line-height: 24px;
-            color: #494949;
-        }
-
-        .whats-wondrfly h3 {
-            font-style: normal;
-            font-weight: 500;
-            font-size: 24px;
-            line-height: 36px;
-            color: #494949;
-        }
-
-        .whats-wondrfly h5 {
-            font-style: normal;
-            font-weight: normal;
-            font-size: 16px;
-            line-height: 24px;
-            color: #000000;
-        }
-
-        .content h3 {
-            font-style: normal;
-            font-weight: 500;
-            font-size: 24px;
-            line-height: 36px;
-            text-align: center;
-            color: #53B2E8;
-            padding-top: 20px;
-        }
-
-        .content h2 {
-            font-style: normal;
-            font-weight: normal;
-            font-size: 16px;
-            line-height: 24px;
-            text-align: center;
-            color: #494949;
-        }
-
-        .only-hr {
-            width: 60%;
-            height: 2px;
-            background: #53B2E8;
-            margin-left: auto;
-            margin-right: auto;
-            display: block;
-            margin-top: 20px;
-            margin-bottom: 10px;
+        body a,
+        li,
+        ul {
+            list-style: none;
+            text-decoration: none;
+            padding: 0;
+            margin: 0;
         }
     </style>
-
 </head>
 
-<body>
+<body style="background-color: #E5E5E5;">
 
-    <body>
-        <div id="email">
-            <div class="container-fluid">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div id="email-content">
-                                <div class="header mt-3">
-                                    <img src="logo.png">
-                                </div>
-                                <div class="content mt-4">
-                                    <img class="img1" src="cid:beta1">
-                                    <div class="beta-program">
-                                        <h1>Welcome to our Beta Program</h1>
-                                    </div>
-                                    <img class="img2" src="cid:beta2">
-                                </div>
-                                <div class="data mt-4">
-                                    <h2>Hello, {{firstname}}, Wondrfly here. We think you'd make an excellent addition
-                                        to our
-                                        exclusive Beta program. Read on to discover what that means, and how to sign up
-                                        today! </h2>
-                                </div>
-                                <div class="button-cmn mt-4 center-btn">
-                                    <button class="btn btn-cmn"><a href=https://www.wondrfly.com/ask-to-join>START
-                                            NOW</a></button>
-                                </div>
-                                <div class="only-hr">
 
+    <table style="width: 100%; max-width: 620px; margin: 0px auto 0; background-color: #ffffff; border-spacing: 0;"
+        cellpadding:0; cellspcing:0; class="table_outer">
+        <tr>
+            <td>
+                <table style="width: 100%;" cellpadding:0; cellspcing:0; class="email_banner">
+                    <tr>
+                        <td style="text-align: center;">
+                            <img src="cid:logo_wondr" alt="Logo image" style="max-width: 140px;">
+                        </td>
+                    </tr>
+
+                </table>
+                <table style="width: 100%; padding: 48px 43px 33px;" cellpadding:0; cellspcing:0; class="email_content">
+                    <tr>
+                        <td>
+                            <div class="content mt-4" style=" background: #DCF3FF;
+                            border-radius: 20px;
+                            height: 210px;
+                            width: 100%;
+                            text-align: center;">
+                                <img class="img1" style="float:left; width:24%;" src="cid:beta1">
+                                <div class="beta-program" style="float: left;
+                                width: 52%;
+                                margin-top: 26px;
+                                ">
+                                    <h1 style="font-style: normal;
+                                    font-weight: bold;
+                                    font-size: 30px;
+                                    text-align: center;
+                                    letter-spacing: 0.001em;
+                                    color: #53B2E8;">Welcome to our Beta Program</h1>
                                 </div>
-                                <div class="whats-wondrfly mt-4">
-                                    <h3>What's Wondrfly, anyway?</h3>
-                                    <h4>Wondrfly is striving to become the top online resource for parents looking for
-                                        kids' activities.<br>
+                                <img class="img2" style="float: right;
+                                width: 24%;" src="cid:beta2">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="data mt-4">
+                                <h2 style="font-style: normal;
+                                font-weight: normal;
+                                font-size: 16px;
+                                line-height: 24px;
+                                color: #494949;">Hello {{firstname}}, Wondrfly here. We think you'd make an excellent
+                                    addition to our exclusive Beta program. Read on to discover what that means, and how
+                                    to sign up today! </h2>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="https://wondrfly.com/ask-to-join" target="_blank" style="font-style: normal;
+                            font-weight: 600;
+                            font-size: 12px;
+                            line-height: 18px;
+                            text-align: center;
+                            letter-spacing: 0.02em;
+                            text-transform: uppercase;
+                            color: #FFFFFF;
+                            text-decoration:none;
+                            background: #53B2E8;
+                            border: 1px solid #53B2E8;
+                            box-sizing: border-box;
+                            border-radius: 50px;
+                            padding: 12px;
+                            margin-left: 210px;
+                            ">
+                                START NOW
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="only-hr" style=" width: 60%;
+                            height: 2px;
+                            background: #53B2E8;
+                            margin-left: auto;
+                            margin-right: auto;
+                            display: block;
+                            margin-top: 20px;
+                            margin-bottom: 10px;">
+
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="whats-wondrfly mt-4">
+                                <h3 style=" font-style: normal;
+                                font-weight: 500;
+                                font-size: 24px;
+                                line-height: 36px;
+                                color: #494949;">What are the perks of becoming a Wondrfly Beta User?</h3>
+                                <h4 style="  font-style: normal;
+                                font-weight: normal;
+                                font-size: 16px;
+                                line-height: 24px;
+                                color: #494949;">What's Wondrfly, anyway?</h3>
+                                    <h4 style="  font-style: normal;
+                                font-weight: normal;
+                                font-size: 16px;
+                                line-height: 24px;
+                                color: #494949;">Wondrfly is striving to become the top online resource for parents
+                                        looking for kids' activities.<br>
                                         We want to make it easy to find the activities that best suit your child's needs
                                         and personality! </h4>
-                                </div>
-                                <div class="centr-img mt-4">
-                                    <img class="img2" src="cid:cntr-img">
-                                </div>
-                                <div class="whats-wondrfly mt-4">
-                                    <h3>Why am I getting this email? </h3>
-                                    <h4>We've been keeping an eye on your social media, and we believe you meet the
-                                        following criteria. </h4>
-                                    <h4>1. You're passionate about kids, and finding the best fun and learning
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="centr-img mt-4" style="width: 100%;">
+                                <img class="img2" src="cid:cntr-img">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="whats-wondrfly mt-4">
+                                <h3 style=" font-style: normal;
+                                font-weight: 500;
+                                font-size: 24px;
+                                line-height: 36px;
+                                color: #494949;">What are the perks of becoming a Wondrfly Beta User?</h3>
+                                <h4 style="  font-style: normal;
+                                font-weight: normal;
+                                font-size: 16px;
+                                line-height: 24px;
+                                color: #494949;">Why am I getting this email? </h3>
+                                    <h4 style="  font-style: normal;
+                                font-weight: normal;
+                                font-size: 16px;
+                                line-height: 24px;
+                                color: #494949;">We've been keeping an eye on your social media, and we believe you
+                                        meet the following criteria. </h4>
+                                    <h4 style="  font-style: normal;
+                                font-weight: normal;
+                                font-size: 16px;
+                                line-height: 24px;
+                                color: #494949;">1. You're passionate about kids, and finding the best fun and learning
                                         activities for the kids in your life.
                                     </h4>
-                                    <h4> 2. You're searching for activities in our test markets of Hoboken and Jersey
-                                        City. </h4>
-                                </div>
-
-                                <div class="whats-wondrfly mt-4">
-                                    <h3>What are the perks of becoming a Wondrfly Beta User?</h3>
-                                    <h4> All we need from you is your weekly feedback in the form of a few short
-                                        surveys. We're creating a revolutionary tool for parents, friends, and
-                                        caregivers of kids. We need your help to make it the best we can! </h4>
-                                </div>
-                                <div class="whats-wondrfly mt-4">
-                                    <h3>What are the perks of becoming a Wondrfly Beta User?</h3>
-                                    <div class="mt-2">
-                                        <h5> As a Wondrfly Beta USer, you'll get access to: </h5>
-                                        <h5> ⭐️ unlimited searches for kids' activities near you. </h5>
-                                        <h5> ⭐️ up-to-date info on kids' activities from over 250 providers </h5>
-                                        <h5> ⭐️ the power to save, share, and review kids' activity programs </h5>
-                                        <h5> ⭐️ exclusive content from the experts </h5>
-                                        <h5> ⭐️ early access to Wondrfly's newest features </h5>
-                                        <h5> ⭐️ early sign-up for kids' activity programs </h5>
-                                        <h5> ⭐️ your own individual referral code for family and friends </h5>
-                                        <h5> ⭐️ partner discounts and promotions <br>
-                                            &nbsp; &nbsp; &nbsp;and much, much more! </h5>
-                                    </div>
-                                </div>
-                                <div class="content mt-4">
-                                    <h3>What are you waiting for? </h3>
-                                    <h2> learn more and sign up for our <br> exclusive Beta program today! </h2>
-                                    <div class="button-cmn mt-4 center-btn">
-                                        <button class="btn btn-cmn">START NOW</button>
-                                    </div>
+                                    <h4 style="  font-style: normal;
+                                font-weight: normal;
+                                font-size: 16px;
+                                line-height: 24px;
+                                color: #494949;"> 2. You're searching for activities in our test markets of Hoboken and
+                                        Jersey City. </h4>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="whats-wondrfly mt-4">
+                                <h3 style=" font-style: normal;
+                                font-weight: 500;
+                                font-size: 24px;
+                                line-height: 36px;
+                                color: #494949;">What are the perks of becoming a Wondrfly Beta User?</h3>
+                                <h4 style="  font-style: normal;
+                                font-weight: normal;
+                                font-size: 16px;
+                                line-height: 24px;
+                                color: #494949;"> All we need from you is your weekly feedback in the form of a few
+                                    short surveys. We're creating a revolutionary tool for parents, friends, and
+                                    caregivers of kids. We need your help to make it the best we can! </h4>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="whats-wondrfly mt-4">
+                                <h3 style=" font-style: normal;
+                                font-weight: 500;
+                                font-size: 24px;
+                                line-height: 36px;
+                                color: #494949;">What are the perks of becoming a Wondrfly Beta User?</h3>
+                                <div class="mt-2">
+                                    <h5 style=" font-style: normal;
+                                    font-weight: normal;
+                                    font-size: 16px;
+                                    line-height: 24px;
+                                    color: #000000;"> As a Wondrfly Beta USer, you'll get access to: </h5>
+                                    <h5 style=" font-style: normal;
+                                    font-weight: normal;
+                                    font-size: 16px;
+                                    line-height: 24px;
+                                    color: #000000;"> ⭐️ unlimited searches for kids' activities near you. </h5>
+                                    <h5 style=" font-style: normal;
+                                    font-weight: normal;
+                                    font-size: 16px;
+                                    line-height: 24px;
+                                    color: #000000;"> ⭐️ up-to-date info on kids' activities from over 250 providers
+                                    </h5>
+                                    <h5 style=" font-style: normal;
+                                    font-weight: normal;
+                                    font-size: 16px;
+                                    line-height: 24px;
+                                    color: #000000;"> ⭐️ the power to save, share, and review kids' activity programs
+                                    </h5>
+                                    <h5 style=" font-style: normal;
+                                    font-weight: normal;
+                                    font-size: 16px;
+                                    line-height: 24px;
+                                    color: #000000;"> ⭐️ exclusive content from the experts </h5>
+                                    <h5 style=" font-style: normal;
+                                    font-weight: normal;
+                                    font-size: 16px;
+                                    line-height: 24px;
+                                    color: #000000;"> ⭐️ early access to Wondrfly's newest features </h5>
+                                    <h5 style=" font-style: normal;
+                                        font-weight: normal;
+                                        font-size: 16px;
+                                        line-height: 24px;
+                                        color: #000000;"> ⭐️ early sign-up for kids' activity programs </h5>
+                                    <h5 style=" font-style: normal;
+                                        font-weight: normal;
+                                        font-size: 16px;
+                                        line-height: 24px;
+                                        color: #000000;"> ⭐️ your own individual referral code for family and friends
+                                    </h5>
+                                    <h5 style=" font-style: normal;
+                                        font-weight: normal;
+                                        font-size: 16px;
+                                        line-height: 24px;
+                                        color: #000000;"> ⭐️ partner discounts and promotions <br>
+                                        &nbsp; &nbsp; &nbsp;and much, much more! </h5>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="content mt-4" style=" background: #DCF3FF;
+                            border-radius: 20px;
+                            position: relative;
+                            height: 210px;
+                            width: 100%;
+                            text-align: center;">
+                                <h3 style=" font-style: normal;
+                                font-weight: 500;
+                                font-size: 24px;
+                                line-height: 36px;
+                                text-align: center;
+                                color: #53B2E8;
+                                padding-top: 20px;">What are you waiting for? </h3>
+                                <h2 style=" font-style: normal;
+                                font-weight: normal;
+                                font-size: 16px;
+                                line-height: 24px;
+                                text-align: center;
+                                color: #494949;"> learn more and sign up for our <br> exclusive Beta program today!
+                                </h2>
+
+                                <div>
+                                    <a href="#" target="_blank" style="font-style: normal;
+                                        font-weight: 600;
+                                        font-size: 12px;
+                                        line-height: 18px;
+                                        text-align: center;
+                                        letter-spacing: 0.02em;
+                                        text-transform: uppercase;
+                                        color: #FFFFFF;
+                                        text-decoration:none;background: #53B2E8;
+                                        border: 1px solid #53B2E8;
+                                        box-sizing: border-box;
+                                        border-radius: 50px;
+                                          padding: 12px;">
+                                        START NOW
+                                    </a>
+                                </div>
+
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
 
 
-    </body>
-
-
-
-
-
-
-
-
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
-        crossorigin="anonymous"></script>
 </body>
 
 </html>

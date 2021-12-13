@@ -47,6 +47,11 @@ const invitaionEmail = async (firstName, email, templatePath, subject, OTP) => {
                 filename: 'cntr-img.png',
                 path: `${__dirname}/../public/images/cntr-img.png`,
                 cid: 'cntr-img' //same cid value as in the html img src
+            },
+            {
+                filename: 'logo_wondr.png',
+                path: `${__dirname}/../public/images/logo_wondr.png`,
+                cid: 'logo_wondr' //same cid value as in the html img src
             }
         ]
 
