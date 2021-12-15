@@ -126,13 +126,26 @@ const removeById = async (id, context) => {
     if (!id) {
         throw new Error("favourite id not found");
     }
-
-    let isDeleted = await db.favourite.deleteOne({ "program": ObjectId(id) })
-
-    if (!isDeleted) {
-        throw new Error("something went wrong");
+    let isFavourite = await db.favourite.findOne({ "program": ObjectId(id) })
+    if (!isFavourite) {
+        throw new Error("favourite not found");
+    }
+    if (isFavourite) {
+        const today = new Date()
+        let date = moment(today).format('YYYY-MM-DD');
+        await new db.notification({
+            title: 'unSave Program',
+            description: `you unsaved the program on ${date}`,
+            user: isFavourite.user,
+            createdOn: new Date(),
+            updateOn: new Date(),
+        }).save();
     }
 
+    let isDeleted = await db.favourite.deleteOne({ "program": ObjectId(id) })
+    if (isDeleted) {
+        throw new Error("something went wrong");
+    }
     log.end();
     return 'favourite removed succesfully'
 };
