@@ -71,6 +71,7 @@ const tagByCategoryId = async (categoriesId, context) => {
         tags.push(tag)
     }
     log.end();
+    tags.sort((a, b) => b.programCount - a.programCount);
     return tags;
 };
 const update = async (id, model, context) => {
