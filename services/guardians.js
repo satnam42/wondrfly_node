@@ -578,6 +578,15 @@ const inviteToJoin = async (model, context) => {
 
         invitaionEmail(model.firstName, model.email, templatePath, subject);
     }
+    const today = new Date()
+    let date = moment(today).format('YYYY-MM-DD');
+    await new db.notification({
+        title: 'Invitation for wondrfly',
+        description: `Invitation to join wondrfly is send to whom you want to join${date}`,
+        user: model.parentId,
+        createdOn: new Date(),
+        updateOn: new Date(),
+    }).save();
     let guard = await new db.guardian({
         invitedBy: model.parentId,
         invitedToEmail: model.email,
