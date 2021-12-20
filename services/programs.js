@@ -1474,8 +1474,8 @@ const multiFilter = async (model, context) => {
     for (const element of typeArr) {
       typeArray.push(element)
     }
-    const types = { type: { $in: typeArray } }
-    query = types
+    // const types = { type: { $in: typeArray } }
+    query["type"] = { $in: typeArray }
   }
   //Drops-in,Semesters,Camps,Other
   if (model.inpersonOrVirtual == 'inperson') {
@@ -1502,6 +1502,7 @@ const multiFilter = async (model, context) => {
     }
     console.log('ddays =>', ddays)
     query = ddays
+    // query["days"] = { dayArray }
     // $or: [{ "days.monday": true }, { "days.sunday": true }]
   }
   if (model.tagsIds !== undefined && model.tagsIds !== "" && model.tagsIds !== null) {
@@ -1535,7 +1536,10 @@ const multiFilter = async (model, context) => {
 
   return []
 }
-
+// db.contributor.find({
+//   $and: [{ branch: "CSE" },
+//   { joiningYear: 2018 }]
+// })
 // programs list near by location
 const nearBy = async (query, context) => {
   const log = context.logger.start(`services:programs:nearBy`)
