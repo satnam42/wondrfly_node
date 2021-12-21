@@ -751,7 +751,17 @@ const deleteUser = async (id, context) => {
   let user = await db.user.findById(id);
 
   if (user !== null && user.role == 'parent' && user !== undefined) {
-    await db.child.deleteOne({ parent: id })
+    const invitedUsers = await db.invitation.find({ invitedBy: id });
+    if (invitedUsers.length > 0) {
+      invitedUsers.forEach(async (invited) => {
+        await db.user.deleteOne({ _id: invited.user })
+      });
+    }
+
+    await db.child.deleteMany({ parent: id })
+    await db.guardian.deleteMany({ invitedBy: id })
+    await db.invitation.deleteMany({ invitedBy: id });
+
     await db.user.deleteOne({ _id: id })
     let parent = await db.user.findById(id);
     if (parent) {
