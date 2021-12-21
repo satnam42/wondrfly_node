@@ -1497,13 +1497,11 @@ const multiFilter = async (model, context) => {
       if (element == "friday") { dayArray.push({ "days.friday": true }) }
       if (element == "saturday") { dayArray.push({ "days.saturday": true }) }
     }
-    const ddays = {
-      $or: dayArray
-    }
-    console.log('ddays =>', ddays)
-    query = ddays
-    // query["days"] = { dayArray }
-    // $or: [{ "days.monday": true }, { "days.sunday": true }]
+    // const ddays = {
+    //   $or: dayArray
+    // }
+    // query = ddays
+    query["$or"] = dayArray
   }
   if (model.tagsIds !== undefined && model.tagsIds !== "" && model.tagsIds !== null) {
     console.log('tagsIds ==>>>>>', model.tagsIds)
@@ -1512,8 +1510,8 @@ const multiFilter = async (model, context) => {
     for (const element of tagArr) {
       tagsArray.push(element)
     }
-    const tags = { subCategoryIds: { $in: tagsArray } }
-    query = tags
+    // const tags = { subCategoryIds: { $in: tagsArray } }
+    query["subCategoryIds"] = { $in: tagsArray }
   }
   if (model.ageFrom || model.fromDate || model.toTime || model.priceFrom || model.durationMin || model.categoryId || model.type1 || model.type2) {
     query["isPublished"] = true
