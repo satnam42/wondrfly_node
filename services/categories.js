@@ -60,8 +60,19 @@ const create = async (model, context) => {
 
 const getAllcategories = async (context) => {
     const log = context.logger.start(`services:categories:getAllcategories`);
-    const categories = await db.category.find().sort({ totalPrograms: -1 });
-    // { isActivated: true }
+    // const categories = await db.category.find().sort({ totalPrograms: -1 });
+    // // { isActivated: true }
+    // log.end();
+    let categories = []
+    const categries = await db.category.find();
+    for (var i = 0; i < categries.length; i++) {
+        const category = categries[i]
+        console.log('category =>', category)
+        const count = await db.program.find({ categoryId: category._id }).count()
+        category.totalPrograms = count;
+        categories.push(category)
+    }
+    await categories.sort((a, b) => b.totalPrograms - a.totalPrograms);
     log.end();
     return categories;
 };
