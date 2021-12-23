@@ -322,6 +322,14 @@ const childByParentId = async (id, context) => {
         if (children.length < 1) {
             throw new Error("child Not Found");
         }
+
+        children.forEach((child, index) => {
+            let tgs = child.tags;
+            let categorie = child.categories;
+            for (let j = 0; j < categorie.length; j++) {
+                tgs[j].image = categorie[j].imageUrl ? baseUrl + categorie[j].imageUrl : ''
+            }
+        })
         log.end();
         return children
     }
@@ -354,6 +362,14 @@ const childByParentId = async (id, context) => {
     if (children.length < 1) {
         throw new Error("child Not Found");
     }
+    children.forEach((child, index) => {
+        let tgs = child.tags;
+        let categorie = child.categories;
+        for (let j = 0; j < categorie.length; j++) {
+            tgs[j].image = categorie[j].imageUrl ? baseUrl + categorie[j].imageUrl : ''
+        }
+    })
+    log.end();
     return children
 };
 

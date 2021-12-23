@@ -67,7 +67,6 @@ const getAllcategories = async (context) => {
     const categries = await db.category.find();
     for (var i = 0; i < categries.length; i++) {
         const category = categries[i]
-        console.log('category =>', category)
         const count = await db.program.find({ categoryId: category._id }).count()
         category.totalPrograms = count;
         categories.push(category)
