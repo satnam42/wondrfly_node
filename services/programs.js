@@ -1373,6 +1373,28 @@ const searchByNameAndDate = async (query, context) => {
       .populate('subCategoryIds')
       .populate('user')
   }
+
+  let favourites
+  if (context.user !== undefined) {
+    favourites = await db.favourite
+      .find({ user: context.user.id })
+      .populate('program')
+  }
+  if (favourites) {
+    // add fav in program
+    for (var p = 0; p < programs.length; p++) {
+      for (var f = 0; f < favourites.length; f++) {
+        if (
+          favourites[f].program !== null &&
+          favourites[f].program !== undefined
+        ) {
+          if (programs[p].id === favourites[f].program.id) {
+            programs[p].isFav = true
+          }
+        }
+      }
+    }
+  }
   log.end()
   return programs
 }
@@ -1529,10 +1551,29 @@ const multiFilter = async (model, context) => {
       .limit(pageSize)
       .skip(skipCount).limit(pageSize);
     log.end()
-    return programs
   }
-
-  return []
+  let favourites
+  if (context.user !== undefined) {
+    favourites = await db.favourite
+      .find({ user: context.user.id })
+      .populate('program')
+  }
+  if (favourites) {
+    // add fav in program
+    for (var p = 0; p < programs.length; p++) {
+      for (var f = 0; f < favourites.length; f++) {
+        if (
+          favourites[f].program !== null &&
+          favourites[f].program !== undefined
+        ) {
+          if (programs[p].id === favourites[f].program.id) {
+            programs[p].isFav = true
+          }
+        }
+      }
+    }
+  }
+  return programs
 }
 // db.contributor.find({
 //   $and: [{ branch: "CSE" },

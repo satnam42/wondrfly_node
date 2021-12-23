@@ -855,6 +855,12 @@ module.exports = [
       description: 'get programs by multi filter ',
       parameters: [
         {
+          in: 'header',
+          name: 'x-access-token',
+          description: 'token to access api',
+          type: 'string',
+        },
+        {
           in: 'query',
           name: 'fromDate',
           description: 'fromDate',
