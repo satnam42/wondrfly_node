@@ -9,6 +9,7 @@ const notification = mongoose.Schema({
         ref: 'User',
         required: true
     },
+    isRead: { type: Boolean, default: false },
     createdOn: { type: Date, default: Date.now },
     updatedOn: { type: Date, default: Date.now }
 });

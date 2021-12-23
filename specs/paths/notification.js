@@ -105,5 +105,36 @@ module.exports = [
                 }
             }
         }
+    },
+    {
+        url: "/isRead/{id}",
+        put: {
+            summary: "update",
+            description: "is notification read",
+            parameters: [
+                {
+                    in: "path",
+                    name: "id",
+                    description: "notification id",
+                    required: true,
+                    type: "string"
+                },
+                // {
+                //     in: "header",
+                //     name: "x-access-token",
+                //     description: "token to access api",
+                //     required: true,
+                //     type: "string"
+                // }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
     }
 ]

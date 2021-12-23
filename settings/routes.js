@@ -1092,6 +1092,11 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.notification.deleteAll
   );
+  app.put(
+    "/api/notification/isRead/:id",
+    permit.context.builder,
+    api.notification.isRead
+  );
 
   //==============search History api's====================
   app.post(

@@ -42,6 +42,20 @@ const deleteAllNotification = async (query, context) => {
     return 'notifications removed successfully'
 };
 
+const isRead = async (id, context) => {
+    const log = context.logger.start(`services:notification:isRead`);
+    if (!id) {
+        throw new Error("notification id is required");
+    }
+
+    let notification = await db.notification.findOne({ _id: id });
+    notification.isRead = true;
+    await notification.save();
+    log.end();
+    return notification
+};
+
 exports.deleteNotification = deleteNotification;
 exports.notificationOnOff = notificationOnOff;
 exports.deleteAllNotification = deleteAllNotification;
+exports.isRead = isRead;
