@@ -259,10 +259,10 @@ const build = async (model, context) => {
   }
   // totalPrograms
   // categoryId array
-  const count = await db.program.find({ categoryId: model.categoryId }).count();
+  let count = await db.program.find({ categoryId: model.categoryId }).count();
   await db.category.findByIdAndUpdate(model.categoryId, {
     $set: {
-      totalPrograms: count,
+      totalPrograms: count += 1,
     }
   })
   const program = await new db.program({
@@ -1341,38 +1341,54 @@ const searchByNameAndDate = async (query, context) => {
   const { programName, date } = query
   const log = context.logger.start(`services:programs:searchByNameAndDate`)
 
-  const d = {
-    $gte: moment(date, 'DD-MM-YYYY').startOf('day').toDate(),
-    $lt: moment(date, 'DD-MM-YYYY').endOf('day').toDate(),
-  }
-  let programs
+  // const d = {
+  //   $gte: moment(date, 'DD-MM-YYYY').startOf('day').toDate(),
+  //   $lt: moment(date, 'DD-MM-YYYY').endOf('day').toDate(),
+  // }
+  let programs1
+  let tagPrograms
+  let categoryPrograms
   if (programName) {
-    programs = await db.program
+    programs1 = await db.program
       .find({
         name: { $regex: '.*' + programName + '.*', $options: 'i' },
         isPublished: true,
-      })
-      .populate('categoryId')
-      .populate('subCategoryIds')
-      .populate('user')
-      .limit(5)
+      }).populate('categoryId').populate('subCategoryIds').populate('user').limit(10)
+    let tag = await db.tag.find({ name: { $regex: '.*' + programName + '.*', $options: 'i' } }).limit(5)
+    if (tag.length > 1) {
+      tagPrograms = await db.program
+        .find({ subCategoryIds: tag[0]._id }).populate('categoryId').populate('subCategoryIds').populate('user').limit(5)
+    }
+    let category = await db.category.find({ name: { $regex: '.*' + programName + '.*', $options: 'i' } }).limit(5)
+    if (category.length > 1) {
+      categoryPrograms = await db.program
+        .find({ categoryId: category[0]._id }).populate('categoryId').populate('subCategoryIds').populate('user').limit(5)
+    }
   }
-  if (date) {
-    programs = await db.program.find({ createdOn: d, isPublished: true })
-      .populate('categoryId')
-      .populate('subCategoryIds')
-      .populate('user')
-  }
-  if (programName && date) {
-    programs = await db.program.find({
-      name: { $regex: '.*' + programName + '.*', $options: 'i' },
-      createdOn: d,
-      isPublished: true,
-    })
-      .populate('categoryId')
-      .populate('subCategoryIds')
-      .populate('user')
-  }
+
+  // let programs = programs1.concat(tagPrograms, categoryPrograms);
+  // programs = programs.filter((item, index) => {
+  //   return (programs.indexOf(item) == index)
+  // })
+  // let programs = array1.concat(array2, array4);
+  // programs = [...new Set([...array1, ...array2, ...array4])]
+  // console.log('programs ==>>>', programs)
+  // if (date) {
+  //   programs = await db.program.find({ createdOn: d, isPublished: true })
+  //     .populate('categoryId')
+  //     .populate('subCategoryIds')
+  //     .populate('user')
+  // }
+  // if (programName && date) {
+  //   programs = await db.program.find({
+  //     name: { $regex: '.*' + programName + '.*', $options: 'i' },
+  //     createdOn: d,
+  //     isPublished: true,
+  //   })
+  //     .populate('categoryId')
+  //     .populate('subCategoryIds')
+  //     .populate('user')
+  // }
 
   let favourites
   if (context.user !== undefined) {

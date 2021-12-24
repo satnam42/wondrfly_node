@@ -785,12 +785,6 @@ module.exports = [
           description: 'program name',
         },
         {
-          in: 'query',
-          type: 'string',
-          name: 'date',
-          description: 'date when program created',
-        },
-        {
           in: 'header',
           name: 'x-access-token',
           description: 'token to access api',
