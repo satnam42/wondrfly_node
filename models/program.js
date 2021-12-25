@@ -132,7 +132,8 @@ const programSchema = mongoose.Schema({
   extractionComment: { type: String, default: '' },
   cyrilComment: { type: String, default: '' },
   cyrilApproval: { type: String, default: '' },
-  proofreaderRating: { type: Number, default: '' },
+  proofreaderRating: { type: Number, default: 0 },
+  providerRating: { type: Number, default: 0 },
   createdOn: { type: Date, default: Date.now },
   updatedOn: { type: Date, default: Date.now },
 })
