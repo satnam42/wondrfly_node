@@ -915,6 +915,18 @@ module.exports = [
         },
         {
           in: 'query',
+          name: 'ratingFrom',
+          description: 'ratingFrom',
+          type: 'integer',
+        },
+        {
+          in: 'query',
+          name: 'ratingTo',
+          description: 'ratingTo',
+          type: 'integer',
+        },
+        {
+          in: 'query',
           name: 'durationMin',
           description: 'durationMin',
           type: 'integer',

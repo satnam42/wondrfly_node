@@ -319,6 +319,7 @@ const build = async (model, context) => {
     cyrilComment: model.cyrilComment,
     cyrilApproval: model.cyrilApproval,
     proofreaderRating: model.proofreaderRating,
+    programRating: model.userRating,
     createdOn: new Date(),
     updateOn: new Date(),
   }).save()
@@ -561,6 +562,7 @@ const create = async (model, context) => {
       throw new Error('your profile is incomplete you cannot add program!')
     }
   }
+  model.userRating = user.averageFinalRating;
   const program = build(model, context)
   log.end()
   return program
@@ -1501,6 +1503,14 @@ const multiFilter = async (model, context) => {
     }
     query["duration.hours"] = byduration
   }
+  if (model.ratingFrom !== undefined && model.ratingTo !== undefined && model.ratingFrom !== "" && model.ratingTo !== "" && model.ratingFrom !== null && model.ratingTo !== null) {
+    const byRating = {
+      $gte: model.ratingFrom,
+      $lte: model.ratingTo,
+    }
+    query["programRating"] = byRating
+  }
+
   if (model.categoryId !== undefined && model.categoryId !== "" && model.categoryId !== null) {
     query["categoryId"] = model.categoryId;
   }
