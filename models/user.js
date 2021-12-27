@@ -76,6 +76,7 @@ const user = mongoose.Schema({
   ],
   parentInvitationLimit: { type: Number, default: 0 },
   guardianInvitationLimit: { type: Number, default: 0 },
+  loginCount: { type: Number, default: 0 },
   deviceToken: { type: String, default: '' },
   betaUser: { type: Boolean, default: false },
   createdOn: { type: Date, default: Date.now },

@@ -635,6 +635,29 @@ const login = async (model, context) => {
     log.end();
     throw new Error("password mismatch");
   }
+  let progress = 10
+  //  notification for profile complete
+  if (user.phoneNumber !== "string" && user.phoneNumber !== undefined && user.phoneNumber !== "") {
+    progress += 20
+  }
+  if (user.avatarImages !== "string" && user.avatarImages !== undefined && user.avatarImages !== "") {
+    progress += 20
+  }
+  if (user.addressLine1 !== "string" && user.addressLine1 !== undefined && user.addressLine1 !== "") {
+    progress += 20
+  }
+
+  if (progress !== 100 && user.loginCount <= 2) {
+    await new db.notification({
+      title: 'About Profile',
+      description: `Your profile is not 100% complete please complete it`,
+      user: user._id,
+      createdOn: new Date(),
+      updateOn: new Date(),
+    }).save();
+  }
+
+  //  notificaton for profile complete end
 
   let permissions = []
 
@@ -688,6 +711,7 @@ const login = async (model, context) => {
 
   const token = auth.getToken(user, false, context);
   user.lastLoggedIn = Date.now();
+  user.loginCount = user.loginCount += 1;
   user.token = token;
   user.save();
   user.permissions = permissions;
