@@ -1560,9 +1560,9 @@ const multiFilter = async (model, context) => {
     // const tags = { subCategoryIds: { $in: tagsArray } }
     query["subCategoryIds"] = { $in: tagsArray }
   }
-  if (model.ageFrom || model.fromDate || model.toTime || model.priceFrom || model.durationMin || model.categoryId || model.type1 || model.type2) {
-    query["isPublished"] = true
-  }
+  // if (model.ageFrom || model.fromDate || model.toTime || model.priceFrom || model.durationMin || model.categoryId || model.type1 || model.type2) {
+  //   query["isPublished"] = true
+  // }
 
   const isEmpty = Object.keys(query).length === 0
   let programs
