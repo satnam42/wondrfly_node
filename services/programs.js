@@ -1444,8 +1444,23 @@ const multiFilter = async (model, context) => {
   // }
   let query = {}
   if (model.ageFrom && model.ageTo) {
-    query["ageGroup.from"] = { $gte: Number(model.ageFrom) }
-    query["ageGroup.to"] = { $lte: Number(model.ageTo) }
+    let ageArray = []
+
+    // const agef = {
+    //   $gte: Number(model.ageFrom),
+    //   $lte: Number(model.ageTo),
+    // }
+    ageArray.push({ 'ageGroup.from': { '$gte': Number(model.ageFrom), '$lte': Number(model.ageTo) } })
+    ageArray.push({ 'ageGroup.to': { '$gte': Number(model.ageFrom), '$lte': Number(model.ageTo) } })
+    const ages = {
+      $or: ageArray
+    }
+
+    query = ages
+    // db.inventory.find({ $or: [{ quantity: { $lt: 20 } }, { price: 10 }] })
+    // query["ageGroup.from"] = agef
+    // query["ageGroup.from"] = { $gte: Number(model.ageFrom) }
+    // query["ageGroup.to"] = { $lte: Number(model.ageTo) }
   }
 
   if (model.fromDate !== undefined && model.toDate !== undefined && model.fromDate !== "" && model.toDate !== "" && model.fromDate !== null && model.toDate !== null) {
