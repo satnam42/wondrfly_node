@@ -1706,9 +1706,12 @@ const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds,
     word = humanize(model.name);
   }
   let isPublished = true
-  let programTime = {}
-  programTime.from = model.startTime;
-  programTime.to = model.endTime;
+  let realTime = {}
+  realTime.from = model.startTime;
+  realTime.to = model.endTime;
+  let date = {}
+  date.from = model.startDate;
+  date.to = model.endDate;
   // if (
   //   model.name != '' &&
   //   model.name != 'string' &&
@@ -1729,7 +1732,7 @@ const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds,
     alias: word ? word : '',
 
     type: model.type,
-    // price: model.price,
+    price: model.price,
     pricePerParticipant: model.price,
     pricePeriod: model.pricePeriod,
     code: model.code,
@@ -1738,8 +1741,9 @@ const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds,
     programCoverPic: model.programCoverPic,
     location: model.location,
     ageGroup: age,
-    date: model.date,
-    time: programTime,
+    date: date,
+    time: realTime,
+    realTime: realTime,
     bookingCancelledIn: model.bookingCancelledIn,
     duration: model.duration,
     isFree: model.isFree,
@@ -1755,12 +1759,17 @@ const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds,
     isPublished,
     inpersonOrVirtual: model.inpersonOrVirtual,
     days: model.days,
+    specialInstructions: model.specialInstructions,
+    parentRequired: model.parentRequired,
+    dbStatus: model.dbStatus,
+    sessionLength: model.sessionLength,
+
     // status: model.status || 'active',
     user: model.user,
     addresses: model.addresses,
-    categoryId: categoriesIds,
+    // categoryId: categoriesIds,
     subCategoryIds: subcategoriesIds,
-    // categoryId: model.categoryId,
+    categoryId: model.categoryId,
     // subCategoryIds: model.subCategoryIds,
     sessions: model.sessions,
     extractionDate: model.extractionDate,
@@ -1781,6 +1790,7 @@ async function getIds(str, type) {
   let ids = []
   var str_array = str.split(',');
   if (type == 'category') {
+    console.log(' ========categories')
     for (var i = 0; i < str_array.length; i++) {
       str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
       let cate = await db.category.findOne({ name: { $eq: str_array[i] } })
@@ -1854,7 +1864,7 @@ const uploadExcel = async (file, context) => {
       let age = []
       result.forEach(async function (record) {
         console.log('record', record.source, record.sourceUrl, record.categoryId, record.subCategoryIds)
-        categries = await getIds(record.categoryId, 'category');
+        // categries = await getIds(record.categoryId, 'category');
         subcategries = await getIds(record.subCategoryIds, 'subcategory');
         sourcs = await getSources(record.source, 'source');
         sourcsUrl = await getSourcesUrl(record.sourceUrl, 'sourceUrl');

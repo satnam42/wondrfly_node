@@ -35,8 +35,8 @@ const programSchema = mongoose.Schema({
   },
   isDateNotMention: { type: Boolean, default: false },
   time: {
-    from: { type: Date, default: '' },
-    to: { type: Date, default: '' },
+    from: { type: Number, default: 0 },
+    to: { type: Number, default: 0 },
   },
   realTime: {
     from: { type: Number, default: 0 },
@@ -50,8 +50,8 @@ const programSchema = mongoose.Schema({
   lat: { type: String, default: '' },
   lng: { type: String, default: '' },
   duration: {
-    minutes: { type: Number, default: '' },
     hours: { type: Number, default: '' },
+    minutes: { type: Number, default: '' },
   },
   isPublished: { type: Boolean, default: false },
   isFree: { type: Boolean, default: false },
@@ -64,6 +64,7 @@ const programSchema = mongoose.Schema({
     periodAmount: { type: String, default: '' },
     periodCount: { type: Number, default: 0 },
   },
+  priceUnit: { type: String, default: '' },
   capacity: {
     min: { type: Number, default: 0 },
     max: { type: Number, default: 0 },
@@ -134,6 +135,9 @@ const programSchema = mongoose.Schema({
   cyrilApproval: { type: String, default: '' },
   proofreaderRating: { type: Number, default: 0 },
   programRating: { type: Number, default: 0 },
+  dbStatus: { type: String, default: '' },
+  parentRequired: { type: String, default: '' },
+  sessionLength: { type: String, default: '' },
   createdOn: { type: Date, default: Date.now },
   updatedOn: { type: Date, default: Date.now },
 })
