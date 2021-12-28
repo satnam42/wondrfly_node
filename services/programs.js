@@ -1834,7 +1834,7 @@ async function getSourcesUrl(str) {
 
 async function getAge(str) {
   let ageGroup = {}
-  var str_array = str.split('-');
+  var str_array = str.split(' - ');
   for (var i = 0; i < str_array.length; i++) {
     str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
     ageGroup.from = str_array[0]
