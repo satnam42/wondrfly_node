@@ -18,6 +18,7 @@ exports.toModel = (entity) => {
     programRating: entity.programRating || '',
     providerName: entity.providerName || '',
     indoorOroutdoor: entity.indoorOroutdoor || '',
+    inpersonOrVirtual: entity.inpersonOrVirtual || '',
     source: entity.source || '',
     sourceUrl: entity.sourceUrl || '',
     city: entity.city || '',
