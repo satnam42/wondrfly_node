@@ -52,8 +52,8 @@ module.exports = [
       },
       time: {
         properties: {
-          from: { type: 'date' },
-          to: { type: 'date' },
+          from: { type: 'number' },
+          to: { type: 'number' },
         },
       },
       realTime: {

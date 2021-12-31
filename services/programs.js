@@ -403,6 +403,12 @@ const set = async (model, program, context) => {
   if (model.price !== 'string' && model.price !== undefined) {
     program.price = model.price
   }
+  if (model.isDateNotMention !== 'string' && model.isDateNotMention !== undefined) {
+    program.isDateNotMention = model.isDateNotMention
+  }
+  if (model.isTimeNotMention !== 'string' && model.isTimeNotMention !== undefined) {
+    program.isTimeNotMention = model.isTimeNotMention
+  }
   if (model.pricePeriod !== 'string' && model.pricePeriod !== undefined) {
     program.pricePeriod = model.pricePeriod
   }
