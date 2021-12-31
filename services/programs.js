@@ -1251,22 +1251,22 @@ const publish = async (query, context) => {
   if (context.user.role == 'parent') {
     throw new Error('you are not authorized to perform this operation')
   }
-  if (
-    program.name == '' ||
-    program.name == 'string' ||
-    program.type == '' ||
-    program.type == 'string' ||
-    program.description == '' ||
-    program.description == 'string' ||
-    program.date.from == '' ||
-    program.date.from == 'string' ||
-    program.location == '' ||
-    program.location == 'string' ||
-    program.ageGroup.from == '' ||
-    program.ageGroup.from == 'string'
-  ) {
-    throw new Error('you need to complete the program before publish it')
-  }
+  // if (
+  //   program.name == '' ||
+  //   program.name == 'string' ||
+  //   program.type == '' ||
+  //   program.type == 'string' ||
+  //   program.description == '' ||
+  //   program.description == 'string' ||
+  //   program.date.from == '' ||
+  //   program.date.from == 'string' ||
+  //   program.location == '' ||
+  //   program.location == 'string' ||
+  //   program.ageGroup.from == '' ||
+  //   program.ageGroup.from == 'string'
+  // ) {
+  //   throw new Error('you need to complete the program before publish it')
+  // }
   program.isPublished = query.isPublished
   program.updatedOn = new Date()
   log.end()
@@ -1739,6 +1739,7 @@ const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds,
 
     type: model.type,
     price: model.price,
+    priceUnit: model.priceUnit,
     pricePerParticipant: model.price,
     pricePeriod: model.pricePeriod,
     code: model.code,
@@ -1748,8 +1749,8 @@ const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds,
     location: model.location,
     ageGroup: age,
     date: date,
-    time: realTime,
-    realTime: realTime,
+    time: realTime.replace(/,/g, '.'),
+    realTime: realTime.replace(/,/g, '.'),
     bookingCancelledIn: model.bookingCancelledIn,
     duration: model.duration,
     isFree: model.isFree,
@@ -1759,7 +1760,7 @@ const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds,
     capacity: model.capacity,
     joiningLink: model.joiningLink,
     presenter: model.presenter,
-    emails: model.emails,
+    emails: model.email,
     batches: model.batches,
     programImage: model.programImage,
     isPublished,
@@ -1770,12 +1771,12 @@ const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds,
     dbStatus: model.dbStatus,
     sessionLength: model.sessionLength,
 
-    // status: model.status || 'active',
+    status: 'active',
     user: model.user,
     addresses: model.addresses,
     // categoryId: categoriesIds,
-    subCategoryIds: subcategoriesIds,
-    categoryId: model.categoryId,
+    // subCategoryIds: subcategoriesIds,
+    // categoryId: model.categoryId,
     // subCategoryIds: model.subCategoryIds,
     sessions: model.sessions,
     extractionDate: model.extractionDate,
@@ -1840,7 +1841,7 @@ async function getSourcesUrl(str) {
 
 async function getAge(str) {
   let ageGroup = {}
-  var str_array = str.split(' - ');
+  var str_array = str.split('-');
   for (var i = 0; i < str_array.length; i++) {
     str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
     ageGroup.from = str_array[0]
@@ -1868,13 +1869,16 @@ const uploadExcel = async (file, context) => {
       let sourcs = []
       let sourcsUrl = []
       let age = []
+      let count = 0;
       result.forEach(async function (record) {
-        console.log('record', record.source, record.sourceUrl, record.categoryId, record.subCategoryIds)
+        console.log('record console ====>>>>', record);
+        console.log('count console ====>>>>', count += 1);
+        // console.log('record', record.source, record.sourceUrl, record.categoryId, record.subCategoryIds)
         // categries = await getIds(record.categoryId, 'category');
-        subcategries = await getIds(record.subCategoryIds, 'subcategory');
-        sourcs = await getSources(record.source, 'source');
-        sourcsUrl = await getSourcesUrl(record.sourceUrl, 'sourceUrl');
-        age = await getAge(record.ageGroup)
+        // subcategries = await getIds(record.subCategoryIds, 'subcategory');
+        // sourcs = await getSources(record.source, 'source');
+        // sourcsUrl = await getSourcesUrl(record.sourceUrl, 'sourceUrl');
+        // age = await getAge(record.ageGroup)
         addExcelPrograms(record, context, categries, subcategries, sourcs, sourcsUrl, age)
         // addExcelPrograms(record, context, sourcs, sourcsUrl, age)
       });
