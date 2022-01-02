@@ -443,7 +443,7 @@ const set = async (model, program, context) => {
     model.ageGroup.from !== 'string' &&
     model.ageGroup.to !== 'string' &&
     model.ageGroup.to !== undefined &&
-    model.ageGroup.from
+    model.ageGroup.from !== undefined
   ) {
     program.ageGroup = model.ageGroup
   }
@@ -541,7 +541,7 @@ const set = async (model, program, context) => {
   if (model.sessions.length) {
     program.sessions = model.sessions
   }
-  if (model.days.length) {
+  if (model.days) {
     program.days = model.days
   }
   program.lastModifiedBy = context.user.id
