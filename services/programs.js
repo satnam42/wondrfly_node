@@ -1551,7 +1551,7 @@ const multiFilter = async (model, context) => {
     query["inpersonOrVirtual"] = 'Inperson'
   }
   if (model.inpersonOrVirtual == 'online') {
-    query["inpersonOrVirtual"] = 'virtual'
+    query["inpersonOrVirtual"] = 'Virtual'
   }
   if (model.day !== undefined && model.day !== "" && model.day !== null) {
     console.log('day =>', model.day);
