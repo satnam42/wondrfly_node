@@ -405,7 +405,7 @@ const register = async (model, context) => {
       }).save();
     }
     const opt = {
-      name: 'welcome-to-the-wondrfly-newsletter',
+      name: 'welcome-email-for-providers',
       email: [
         {
           email: user.email,
@@ -415,10 +415,10 @@ const register = async (model, context) => {
       subject: 'Welcome',
       options: [
         {
-          name: 'FNAME',
-          content: user.firstName,
-        },
-      ],
+          name: "FNAME",
+          content: user.firstName
+        }
+      ]
     };
     const mailchimpMail = await mailchimp.dynamic(
       opt.name,

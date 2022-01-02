@@ -745,6 +745,7 @@ const getProgramsByProvider = async (query, context) => {
     {
       $match: {
         user: ObjectId(query.userId),
+        isPublished: true
       },
     },
     {
@@ -1367,12 +1368,12 @@ const searchByNameAndDate = async (query, context) => {
     console.log('tag ---------', tag.length);
     if (tag.length >= 1) {
       tagPrograms = await db.program
-        .find({ subCategoryIds: tag[0]._id }).populate('categoryId').populate('subCategoryIds').populate('user').limit(10)
+        .find({ subCategoryIds: tag[0]._id, isPublished: true },).populate('categoryId').populate('subCategoryIds').populate('user').limit(10)
     }
     let category = await db.category.find({ name: { $regex: '.*' + programName + '.*', $options: 'i' } }).limit(5)
     if (category.length >= 1) {
       categoryPrograms = await db.program
-        .find({ categoryId: category[0]._id }).populate('categoryId').populate('subCategoryIds').populate('user').limit(10)
+        .find({ categoryId: category[0]._id, isPublished: true }).populate('categoryId').populate('subCategoryIds').populate('user').limit(10)
     }
   }
 
@@ -1584,7 +1585,7 @@ const multiFilter = async (model, context) => {
   // if (model.ageFrom || model.fromDate || model.toTime || model.priceFrom || model.durationMin || model.categoryId || model.type1 || model.type2) {
   //   query["isPublished"] = true
   // }
-
+  query["isPublished"] = true
   const isEmpty = Object.keys(query).length === 0
   let programs
   if (!isEmpty) {

@@ -37,7 +37,7 @@ exports.toModel = (entity) => {
     lat: entity.lat || '',
     lng: entity.lng || '',
     duration: entity.duration || '',
-    isPublished: entity.isPublished || '',
+    isPublished: entity.isPublished,
     isFree: entity.isFree || '',
     isFav: entity.isFav,
     pricePerParticipant: entity.pricePerParticipant || '',
