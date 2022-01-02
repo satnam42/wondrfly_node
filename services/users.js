@@ -405,7 +405,7 @@ const register = async (model, context) => {
       }).save();
     }
     const opt = {
-      name: 'welcome-to-the-wondrfly-newsletter',
+      name: 'welcome-beta-users',
       email: [
         {
           email: user.email,
@@ -413,18 +413,17 @@ const register = async (model, context) => {
         },
       ],
       subject: 'Welcome',
-      options: [
-        {
-          name: 'FNAME',
-          content: user.firstName,
-        },
-      ],
+      // options: [
+      //   {
+      //     name: 'FNAME',
+      //     content: user.firstName,
+      //   },
+      // ],
     };
-    const mailchimpMail = await mailchimp.dynamic(
+    const mailchimpMail = await mailchimp.static(
       opt.name,
       opt.email,
-      opt.subject,
-      opt.options
+      opt.subject
     );
     // sendEmail(user.firstName, user.email, templatePath, subject);
   }
@@ -639,11 +638,18 @@ const resetPassword = async (id, model, context) => {
         },
       ],
       subject: 'Password Changed',
+      options: [
+        {
+          name: 'FNAME',
+          content: user.firstName,
+        },
+      ],
     };
-    const mailchimpMail = await mailchimp.static(
+    const mailchimpMail = await mailchimp.dynamic(
       opt.name,
       opt.email,
-      opt.subject
+      opt.subject,
+      opt.options
     );
     log.end();
     return 'Password Updated Successfully';
