@@ -413,11 +413,18 @@ const register = async (model, context) => {
         },
       ],
       subject: 'Welcome',
+      options: [
+        {
+          name: 'FNAME',
+          content: user.firstName,
+        },
+      ],
     };
-    const mailchimpMail = await mailchimp.static(
+    const mailchimpMail = await mailchimp.dynamic(
       opt.name,
       opt.email,
-      opt.subject
+      opt.subject,
+      opt.options
     );
     // sendEmail(user.firstName, user.email, templatePath, subject);
   }
@@ -631,7 +638,7 @@ const resetPassword = async (id, model, context) => {
           type: 'to',
         },
       ],
-      subject: 'Password Change',
+      subject: 'Password Changed',
     };
     const mailchimpMail = await mailchimp.static(
       opt.name,
@@ -917,11 +924,38 @@ const sendOtp = async (email, context) => {
 
   // let message = `Your 4 digit One Time Password: <br>${OTP}<br></br>
   //   otp valid only 4 minutes`
-  let = subject = 'One Time Password';
+  let subject = 'One Time Password';
   let templatePath = '../emailTemplates/forgot_password.html';
 
   if (user) {
-    sendOtpEmail(user.firstName, user.email, templatePath, subject, OTP);
+    const opt = {
+      name: 'send-otp',
+      email: [
+        {
+          email: user.email,
+          type: 'to',
+        },
+      ],
+      subject: subject,
+      options: [
+        {
+          name: 'FNAME',
+          content: user.firstName,
+        },
+        {
+          name: 'OTP',
+          content: OTP,
+        },
+      ],
+    };
+    const mailchimpMail = await mailchimp.dynamic(
+      opt.name,
+      opt.email,
+      opt.subject,
+      opt.options
+    );
+
+    // sendOtpEmail(user.firstName, user.email, templatePath, subject, OTP);
   }
   // await sendMail(email, message, subject)
 
@@ -960,12 +994,12 @@ const forgotPassword = async (model, context) => {
   const log = context.logger.start('services/users/forgotPassword');
   const user = await db.user.findOne({ email: { $eq: model.email } });
   const otp = await auth.extractToken(model.otpToken, context);
-  if (otp.name === 'TokenExpiredError') {
-    throw new Error('otp expired for forgot password');
-  }
-  if (otp.name === 'JsonWebTokenError') {
-    throw new Error('invalid token');
-  }
+  // if (otp.name === 'TokenExpiredError') {
+  //   throw new Error('otp expired for forgot password');
+  // }
+  // if (otp.name === 'JsonWebTokenError') {
+  //   throw new Error('invalid token');
+  // }
   user.password = await encrypt.getHash(model.newPassword, context);
   await user.save();
 
@@ -988,19 +1022,26 @@ const forgotPassword = async (model, context) => {
 
   if (user) {
     const opt = {
-      name: 'reset-your-wondrfly-password',
+      name: 'password-reset-successfully',
       email: [
         {
           email: user.email,
           type: 'to',
         },
       ],
-      subject: 'Reset Password',
+      subject: 'Password Changed',
+      options: [
+        {
+          name: 'FNAME',
+          content: user.firstName,
+        },
+      ],
     };
-    const mailchimpMail = await mailchimp.static(
+    const mailchimpMail = await mailchimp.dynamic(
       opt.name,
       opt.email,
-      opt.subject
+      opt.subject,
+      opt.options
     );
     // changePasswordEmail(user.firstName, user.email, templatePath, subject);
   }

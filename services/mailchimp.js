@@ -1,6 +1,9 @@
+require('dotenv').config();
+
 const mailchimpTx = require('@mailchimp/mailchimp_transactional')(
-  'XiklnR13JFPqDja5lmW-bg'
+  process.env.MAILCHIMP_API_KEY
 );
+// console.log(process.env.MAILCHIMP_API_KEY);
 
 const static = async (templateName, emails, subject) => {
   const message = {
@@ -28,7 +31,7 @@ const dynamic = async (templateName, emails, subject, options) => {
 
   const response = await mailchimpTx.messages.sendTemplate({
     template_name: templateName,
-    template_content: [{}],
+    template_content: options,
     message: message,
   });
 
