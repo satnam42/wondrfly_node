@@ -7,7 +7,7 @@ const mailchimpTx = require('@mailchimp/mailchimp_transactional')(
 
 const static = async (templateName, emails, subject) => {
   const message = {
-    from_email: 'marketing@wondrfly.com',
+    from_email: 'support@wondrfly.com',
     subject: subject,
     to: emails,
   };
@@ -23,7 +23,7 @@ const static = async (templateName, emails, subject) => {
 
 const dynamic = async (templateName, emails, subject, options) => {
   const message = {
-    from_email: 'marketing@wondrfly.com',
+    from_email: 'support@wondrfly.com',
     subject: subject,
     global_merge_vars: options,
     to: emails,
