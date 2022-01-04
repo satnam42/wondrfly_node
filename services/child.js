@@ -190,7 +190,7 @@ const addChild = async (model, context) => {
           type: 'to',
         },
       ],
-      subject: 'Child added',
+      subject: `${child.name} is ready to go! `,
       options: [
         {
           name: 'FNAME',

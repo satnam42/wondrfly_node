@@ -412,7 +412,7 @@ const register = async (model, context) => {
           type: 'to',
         },
       ],
-      subject: 'Welcome',
+      subject: 'Welcome to the World of Wondrfly!',
       // options: [
       //   {
       //     name: 'FNAME',
@@ -637,7 +637,7 @@ const resetPassword = async (id, model, context) => {
           type: 'to',
         },
       ],
-      subject: 'Password Changed',
+      subject: 'Password change complete! ',
       options: [
         {
           name: 'FNAME',
@@ -1035,7 +1035,7 @@ const forgotPassword = async (model, context) => {
           type: 'to',
         },
       ],
-      subject: 'Password Changed',
+      subject: 'Reset your Wondrfly password.  ',
       options: [
         {
           name: 'FNAME',
