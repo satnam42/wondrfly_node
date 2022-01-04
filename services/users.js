@@ -1000,12 +1000,12 @@ const forgotPassword = async (model, context) => {
   const log = context.logger.start('services/users/forgotPassword');
   const user = await db.user.findOne({ email: { $eq: model.email } });
   const otp = await auth.extractToken(model.otpToken, context);
-  // if (otp.name === 'TokenExpiredError') {
-  //   throw new Error('otp expired for forgot password');
-  // }
-  // if (otp.name === 'JsonWebTokenError') {
-  //   throw new Error('invalid token');
-  // }
+  if (otp.name === 'TokenExpiredError') {
+    throw new Error('otp expired for forgot password');
+  }
+  if (otp.name === 'JsonWebTokenError') {
+    throw new Error('invalid token');
+  }
   user.password = await encrypt.getHash(model.newPassword, context);
   await user.save();
 
@@ -1035,7 +1035,7 @@ const forgotPassword = async (model, context) => {
           type: 'to',
         },
       ],
-      subject: 'Reset your Wondrfly password.  ',
+      subject: `${user.firstName}, your password has been changed.`,
       options: [
         {
           name: 'FNAME',
