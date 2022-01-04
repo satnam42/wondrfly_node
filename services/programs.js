@@ -1705,7 +1705,7 @@ const subCategoryFilter = async (model, context) => {
 }
 // const programs = await db.program.find({ subCategoryIds: { $in: filter }, }).skip(skipCount)
 //==-----------------------------------------------------------
-const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds, sourcs, sourcsUrl, age) => {
+const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds, age, days, provider) => {
   // const addExcelPrograms = async (model, context, sourcs, sourcsUrl, age) => {
   const log = context.logger.start(`services:programs:build${model}`)
   let word
@@ -1713,26 +1713,24 @@ const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds,
     word = humanize(model.name);
   }
   let isPublished = true
+  let fromT = model.startTime.replace(/:/g, '.');
+  let tTime = model.endTime.replace(/:/g, '.');
   let realTime = {}
-  realTime.from = model.startTime;
-  realTime.to = model.endTime;
+  realTime.from = Number(fromT.substring(0, 5))
+  realTime.to = Number(tTime.substring(0, 5))
+
   let date = {}
   date.from = model.startDate;
   date.to = model.endDate;
-  // if (
-  //   model.name != '' &&
-  //   model.name != 'string' &&
-  // ) {
-  //   isPublished = true
-  // }
+
   const program = await new db.program({
     name: model.name,
     description: model.description,
     providerName: model.providerName,
     indoorOroutdoor: model.indoorOroutdoor,
     inpersonOrVirtual: model.inpersonOrVirtual,
-    source: sourcs,
-    sourceUrl: sourcsUrl,
+    source: model.source,
+    sourceUrl: model.sourceUrl,
     city: model.city,
     cycle: model.cycle,
     activeStatus: model.activeStatus,
@@ -1750,8 +1748,8 @@ const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds,
     location: model.location,
     ageGroup: age,
     date: date,
-    time: realTime.replace(/,/g, '.'),
-    realTime: realTime.replace(/,/g, '.'),
+    time: realTime,
+    realTime: realTime,
     bookingCancelledIn: model.bookingCancelledIn,
     duration: model.duration,
     isFree: model.isFree,
@@ -1766,19 +1764,21 @@ const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds,
     programImage: model.programImage,
     isPublished,
     inpersonOrVirtual: model.inpersonOrVirtual,
-    days: model.days,
+    days: days,
     specialInstructions: model.specialInstructions,
     parentRequired: model.parentRequired,
     dbStatus: model.dbStatus,
     sessionLength: model.sessionLength,
 
     status: 'active',
-    user: model.user,
+    user: provider,
     addresses: model.addresses,
-    // categoryId: categoriesIds,
-    // subCategoryIds: subcategoriesIds,
+    categoryId: categoriesIds,
+    subCategoryIds: subcategoriesIds,
     // categoryId: model.categoryId,
     // subCategoryIds: model.subCategoryIds,
+    source: model.source,
+    sourceUrl: model.sourceUrl,
     sessions: model.sessions,
     extractionDate: model.extractionDate,
     proofreaderObservation: model.proofreaderObservation,
@@ -1793,51 +1793,61 @@ const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds,
   return program
 }
 
-// get categories and subcategories id's function ====
-async function getIds(str, type) {
-  let ids = []
+
+async function getDays(str) {
+  let arr = {}
   var str_array = str.split(',');
-  if (type == 'category') {
-    console.log(' ========categories')
-    for (var i = 0; i < str_array.length; i++) {
-      str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
-      let cate = await db.category.findOne({ name: { $eq: str_array[i] } })
-      if (cate) {
-        ids.push(cate._id)
-      }
-    }
-    return ids;
-  }
-  if (type == 'subcategory') {
-    for (var i = 0; i < str_array.length; i++) {
-      str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
-      let cate = await db.tag.findOne({ name: { $eq: str_array[i] } })
-      if (cate) {
-        ids.push(cate._id)
-      }
-    }
-    return ids;
-  }
-}
-
-async function getSources(str) {
-  let arr = []
-  var str_array = str.split('and');
+  console.log('str_array', str_array)
   for (var i = 0; i < str_array.length; i++) {
     str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
-    arr.push(str_array[i])
+    if (str_array[i] == "monday") { arr.monday = true }
+    if (str_array[i] == "tuesday") { arr.tuesday = true }
+    if (str_array[i] == "wednesday") { arr.wednesday = true }
+    if (str_array[i] == "thursday") { arr.thursday = true }
+    if (str_array[i] == "friday") { arr.friday = true }
+    if (str_array[i] == "saturday") { arr.saturday = true }
+    if (str_array[i] == "sunday") { arr.sunday = true }
   }
   return arr
 }
-
-async function getSourcesUrl(str) {
-  let arr = []
-  var str_array = str.split(';');
-  for (var i = 0; i < str_array.length; i++) {
-    str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
-    arr.push(str_array[i])
+async function getIds(record) {
+  let data = []
+  let categoryArr = []
+  if (record.subCategory1) {
+    let tag = await db.tag.findOne({ name: { $eq: record.subCategory1 } })
+    data.push(tag._id);
   }
-  return arr
+  if (record.subCategory2) {
+    let tag = await db.tag.findOne({ name: { $eq: record.subCategory2 } })
+    data.push(tag._id);
+  }
+  if (record.subCategory3) {
+    let tag = await db.tag.findOne({ name: { $eq: record.subCategory3 } })
+    data.push(tag._id);
+  }
+  if (record.subCategory4) {
+    let tag = await db.tag.findOne({ name: { $eq: record.subCategory4 } })
+    data.push(tag._id);
+  }
+  if (record.subCategory5) {
+    let tag = await db.tag.findOne({ name: { $eq: record.subCategory5 } })
+    data.push(tag._id);
+  }
+
+  return data
+}
+
+async function categoryIds(record) {
+  let data = []
+  if (record.category1) {
+    let category = await db.category.findOne({ name: { $eq: record.category1 } })
+    data.push(category._id);
+  }
+  if (record.category2) {
+    let category = await db.category.findOne({ name: { $eq: record.category2 } })
+    data.push(category._id);
+  }
+  return data
 }
 
 async function getAge(str) {
@@ -1870,17 +1880,19 @@ const uploadExcel = async (file, context) => {
       let sourcs = []
       let sourcsUrl = []
       let age = []
+      let days = {};
       let count = 0;
       result.forEach(async function (record) {
-        console.log('record console ====>>>>', record);
-        console.log('count console ====>>>>', count += 1);
-        // console.log('record', record.source, record.sourceUrl, record.categoryId, record.subCategoryIds)
-        // categries = await getIds(record.categoryId, 'category');
-        // subcategries = await getIds(record.subCategoryIds, 'subcategory');
+        categries = await categoryIds(record);
+        subcategries = await getIds(record);
+        days = await getDays(record.days);
+        console.log('days', days);
+        const provider = await db.user.findOne({ firstName: { $eq: record.providerName } });
+
         // sourcs = await getSources(record.source, 'source');
         // sourcsUrl = await getSourcesUrl(record.sourceUrl, 'sourceUrl');
-        // age = await getAge(record.ageGroup)
-        addExcelPrograms(record, context, categries, subcategries, sourcs, sourcsUrl, age)
+        age = await getAge(record.ageGroup)
+        addExcelPrograms(record, context, categries, subcategries, age, days, provider._id)
         // addExcelPrograms(record, context, sourcs, sourcsUrl, age)
       });
     }
@@ -1889,6 +1901,53 @@ const uploadExcel = async (file, context) => {
   await fs.unlinkSync(file.path)
   return "excel file uploaded successfully"
 };
+
+// get categories and subcategories id's function ====
+// async function getIds(str, type) {
+//   let ids = []
+//   var str_array = str.split(',');
+//   if (type == 'category') {
+//     console.log(' ========categories')
+//     for (var i = 0; i < str_array.length; i++) {
+//       str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
+//       let cate = await db.category.findOne({ name: { $eq: str_array[i] } })
+//       if (cate) {
+//         ids.push(cate._id)
+//       }
+//     }
+//     return ids;
+//   }
+//   if (type == 'subcategory') {
+//     for (var i = 0; i < str_array.length; i++) {
+//       str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
+//       let cate = await db.tag.findOne({ name: { $eq: str_array[i] } })
+//       if (cate) {
+//         ids.push(cate._id)
+//       }
+//     }
+//     return ids;
+//   }
+// }
+
+// async function getSources(str) {
+//   let arr = []
+//   var str_array = str.split('and');
+//   for (var i = 0; i < str_array.length; i++) {
+//     str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
+//     arr.push(str_array[i])
+//   }
+//   return arr
+// }
+
+// async function getSourcesUrl(str) {
+//   let arr = []
+//   var str_array = str.split(';');
+//   for (var i = 0; i < str_array.length; i++) {
+//     str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
+//     arr.push(str_array[i])
+//   }
+//   return arr
+// }
 
 exports.create = create
 exports.getAllprograms = getAllprograms
