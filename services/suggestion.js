@@ -30,7 +30,6 @@ const create = async (model, context) => {
 const bySubcategoryId = async (id, context) => {
     const log = context.logger.start(`services:suggestion:bySubcategoryId`);
     if (!id) throw new Error('subcategory id is required')
-    // const suggestion = await db.suggested.findOne({ suggestedId: id }).populate('suggestedTags');
     const suggestion = await db.suggested.aggregate([
         {
             $match: {
@@ -61,23 +60,24 @@ const bySubcategoryId = async (id, context) => {
     if (suggestion) {
         const suggestions = suggestion[0].tags;
         const category = suggestion[0].category[0]
-        // const category = await db.category.findById(suggestion.category)
-        // console.log('image ==>>>>', suggestion[0].category[0])
         const imageUrl = category.imageUrl ? baseUrl + category.imageUrl : ''
         const iconUrl = category.iconUrl ? baseUrl + category.iconUrl : ''
         const logoUrl = category.logoUrl ? baseUrl + category.logoUrl : ''
-        suggestions.map(suggestion => {
-            let newSuggestion = {}
-            newSuggestion.id = suggestion._id
-            newSuggestion.name = suggestion.name
-            newSuggestion.imageUrl = imageUrl
-            newSuggestion.iconUrl = iconUrl
-            newSuggestion.logoUrl = logoUrl
-            finalSuggestion.push(newSuggestion)
-        });
-        log.end();
-        return finalSuggestion;
+        for (const suggestion of suggestions) {
+            const count = await db.program.count({ subCategoryIds: suggestion._id })
+            if (count > 0) {
+                let newSuggestion = {}
+                newSuggestion.id = suggestion._id
+                newSuggestion.name = suggestion.name
+                newSuggestion.imageUrl = imageUrl
+                newSuggestion.iconUrl = iconUrl
+                newSuggestion.logoUrl = logoUrl
+                finalSuggestion.push(newSuggestion)
+            }
+        }
     }
+    log.end();
+    return finalSuggestion;
 };
 
 exports.create = create;

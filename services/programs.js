@@ -1712,7 +1712,7 @@ const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds,
   if (model.name) {
     word = humanize(model.name);
   }
-  let isPublished = true
+  let isPublished = false
   let fromT = model.startTime.replace(/:/g, '.');
   let tTime = model.endTime.replace(/:/g, '.');
   let realTime = {}
@@ -1767,7 +1767,7 @@ const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds,
     days: days,
     specialInstructions: model.specialInstructions,
     parentRequired: model.parentRequired,
-    dbStatus: model.dbStatus,
+    // dbStatus: model.dbStatus,
     sessionLength: model.sessionLength,
 
     status: 'active',
