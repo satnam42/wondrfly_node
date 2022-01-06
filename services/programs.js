@@ -1715,9 +1715,10 @@ const addExcelPrograms = async (model, context, categoriesIds, subcategoriesIds,
   let isPublished = false
   let fromT = model.startTime.replace(/:/g, '.');
   let tTime = model.endTime.replace(/:/g, '.');
+
   let realTime = {}
-  realTime.from = Number(fromT.substring(0, 5))
-  realTime.to = Number(tTime.substring(0, 5))
+  realTime.from = Number(fromT.slice(0, -3))
+  realTime.to = Number(tTime.slice(0, -3))
 
   let date = {}
   date.from = model.startDate;
@@ -1886,7 +1887,7 @@ const uploadExcel = async (file, context) => {
         categries = await categoryIds(record);
         subcategries = await getIds(record);
         days = await getDays(record.days);
-        console.log('days', days);
+        // console.log('days', days);
         const provider = await db.user.findOne({ firstName: { $eq: record.providerName } });
 
         // sourcs = await getSources(record.source, 'source');
