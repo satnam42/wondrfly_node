@@ -1421,30 +1421,67 @@ const loginWithGoogle = async (model, context) => {
 
 const contactUs = async (model, context) => {
   const log = context.logger.start('services:users:facebookLogin');
-  // Send e-mail using AWS SES
-  var sesTransporter = nodemailer.createTransport(
-    sesTransport({
-      accessKeyId: aws_accessKey,
-      secretAccessKey: aws_secretKey,
-      region: aws_region,
-    })
+  const opt = {
+    name: 'contact-us',
+    email: [
+      {
+        email: 'accounts@wondrfly.com',
+        type: 'to',
+      },
+    ],
+    subject: model.subject,
+    options: [
+      {
+        name: 'EMAIL',
+        content: model.email,
+      },
+      {
+        name: 'NUMBER',
+        content: model.phoneNumber !== undefined ? model.phoneNumber : '',
+      },
+      {
+        name: 'DESCRIPTION',
+        content: model.description,
+      },
+    ],
+  };
+
+  const mailchimpMail = await mailchimp.dynamic(
+    opt.name,
+    opt.email,
+    opt.subject,
+    opt.options
   );
 
-  let mailOptions = {
-    from: 'accounts@wondrfly.com',
-    to: 'accounts@wondrfly.com', //sending to: E-mail
-    subject: 'contact us',
-    text: 'This mail for contact to wondrfly by user',
-  };
-  let mailSent = await sesTransporter.sendMail(mailOptions);
-  if (mailSent) {
-    console.log('Message sent: %s', mailSent.messageId);
-    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(mailSent));
-    return 'Mail sent sucessfully';
-  } else {
-    log.end();
-    throw new Error('Unable to send email try after sometime');
+  if (mailchimpMail[0].reject_reason == null) {
+    return 'Email sent successfully';
   }
+  throw new Error('Somethng went wrong');
+
+  // Send e-mail using AWS SES
+  // var sesTransporter = nodemailer.createTransport(
+  //   sesTransport({
+  //     accessKeyId: aws_accessKey,
+  //     secretAccessKey: aws_secretKey,
+  //     region: aws_region,
+  //   })
+  // );
+
+  // let mailOptions = {
+  //   from: 'accounts@wondrfly.com',
+  //   to: 'accounts@wondrfly.com', //sending to: E-mail
+  //   subject: 'contact us',
+  //   text: 'This mail for contact to wondrfly by user',
+  // };
+  // let mailSent = await sesTransporter.sendMail(mailOptions);
+  // if (mailSent) {
+  //   console.log('Message sent: %s', mailSent.messageId);
+  //   console.log('Preview URL: %s', nodemailer.getTestMessageUrl(mailSent));
+  //   return 'Mail sent sucessfully';
+  // } else {
+  //   log.end();
+  //   throw new Error('Unable to send email try after sometime');
+  // }
 };
 
 const removeProfilePic = async (context, id) => {
@@ -1460,24 +1497,22 @@ const removeProfilePic = async (context, id) => {
   if (user.avatarImages != '' && user.avatarImages !== undefined) {
     // let picUrl = user.avatarImages.replace(`${imageUrl}`, '');
     let picUrl = user.avatarImages;
-    let fullpath = path.join(__dirname, '../', 'assets/') + `${picUrl}`
+    let fullpath = path.join(__dirname, '../', 'assets/') + `${picUrl}`;
     try {
       await fs.unlinkSync(fullpath);
       console.log('File unlinked!');
-      user.avatarImages = "";
+      user.avatarImages = '';
       user.lastModifiedBy = context.user.id;
       user.updatedOn = Date.now();
       await user.save();
-      return "profile pic is removed"
+      return 'profile pic is removed';
     } catch (err) {
       console.log(err);
       log.end();
-      return "something went wrong";
+      return 'something went wrong';
     }
   }
-
 };
-
 
 exports.register = register;
 exports.get = get;
