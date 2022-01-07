@@ -1447,6 +1447,38 @@ const contactUs = async (model, context) => {
   }
 };
 
+const removeProfilePic = async (context, id) => {
+  const log = context.logger.start(`services:parents:removeProfilePic`);
+  if (!id) {
+    throw new Error('Id is requried');
+  }
+
+  let user = await db.user.findById(id);
+  if (!user) {
+    throw new Error('user not found');
+  }
+  if (user.avatarImages != '' && user.avatarImages !== undefined) {
+    // let picUrl = user.avatarImages.replace(`${imageUrl}`, '');
+    let picUrl = user.avatarImages;
+    let fullpath = path.join(__dirname, '../', 'assets/') + `${picUrl}`
+    try {
+      await fs.unlinkSync(fullpath);
+      console.log('File unlinked!');
+      user.avatarImages = "";
+      user.lastModifiedBy = context.user.id;
+      user.updatedOn = Date.now();
+      await user.save();
+      return "profile pic is removed"
+    } catch (err) {
+      console.log(err);
+      log.end();
+      return "something went wrong";
+    }
+  }
+
+};
+
+
 exports.register = register;
 exports.get = get;
 exports.login = login;
@@ -1472,3 +1504,4 @@ exports.search = search;
 exports.facebookLogin = facebookLogin;
 exports.loginWithGoogle = loginWithGoogle;
 exports.contactUs = contactUs;
+exports.removeProfilePic = removeProfilePic;

@@ -196,6 +196,11 @@ const configure = (app, logger) => {
     permit.context.builder,
     api.users.contactUs
   );
+  app.put(
+    "/api/users/removeProfilePic",
+    permit.context.requiresToken,
+    api.users.removeProfilePic
+  );
 
   ////////events routes//////////
 

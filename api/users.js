@@ -344,6 +344,19 @@ const contactUs = async (req, res) => {
   }
 };
 
+const removeProfilePic = async (req, res) => {
+  const log = req.context.logger.start(`api:users:removeProfilePic`);
+  try {
+    const count = await service.removeProfilePic(req.context, req.query.id);
+    log.end();
+    return response.data(res, count);
+  } catch (err) {
+    log.error(err);
+    log.end();
+    return response.failure(res, err.message);
+  }
+};
+
 exports.create = create;
 exports.list = list;
 exports.login = login;
@@ -368,3 +381,4 @@ exports.search = search;
 exports.facebookLogin = facebookLogin;
 exports.loginWithGoogle = loginWithGoogle;
 exports.contactUs = contactUs;
+exports.removeProfilePic = removeProfilePic;
