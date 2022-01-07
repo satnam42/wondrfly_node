@@ -834,9 +834,11 @@ const uploadProfilePic = async (id, file, context) => {
     throw new Error('user not found');
   }
   if (user.avatarImages != '' && user.avatarImages !== undefined) {
-    let picUrl = user.avatarImages.replace(`${imageUrl}`, '');
+    // let picUrl = user.avatarImages.replace(`${imageUrl}`, '');
+    let picUrl = user.avatarImages;
+    let fullpath = path.join(__dirname, '../', 'assets/') + `${picUrl}`;
     try {
-      await fs.unlinkSync(`${picUrl}`);
+      await fs.unlinkSync(fullpath);
       console.log('File unlinked!');
     } catch (err) {
       console.log(err);
