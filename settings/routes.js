@@ -547,6 +547,11 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.child.activeOrDeactive
   );
+  app.put(
+    "/api/child/removeProfilePic",
+    permit.context.requiresToken,
+    api.child.removeProfilePic
+  );
 
   //guardian routes
   app.post(

@@ -441,6 +441,34 @@ const activateAndDeactive = async (context, id, isActivated) => {
   return child;
 };
 
+const removeProfilePic = async (context, id) => {
+  const log = context.logger.start(`services:child:removeProfilePic`);
+  if (!id) {
+    throw new Error('Id is requried');
+  }
+  let child = await db.child.findById(id);
+  if (!child) {
+    throw new Error('child not found');
+  }
+  if (child.avtar != '' && child.avtar !== undefined) {
+    let picUrl = child.avtar;
+    let fullpath = path.join(__dirname, '../', 'assets/') + `${picUrl}`;
+    try {
+      await fs.unlinkSync(fullpath);
+      console.log('File unlinked!');
+      child.avtar = '';
+      child.lastModifiedBy = context.user.id;
+      child.updatedOn = Date.now();
+      await child.save();
+      return 'profile pic is removed';
+    } catch (err) {
+      console.log(err);
+      log.end();
+      return 'something went wrong';
+    }
+  }
+};
+
 exports.addChild = addChild;
 exports.getList = getList;
 exports.updateChild = updateChild;
@@ -448,3 +476,4 @@ exports.childByParentId = childByParentId;
 exports.deleteChild = deleteChild;
 exports.childByGuardianId = childByGuardianId;
 exports.activateAndDeactive = activateAndDeactive;
+exports.removeProfilePic = removeProfilePic;
