@@ -1237,7 +1237,18 @@ const configure = (app, logger) => {
     permit.context.builder,
     api.justfeedback.update
   );
-
+  //================role======================
+  app.post(
+    "/api/role/create",
+    permit.context.requiresToken,
+    api.role.create
+  );
+  app.get(
+    "/api/role/list",
+    permit.context.requiresToken,
+    // permit.context.builder,
+    api.role.list
+  );
   log.end();
 };
 
