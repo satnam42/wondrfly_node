@@ -173,7 +173,7 @@ const addChild = async (model, context) => {
     let date = moment(today).format('YYYY-MM-DD');
     await new db.notification({
       title: 'Add child',
-      description: `Child is added successfully on ${date}`,
+      description: `Kid added.`,
       user: model.parentId,
       createdOn: new Date(),
       updateOn: new Date(),

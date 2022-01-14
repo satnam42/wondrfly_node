@@ -82,7 +82,7 @@ const create = async (model, context) => {
         let date = moment(today).format('YYYY-MM-DD');
         await new db.notification({
             title: 'Save Program',
-            description: `you saved the program on ${date}`,
+            description: `Program saved.`,
             user: user.id,
             createdOn: new Date(),
             updateOn: new Date(),
@@ -135,7 +135,7 @@ const removeById = async (id, context) => {
         let date = moment(today).format('YYYY-MM-DD');
         await new db.notification({
             title: 'unSave Program',
-            description: `you unsaved the program on ${date}`,
+            description: `Program removed from saved.`,
             user: isFavourite.user,
             createdOn: new Date(),
             updateOn: new Date(),

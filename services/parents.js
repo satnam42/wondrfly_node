@@ -166,7 +166,7 @@ const updateParent = async (id, model, context) => {
         let time = moment(today).format('hh:mm A');
         await new db.notification({
             title: 'update Profile',
-            description: `Your profile is updated on ${date} at ${time}`,
+            description: `Your profile has been updated.`,
             user: id,
             createdOn: new Date(),
             updateOn: new Date(),

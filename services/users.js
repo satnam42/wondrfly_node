@@ -618,7 +618,7 @@ const resetPassword = async (id, model, context) => {
       let time = moment(today).format('hh:mm A');
       await new db.notification({
         title: 'change password',
-        description: `Your password is changed successfully on ${date} at ${time}`,
+        description: `Your password has been changed.`,
         user: user._id,
         createdOn: new Date(),
         updateOn: new Date(),
@@ -728,7 +728,7 @@ const login = async (model, context) => {
   if (progress !== 100 && user.loginCount <= 2) {
     await new db.notification({
       title: 'About Profile',
-      description: `Your profile is not 100% complete please complete it`,
+      description: `Complete your profile to get the most out of Wondrfly!`,
       user: user._id,
       createdOn: new Date(),
       updateOn: new Date(),
@@ -1252,7 +1252,7 @@ const getProfileProgress = async (query, context) => {
       if (user.weeklyDate == today) {
         await new db.notification({
           title: 'About Profile',
-          description: `Your profile is not 100% complete please complete it`,
+          description: `Complete your profile to get the most out of Wondrfly!`,
           user: user._id,
           createdOn: new Date(),
           updateOn: new Date(),
@@ -1266,7 +1266,7 @@ const getProfileProgress = async (query, context) => {
     } else {
       await new db.notification({
         title: 'About Profile',
-        description: `Your profile is not 100% complete please complete it`,
+        description: `Complete your profile to get the most out of Wondrfly!`,
         user: user._id,
         createdOn: new Date(),
         updateOn: new Date(),
