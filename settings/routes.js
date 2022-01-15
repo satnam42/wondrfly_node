@@ -1249,6 +1249,11 @@ const configure = (app, logger) => {
     // permit.context.builder,
     api.role.list
   );
+  app.put(
+    "/api/role/update",
+    permit.context.requiresToken,
+    api.role.update
+  );
   log.end();
 };
 
