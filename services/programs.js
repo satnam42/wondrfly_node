@@ -588,7 +588,7 @@ const getAllprograms = async (query, context) => {
   let skipCount = pageSize * (pageNo - 1)
   let programs = await db.program
     .find()
-    .sort({ createdOn: -1 })
+    .sort({ _id: -1 })
     .populate('tags')
     .populate('user')
     .populate('categoryId')
