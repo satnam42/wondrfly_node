@@ -1471,8 +1471,16 @@ const multiFilter = async (model, context) => {
   }
 
   if (model.fromDate !== undefined && model.toDate !== undefined && model.fromDate !== "" && model.toDate !== "" && model.fromDate !== null && model.toDate !== null) {
-    query["date.from"] = { $gte: model.fromDate }
-    query["date.to"] = { $lte: model.toDate }
+    // query["date.from"] = { $gte: model.fromDate }
+    // query["date.to"] = { $lte: model.toDate }
+    let dateArray = []
+    dateArray.push({ 'date.from': { '$gte': model.fromDate, '$lte': model.toDate } })
+    dateArray.push({ 'date.to': { '$gte': model.fromDate, '$lte': model.toDate } })
+    const dates = {
+      $or: dateArray
+    }
+    query = dates
+
   }
   if (model.time !== undefined && model.time !== "" && model.time !== null) {
     //early-morning, morning, afternoon, late-afternoon, evening
