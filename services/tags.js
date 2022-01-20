@@ -45,7 +45,7 @@ const getAlltags = async (context) => {
     // const tags = await db.tag.find({}).populate('categoryIds').sort({ _id: -1 });
     // { isActivated: { $ne: false } }
     let tags = []
-    const subcategories = await db.tag.find({});
+    const subcategories = await db.tag.find({}).populate('categoryIds');
     for (var i = 0; i < subcategories.length; i++) {
         const tag = subcategories[i]
         const count = await db.program.find({ subCategoryIds: subcategories[i].id }).count()
