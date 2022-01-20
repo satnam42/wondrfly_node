@@ -1,19 +1,12 @@
 "use strict";
 const mongoose = require("mongoose");
 const permission = mongoose.Schema({
-    // entityId: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: "entity"
-    // },
-    permissionTypeId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "permissionType"
+    module: {
+        type: String,
+        required: true,
+        enum: ['program', 'provider', 'betaUser'],
     },
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "user"
-    },
-    isDeleted: { type: Boolean, default: false },
+    permission: { type: String, default: "", required: true },
     createdOn: { type: Date, default: Date.now },
     updatedOn: { type: Date, default: Date.now }
 });

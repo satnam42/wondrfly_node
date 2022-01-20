@@ -315,9 +315,9 @@ const configure = (app, logger) => {
   //permission routes //
 
   app.post(
-    "/api/permissions/addPermissionsType",
+    "/api/permissions/create",
     permit.context.requiresToken,
-    // validator.permissions.assign,
+    // validator.permissions.assign ,
     api.permissions.create
   );
   app.post(

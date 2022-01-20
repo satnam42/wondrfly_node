@@ -1,5 +1,38 @@
 module.exports = [
     {
+        url: "/create",
+        post: {
+            summary: "add Permission ",
+            description: "add Permission",
+            parameters: [
+                {
+                    in: "body",
+                    name: "body",
+                    description: "Model of Permission creation",
+                    required: true,
+                    schema: {
+                        $ref: "#/definitions/permissionCreate"
+                    }
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
+    {
         url: "/assign",
         post: {
             summary: "assign Permission ",
@@ -67,39 +100,6 @@ module.exports = [
                     required: true
                 }
 
-            ],
-            responses: {
-                default: {
-                    description: "Unexpected error",
-                    schema: {
-                        $ref: "#/definitions/Error"
-                    }
-                }
-            }
-        }
-    },
-    {
-        url: "/addPermissionsType",
-        post: {
-            summary: "add Permission Type",
-            description: "add Permission Type",
-            parameters: [
-                {
-                    in: "body",
-                    name: "body",
-                    description: "Model of PermissionType creation",
-                    required: true,
-                    schema: {
-                        $ref: "#/definitions/permissionTypeCreate"
-                    }
-                },
-                {
-                    in: "header",
-                    name: "x-access-token",
-                    description: "token to access api",
-                    required: true,
-                    type: "string"
-                }
             ],
             responses: {
                 default: {

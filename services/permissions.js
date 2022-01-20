@@ -1,11 +1,11 @@
 "use strict";
 
 const build = async (model, context) => {
-    const { type, code } = model;
-    const log = context.logger.start(`services:permissionType:build${model}`);
-    const entity = await new db.permissionType({
-        type: type,
-        code: code,
+    const { module, permission } = model;
+    const log = context.logger.start(`services:permission:build${model}`);
+    const entity = await new db.permission({
+        module: module,
+        permission: permission,
         createdOn: new Date(),
         updateOn: new Date(),
     }).save();
@@ -30,13 +30,13 @@ const buildPermission = async (model, context) => {
 
 const create = async (model, context) => {
     const log = context.logger.start("services:permission:create");
-    const isPermissionType = await db.permissionType.findOne({ type: { $eq: model.type } });
-    if (isPermissionType) {
-        return "PermissionType already  exist";
+    const isPermission = await db.permission.findOne({ permission: { $eq: model.permission } });
+    if (isPermission) {
+        return "Permission already  exist";
     }
-    const permissionType = build(model, context);
+    const permission = build(model, context);
     log.end();
-    return permissionType;
+    return permission;
 };
 
 const assign = async (model, context) => {

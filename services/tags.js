@@ -42,8 +42,17 @@ const create = async (model, context) => {
 };
 const getAlltags = async (context) => {
     const log = context.logger.start(`services:tags:getAlltags`); ``
-    const tags = await db.tag.find({}).populate('categoryIds').sort({ _id: -1 });
+    // const tags = await db.tag.find({}).populate('categoryIds').sort({ _id: -1 });
     // { isActivated: { $ne: false } }
+    let tags = []
+    const subcategories = await db.tag.find({});
+    for (var i = 0; i < subcategories.length; i++) {
+        const tag = subcategories[i]
+        const count = await db.program.find({ subCategoryIds: subcategories[i].id }).count()
+        tag.programCount = count;
+        tags.push(tag)
+    }
+    tags.sort((a, b) => b.programCount - a.programCount);
     log.end();
     return tags;
 };

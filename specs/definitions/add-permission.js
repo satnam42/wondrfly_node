@@ -2,17 +2,11 @@ module.exports = [
     {
         name: "permissionCreate",
         properties: {
-            userId: {
+            module: {
                 type: "string"
             },
-            // entityId: {
-            //     type: "string"
-            // },
-            permissionTypeId: {
+            permission: {
                 type: "string"
-            },
-            isDeleted: {
-                type: "Boolean",
             },
         }
     }
