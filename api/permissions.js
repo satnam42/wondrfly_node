@@ -18,9 +18,9 @@ const create = async (req, res) => {
 const list = async (req, res) => {
     const log = req.context.logger.start(`api:permission:list`);
     try {
-        const permissionTypes = await service.getAllPermissionType(req.context);
+        const permission = await service.getAllPermission(req.context);
         log.end();
-        return response.data(res, permissionTypes);
+        return response.data(res, permission);
     } catch (err) {
         log.error(err);
         log.end();
@@ -52,7 +52,6 @@ const deletePermission = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
-
 
 exports.create = create;
 exports.list = list;

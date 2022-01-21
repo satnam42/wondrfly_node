@@ -27,10 +27,9 @@ const buildPermission = async (model, context) => {
     log.end();
     return permission;
 };
-
 const create = async (model, context) => {
     const log = context.logger.start("services:permission:create");
-    const isPermission = await db.permission.findOne({ permission: { $eq: model.permission } });
+    const isPermission = await db.permission.findOne({ $and: [{ permission: model.permission }, { module: model.module }] });
     if (isPermission) {
         return "Permission already  exist";
     }
@@ -59,7 +58,7 @@ const deletePermission = async (query, context) => {
     if (!role) {
         throw new Error('role undefined')
     }
-    if (role != 'superAdmin') {
+    if (role != 'superadmin') {
         throw new Error('you dont have right for this opreation')
     }
     const permission = await db.permission.findOne({ "$and": [{ entityId: query.entityId }, { permissionTypeId: query.permissionTypeId }, { userId: query.userId }] });
@@ -70,14 +69,14 @@ const deletePermission = async (query, context) => {
     return permission;
 };
 
-const getAllPermissionType = async (context) => {
+const getAllPermission = async (context) => {
     const log = context.logger.start(`services:entity:getAllEntities`);
-    const permissionTypes = await db.permissionType.find();
+    const permission = await db.permission.find();
     log.end();
-    return permissionTypes;
+    return permission;
 };
 
 exports.create = create;
-exports.getAllPermissionType = getAllPermissionType;
+exports.getAllPermission = getAllPermission;
 exports.assign = assign;
 exports.deletePermission = deletePermission;

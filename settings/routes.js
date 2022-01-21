@@ -333,7 +333,7 @@ const configure = (app, logger) => {
     api.permissions.deletePermission
   );
   app.get(
-    "/api/permissions/typeList",
+    "/api/permissions/list",
     permit.context.requiresToken,
     api.permissions.list
   );

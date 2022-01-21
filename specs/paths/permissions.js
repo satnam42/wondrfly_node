@@ -112,10 +112,10 @@ module.exports = [
         }
     },
     {
-        url: "/typeList",
+        url: "/list",
         get: {
-            summary: "get PermissionType list",
-            description: "get PermissionType list",
+            summary: "get Permission list",
+            description: "get Permission list",
             parameters: [
                 {
                     in: "header",
