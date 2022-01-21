@@ -1,6 +1,6 @@
 module.exports = [
     {
-        name: "add-role",
+        name: "update-role",
         properties: {
             roleId: {
                 type: "string"
