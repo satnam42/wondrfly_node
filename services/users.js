@@ -1427,7 +1427,7 @@ const contactUs = async (model, context) => {
     name: 'contact-us',
     email: [
       {
-        email: 'accounts@wondrfly.com',
+        email: 'contact@wondrfly.com',
         type: 'to',
       },
     ],

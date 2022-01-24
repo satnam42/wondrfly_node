@@ -5,7 +5,7 @@ let path = require('path');
 const fs = require('fs');
 const moment = require('moment');
 const mailchimp = require('./mailchimp');
-
+const Audience = mailchimp.audience;
 const invitaionEmail = async (firstName, email, templatePath, subject, OTP) => {
   let mailBody = fs.readFileSync(path.join(__dirname, templatePath)).toString();
   mailBody = mailBody.replace(/{{firstname}}/g, firstName);
@@ -272,7 +272,7 @@ const approveAll = async (model, context) => {
 
 const approveOrDecline = async (model, context) => {
   const log = context.logger.start('services:invitation:approveOrDecline');
-  const invitaton = await db.invitation.findById(model.id);
+  const invitaton = await db.invitation.findOne({ _id: model.id });
   if (model.type == 'approve') {
     let invitation = await db.invitation.findByIdAndUpdate(
       model.id,
@@ -292,6 +292,30 @@ const approveOrDecline = async (model, context) => {
           isActivated: true,
         },
       });
+    }
+    // model of add member
+    if (invitation.user) {
+      const user = await db.user.findById(invitaton.user);
+      if (!user) throw new Error('User not found');
+      let first_name = user.firstName;
+      let last_name = user.lastName;
+      let name = user.firstName.trim();
+      if (name.indexOf(' ')) {
+        let splited = name.split(' ');
+        first_name = splited[0];
+        last_name = splited[splited.length - 1];
+      }
+      console.log(first_name);
+      console.log(last_name);
+      const data = {
+        email: user.email,
+        tags: ['Beta user'],
+        occupation: user.occupation || 'Nothing',
+        firstName: first_name,
+        lastName: last_name,
+      };
+      const addMember = await mailchimp.add_beta_user(data);
+      console.log(addMember);
     }
     log.end();
     return invitation;
