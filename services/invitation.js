@@ -234,6 +234,7 @@ const create = async (model, context) => {
       occupation: model.occupation || 'Nothing',
       firstName: first_name,
       lastName: last_name,
+      phoneNumber: model.phoneNumber || 0,
     };
     const addMember = await mailchimp.add_beta_user(data);
     console.log(addMember);
