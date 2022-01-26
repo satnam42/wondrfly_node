@@ -93,16 +93,55 @@ const activeOrDeactive = async (req, res) => {
 const uploadImage = async (req, res) => {
     const log = req.context.logger.start(`api:tags:uploadImage`);
     try {
-        const user = await service.uploadImage(req.params.id, req.files, req.context);
+        const tag = await service.uploadImage(req.params.id, req.file, req.context);
         const message = "Image uploaded Successfully";
         log.end();
-        return response.success(res, message, user);
+        return response.success(res, message, tag);
     } catch (err) {
         log.error(err);
         log.end();
         return response.failure(res, err.message);
     }
 
+};
+const uploadIcon = async (req, res) => {
+    const log = req.context.logger.start(`api:tags:uploadIcon`);
+    try {
+        const tag = await service.uploadIcon(req.params.id, req.file, req.context);
+        const message = "Icon uploaded Successfully";
+        log.end();
+        return response.success(res, message, tag);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+const uploadLogo = async (req, res) => {
+    const log = req.context.logger.start(`api:tags:uploadLogo`);
+    try {
+        const tag = await service.uploadLogo(req.params.id, req.file, req.context);
+        const message = "Logo uploaded Successfully";
+        log.end();
+        return response.success(res, message, tag);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+const uploadPattern = async (req, res) => {
+    const log = req.context.logger.start(`api:tags:uploadPattern`);
+    try {
+        const tag = await service.uploadPattern(req.params.id, req.file, req.context);
+        const message = "Pattern uploaded Successfully";
+        log.end();
+        return response.success(res, message, tag);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
 };
 
 exports.create = create;
@@ -113,3 +152,6 @@ exports.search = search;
 exports.remove = remove;
 exports.activeOrDeactive = activeOrDeactive;
 exports.uploadImage = uploadImage;
+exports.uploadIcon = uploadIcon;
+exports.uploadLogo = uploadLogo;
+exports.uploadPattern = uploadPattern;

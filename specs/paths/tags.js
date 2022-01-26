@@ -233,21 +233,121 @@ module.exports = [
                     name: "image",
                     type: "file",
                     description: "The file to upload.",
-                    // required: true,
+                    required: true,
                 },
+                {
+                    in: "path",
+                    type: "string",
+                    name: "id",
+                    description: "tag id",
+                    required: true
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
+    {
+        url: "/uploadIcon/{id}",
+        put: {
+            summary: "upload tag icon",
+            description: "upload tag icon",
+            parameters: [
                 {
                     in: "formData",
                     name: "icon",
                     type: "file",
                     description: "The file to upload.",
-                    // required: true,
+                    required: true,
                 },
+                {
+                    in: "path",
+                    type: "string",
+                    name: "id",
+                    description: "tag id",
+                    required: true
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
+    {
+        url: "/uploadLogo/{id}",
+        put: {
+            summary: "upload tag logo",
+            description: "upload tag logo",
+            parameters: [
                 {
                     in: "formData",
                     name: "logo",
                     type: "file",
                     description: "The file to upload.",
-                    // required: true,
+                    required: true,
+                },
+                {
+                    in: "path",
+                    type: "string",
+                    name: "id",
+                    description: "tag id",
+                    required: true
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
+    {
+        url: "/uploadPattern/{id}",
+        put: {
+            summary: "upload tag pattern",
+            description: "upload tag pattern",
+            parameters: [
+                {
+                    in: "formData",
+                    name: "pattern",
+                    type: "file",
+                    description: "The file to upload.",
+                    required: true,
                 },
                 {
                     in: "path",

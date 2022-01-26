@@ -142,73 +142,133 @@ const activateAndDeactive = async (context, id, isActivated) => {
     return tag
 };
 
-const uploadImage = async (id, files, context) => {
-    const log = context.logger.start(`services:users:uploadImage`);
+const uploadImage = async (id, file, context) => {
+    const log = context.logger.start(`services:tags:uploadImage`);
     let tag = await db.tag.findById(id);
-    if (files.length <= 0) {
-        throw new Error('images not found');
+    if (!file) {
+        throw new Error('image not found');
     }
     if (!tag) {
         throw new Error('tag not found');
     }
-    // if (tag.image != '' && tag.image !== undefined) {
-    //     // let picUrl = tag.image.replace(`${imageUrl}`, '');
-    //     let picUrl = tag.image;
-    //     let fullpath = path.join(__dirname, '../', 'assets/') + `${picUrl}`;
-    //     try {
-    //         await fs.unlinkSync(fullpath);
-    //         console.log('File unlinked!');
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-    // }
-    // if (tag.logo != '' && tag.logo !== undefined) {
-    //     let picUrl = tag.logo;
-    //     let fullpath = path.join(__dirname, '../', 'assets/') + `${picUrl}`;
-    //     try {
-    //         await fs.unlinkSync(fullpath);
-    //         console.log('File unlinked!');
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-    // }
-    // if (tag.icon != '' && tag.icon !== undefined) {
-    //     let picUrl = tag.icon;
-    //     let fullpath = path.join(__dirname, '../', 'assets/') + `${picUrl}`;
-    //     try {
-    //         await fs.unlinkSync(fullpath);
-    //         console.log('File unlinked!');
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-    // }
-    // const avatarImages = imageUrl + 'assets/images/' + file.filename
-    for (let file of files) {
-        if (file.fieldname == "image") {
-            console.log('file.fieldname', file.fieldname)
-            const image = imageUrl + file.filename;
-            tag.image = image;
-            await tag.save();
-        }
-        if (file.fieldname == "icon") {
-            console.log('file.fieldname', file.fieldname)
-
-            const icon = imageUrl + file.filename;
-            tag.icon = icon;
-            await tag.save();
-        }
-        if (file.fieldname == "image") {
-            console.log('file.fieldname', file.fieldname)
-
-            const logo = imageUrl + file.filename;
-            tag.logo = logo;
-            await tag.save();
+    if (tag.image != '' && tag.image !== undefined) {
+        // let picUrl = tag.image.replace(`${imageUrl}`, '');
+        let picUrl = tag.image;
+        let fullpath = path.join(__dirname, '../', 'assets/') + `${picUrl}`;
+        try {
+            await fs.unlinkSync(fullpath);
+            console.log('File unlinked!');
+        } catch (err) {
+            console.log(err);
         }
     }
-    // console.log('file.filename ===>>>>>>', file.filename);
-    // const image = imageUrl + file.filename;
-    // tag.image = image;
-    // await tag.save();
+    // const avatarImages = imageUrl  'assets/images/'  file.filename
+    const image = imageUrl + file.filename;
+    tag.image = image;
+    await tag.save();
+    log.end();
+    return tag;
+
+    // const avatarImages = imageUrl + 'assets/images/' + file.filename
+    // for (let file of files) {
+    //     if (file.fieldname == "image") {
+    //         console.log('file.fieldname', file.fieldname)
+    //         const image = imageUrl + file.filename;
+    //         tag.image = image;
+    //         await tag.save();
+    //     }
+    //     if (file.fieldname == "icon") {
+    //         console.log('file.fieldname', file.fieldname)
+
+    //         const icon = imageUrl + file.filename;
+    //         tag.icon = icon;
+    //         await tag.save();
+    //     }
+    //     if (file.fieldname == "image") {
+    //         console.log('file.fieldname', file.fieldname)
+
+    //         const logo = imageUrl + file.filename;
+    //         tag.logo = logo;
+    //         await tag.save();
+    //     }
+    // }
+
+};
+
+
+const uploadIcon = async (id, file, context) => {
+    const log = context.logger.start(`services:tags:uploadIcon`);
+    let tag = await db.tag.findById(id);
+    if (!file) {
+        throw new Error('image not found');
+    }
+    if (!tag) {
+        throw new Error('tag not found');
+    }
+    if (tag.icon != '' && tag.icon !== undefined) {
+        let picUrl = tag.icon;
+        let fullpath = path.join(__dirname, '../', 'assets/') + `${picUrl}`;
+        try {
+            await fs.unlinkSync(fullpath);
+            console.log('File unlinked!');
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    const icon = imageUrl + file.filename;
+    tag.icon = icon;
+    await tag.save();
+    log.end();
+    return tag;
+};
+const uploadLogo = async (id, file, context) => {
+    const log = context.logger.start(`services:tags:uploadLogo`);
+    let tag = await db.tag.findById(id);
+    if (!file) {
+        throw new Error('image not found');
+    }
+    if (!tag) {
+        throw new Error('tag not found');
+    }
+    if (tag.logo != '' && tag.logo !== undefined) {
+        let picUrl = tag.logo;
+        let fullpath = path.join(__dirname, '../', 'assets/') + `${picUrl}`;
+        try {
+            await fs.unlinkSync(fullpath);
+            console.log('File unlinked!');
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    const logo = imageUrl + file.filename;
+    tag.logo = logo;
+    await tag.save();
+    log.end();
+    return tag;
+};
+
+const uploadPattern = async (id, file, context) => {
+    const log = context.logger.start(`services:tags:uploadPattern`);
+    let tag = await db.tag.findById(id);
+    if (!file) {
+        throw new Error('image not found');
+    }
+    if (!tag) {
+        throw new Error('tag not found');
+    }
+    if (tag.pattern != '' && tag.pattern !== undefined) {
+        let picUrl = tag.pattern;
+        let fullpath = path.join(__dirname, '../', 'assets/') + `${picUrl}`;
+        try {
+            await fs.unlinkSync(fullpath);
+            console.log('File unlinked!');
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    const pattern = imageUrl + file.filename;
+    tag.pattern = pattern;
+    await tag.save();
     log.end();
     return tag;
 };
@@ -221,3 +281,6 @@ exports.search = search
 exports.deleteTag = deleteTag;
 exports.activateAndDeactive = activateAndDeactive;
 exports.uploadImage = uploadImage;
+exports.uploadIcon = uploadIcon;
+exports.uploadLogo = uploadLogo;
+exports.uploadPattern = uploadPattern;

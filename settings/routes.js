@@ -314,8 +314,26 @@ const configure = (app, logger) => {
   app.put(
     "/api/tags/uploadImage/:id",
     permit.context.requiresToken,
-    upload.array("image", 3),
+    upload.single('image'),
     api.tags.uploadImage
+  );
+  app.put(
+    "/api/tags/uploadIcon/:id",
+    permit.context.requiresToken,
+    upload.single('icon'),
+    api.tags.uploadIcon
+  );
+  app.put(
+    "/api/tags/uploadLogo/:id",
+    permit.context.requiresToken,
+    upload.single('logo'),
+    api.tags.uploadLogo
+  );
+  app.put(
+    "/api/tags/uploadPattern/:id",
+    permit.context.requiresToken,
+    upload.single('pattern'),
+    api.tags.uploadPattern
   );
 
   //permission routes //
