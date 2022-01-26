@@ -59,6 +59,7 @@ const add_beta_user = async (model) => {
       merge_fields: {
         FNAME: model.firstName,
         LNAME: model.lastName || ' ',
+        PHONE: model.phoneNumber,
       },
     }
   );

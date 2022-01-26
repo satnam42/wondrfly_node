@@ -214,6 +214,31 @@ const create = async (model, context) => {
   );
   //   congratsEmail(model.firstName, model.email, templatePath, subject);
 
+  //// add mailchimp
+  if (model) {
+    // const user = await db.user.findById(invitaton.user);
+    // if (!user) throw new Error('User not found');
+    let first_name = model.firstName;
+    let last_name = ''; //= model.lastName;
+    let name = model.firstName.trim();
+    if (name.includes(' ')) {
+      let splited = name.split(' ');
+      first_name = splited[0];
+      last_name = splited[splited.length - 1];
+    }
+    console.log(first_name);
+    console.log(last_name);
+    const data = {
+      email: model.email,
+      tags: ['Beta user'],
+      occupation: model.occupation || 'Nothing',
+      firstName: first_name,
+      lastName: last_name,
+      phoneNumber: model.phoneNumber || 0,
+    };
+    const addMember = await mailchimp.add_beta_user(data);
+    console.log(addMember);
+  }
   log.end();
   return user;
 };
