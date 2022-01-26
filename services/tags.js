@@ -1,4 +1,8 @@
 "use strict";
+let path = require('path');
+const imageUrl = require('config').get('image').url;
+const fs = require('fs');
+
 const build = async (model, context) => {
     const { name, description, categoryIds } = model;
     const log = context.logger.start(`services:tags:build${model}`);
@@ -138,6 +142,34 @@ const activateAndDeactive = async (context, id, isActivated) => {
     return tag
 };
 
+const uploadImage = async (id, file, context) => {
+    const log = context.logger.start(`services:users:uploadImage`);
+    let tag = await db.tag.findById(id);
+    if (!file) {
+        throw new Error('image not found');
+    }
+    if (!tag) {
+        throw new Error('tag not found');
+    }
+    if (tag.image != '' && tag.image !== undefined) {
+        // let picUrl = tag.image.replace(`${imageUrl}`, '');
+        let picUrl = tag.image;
+        let fullpath = path.join(__dirname, '../', 'assets/') + `${picUrl}`;
+        try {
+            await fs.unlinkSync(fullpath);
+            console.log('File unlinked!');
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    // const avatarImages = imageUrl + 'assets/images/' + file.filename
+    const image = imageUrl + file.filename;
+    tag.image = image;
+    await tag.save();
+    log.end();
+    return tag;
+};
+
 exports.create = create;
 exports.getAlltags = getAlltags;
 exports.update = update;
@@ -145,3 +177,4 @@ exports.tagByCategoryId = tagByCategoryId
 exports.search = search
 exports.deleteTag = deleteTag;
 exports.activateAndDeactive = activateAndDeactive;
+exports.uploadImage = uploadImage;

@@ -90,6 +90,21 @@ const activeOrDeactive = async (req, res) => {
     }
 };
 
+const uploadImage = async (req, res) => {
+    const log = req.context.logger.start(`api:tags:uploadImage`);
+    try {
+        const user = await service.uploadImage(req.params.id, req.file, req.context);
+        const message = "Image uploaded Successfully";
+        log.end();
+        return response.success(res, message, user);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+
+};
+
 exports.create = create;
 exports.list = list;
 exports.update = update;
@@ -97,3 +112,4 @@ exports.tagByCategoryId = tagByCategoryId;
 exports.search = search;
 exports.remove = remove;
 exports.activeOrDeactive = activeOrDeactive;
+exports.uploadImage = uploadImage;

@@ -28,10 +28,10 @@ const list = async (req, res) => {
     }
 };
 
-const assignPermission = async (req, res) => {
-    const log = req.context.logger.start(`api:permissions:create`);
+const deletePermission = async (req, res) => {
+    const log = req.context.logger.start(`api:permissions:deletePermission`);
     try {
-        const permissions = await service.assign(req.body, req.context);
+        const permissions = await service.deletePermission(req.query, req.context);
         log.end();
         return response.data(res, permissions);
     } catch (err) {
@@ -40,10 +40,11 @@ const assignPermission = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
-const deletePermission = async (req, res) => {
-    const log = req.context.logger.start(`api:permissions:deletePermission`);
+
+const assignPermission = async (req, res) => {
+    const log = req.context.logger.start(`api:permissions:create`);
     try {
-        const permissions = await service.deletePermission(req.query, req.context);
+        const permissions = await service.assign(req.body, req.context);
         log.end();
         return response.data(res, permissions);
     } catch (err) {

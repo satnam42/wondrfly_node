@@ -300,7 +300,7 @@ const approveOrDecline = async (model, context) => {
       let first_name = user.firstName;
       let last_name = user.lastName;
       let name = user.firstName.trim();
-      if (name.indexOf(' ')) {
+      if (name.includes(' ')) {
         let splited = name.split(' ');
         first_name = splited[0];
         last_name = splited[splited.length - 1];

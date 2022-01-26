@@ -221,5 +221,43 @@ module.exports = [
                 }
             }
         }
+    },
+    {
+        url: "/uploadImage/{id}",
+        put: {
+            summary: "upload tag image",
+            description: "upload tag image",
+            parameters: [
+                {
+                    in: "formData",
+                    name: "image",
+                    type: "file",
+                    description: "The file to upload.",
+                    required: true,
+                },
+                {
+                    in: "path",
+                    type: "string",
+                    name: "id",
+                    description: "user id",
+                    required: true
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
     }
 ]

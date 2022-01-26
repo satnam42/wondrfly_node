@@ -1607,6 +1607,9 @@ const multiFilter = async (model, context) => {
       .skip(skipCount).limit(pageSize);
     log.end()
   }
+  if (!isEmpty) {
+    programs = await db.program.find(query)
+  }
   let favourites
   if (context.user !== undefined) {
     favourites = await db.favourite

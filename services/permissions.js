@@ -13,14 +13,12 @@ const build = async (model, context) => {
     return entity;
 };
 
-const buildPermission = async (model, context) => {
-    const { entityId, permissionTypeId, userId, status } = model;
+const assignPermission = async (model, context) => {
+    const { permissionId, roles } = model;
     const log = context.logger.start(`services:permissionType:build${model}`);
     const permission = await new db.permission({
-        // entityId: entityId,
-        permissionTypeId: permissionTypeId,
-        userId: userId,
-        status: status,
+        permissionId: permissionId,
+        roles: roles,
         createdOn: new Date(),
         updateOn: new Date(),
     }).save();
@@ -44,10 +42,10 @@ const assign = async (model, context) => {
     if (!role) {
         throw new Error('role undefined')
     }
-    if (role != 'superAdmin') {
+    if (role != 'superadmin') {
         throw new Error('you dont have right for this opreation')
     }
-    const permission = buildPermission(model, context);
+    const permission = assignPermission(model, context);
     log.end();
     return permission;
 };

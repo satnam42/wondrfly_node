@@ -311,6 +311,12 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.tags.activeOrDeactive
   );
+  app.put(
+    "/api/tags/uploadImage/:id",
+    permit.context.requiresToken,
+    upload.single('image'),
+    api.tags.uploadImage
+  );
 
   //permission routes //
 
