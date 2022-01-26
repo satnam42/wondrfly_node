@@ -142,30 +142,73 @@ const activateAndDeactive = async (context, id, isActivated) => {
     return tag
 };
 
-const uploadImage = async (id, file, context) => {
+const uploadImage = async (id, files, context) => {
     const log = context.logger.start(`services:users:uploadImage`);
     let tag = await db.tag.findById(id);
-    if (!file) {
-        throw new Error('image not found');
+    if (files.length <= 0) {
+        throw new Error('images not found');
     }
     if (!tag) {
         throw new Error('tag not found');
     }
-    if (tag.image != '' && tag.image !== undefined) {
-        // let picUrl = tag.image.replace(`${imageUrl}`, '');
-        let picUrl = tag.image;
-        let fullpath = path.join(__dirname, '../', 'assets/') + `${picUrl}`;
-        try {
-            await fs.unlinkSync(fullpath);
-            console.log('File unlinked!');
-        } catch (err) {
-            console.log(err);
+    // if (tag.image != '' && tag.image !== undefined) {
+    //     // let picUrl = tag.image.replace(`${imageUrl}`, '');
+    //     let picUrl = tag.image;
+    //     let fullpath = path.join(__dirname, '../', 'assets/') + `${picUrl}`;
+    //     try {
+    //         await fs.unlinkSync(fullpath);
+    //         console.log('File unlinked!');
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // }
+    // if (tag.logo != '' && tag.logo !== undefined) {
+    //     let picUrl = tag.logo;
+    //     let fullpath = path.join(__dirname, '../', 'assets/') + `${picUrl}`;
+    //     try {
+    //         await fs.unlinkSync(fullpath);
+    //         console.log('File unlinked!');
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // }
+    // if (tag.icon != '' && tag.icon !== undefined) {
+    //     let picUrl = tag.icon;
+    //     let fullpath = path.join(__dirname, '../', 'assets/') + `${picUrl}`;
+    //     try {
+    //         await fs.unlinkSync(fullpath);
+    //         console.log('File unlinked!');
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // }
+    // const avatarImages = imageUrl + 'assets/images/' + file.filename
+    for (let file of files) {
+        if (file.fieldname == "image") {
+            console.log('file.fieldname', file.fieldname)
+            const image = imageUrl + file.filename;
+            tag.image = image;
+            await tag.save();
+        }
+        if (file.fieldname == "icon") {
+            console.log('file.fieldname', file.fieldname)
+
+            const icon = imageUrl + file.filename;
+            tag.icon = icon;
+            await tag.save();
+        }
+        if (file.fieldname == "image") {
+            console.log('file.fieldname', file.fieldname)
+
+            const logo = imageUrl + file.filename;
+            tag.logo = logo;
+            await tag.save();
         }
     }
-    // const avatarImages = imageUrl + 'assets/images/' + file.filename
-    const image = imageUrl + file.filename;
-    tag.image = image;
-    await tag.save();
+    // console.log('file.filename ===>>>>>>', file.filename);
+    // const image = imageUrl + file.filename;
+    // tag.image = image;
+    // await tag.save();
     log.end();
     return tag;
 };

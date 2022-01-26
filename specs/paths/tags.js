@@ -233,13 +233,27 @@ module.exports = [
                     name: "image",
                     type: "file",
                     description: "The file to upload.",
-                    required: true,
+                    // required: true,
+                },
+                {
+                    in: "formData",
+                    name: "icon",
+                    type: "file",
+                    description: "The file to upload.",
+                    // required: true,
+                },
+                {
+                    in: "formData",
+                    name: "logo",
+                    type: "file",
+                    description: "The file to upload.",
+                    // required: true,
                 },
                 {
                     in: "path",
                     type: "string",
                     name: "id",
-                    description: "user id",
+                    description: "tag id",
                     required: true
                 },
                 {

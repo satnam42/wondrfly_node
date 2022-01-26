@@ -314,7 +314,7 @@ const configure = (app, logger) => {
   app.put(
     "/api/tags/uploadImage/:id",
     permit.context.requiresToken,
-    upload.single('image'),
+    upload.array("image", 3),
     api.tags.uploadImage
   );
 

@@ -93,7 +93,7 @@ const activeOrDeactive = async (req, res) => {
 const uploadImage = async (req, res) => {
     const log = req.context.logger.start(`api:tags:uploadImage`);
     try {
-        const user = await service.uploadImage(req.params.id, req.file, req.context);
+        const user = await service.uploadImage(req.params.id, req.files, req.context);
         const message = "Image uploaded Successfully";
         log.end();
         return response.success(res, message, user);
