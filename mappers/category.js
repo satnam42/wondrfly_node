@@ -9,6 +9,8 @@ exports.toModel = entity => {
         alternativeText: entity.alternativeText,
         imageUrl: entity.imageUrl ? baseUrl + entity.imageUrl : '',
         iconUrl: entity.iconUrl ? baseUrl + entity.iconUrl : '',
+        logoUrl: entity.logoUrl ? baseUrl + entity.logoUrl : '',
+        pattern: entity.pattern ? baseUrl + entity.pattern : '',
         isActivated: entity.isActivated,
         totalPrograms: entity.totalPrograms,
         updatedOn: entity.updatedOn,
