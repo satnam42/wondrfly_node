@@ -6,6 +6,7 @@ const category = mongoose.Schema({
     imageUrl: { type: String, default: "", },
     iconUrl: { type: String, default: "", },
     logoUrl: { type: String, default: "", },
+    pattern: { type: String, default: "", },
     alternativeText: { type: String, default: "" },
     isActivated: { type: Boolean, default: true },
     totalPrograms: { type: Number, default: 0 },

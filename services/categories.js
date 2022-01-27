@@ -2,7 +2,7 @@
 const imageUrl = require('config').get('image').url
 const fs = require('fs');
 const baseUrl = require('config').get('image').baseUrl
-
+let path = require('path');
 
 const build = async (model, context) => {
     const { name, imageUrl, iconUrl, logoUrl, description, alternativeText } = model;
@@ -98,22 +98,17 @@ const search = async (query, context) => {
 };
 
 const uploadPic = async (id, file, context) => {
-
     const log = context.logger.start(`services:categories:uploadPic`);
     let category = await db.category.findById(id);
-
-    if (!file) {
-        throw new Error("image not found");
-    }
-
-    if (!category) {
-        throw new Error("category not found");
-    }
+    if (!file) { throw new Error("image not found") }
+    if (!category) { throw new Error("category not found") }
 
     if (category.imageUrl != "" && category.imageUrl !== undefined) {
-        let image = category.imageUrl.replace(`${imageUrl}`, '');
+        // let image = category.imageUrl.replace(`${imageUrl}`, '');
+        let picUrl = category.imageUrl;
+        let fullpath = path.join(__dirname, '../', 'assets/') + `${picUrl}`;
         try {
-            await fs.unlinkSync(`${image}`)
+            await fs.unlinkSync(fullpath);
             console.log('File unlinked!');
         } catch (err) {
             console.log(err)
@@ -162,6 +157,84 @@ const activateAndDeactive = async (context, id, isActivated) => {
     return category
 };
 
+const uploadIcon = async (id, file, context) => {
+    const log = context.logger.start(`services:categories:uploadIcon`);
+    let category = await db.category.findById(id);
+    if (!file) {
+        throw new Error('image not found');
+    }
+    if (!category) {
+        throw new Error('category not found');
+    }
+    if (category.iconUrl != '' && category.iconUrl !== undefined) {
+        let picUrl = category.iconUrl;
+        let fullpath = path.join(__dirname, '../', 'assets/') + `${picUrl}`;
+        try {
+            await fs.unlinkSync(fullpath);
+            console.log('File unlinked!');
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    const iconUrl = imageUrl + file.filename;
+    category.iconUrl = iconUrl;
+    await category.save();
+    log.end();
+    return category;
+};
+
+const uploadLogo = async (id, file, context) => {
+    const log = context.logger.start(`services:categories:uploadLogo`);
+    let category = await db.category.findById(id);
+    if (!file) {
+        throw new Error('image not found');
+    }
+    if (!category) {
+        throw new Error('category not found');
+    }
+    if (category.logoUrl != '' && category.logoUrl !== undefined) {
+        let picUrl = category.logoUrl;
+        let fullpath = path.join(__dirname, '../', 'assets/') + `${picUrl}`;
+        try {
+            await fs.unlinkSync(fullpath);
+            console.log('File unlinked!');
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    const logoUrl = imageUrl + file.filename;
+    category.logoUrl = logoUrl;
+    await category.save();
+    log.end();
+    return category;
+};
+
+const uploadPattern = async (id, file, context) => {
+    const log = context.logger.start(`services:categories:uploadPattern`);
+    let category = await db.category.findById(id);
+    if (!file) {
+        throw new Error('image not found');
+    }
+    if (!category) {
+        throw new Error('category not found');
+    }
+    if (category.pattern != '' && category.pattern !== undefined) {
+        let picUrl = category.pattern;
+        let fullpath = path.join(__dirname, '../', 'assets/') + `${picUrl}`;
+        try {
+            await fs.unlinkSync(fullpath);
+            console.log('File unlinked!');
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    const pattern = imageUrl + file.filename;
+    category.pattern = pattern;
+    await category.save();
+    log.end();
+    return category;
+};
+
 exports.create = create;
 exports.getAllcategories = getAllcategories;
 exports.update = update;
@@ -169,3 +242,6 @@ exports.search = search;
 exports.uploadPic = uploadPic;
 exports.removeById = removeById;
 exports.activateAndDeactive = activateAndDeactive;
+exports.uploadIcon = uploadIcon;
+exports.uploadLogo = uploadLogo;
+exports.uploadPattern = uploadPattern;

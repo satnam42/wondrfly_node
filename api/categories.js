@@ -99,6 +99,45 @@ const activeOrDeactive = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
+const uploadIcon = async (req, res) => {
+    const log = req.context.logger.start(`api:categories:uploadIcon`);
+    try {
+        const tag = await service.uploadIcon(req.params.id, req.file, req.context);
+        const message = "Icon uploaded Successfully";
+        log.end();
+        return response.success(res, message, tag);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+const uploadLogo = async (req, res) => {
+    const log = req.context.logger.start(`api:categories:uploadLogo`);
+    try {
+        const tag = await service.uploadLogo(req.params.id, req.file, req.context);
+        const message = "Logo uploaded Successfully";
+        log.end();
+        return response.success(res, message, tag);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+const uploadPattern = async (req, res) => {
+    const log = req.context.logger.start(`api:categories:uploadPattern`);
+    try {
+        const tag = await service.uploadPattern(req.params.id, req.file, req.context);
+        const message = "Pattern uploaded Successfully";
+        log.end();
+        return response.success(res, message, tag);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
 
 exports.create = create;
 exports.list = list;
@@ -107,3 +146,6 @@ exports.search = search;
 exports.uploadPic = uploadPic;
 exports.remove = remove;
 exports.activeOrDeactive = activeOrDeactive;
+exports.uploadIcon = uploadIcon;
+exports.uploadLogo = uploadLogo;
+exports.uploadPattern = uploadPattern

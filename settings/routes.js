@@ -272,6 +272,24 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.categories.activeOrDeactive
   );
+  app.put(
+    "/api/categories/uploadIcon/:id",
+    permit.context.requiresToken,
+    upload.single('icon'),
+    api.categories.uploadIcon
+  );
+  app.put(
+    "/api/categories/uploadLogo/:id",
+    permit.context.requiresToken,
+    upload.single('logo'),
+    api.categories.uploadLogo
+  );
+  app.put(
+    "/api/categories/uploadPattern/:id",
+    permit.context.requiresToken,
+    upload.single('pattern'),
+    api.categories.uploadPattern
+  );
 
   //tag routes //
   app.post(

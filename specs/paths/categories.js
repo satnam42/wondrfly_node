@@ -236,5 +236,119 @@ module.exports = [
                 }
             }
         }
+    },
+    {
+        url: "/uploadIcon/{id}",
+        put: {
+            summary: "upload category icon",
+            description: "upload category icon",
+            parameters: [
+                {
+                    in: "formData",
+                    name: "icon",
+                    type: "file",
+                    description: "The file to upload.",
+                    required: true,
+                },
+                {
+                    in: "path",
+                    type: "string",
+                    name: "id",
+                    description: "category id",
+                    required: true
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
+    {
+        url: "/uploadLogo/{id}",
+        put: {
+            summary: "upload category logo",
+            description: "upload category logo",
+            parameters: [
+                {
+                    in: "formData",
+                    name: "logo",
+                    type: "file",
+                    description: "The file to upload.",
+                    required: true,
+                },
+                {
+                    in: "path",
+                    type: "string",
+                    name: "id",
+                    description: "category id",
+                    required: true
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
+    {
+        url: "/uploadPattern/{id}",
+        put: {
+            summary: "upload category pattern",
+            description: "upload category pattern",
+            parameters: [
+                {
+                    in: "formData",
+                    name: "pattern",
+                    type: "file",
+                    description: "The file to upload.",
+                    required: true,
+                },
+                {
+                    in: "path",
+                    type: "string",
+                    name: "id",
+                    description: "category id",
+                    required: true
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
     }
 ]
