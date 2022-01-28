@@ -801,6 +801,8 @@ const login = async (model, context) => {
   user.lastLoggedIn = Date.now();
   user.loginCount = user.loginCount += 1;
   user.token = token;
+  user.browserName = model.browserName;
+  user.ipAddress = model.ipAddress;
   user.save();
   user.permissions = permissions;
   log.end();

@@ -7,6 +7,12 @@ module.exports = [
       },
       password: {
         type: "string"
+      },
+      browserName: {
+        type: "string"
+      },
+      ipAddress: {
+        type: "string"
       }
     }
   }
