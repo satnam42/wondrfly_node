@@ -630,7 +630,7 @@ const resetPassword = async (id, model, context) => {
 
     // changePasswordEmail(user.firstName, user.email, templatePath, subject);
     const opt = {
-      name: 'password-change-complete',
+      name: 'password-reset-successfully',
       email: [
         {
           email: user.email,
