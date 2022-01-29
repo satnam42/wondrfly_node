@@ -1020,7 +1020,7 @@ const forgotPassword = async (model, context) => {
 
     await new db.notification({
       title: 'reset password',
-      description: `Your password is reset successfully on ${date} at ${time}`,
+      description: `Your password has been changed. `,
       user: user._id,
       createdOn: new Date(),
       updateOn: new Date(),
