@@ -876,6 +876,7 @@ const deleteUser = async (id, context) => {
     await db.child.deleteMany({ parent: id });
     await db.guardian.deleteMany({ invitedBy: id });
     await db.invitation.deleteMany({ invitedBy: id });
+    await db.invitation.deleteOne({ user: id });
 
     await db.user.deleteOne({ _id: id });
     let parent = await db.user.findById(id);
