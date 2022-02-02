@@ -308,7 +308,7 @@ const build = async (model, context) => {
     programImage: model.programImage,
     isPublished,
     status: model.status || 'active',
-    user: model.userId,
+    user: model.userId || model.user,
     addresses: model.addresses,
     categoryId: model.categoryId,
     subCategoryIds: model.subCategoryIds,
@@ -323,13 +323,15 @@ const build = async (model, context) => {
     createdOn: new Date(),
     updateOn: new Date(),
   }).save()
-  const notification = await new db.notification({
-    title: 'creating program',
-    description: 'Congratulations! your program is created successfully',
-    user: model.userId,
-    createdOn: new Date(),
-    updateOn: new Date(),
-  }).save()
+  if (model.userId) {
+    const notification = await new db.notification({
+      title: 'creating program',
+      description: 'Congratulations! your program is created successfully',
+      user: model.userId,
+      createdOn: new Date(),
+      updateOn: new Date(),
+    }).save()
+  }
 
   log.end()
   return program
@@ -1914,6 +1916,17 @@ const uploadExcel = async (file, context) => {
   return "excel file uploaded successfully"
 };
 
+const duplicateCreate = async (id, context) => {
+  const log = context.logger.start('services:programs:duplicateCreate')
+  let progrm = await db.program.findById(id)
+  if (!progrm) {
+    throw new Error('original program is not found')
+  }
+  const program = build(progrm, context)
+  log.end()
+  return program
+}
+
 // get categories and subcategories id's function ====
 // async function getIds(str, type) {
 //   let ids = []
@@ -1987,3 +2000,4 @@ exports.topRating = topRating
 exports.multiFilter = multiFilter
 exports.nearBy = nearBy
 exports.subCategoryFilter = subCategoryFilter
+exports.duplicateCreate = duplicateCreate;

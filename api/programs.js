@@ -379,6 +379,18 @@ const countForCategory = async (req, res) => {
     }
 };
 
+const duplicateCreate = async (req, res) => {
+    const log = req.context.logger.start(`api:programs:duplicateCreate:${req.params.id}`);
+    try {
+        const programs = await service.duplicateCreate(req.params.id, req.context);
+        log.end();
+        return response.data(res, programs);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
 
 exports.create = create;
 exports.list = list;
@@ -407,3 +419,4 @@ exports.multiFilter = multiFilter;
 exports.nearBy = nearBy;
 exports.subCategoryFilter = subCategoryFilter;
 exports.countForCategory = countForCategory;
+exports.duplicateCreate = duplicateCreate;

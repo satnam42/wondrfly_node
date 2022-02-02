@@ -795,6 +795,11 @@ const configure = (app, logger) => {
     permit.context.builder,
     api.programs.subCategoryFilter
   );
+  app.put(
+    "/api/programs/duplicateCreate/:id",
+    permit.context.requiresToken,
+    api.programs.duplicateCreate
+  );
 
   //=============favourites api=====================//
   app.post(
