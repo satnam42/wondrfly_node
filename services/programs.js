@@ -637,6 +637,12 @@ const getById = async (id, context) => {
     .populate('categoryId')
     .populate('subCategoryIds')
     .populate('lastModifiedBy')
+  if (program) {
+    let favourite = await db.favourite.findOne({ program: program.id })
+    if (favourite) {
+      program.isFav = true
+    }
+  }
   log.end()
   return program
 }
@@ -769,9 +775,29 @@ const getProgramsByProvider = async (query, context) => {
     { $limit: pageSize },
     { $skip: skipCount },
   ])
-
   programs.count = await db.program.find({ user: query.userId }).count()
   log.end()
+  let favourites
+  if (user) {
+    favourites = await db.favourite
+      .find({ user: query.userId })
+      .populate('program')
+  }
+  if (favourites) {
+    // add fav in program
+    for (var p = 0; p < programs.length; p++) {
+      for (var f = 0; f < favourites.length; f++) {
+        if (
+          favourites[f].program !== null &&
+          favourites[f].program !== undefined
+        ) {
+          if (programs[p]._id == favourites[f].program.id) {
+            programs[p].isFav = true
+          }
+        }
+      }
+    }
+  }
   return programs
 }
 const addProgramAction = async (model, context) => {

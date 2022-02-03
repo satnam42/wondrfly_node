@@ -112,10 +112,41 @@ const getFavouritesByUserId = async (query, context) => {
     if (!query.parentId) {
         throw new Error("userId not found");
     }
-    const favourites = await db.favourite.find({ user: query.parentId }).populate('program');
-    if (favourites.length < 0) {
-        throw new Error("Favourites not found");
-    }
+    // const favourites = await db.favourite.find({ user: query.parentId }).populate('program');
+    // if (favourites.length < 0) {
+    //     throw new Error("Favourites not found");
+    // }
+    const favourites = await db.favourite.aggregate([
+        {
+            $match: {
+                user: ObjectId(query.parentId),
+            },
+        },
+        {
+            $lookup: {
+                from: 'programs',
+                localField: 'program',
+                foreignField: '_id',
+                as: 'programs',
+            },
+        },
+        {
+            $lookup: {
+                from: 'tags',
+                localField: 'programs.subCategoryIds',
+                foreignField: '_id',
+                as: 'tags',
+            },
+        },
+        {
+            $lookup: {
+                from: 'categories',
+                localField: 'programs.categoryId',
+                foreignField: '_id',
+                as: 'category',
+            },
+        },
+    ])
     log.end();
     return favourites;
 };
