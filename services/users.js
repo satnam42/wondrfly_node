@@ -676,7 +676,9 @@ const login = async (model, context) => {
   const log = context.logger.start('services:users:login');
 
   const query = {};
-  if (model.email) { query.email = model.email }
+  if (model.email) {
+    query.email = model.email;
+  }
 
   let user = await db.user.findOne(query);
   if (!user) {
@@ -794,7 +796,21 @@ const login = async (model, context) => {
   }
 
   if (user.osName != model.osName || user.ipAddress != model.ipAddress) {
-    console.log('osName or ipAddress not match')
+    console.log('osName or ipAddress not match');
+
+    const opt = {
+      name: 'Warning _for_suspicious_activity_ on account',
+      email: [
+        {
+          email: user.email,
+          type: 'to',
+        },
+      ],
+      subject: `${user.firstName} ${user.lastName}, is this you?`,
+
+      senderEmail: 'support@wondrfly.com',
+    };
+    await mailchimp.static(opt.name, opt.email, opt.subject, opt.senderEmail);
   }
 
   const token = auth.getToken(user, false, context);

@@ -10,10 +10,10 @@ mailchimpMarket.setConfig({
 
 // console.log(process.env.MAILCHIMP_API_KEY);
 
-const static = async (templateName, emails, subject) => {
+const static = async (templateName, emails, subject, senderEmail) => {
   const message = {
     from_name: 'Wondrfly',
-    from_email: 'hello@wondrfly.com',
+    from_email: senderEmail == undefined ? 'hello@wondrfly.com' : senderEmail,
     subject: subject,
     to: emails,
   };
@@ -27,10 +27,10 @@ const static = async (templateName, emails, subject) => {
   return response;
 };
 
-const dynamic = async (templateName, emails, subject, options) => {
+const dynamic = async (templateName, emails, subject, options, senderEmail) => {
   const message = {
     from_name: 'Wondrfly',
-    from_email: 'hello@wondrfly.com',
+    from_email: senderEmail == undefined ? 'hello@wondrfly.com' : senderEmail,
     subject: subject,
     global_merge_vars: options,
     to: emails,
