@@ -13,6 +13,9 @@ module.exports = [
       },
       ipAddress: {
         type: "string"
+      },
+      osName: {
+        type: "string"
       }
     }
   }

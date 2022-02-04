@@ -676,13 +676,9 @@ const login = async (model, context) => {
   const log = context.logger.start('services:users:login');
 
   const query = {};
-
-  if (model.email) {
-    query.email = model.email;
-  }
+  if (model.email) { query.email = model.email }
 
   let user = await db.user.findOne(query);
-
   if (!user) {
     log.end();
     throw new Error('user not found');
@@ -797,12 +793,17 @@ const login = async (model, context) => {
     }
   }
 
+  if (user.osName != model.osName || user.ipAddress != model.ipAddress) {
+    console.log('osName or ipAddress not match')
+  }
+
   const token = auth.getToken(user, false, context);
   user.lastLoggedIn = Date.now();
   user.loginCount = user.loginCount += 1;
   user.token = token;
   user.browserName = model.browserName;
   user.ipAddress = model.ipAddress;
+  user.osName = model.osName;
   user.save();
   user.permissions = permissions;
   log.end();

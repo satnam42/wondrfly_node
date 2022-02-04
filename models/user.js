@@ -78,6 +78,7 @@ const user = mongoose.Schema({
   guardianInvitationLimit: { type: Number, default: 0 },
   browserName: { type: String, default: '' },
   ipAddress: { type: String, default: '' },
+  osName: { type: String, default: '' },
   loginCount: { type: Number, default: 0 },
   deviceToken: { type: String, default: '' },
   betaUser: { type: Boolean, default: false },
