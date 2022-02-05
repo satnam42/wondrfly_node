@@ -723,7 +723,7 @@ const login = async (model, context) => {
     progress += 20;
   }
 
-  if (progress !== 100 && user.loginCount <= 2) {
+  if (progress !== 100 && user.loginCount == 1) {
     await new db.notification({
       title: 'About Profile',
       description: `Complete your profile to get the most out of Wondrfly!`,

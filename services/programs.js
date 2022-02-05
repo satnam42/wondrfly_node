@@ -772,7 +772,7 @@ const getProgramsByProvider = async (query, context) => {
         as: 'provider',
       },
     },
-    { $limit: pageSize },
+    { $limit: pageSize + skipCount },
     { $skip: skipCount },
   ])
   programs.count = await db.program.find({ user: query.userId }).count()
@@ -1354,7 +1354,7 @@ const listPublishOrUnpublish = async (query, context) => {
           as: 'provider',
         },
       },
-      { $limit: pageSize },
+      { $limit: pageSize + skipCount },
       { $skip: skipCount },
     ])
     programs.count = await db.program.find({ isPublished: true }).count()
