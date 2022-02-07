@@ -746,6 +746,11 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.programs.duplicateCreate
   );
+  app.get(
+    '/api/programs/childTagProgramCount',
+    permit.context.builder,
+    api.programs.childTagProgramCount
+  );
 
   //=============favourites api=====================//
   app.post(

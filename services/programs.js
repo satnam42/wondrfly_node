@@ -1953,6 +1953,20 @@ const duplicateCreate = async (id, context) => {
   return program
 }
 
+const childTagProgramCount = async (model, context) => {
+  const log = context.logger.start(`services:programs:childTagProgramCount`);
+  const age = {
+    $gte: 0,
+    $lte: Number(model.maxAge),
+  }
+  const count = await db.program.find({
+    $and: [{ subCategoryIds: model.tagId }, { "ageGroup.to": age }],
+  }).count()
+  log.end()
+  return count
+}
+
+
 // get categories and subcategories id's function ====
 // async function getIds(str, type) {
 //   let ids = []
@@ -2027,3 +2041,4 @@ exports.multiFilter = multiFilter
 exports.nearBy = nearBy
 exports.subCategoryFilter = subCategoryFilter
 exports.duplicateCreate = duplicateCreate;
+exports.childTagProgramCount = childTagProgramCount;

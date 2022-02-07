@@ -392,6 +392,19 @@ const duplicateCreate = async (req, res) => {
     }
 };
 
+const childTagProgramCount = async (req, res) => {
+    const log = req.context.logger.start(`api:programs:childTagProgramCount`);
+    try {
+        const data = await service.childTagProgramCount(req.query, req.context);
+        log.end();
+        return response.data(res, data);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 exports.create = create;
 exports.list = list;
 exports.update = update;
@@ -420,3 +433,4 @@ exports.nearBy = nearBy;
 exports.subCategoryFilter = subCategoryFilter;
 exports.countForCategory = countForCategory;
 exports.duplicateCreate = duplicateCreate;
+exports.childTagProgramCount = childTagProgramCount

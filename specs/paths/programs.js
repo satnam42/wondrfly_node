@@ -1111,5 +1111,36 @@ module.exports = [
         },
       },
     },
+  },
+  {
+    url: '/childTagProgramCount',
+    get: {
+      summary: 'count',
+      description: 'get programs count by child age range and Tag id',
+      parameters: [
+        {
+          in: 'query',
+          name: 'tagId',
+          description: 'tag id',
+          required: true,
+          type: 'string',
+        },
+        {
+          in: 'query',
+          name: 'maxAge',
+          description: 'maxAge',
+          type: 'integer',
+        },
+
+      ],
+      responses: {
+        default: {
+          description: 'Unexpected error',
+          schema: {
+            $ref: '#/definitions/Error',
+          },
+        },
+      },
+    },
   }
 ]
