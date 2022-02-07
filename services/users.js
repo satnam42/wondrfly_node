@@ -806,11 +806,23 @@ const login = async (model, context) => {
           type: 'to',
         },
       ],
-      subject: `${user.firstName} ${user.lastName}, is this you?`,
 
+      subject: `${user.firstName} ${user.lastName}, is this you?`,
+      options: [
+        {
+          name: 'FNAME',
+          content: user.firstName,
+        },
+      ],
       senderEmail: 'support@wondrfly.com',
     };
-    await mailchimp.static(opt.name, opt.email, opt.subject, opt.senderEmail);
+    await mailchimp.dynamic(
+      opt.name,
+      opt.email,
+      opt.subject,
+      opt.options,
+      opt.senderEmail
+    );
   }
 
   const token = auth.getToken(user, false, context);
@@ -1535,6 +1547,8 @@ const removeProfilePic = async (context, id) => {
     }
   }
 };
+
+//// mailchimp  add subscribes
 
 exports.register = register;
 exports.get = get;

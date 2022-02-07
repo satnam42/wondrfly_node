@@ -52,14 +52,14 @@ const add_beta_user = async (model) => {
     process.env.BETA_USER_LIST_ID,
     {
       email_address: model.email,
-      status: 'unsubscribed',
+      status: model.subscribes || 'unsubscribed',
       email_type: 'html',
-      message: model.occupation,
+      message: model.occupation || 'Nothing',
       tags: model.tags,
       merge_fields: {
-        FNAME: model.firstName,
+        FNAME: model.firstName || '',
         LNAME: model.lastName || ' ',
-        PHONE: model.phoneNumber,
+        PHONE: model.phoneNumber || '',
       },
     }
   );
