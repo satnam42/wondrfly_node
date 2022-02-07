@@ -291,6 +291,39 @@ const approveAll = async (model, context) => {
       },
     }
   );
+  // const allInvitaions = await db.invitation.find({});
+  // if (allInvitaions.length > 0) {
+  //   const emails = [];
+  //   // for (let data of allInvitaions) {
+  //   //   if (data.user && data.user.email !== undefined) {
+  //   //     emails.push[{ email: data.user.email, type: 'to' }];
+  //   //   }
+  //   // }
+  //   for (let i = 0; i < allInvitaions.length; i++) {
+  //     let user = allInvitaions[i].invitedToEmail;
+  //     console.log(user);
+  //     let data = { email: user, type: 'to' };
+  //     emails.push(data);
+  //   }
+  //   if (emails.length > 0) {
+  //     const opt = {
+  //       name: 'welcome-beta-users',
+  //       email: emails,
+  //       // options: [
+  //       //   {
+  //       //     name: 'FNAME',
+  //       //     content: user.firstName || 'User',
+  //       //   },
+  //       // ],
+  //       subject: 'Welcome to the World of Wondrfly!',
+  //     };
+  //     const mailchimpMail = await mailchimp.static(
+  //       opt.name,
+  //       opt.email,
+  //       opt.subject
+  //     );
+  //   }
+  // }
   log.end();
   return invitation;
 };
@@ -321,6 +354,28 @@ const approveOrDecline = async (model, context) => {
     // model of add member
     if (invitation.user) {
       const user = await db.user.findById(invitaton.user);
+      const opt = {
+        name: 'welcome-beta-users',
+        email: [
+          {
+            email: user.email,
+            type: 'to',
+          },
+        ],
+        // options: [
+        //   {
+        //     name: 'FNAME',
+        //     content: user.firstName || 'User',
+        //   },
+        // ],
+        subject: 'Welcome to the World of Wondrfly!',
+      };
+      const mailchimpMail = await mailchimp.static(
+        opt.name,
+        opt.email,
+        opt.subject
+      );
+      console.log(user.email, '>>>>>>>>>>>>>>>>');
       if (!user) throw new Error('User not found');
       let first_name = user.firstName;
       let last_name = user.lastName;
@@ -342,6 +397,7 @@ const approveOrDecline = async (model, context) => {
       const addMember = await mailchimp.add_beta_user(data);
       console.log(addMember);
     }
+
     log.end();
     return invitation;
   }

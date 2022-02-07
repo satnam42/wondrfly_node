@@ -617,6 +617,7 @@ const inviteToJoin = async (model, context) => {
   }).save();
   user.inviteLinked = guard._id;
   user.save();
+
   log.end();
   return invitation;
 };
@@ -667,19 +668,26 @@ const create = async (model, context) => {
 
   // congratsEmail(model.firstName, model.email, templatePath, subject);
   const opt = {
-    name: 'welcome-beta-users',
+    name: 'beta-user-in-waitlist',
     email: [
       {
         email: model.email,
         type: 'to',
       },
     ],
-    subject: 'Welcome to the World of Wondrfly!',
+    options: [
+      {
+        name: 'FNAME',
+        content: model.firstName || 'User',
+      },
+    ],
+    subject: 'Your application is on its way!',
   };
-  const mailchimpMail = await mailchimp.static(
+  const mailchimpMail = await mailchimp.dynamic(
     opt.name,
     opt.email,
-    opt.subject
+    opt.subject,
+    opt.options
   );
   log.end();
   return guardian;
