@@ -158,15 +158,15 @@ const addChild = async (model, context) => {
   if (!user) {
     throw new Error('parent not found');
   }
-  let isChild = await db.child.findOne({
-    $and: [
-      { parent: model.parentId },
-      { name: { $regex: '^' + model.name, $options: 'i' } },
-    ],
-  });
-  if (isChild) {
-    throw new Error('child already exits with this name');
-  }
+  // let isChild = await db.child.findOne({
+  //   $and: [
+  //     { parent: model.parentId },
+  //     { name: { $regex: '^' + model.name, $options: 'i' } },
+  //   ],
+  // });
+  // if (isChild) {
+  //   throw new Error('child already exits with this name');
+  // }
   const child = buildChild(model, context);
   if (child) {
     const today = new Date();
