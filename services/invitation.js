@@ -291,39 +291,39 @@ const approveAll = async (model, context) => {
       },
     }
   );
-  // const allInvitaions = await db.invitation.find({});
-  // if (allInvitaions.length > 0) {
-  //   const emails = [];
-  //   // for (let data of allInvitaions) {
-  //   //   if (data.user && data.user.email !== undefined) {
-  //   //     emails.push[{ email: data.user.email, type: 'to' }];
-  //   //   }
-  //   // }
-  //   for (let i = 0; i < allInvitaions.length; i++) {
-  //     let user = allInvitaions[i].invitedToEmail;
-  //     console.log(user);
-  //     let data = { email: user, type: 'to' };
-  //     emails.push(data);
-  //   }
-  //   if (emails.length > 0) {
-  //     const opt = {
-  //       name: 'welcome-beta-users',
-  //       email: emails,
-  //       // options: [
-  //       //   {
-  //       //     name: 'FNAME',
-  //       //     content: user.firstName || 'User',
-  //       //   },
-  //       // ],
-  //       subject: 'Welcome to the World of Wondrfly!',
-  //     };
-  //     const mailchimpMail = await mailchimp.static(
-  //       opt.name,
-  //       opt.email,
-  //       opt.subject
-  //     );
-  //   }
-  // }
+  const allInvitaions = await db.invitation.find({}).populate('user');
+  if (allInvitaions.length > 0) {
+    const emails = [];
+    // for (let data of allInvitaions) {
+    //   if (data.user && data.user.email !== undefined) {
+    //     emails.push[{ email: data.user.email, type: 'to' }];
+    //   }
+    // }
+    for (let i = 0; i < allInvitaions.length; i++) {
+      let user = allInvitaions[i].user;
+      let data = { email: user.email, type: 'to' };
+      emails.push(data);
+    }
+    if (emails.length > 0) {
+      console.log(emails);
+      const opt = {
+        name: 'welcome-beta-users',
+        email: emails,
+        // options: [
+        //   {
+        //     name: 'FNAME',
+        //     content: user.firstName || 'User',
+        //   },
+        // ],
+        subject: 'Welcome to the World of Wondrfly!',
+      };
+      const mailchimpMail = await mailchimp.static(
+        opt.name,
+        opt.email,
+        opt.subject
+      );
+    }
+  }
   log.end();
   return invitation;
 };
