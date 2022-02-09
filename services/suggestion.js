@@ -59,19 +59,21 @@ const bySubcategoryId = async (id, context) => {
     const finalSuggestion = []
     if (suggestion) {
         const suggestions = suggestion[0].tags;
-        const category = suggestion[0].category[0]
-        const imageUrl = category.imageUrl ? baseUrl + category.imageUrl : ''
-        const iconUrl = category.iconUrl ? baseUrl + category.iconUrl : ''
-        const logoUrl = category.logoUrl ? baseUrl + category.logoUrl : ''
+        // const category = suggestion[0].category[0]
+        // const imageUrl = category.imageUrl ? baseUrl + category.imageUrl : ''
+        // const iconUrl = category.iconUrl ? baseUrl + category.iconUrl : ''
+        // const logoUrl = category.logoUrl ? baseUrl + category.logoUrl : ''
+        // const pattern = category.logoUrl ? baseUrl + category.logoUrl : ''
         for (const suggestion of suggestions) {
             const count = await db.program.count({ subCategoryIds: suggestion._id })
             if (count > 0) {
                 let newSuggestion = {}
                 newSuggestion.id = suggestion._id
                 newSuggestion.name = suggestion.name
-                newSuggestion.imageUrl = imageUrl
-                newSuggestion.iconUrl = iconUrl
-                newSuggestion.logoUrl = logoUrl
+                newSuggestion.imageUrl = suggestion.image ? baseUrl + suggestion.image : ''
+                newSuggestion.iconUrl = suggestion.icon ? baseUrl + suggestion.icon : ''
+                newSuggestion.logoUrl = suggestion.logo ? baseUrl + suggestion.logo : ''
+                newSuggestion.pattern = suggestion.pattern ? baseUrl + suggestion.pattern : ''
                 finalSuggestion.push(newSuggestion)
             }
         }
