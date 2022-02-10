@@ -552,6 +552,12 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.child.removeProfilePic
   );
+  app.post(
+    '/api/child/interestPrograms',
+    permit.context.builder,
+    api.child.interestPrograms
+  );
+
 
   //guardian routes
   app.post('/api/guardians/add', permit.context.builder, api.guardians.add);

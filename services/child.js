@@ -470,6 +470,26 @@ const removeProfilePic = async (context, id) => {
   }
 };
 
+const interestPrograms = async (model, context) => {
+  const log = context.logger.start(`services:child:interestPrograms`);
+  const children = model.child;
+  let finalChildren = []
+  for (let child of children) {
+    let kid = await db.child.findById(child.id);
+    let interestCount = 0
+    for (let interest of kid.interestInfo) {
+      let program = await db.program.find({ subCategoryIds: interest }).count();
+      interestCount += program
+    }
+    if (interestCount >= 1) {
+      finalChildren.push(kid)
+    }
+  }
+  log.end();
+  return finalChildren;
+};
+
+
 exports.addChild = addChild;
 exports.getList = getList;
 exports.updateChild = updateChild;
@@ -478,3 +498,4 @@ exports.deleteChild = deleteChild;
 exports.childByGuardianId = childByGuardianId;
 exports.activateAndDeactive = activateAndDeactive;
 exports.removeProfilePic = removeProfilePic;
+exports.interestPrograms = interestPrograms;

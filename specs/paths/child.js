@@ -277,6 +277,39 @@ module.exports = [
                 }
             }
         }
+    },
+    {
+        url: "/interestPrograms",
+        post: {
+            summary: "childInterestProgram",
+            description: "childInterestProgram",
+            parameters: [
+                {
+                    in: "body",
+                    name: "body",
+                    description: "Model of get children if interest programs exist",
+                    required: true,
+                    schema: {
+                        $ref: "#/definitions/childInterestProgram"
+                    }
+                },
+                // {
+                //     in: "header",
+                //     name: "x-access-token",
+                //     description: "token to access api",
+                //     required: true,
+                //     type: "string"
+                // },
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
     }
 
 ];
