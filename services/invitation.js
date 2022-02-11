@@ -195,50 +195,56 @@ const create = async (model, context) => {
     await invitedUser.save();
   }
 
-  let templatePath = '../emailTemplates/beta_congrats.html';
-  let subject = 'Congratulations!  wondrlfy';
+  // let templatePath = '../emailTemplates/beta_congrats.html';
+  // let subject = 'Congratulations!  wondrlfy';
   const opt = {
-    name: 'welcome-beta-users',
+    name: 'beta-user-in-waitlist',
     email: [
       {
         email: model.email,
         type: 'to',
       },
     ],
-    subject: 'Welcome to the World of Wondrfly!',
+    options: [
+      {
+        name: 'FNAME',
+        content: model.firstName || 'User',
+      },
+    ],
+    subject: 'Your application is on its way!',
   };
-  const mailchimpMail = await mailchimp.static(
+  const mailchimpMail = await mailchimp.dynamic(
     opt.name,
     opt.email,
-    opt.subject
+    opt.subject,
+    opt.options
   );
   //   congratsEmail(model.firstName, model.email, templatePath, subject);
-
   //// add mailchimp
-  if (model) {
-    // const user = await db.user.findById(invitaton.user);
-    // if (!user) throw new Error('User not found');
-    let first_name = model.firstName;
-    let last_name = ''; //= model.lastName;
-    let name = model.firstName.trim();
-    if (name.includes(' ')) {
-      let splited = name.split(' ');
-      first_name = splited[0];
-      last_name = splited[splited.length - 1];
-    }
-    console.log(first_name);
-    console.log(last_name);
-    const data = {
-      email: model.email,
-      tags: ['Beta user'],
-      occupation: model.occupation || 'Nothing',
-      firstName: first_name,
-      lastName: last_name,
-      phoneNumber: model.phoneNumber || 0,
-    };
-    const addMember = await mailchimp.add_beta_user(data);
-    console.log(addMember);
-  }
+  // if (model) {
+  //   // const user = await db.user.findById(invitaton.user);
+  //   // if (!user) throw new Error('User not found');
+  //   let first_name = model.firstName;
+  //   let last_name = ''; //= model.lastName;
+  //   let name = model.firstName.trim();
+  //   if (name.includes(' ')) {
+  //     let splited = name.split(' ');
+  //     first_name = splited[0];
+  //     last_name = splited[splited.length - 1];
+  //   }
+  //   console.log(first_name);
+  //   console.log(last_name);
+  //   const data = {
+  //     email: model.email,
+  //     tags: ['Beta user', 'Newslatter'],
+  //     occupation: model.occupation || 'Nothing',
+  //     firstName: first_name,
+  //     lastName: last_name,
+  //     phoneNumber: model.phoneNumber || 0,
+  //   };
+  //   const addMember = await mailchimp.add_beta_user(data);
+  //   console.log(addMember);
+  // }
   log.end();
   return user;
 };
@@ -352,7 +358,7 @@ const approveOrDecline = async (model, context) => {
       });
     }
     // model of add member
-    if (invitation.user) {
+    if (invitation) {
       const user = await db.user.findById(invitaton.user);
       const opt = {
         name: 'welcome-beta-users',
@@ -375,6 +381,7 @@ const approveOrDecline = async (model, context) => {
         opt.email,
         opt.subject
       );
+      ///// user add in mailchimp subscribes
       console.log(user.email, '>>>>>>>>>>>>>>>>');
       if (!user) throw new Error('User not found');
       let first_name = user.firstName;
@@ -389,7 +396,7 @@ const approveOrDecline = async (model, context) => {
       console.log(last_name);
       const data = {
         email: user.email,
-        tags: ['Beta user'],
+        tags: ['Beta user', 'Newslatter'],
         occupation: user.occupation || 'Nothing',
         firstName: first_name,
         lastName: last_name,

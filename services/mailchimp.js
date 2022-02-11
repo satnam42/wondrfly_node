@@ -52,7 +52,7 @@ const add_beta_user = async (model) => {
     process.env.BETA_USER_LIST_ID,
     {
       email_address: model.email,
-      status: model.subscribes || 'unsubscribed',
+      status: model.subscribes || 'subscribed',
       email_type: 'html',
       message: model.occupation || 'Nothing',
       tags: model.tags,
