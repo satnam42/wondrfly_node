@@ -122,10 +122,11 @@ const removeProfilePic = async (req, res) => {
 const interestPrograms = async (req, res) => {
     const log = req.context.logger.start(`api:child:interestPrograms`);
     try {
-        const child = await service.interestPrograms(req.query, req.context);
+        const children = await service.interestPrograms(req.query, req.context);
         const message = "interest Programs";
         log.end();
-        return response.success(res, message, child);
+        // return response.success(res, message, children);
+        return response.data(res, childMapper.toSearchModel(children));
     } catch (err) {
         log.error(err);
         log.end();

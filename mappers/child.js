@@ -13,7 +13,7 @@ exports.toModel = entity => {
         relationToChild: entity.relationToChild,
         contactOtherInfo: entity.contactOtherInfo,
         schoolInfo: entity.schoolInfo,
-        interestInfo: entity.tags,
+        interestInfo: entity.tags || entity.interestInfo,
         categories: entity.categories,
         gradeLevel: entity.gradeLevel,
         fromWhereYouHeard: entity.fromWhereYouHeard,

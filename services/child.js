@@ -480,7 +480,7 @@ const interestPrograms = async (model, context) => {
   }
   let finalChildren = []
   for (let child of children) {
-    let kid = await db.child.findById(child);
+    let kid = await db.child.findById(child).populate('interestInfo');
     let interestCount = 0
     for (let interest of kid.interestInfo) {
       let program = await db.program.find({ subCategoryIds: interest }).count();
