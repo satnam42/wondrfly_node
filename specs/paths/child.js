@@ -280,18 +280,15 @@ module.exports = [
     },
     {
         url: "/interestPrograms",
-        post: {
+        get: {
             summary: "childInterestProgram",
             description: "childInterestProgram",
             parameters: [
                 {
-                    in: "body",
-                    name: "body",
-                    description: "Model of get children if interest programs exist",
-                    required: true,
-                    schema: {
-                        $ref: "#/definitions/childInterestProgram"
-                    }
+                    in: 'query',
+                    name: 'childIds',
+                    description: 'enter child Ids separated by commas',
+                    type: 'string',
                 },
                 // {
                 //     in: "header",

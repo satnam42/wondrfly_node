@@ -552,7 +552,7 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.child.removeProfilePic
   );
-  app.post(
+  app.get(
     '/api/child/interestPrograms',
     permit.context.builder,
     api.child.interestPrograms
