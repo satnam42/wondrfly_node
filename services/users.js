@@ -440,7 +440,6 @@ const getById = async (id, context) => {
   if (!user) {
     throw new Error('user Not found');
   }
-  console.log('mandeep');
   if (user.notificationsOnOff) {
     let notification = {};
     const notifications = await db.notification.find({ user: id });
@@ -1237,79 +1236,79 @@ const getProfileProgress = async (query, context) => {
       );
     }
   }
-  if (
-    user.role == 'provider' &&
-    user.profileCompleteNotification != true &&
-    progress >= 50
-  ) {
-    const notification = await new db.notification({
-      title: 'User Profile',
-      description: 'Congratulations! your profile is 50% complete',
-      profileCompleteNotification: true,
-      user: query.id,
-      createdOn: new Date(),
-      updateOn: new Date(),
-    }).save();
-    await db.user.findByIdAndUpdate(query.id, {
-      $set: {
-        profileCompleteNotification: true,
-      },
-    });
-  }
-  if (
-    user.role == 'provider' &&
-    user.profileCompleteEmail != true &&
-    progress >= 50
-  ) {
-    let templatePath = '../emailTemplates/complete_profile_provider.html';
-    let subject = 'provider profile completness';
-    if (user) {
-      completeProfileEmail(
-        query.id,
-        user.firstName,
-        user.email,
-        templatePath,
-        subject
-      );
-    }
-  }
+  // if (
+  //   user.role == 'provider' &&
+  //   user.profileCompleteNotification != true &&
+  //   progress >= 50
+  // ) {
+  //   const notification = await new db.notification({
+  //     title: 'User Profile',
+  //     description: 'Congratulations! your profile is 50% complete',
+  //     profileCompleteNotification: true,
+  //     user: query.id,
+  //     createdOn: new Date(),
+  //     updateOn: new Date(),
+  //   }).save();
+  //   await db.user.findByIdAndUpdate(query.id, {
+  //     $set: {
+  //       profileCompleteNotification: true,
+  //     },
+  //   });
+  // }
+  // if (
+  //   user.role == 'provider' &&
+  //   user.profileCompleteEmail != true &&
+  //   progress >= 50
+  // ) {
+  //   let templatePath = '../emailTemplates/complete_profile_provider.html';
+  //   let subject = 'provider profile completness';
+  //   if (user) {
+  //     completeProfileEmail(
+  //       query.id,
+  //       user.firstName,
+  //       user.email,
+  //       templatePath,
+  //       subject
+  //     );
+  //   }
+  // }
 
   let today = moment(new Date()).format('YYYY-MM-DD');
 
   var new_date = moment(new Date()).add(7, 'days');
   let day = moment(new_date._d).format('YYYY-MM-DD');
 
-  if (progress !== 100) {
-    if (user.weeklyDate) {
-      if (user.weeklyDate == today) {
-        await new db.notification({
-          title: 'About Profile',
-          description: `Complete your profile to get the most out of Wondrfly!`,
-          user: user._id,
-          createdOn: new Date(),
-          updateOn: new Date(),
-        }).save();
-        await db.user.findByIdAndUpdate(query.id, {
-          $set: {
-            weeklyDate: day,
-          },
-        });
-      }
-    } else {
-      await new db.notification({
-        title: 'About Profile',
-        description: `Complete your profile to get the most out of Wondrfly!`,
-        user: user._id,
-        createdOn: new Date(),
-        updateOn: new Date(),
-      }).save();
-      await db.user.findByIdAndUpdate(query.id, {
-        $set: {
-          weeklyDate: day,
-        },
-      });
-    }
-  }
+  // if (progress !== 100) {
+  //   if (user.weeklyDate) {
+  //     if (user.weeklyDate == today) {
+  //       await new db.notification({
+  //         title: 'About Profile',
+  //         description: `Complete your profile to get the most out of Wondrfly!`,
+  //         user: user._id,
+  //         createdOn: new Date(),
+  //         updateOn: new Date(),
+  //       }).save();
+  //       await db.user.findByIdAndUpdate(query.id, {
+  //         $set: {
+  //           weeklyDate: day,
+  //         },
+  //       });
+  //     }
+  //   } else {
+  //     await new db.notification({
+  //       title: 'About Profile',
+  //       description: `Complete your profile to get the most out of Wondrfly!`,
+  //       user: user._id,
+  //       createdOn: new Date(),
+  //       updateOn: new Date(),
+  //     }).save();
+  //     await db.user.findByIdAndUpdate(query.id, {
+  //       $set: {
+  //         weeklyDate: day,
+  //       },
+  //     });
+  //   }
+  // }
   log.end();
   let data = {
     profileProgress: progress,

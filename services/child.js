@@ -472,7 +472,6 @@ const removeProfilePic = async (context, id) => {
 
 const interestPrograms = async (model, context) => {
   const log = context.logger.start(`services:child:interestPrograms`);
-  console.log('model ----->', model.childIds);
   const children = []
   var childArr = model.childIds.split(',');
   for (const child of childArr) {
