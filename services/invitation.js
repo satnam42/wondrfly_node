@@ -236,7 +236,7 @@ const create = async (model, context) => {
   //   console.log(last_name);
   //   const data = {
   //     email: model.email,
-  //     tags: ['Beta user', 'Newslatter'],
+  //     tags: ['Beta user', 'NewsLetter'],
   //     occupation: model.occupation || 'Nothing',
   //     firstName: first_name,
   //     lastName: last_name,
@@ -396,7 +396,7 @@ const approveOrDecline = async (model, context) => {
       console.log(last_name);
       const data = {
         email: user.email,
-        tags: ['Beta user', 'Newslatter'],
+        tags: ['Beta user', 'NewsLetter'],
         occupation: user.occupation || 'Nothing',
         firstName: first_name,
         lastName: last_name,
