@@ -357,6 +357,19 @@ const removeProfilePic = async (req, res) => {
   }
 };
 
+const triggerEmail = async (req, res) => {
+  const log = req.context.logger.start(`api:users:triggerEmail`);
+  try {
+    const email = await service.triggerEmail(req.body, req.context);
+    log.end();
+    return response.success(res, email);
+  } catch (err) {
+    log.error(err);
+    log.end();
+    return response.failure(res, err.message);
+  }
+};
+
 exports.create = create;
 exports.list = list;
 exports.login = login;
@@ -382,3 +395,4 @@ exports.facebookLogin = facebookLogin;
 exports.loginWithGoogle = loginWithGoogle;
 exports.contactUs = contactUs;
 exports.removeProfilePic = removeProfilePic;
+exports.triggerEmail = triggerEmail;

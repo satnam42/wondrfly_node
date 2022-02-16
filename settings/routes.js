@@ -191,6 +191,11 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.users.removeProfilePic
   );
+  app.post(
+    '/api/users/triggerEmail',
+    permit.context.builder,
+    api.users.triggerEmail
+  );
 
   ////////events routes//////////
 
