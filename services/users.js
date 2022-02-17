@@ -953,6 +953,10 @@ const sendOtp = async (email, context) => {
   const user = await db.user.findOne({ email: { $eq: email } });
   if (!user) {
     throw new Error('user not found');
+    //   cert: fs.readFileSync('/etc/letsencrypt/live/bacca.store/fullchain.pem'),
+    //   key: fs.readFileSync('/etc/letsencrypt/live/bacca.store/privkey.pem'),
+    // };
+    // var server = Https.createServer(opti
   }
   // four digit otp genration logic
   var digits = '0123456789';
@@ -1550,13 +1554,38 @@ const removeProfilePic = async (context, id) => {
 const triggerEmail = async (model, context) => {
   const log = context.logger.start('services/users/triggerEmail');
   const users = await db.user.find({});
-  let emailIds = []
+  let emailIds = [];
   if (users.length == 0) {
     throw new Error('users are not exist');
   }
+
   for (let user of users) {
-    emailIds.push(user.email)
+    console.log(user);
+    // emailIds.push(user.email)
+    const opt = {
+      name: 'new-resources-available',
+      email: [
+        {
+          email: user.email,
+          type: 'to',
+        },
+      ],
+      subject: 'New Resources added!',
+      options: [
+        {
+          name: 'FNAME',
+          content: user.firstName,
+        },
+      ],
+    };
+    const mailchimpMail = await mailchimp.dynamic(
+      opt.name,
+      opt.email,
+      opt.subject,
+      opt.options
+    );
   }
+
   log.end();
   return emailIds;
 };
