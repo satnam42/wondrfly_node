@@ -1551,44 +1551,44 @@ const removeProfilePic = async (context, id) => {
   }
 };
 
-const triggerEmail = async (model, context) => {
-  const log = context.logger.start('services/users/triggerEmail');
-  const users = await db.user.find({});
-  let emailIds = [];
-  if (users.length == 0) {
-    throw new Error('users are not exist');
-  }
+// const triggerEmail = async (model, context) => {
+//   const log = context.logger.start('services/users/triggerEmail');
+//   const users = await db.user.find({});
+//   let emailIds = [];
+//   if (users.length == 0) {
+//     throw new Error('users are not exist');
+//   }
 
-  for (let user of users) {
-    console.log(user);
-    // emailIds.push(user.email)
-    const opt = {
-      name: 'new-resources-available',
-      email: [
-        {
-          email: user.email,
-          type: 'to',
-        },
-      ],
-      subject: 'New Resources added!',
-      options: [
-        {
-          name: 'FNAME',
-          content: user.firstName,
-        },
-      ],
-    };
-    const mailchimpMail = await mailchimp.dynamic(
-      opt.name,
-      opt.email,
-      opt.subject,
-      opt.options
-    );
-  }
+//   for (let user of users) {
+//     console.log(user);
+//     // emailIds.push(user.email)
+//     const opt = {
+//       name: 'new-resources-available',
+//       email: [
+//         {
+//           email: user.email,
+//           type: 'to',
+//         },
+//       ],
+//       subject: 'New Resources added!',
+//       options: [
+//         {
+//           name: 'FNAME',
+//           content: user.firstName,
+//         },
+//       ],
+//     };
+//     const mailchimpMail = await mailchimp.dynamic(
+//       opt.name,
+//       opt.email,
+//       opt.subject,
+//       opt.options
+//     );
+//   }
 
-  log.end();
-  return emailIds;
-};
+//   log.end();
+//   return emailIds;
+// };
 
 //// mailchimp  add subscribes
 
@@ -1618,4 +1618,4 @@ exports.facebookLogin = facebookLogin;
 exports.loginWithGoogle = loginWithGoogle;
 exports.contactUs = contactUs;
 exports.removeProfilePic = removeProfilePic;
-exports.triggerEmail = triggerEmail;
+// exports.triggerEmail = triggerEmail;

@@ -751,21 +751,21 @@ module.exports = [
       }
     }
   },
-  {
-    url: "/triggerEmail",
-    post: {
-      summary: "triggerEmail",
-      description: "add triggerEmail",
-      parameters: [
-      ],
-      responses: {
-        default: {
-          description: "Unexpected error",
-          schema: {
-            $ref: "#/definitions/Error"
-          }
-        }
-      }
-    }
-  }
+  // {
+  //   url: "/triggerEmail",
+  //   post: {
+  //     summary: "triggerEmail",
+  //     description: "add triggerEmail",
+  //     parameters: [
+  //     ],
+  //     responses: {
+  //       default: {
+  //         description: "Unexpected error",
+  //         schema: {
+  //           $ref: "#/definitions/Error"
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
 ];
