@@ -1550,14 +1550,15 @@ const removeProfilePic = async (context, id) => {
 const triggerEmail = async (model, context) => {
   const log = context.logger.start('services/users/triggerEmail');
   const users = await db.user.find({});
+  let emailIds = []
   if (users.length == 0) {
     throw new Error('users are not exist');
   }
   for (let user of users) {
-    console.log('user email', user.email);
+    emailIds.push(user.email)
   }
   log.end();
-  return users;
+  return emailIds;
 };
 
 //// mailchimp  add subscribes
