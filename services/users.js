@@ -1223,23 +1223,23 @@ const getProfileProgress = async (query, context) => {
       progress += 10;
     }
   }
-  if (
-    user.role == 'parent' &&
-    user.profileCompleteEmail != true &&
-    progress >= 50
-  ) {
-    let templatePath = '../emailTemplates/complete_profile_parent.html';
-    let subject = 'parent profile completness';
-    if (user) {
-      completeProfileEmail(
-        query.id,
-        user.firstName,
-        user.email,
-        templatePath,
-        subject
-      );
-    }
-  }
+  // if (
+  //   user.role == 'parent' &&
+  //   user.profileCompleteEmail != true &&
+  //   progress >= 50
+  // ) {
+  //   let templatePath = '../emailTemplates/complete_profile_parent.html';
+  //   let subject = 'parent profile completness';
+  //   if (user) {
+  //     completeProfileEmail(
+  //       query.id,
+  //       user.firstName,
+  //       user.email,
+  //       templatePath,
+  //       subject
+  //     );
+  //   }
+  // }
   // if (
   //   user.role == 'provider' &&
   //   user.profileCompleteNotification != true &&
