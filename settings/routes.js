@@ -1167,7 +1167,7 @@ const configure = (app, logger) => {
   app.get(
     '/api/invitation/list',
     permit.context.requiresToken,
-    // permit.context.builder,
+    permit.rolecheck.betaProgram,
     api.invitation.list
   );
   app.post(
@@ -1180,11 +1180,13 @@ const configure = (app, logger) => {
     '/api/invitation/approveAll',
     // permit.context.builder,
     permit.context.requiresToken,
+    permit.rolecheck.betaProgram,
     api.invitation.approveAll
   );
   app.put(
     '/api/invitation/approveOrDecline',
     permit.context.requiresToken,
+    permit.rolecheck.betaProgram,
     api.invitation.approveOrDecline
   );
   app.get(
