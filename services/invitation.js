@@ -397,7 +397,7 @@ const approveOrDecline = async (model, context) => {
       const data = {
         email: user.email,
         tags: ['Beta user', 'NewsLetter'],
-        occupation: user.occupation || 'Nothing',
+        occupation: invitation.occupation || 'Nothing',
         firstName: first_name,
         lastName: last_name,
       };
