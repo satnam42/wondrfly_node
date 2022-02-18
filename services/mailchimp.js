@@ -60,6 +60,7 @@ const add_beta_user = async (model) => {
         FNAME: model.firstName || '',
         LNAME: model.lastName || ' ',
         PHONE: model.phoneNumber || '',
+        OCCUPATION: model.occupation || 'Nothing',
       },
     }
   );
