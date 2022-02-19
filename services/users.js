@@ -628,6 +628,7 @@ const resetPassword = async (id, model, context) => {
     let subject = 'Password changed';
 
     // changePasswordEmail(user.firstName, user.email, templatePath, subject);
+    const firstName = user.firstName.trim().split(' ')[0];
     const opt = {
       name: 'password-reset-successfully',
       email: [
@@ -640,7 +641,7 @@ const resetPassword = async (id, model, context) => {
       options: [
         {
           name: 'FNAME',
-          content: user.firstName,
+          content: firstName,
         },
       ],
     };
@@ -797,6 +798,8 @@ const login = async (model, context) => {
   if (user.osName != model.osName || user.ipAddress != model.ipAddress) {
     console.log('osName or ipAddress not match');
 
+    const firstName = user.firstName.trim().split(' ')[0];
+
     const opt = {
       name: 'Warning _for_suspicious_activity_ on account',
       email: [
@@ -806,11 +809,11 @@ const login = async (model, context) => {
         },
       ],
 
-      subject: `${user.firstName}, is this you?`,
+      subject: `${firstName}, is this you?`,
       options: [
         {
           name: 'FNAME',
-          content: user.firstName,
+          content: firstName,
         },
       ],
       senderEmail: 'support@wondrfly.com',
@@ -970,6 +973,7 @@ const sendOtp = async (email, context) => {
   let subject = 'One Time Password';
   let templatePath = '../emailTemplates/forgot_password.html';
 
+  const firstName = user.firstName.trim().split(' ')[0];
   if (user) {
     const opt = {
       name: 'send-otp',
@@ -983,7 +987,7 @@ const sendOtp = async (email, context) => {
       options: [
         {
           name: 'FNAME',
-          content: user.firstName,
+          content: firstName,
         },
         {
           name: 'OTP',
@@ -1064,6 +1068,7 @@ const forgotPassword = async (model, context) => {
   let templatePath = '../emailTemplates/change_password.html';
 
   if (user) {
+    const firstName = user.firstName.trim().split(' ')[0];
     const opt = {
       name: 'password-reset-successfully',
       email: [
@@ -1072,11 +1077,11 @@ const forgotPassword = async (model, context) => {
           type: 'to',
         },
       ],
-      subject: `${user.firstName}, your password has been changed.`,
+      subject: `${firstName}, your password has been changed.`,
       options: [
         {
           name: 'FNAME',
-          content: user.firstName,
+          content: firstName,
         },
       ],
     };

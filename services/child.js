@@ -181,7 +181,8 @@ const addChild = async (model, context) => {
     let templatePath = '../emailTemplates/add_child.html';
     let subject = 'Add child';
     //add child mailchimp email
-
+    const firstName = user.firstName.trim().split(' ')[0];
+    const child = model.name.trim().split(' ')[0];
     const opt = {
       name: 'your-child-has-been-added',
       email: [
@@ -191,11 +192,11 @@ const addChild = async (model, context) => {
         },
       ],
       // subject: `${model.name} is ready to go! `,
-      subject: `Activities for ${model.name} are on the way!`,
+      subject: `Activities for ${child} are on the way!`,
       options: [
         {
           name: 'FNAME',
-          content: user.firstName,
+          content: firstName,
         },
       ],
     };
@@ -472,27 +473,26 @@ const removeProfilePic = async (context, id) => {
 
 const interestPrograms = async (model, context) => {
   const log = context.logger.start(`services:child:interestPrograms`);
-  const children = []
+  const children = [];
   var childArr = model.childIds.split(',');
   for (const child of childArr) {
-    children.push(child)
+    children.push(child);
   }
-  let finalChildren = []
+  let finalChildren = [];
   for (let child of children) {
     let kid = await db.child.findById(child).populate('interestInfo');
-    let interestCount = 0
+    let interestCount = 0;
     for (let interest of kid.interestInfo) {
       let program = await db.program.find({ subCategoryIds: interest }).count();
-      interestCount += program
+      interestCount += program;
     }
     if (interestCount >= 1) {
-      finalChildren.push(kid)
+      finalChildren.push(kid);
     }
   }
   log.end();
   return finalChildren;
 };
-
 
 exports.addChild = addChild;
 exports.getList = getList;
