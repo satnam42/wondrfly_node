@@ -667,6 +667,7 @@ const create = async (model, context) => {
   // let subject = "Congratulations!  wondrlfy";
 
   // congratsEmail(model.firstName, model.email, templatePath, subject);
+  const firstName = model.firstName.trim().split(' ')[0];
   const opt = {
     name: 'beta-user-in-waitlist',
     email: [
@@ -678,7 +679,7 @@ const create = async (model, context) => {
     options: [
       {
         name: 'FNAME',
-        content: model.firstName || 'User',
+        content: firstName || 'User',
       },
     ],
     subject: 'Your application is on its way!',
