@@ -794,39 +794,39 @@ const login = async (model, context) => {
       user.isOnBoardingDone = false;
     }
   }
+  if (user.osName !== "" || user.ipAddress !== "") {
+    if (user.osName != model.osName || user.ipAddress != model.ipAddress) {
+      console.log('osName or ipAddress not match');
 
-  if (user.osName != model.osName || user.ipAddress != model.ipAddress) {
-    console.log('osName or ipAddress not match');
+      const firstName = user.firstName.trim().split(' ')[0];
 
-    const firstName = user.firstName.trim().split(' ')[0];
+      const opt = {
+        name: 'Warning _for_suspicious_activity_ on account',
+        email: [
+          {
+            email: user.email,
+            type: 'to',
+          },
+        ],
 
-    const opt = {
-      name: 'Warning _for_suspicious_activity_ on account',
-      email: [
-        {
-          email: user.email,
-          type: 'to',
-        },
-      ],
-
-      subject: `${firstName}, is this you?`,
-      options: [
-        {
-          name: 'FNAME',
-          content: firstName,
-        },
-      ],
-      senderEmail: 'support@wondrfly.com',
-    };
-    await mailchimp.dynamic(
-      opt.name,
-      opt.email,
-      opt.subject,
-      opt.options,
-      opt.senderEmail
-    );
+        subject: `${firstName}, is this you?`,
+        options: [
+          {
+            name: 'FNAME',
+            content: firstName,
+          },
+        ],
+        senderEmail: 'support@wondrfly.com',
+      };
+      await mailchimp.dynamic(
+        opt.name,
+        opt.email,
+        opt.subject,
+        opt.options,
+        opt.senderEmail
+      );
+    }
   }
-
   const token = auth.getToken(user, false, context);
   user.lastLoggedIn = Date.now();
   user.loginCount = user.loginCount += 1;
