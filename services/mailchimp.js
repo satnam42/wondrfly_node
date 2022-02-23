@@ -1,4 +1,5 @@
 require('dotenv').config();
+const md5 = require('md5');
 const mailchimpTx = require('@mailchimp/mailchimp_transactional')(
   process.env.MAILCHIMP_API_KEY
 );
@@ -8,8 +9,14 @@ mailchimpMarket.setConfig({
   server: process.env.MAILCHIMP_SERVER,
 });
 
-// console.log(process.env.MAILCHIMP_API_KEY);
-
+/**
+ *
+ * @param {*} templateName
+ * @param {*} emails
+ * @param {*} subject
+ * @param {*} senderEmail
+ * @returns
+ */
 const static = async (templateName, emails, subject, senderEmail) => {
   const message = {
     from_name: 'Wondrfly',
@@ -26,7 +33,15 @@ const static = async (templateName, emails, subject, senderEmail) => {
   console.log(response);
   return response;
 };
-
+/**
+ *
+ * @param {*} templateName
+ * @param {*} emails
+ * @param {*} subject
+ * @param {*} options
+ * @param {*} senderEmail
+ * @returns
+ */
 const dynamic = async (templateName, emails, subject, options, senderEmail) => {
   const message = {
     from_name: 'Wondrfly',
@@ -47,6 +62,11 @@ const dynamic = async (templateName, emails, subject, options, senderEmail) => {
 
 /////////
 ////////////////////////////////
+
+/**
+ * @param { Data-model }
+ * @returns
+ * */
 const add_beta_user = async (model) => {
   const response = await mailchimpMarket.lists.addListMember(
     process.env.BETA_USER_LIST_ID,
@@ -54,7 +74,6 @@ const add_beta_user = async (model) => {
       email_address: model.email,
       status: model.subscribes || 'subscribed',
       email_type: 'html',
-      message: model.occupation || 'Nothing',
       tags: model.tags,
       merge_fields: {
         FNAME: model.firstName || '',
@@ -67,6 +86,48 @@ const add_beta_user = async (model) => {
   return response;
 };
 
+/**
+ * @param {email , Data-model}
+ * @returns
+ * */
+const update_beta_user = async (updateEmail, child, model) => {
+  const md5Hash = md5(updateEmail.toLowerCase());
+  const firstName = model.firstName.trim().split(' ')[0];
+  const response = await mailchimpMarket.lists.updateListMember(
+    process.env.BETA_USER_LIST_ID,
+    md5Hash,
+    {
+      email_address: updateEmail,
+      merge_fields: {
+        FNAME: firstName || '',
+        LNAME: model.lastName || ' ',
+        PHONE: model.phoneNumber || 0,
+        CHILDREN: child,
+      },
+      location: {
+        latitude: 30.7428645,
+        longitude: 76.6759107,
+      },
+    }
+  );
+  return response;
+};
+const updatechild = async function (child, email) {
+  const md5Hash = md5(email.toLowerCase());
+  const response = await mailchimpMarket.lists.updateListMember(
+    process.env.BETA_USER_LIST_ID,
+    md5Hash,
+    {
+      email_address: updateEmail,
+      merge_fields: {
+        CHILDREN: child,
+      },
+    }
+  );
+  return response;
+};
 exports.static = static;
 exports.dynamic = dynamic;
 exports.add_beta_user = add_beta_user;
+exports.update_beta_user = update_beta_user;
+exports.updatechild = updatechild;
