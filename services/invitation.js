@@ -393,14 +393,13 @@ const approveOrDecline = async (model, context) => {
         first_name = splited[0];
         last_name = splited[splited.length - 1];
       }
-      console.log(first_name);
-      console.log(last_name);
       const data = {
         email: user.email,
         tags: ['Beta user', 'NewsLetter'],
         occupation: invitation.occupation || 'Nothing',
         firstName: first_name,
         lastName: last_name,
+        // location: user.location,
       };
       const addMember = await mailchimp.add_beta_user(data);
       console.log(addMember);
