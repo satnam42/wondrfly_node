@@ -1366,6 +1366,7 @@ const listPublishOrUnpublish = async (query, context) => {
       .find({ isPublished: false })
       .sort({ createdOn: -1 })
       .populate('tags')
+      .populate('user')
       .skip(skipCount)
       .limit(pageSize)
     programs.count = await db.program.find({ isPublished: false }).count()
