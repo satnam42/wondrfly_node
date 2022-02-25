@@ -404,6 +404,18 @@ const childTagProgramCount = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
+const expireProgram = async (req, res) => {
+    const log = req.context.logger.start(`api:programs:expireProgram`);
+    try {
+        const data = await service.expireProgram(req.body, req.context);
+        log.end();
+        return response.data(res, data);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
 
 exports.create = create;
 exports.list = list;
@@ -434,3 +446,4 @@ exports.subCategoryFilter = subCategoryFilter;
 exports.countForCategory = countForCategory;
 exports.duplicateCreate = duplicateCreate;
 exports.childTagProgramCount = childTagProgramCount
+exports.expireProgram = expireProgram;

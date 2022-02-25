@@ -762,7 +762,11 @@ const configure = (app, logger) => {
     permit.context.builder,
     api.programs.childTagProgramCount
   );
-
+  app.post(
+    '/api/programs/expireProgram',
+    permit.context.requiresToken,
+    api.programs.expireProgram
+  );
   //=============favourites api=====================//
   app.post(
     '/api/favourites/add',

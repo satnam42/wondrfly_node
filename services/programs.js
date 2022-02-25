@@ -1967,6 +1967,19 @@ const childTagProgramCount = async (model, context) => {
   return count
 }
 
+const expireProgram = async (model, context) => {
+  const log = context.logger.start(`services:programs:expireProgram`);
+  const program = await db.program.findById(model.id);
+  if (!program) {
+    throw new Error('program does not exist');
+  }
+  program.isExpired = true;
+  program.expireReason = model.reason;
+
+  log.end()
+  await program.save();
+  return program
+}
 
 // get categories and subcategories id's function ====
 // async function getIds(str, type) {
@@ -2043,3 +2056,4 @@ exports.nearBy = nearBy
 exports.subCategoryFilter = subCategoryFilter
 exports.duplicateCreate = duplicateCreate;
 exports.childTagProgramCount = childTagProgramCount;
+exports.expireProgram = expireProgram;

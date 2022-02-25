@@ -138,6 +138,8 @@ const programSchema = mongoose.Schema({
   dbStatus: { type: String, default: '' },
   parentRequired: { type: String, default: '' },
   sessionLength: { type: String, default: '' },
+  isExpired: { type: Boolean, default: false },
+  expireReason: { type: String, default: '' },
   createdOn: { type: Date, default: Date.now },
   updatedOn: { type: Date, default: Date.now },
 })
