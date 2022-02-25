@@ -180,7 +180,17 @@ const addChild = async (model, context) => {
     }).save();
     let templatePath = '../emailTemplates/add_child.html';
     let subject = 'Add child';
-    //add child mailchimp email
+
+    //? update parent in mailchimp
+    const childs = await db.child
+      .find({
+        parent: model.parentId,
+        isActivated: true,
+      })
+      .count();
+    const updated = await mailchimp.updatechild(childs, user.email);
+    console.log(updated);
+    // ? add child mailchimp email
     const firstName = user.firstName.trim().split(' ')[0];
     const child = model.name.trim().split(' ')[0];
     const opt = {
@@ -246,14 +256,17 @@ const deleteChild = async (id, context) => {
   if (!id) {
     throw new Error('child Not Found');
   }
-  await db.child.deleteOne({ _id: id });
-
+  const deleted = await db.child.findOneAndDelete({ _id: id });
+  console.log(deleted);
   let child = await db.child.findById(id);
-
   if (child) {
     throw new Error('something went wrong');
   }
 
+  const childs = await db.child.find({ parent: deleted?.parent }).count();
+  const user = await db.user.findOne({ _id: deleted?.parent });
+  const parentUpdate = await mailchimp.updatechild(childs, user.email);
+  console.log(parentUpdate);
   log.end();
   return 'child deleted succesfully';
 };
@@ -439,6 +452,12 @@ const activateAndDeactive = async (context, id, isActivated) => {
   child.lastModifiedBy = context.user.id;
   child.updatedOn = Date.now();
   child.save();
+  const chids = await db.child
+    .find({ parent: child.parent, isActivated: true })
+    .count();
+  const user = await db.user.findById({ _id: child.parent });
+  const updateChild = await mailchimp.updatechild(chids, user.email);
+  console.log(updateChild);
   log.end();
   return child;
 };

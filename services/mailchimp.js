@@ -103,6 +103,7 @@ const update_beta_user = async (updateEmail, child, model) => {
         LNAME: model.lastName || ' ',
         PHONE: model.phoneNumber || 0,
         CHILDREN: child,
+        LOCATION: model.location,
       },
       location: {
         latitude: 30.7428645,
@@ -118,7 +119,7 @@ const updatechild = async function (child, email) {
     process.env.BETA_USER_LIST_ID,
     md5Hash,
     {
-      email_address: updateEmail,
+      email_address: email,
       merge_fields: {
         CHILDREN: child,
       },
