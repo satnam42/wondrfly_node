@@ -140,6 +140,7 @@ const programSchema = mongoose.Schema({
   sessionLength: { type: String, default: '' },
   isExpired: { type: Boolean, default: false },
   expireReason: { type: String, default: '' },
+  isproRated: { type: Boolean, default: false },
   createdOn: { type: Date, default: Date.now },
   updatedOn: { type: Date, default: Date.now },
 })

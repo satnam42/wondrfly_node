@@ -223,6 +223,7 @@ module.exports = [
           saturday: { type: 'boolean' },
         },
       },
+      isproRated: { type: 'boolean' },
     },
   },
 ]

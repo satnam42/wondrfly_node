@@ -416,7 +416,26 @@ const expireProgram = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
-
+const expiresInWeek = async (req, res) => {
+    const log = req.context.logger.start(`api:programs:expiresInWeek`);
+    try {
+        const programs = await service.expiresInWeek(req.query, req.context);
+        let message = programs.count ? programs.count : 0 + " " + "programs Got";
+        log.end();
+        return response.page(
+            message,
+            res,
+            mapper.toSearchModel(programs),
+            Number(req.query.pageNo) || 1,
+            Number(req.query.pageSize) || 10,
+            programs.count
+        );
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
 exports.create = create;
 exports.list = list;
 exports.update = update;
@@ -447,3 +466,4 @@ exports.countForCategory = countForCategory;
 exports.duplicateCreate = duplicateCreate;
 exports.childTagProgramCount = childTagProgramCount
 exports.expireProgram = expireProgram;
+exports.expiresInWeek = expiresInWeek;

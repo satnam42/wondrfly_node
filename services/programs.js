@@ -320,6 +320,7 @@ const build = async (model, context) => {
     cyrilApproval: model.cyrilApproval,
     proofreaderRating: model.proofreaderRating,
     programRating: model.userRating,
+    isproRated: model.isproRated,
     createdOn: new Date(),
     updateOn: new Date(),
   }).save()
@@ -545,6 +546,9 @@ const set = async (model, program, context) => {
   }
   if (model.days) {
     program.days = model.days
+  }
+  if (model.isproRated !== 'string' && model.isproRated !== undefined) {
+    program.isproRated = model.isproRated
   }
   program.lastModifiedBy = context.user.id
   program.updatedOn = new Date()
@@ -1969,6 +1973,7 @@ const childTagProgramCount = async (model, context) => {
 
 const expireProgram = async (model, context) => {
   const log = context.logger.start(`services:programs:expireProgram`);
+  console.log('expireProgram =>', model);
   const program = await db.program.findById(model.id);
   if (!program) {
     throw new Error('program does not exist');
@@ -1979,6 +1984,27 @@ const expireProgram = async (model, context) => {
   log.end()
   await program.save();
   return program
+}
+
+const expiresInWeek = async (query, context) => {
+  const log = context.logger.start(`services:programs:expiresInWeek`)
+  let pageNo = Number(query.pageNo) || 1
+  let pageSize = Number(query.pageSize) || 10
+  let skipCount = pageSize * (pageNo - 1)
+  let programs = await db.program
+    .find()
+    .sort({ _id: -1 })
+    .populate('tags')
+    .populate('user')
+    .populate('categoryId')
+    .populate('subCategoryIds')
+    .populate('lastModifiedBy')
+    .skip(skipCount)
+    .limit(pageSize)
+  programs.count = await db.program.find().count()
+
+  log.end()
+  return programs
 }
 
 // get categories and subcategories id's function ====
@@ -2057,3 +2083,4 @@ exports.subCategoryFilter = subCategoryFilter
 exports.duplicateCreate = duplicateCreate;
 exports.childTagProgramCount = childTagProgramCount;
 exports.expireProgram = expireProgram;
+exports.expiresInWeek = expiresInWeek;
