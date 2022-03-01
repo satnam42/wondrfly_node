@@ -767,6 +767,11 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.programs.expireProgram
   );
+  app.get(
+    '/api/programs/expiresInWeek',
+    permit.context.requiresToken,
+    api.programs.expiresInWeek
+  );
   //=============favourites api=====================//
   app.post(
     '/api/favourites/add',

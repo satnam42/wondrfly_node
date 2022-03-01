@@ -1175,5 +1175,43 @@ module.exports = [
         },
       },
     },
+  },
+  {
+    url: '/expiresInWeek',
+    get: {
+      summary: 'get programs expiring in week',
+      description: 'get list of programs expiring with in week',
+      parameters: [
+        {
+          in: 'query',
+          type: 'integer',
+          name: 'pageNo',
+          description: 'pageNo',
+          required: true,
+        },
+        {
+          in: 'query',
+          type: 'integer',
+          name: 'pageSize',
+          description: 'pageSize',
+          required: true,
+        },
+        {
+          in: 'header',
+          name: 'x-access-token',
+          description: 'token to access api',
+          required: true,
+          type: 'string',
+        },
+      ],
+      responses: {
+        default: {
+          description: 'Unexpected error',
+          schema: {
+            $ref: '#/definitions/Error',
+          },
+        },
+      },
+    },
   }
 ]

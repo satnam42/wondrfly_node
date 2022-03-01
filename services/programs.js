@@ -547,9 +547,7 @@ const set = async (model, program, context) => {
   if (model.days) {
     program.days = model.days
   }
-  if (model.isproRated !== 'string' && model.isproRated !== undefined) {
-    program.isproRated = model.isproRated
-  }
+  program.isproRated = model.isproRated
   program.lastModifiedBy = context.user.id
   program.updatedOn = new Date()
   log.end()
@@ -1991,9 +1989,10 @@ const expiresInWeek = async (query, context) => {
   let pageNo = Number(query.pageNo) || 1
   let pageSize = Number(query.pageSize) || 10
   let skipCount = pageSize * (pageNo - 1)
+  const currentDate = new Date();
+  let week = moment(currentDate).add(7, 'd')
   let programs = await db.program
-    .find()
-    .sort({ _id: -1 })
+    .find({ 'date.to': { '$gte': currentDate, '$lte': week._d } })
     .populate('tags')
     .populate('user')
     .populate('categoryId')
@@ -2002,7 +2001,6 @@ const expiresInWeek = async (query, context) => {
     .skip(skipCount)
     .limit(pageSize)
   programs.count = await db.program.find().count()
-
   log.end()
   return programs
 }
