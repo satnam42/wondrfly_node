@@ -2005,6 +2005,30 @@ const expiresInWeek = async (query, context) => {
   return programs
 }
 
+const searchByKeyValue = async (query, context) => {
+  const log = context.logger.start(`services:programs:searchByKeyValue`)
+  // keyType, keyValue
+  let program
+  if (query.keyType == "name") {
+    program = await db.program
+      .find({ name: { $regex: '.*' + query.keyValue + '.*', $options: 'i' } })
+      .populate('tags').populate('subCategoryIds').limit(10)
+  }
+  if (query.keyType == "type") {
+    program = await db.program
+      .find({ type: { $regex: '.*' + query.keyValue + '.*', $options: 'i' } })
+      .populate('tags').populate('subCategoryIds').limit(10)
+  }
+  if (query.keyType == "address") {
+    program = await db.program
+      .find({ addresses: { $regex: '.*' + query.keyValue + '.*', $options: 'i' } })
+      .populate('tags').populate('subCategoryIds').limit(10)
+  }
+
+  log.end()
+  return program
+}
+
 // get categories and subcategories id's function ====
 // async function getIds(str, type) {
 //   let ids = []
@@ -2082,3 +2106,4 @@ exports.duplicateCreate = duplicateCreate;
 exports.childTagProgramCount = childTagProgramCount;
 exports.expireProgram = expireProgram;
 exports.expiresInWeek = expiresInWeek;
+exports.searchByKeyValue = searchByKeyValue;

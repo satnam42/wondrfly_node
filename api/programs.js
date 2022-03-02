@@ -436,6 +436,19 @@ const expiresInWeek = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
+const searchByKeyValue = async (req, res) => {
+    const log = req.context.logger.start(`api:programs:searchByKeyValue`);
+    try {
+        const program = await service.searchByKeyValue(req.query, req.context);
+        log.end();
+        return response.data(res, mapper.toSearchModel(program));
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 exports.create = create;
 exports.list = list;
 exports.update = update;
@@ -467,3 +480,4 @@ exports.duplicateCreate = duplicateCreate;
 exports.childTagProgramCount = childTagProgramCount
 exports.expireProgram = expireProgram;
 exports.expiresInWeek = expiresInWeek;
+exports.searchByKeyValue = searchByKeyValue;

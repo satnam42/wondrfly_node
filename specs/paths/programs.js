@@ -1213,5 +1213,34 @@ module.exports = [
         },
       },
     },
+  },
+  {
+    url: '/searchByKeyValue',
+    get: {
+      summary: 'search program',
+      description: 'search programs by name or address or type',
+      parameters: [
+        {
+          in: 'query',
+          type: 'string',
+          name: 'keyType',
+          description: 'key type',
+        },
+        {
+          in: 'query',
+          type: 'string',
+          name: 'keyValue',
+          description: 'key value',
+        }
+      ],
+      responses: {
+        default: {
+          description: 'Unexpected error',
+          schema: {
+            $ref: '#/definitions/Error',
+          },
+        },
+      },
+    },
   }
 ]

@@ -772,6 +772,12 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.programs.expiresInWeek
   );
+
+  app.get(
+    '/api/programs/searchByKeyValue',
+    permit.context.builder,
+    api.programs.searchByKeyValue
+  );
   //=============favourites api=====================//
   app.post(
     '/api/favourites/add',
