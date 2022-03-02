@@ -1191,36 +1191,39 @@ const getProfileProgress = async (query, context) => {
 
   if (query.role == 'parent') {
     let children = await db.child.find({ parent: user.id });
-    if (children.length > 1) {
-      let childCount = 1;
-      children.forEach((child) => {
-        while (childCount < 2) {
-          // if (child.name !== "string" && child.name !== undefined && child.name !== "") {
-          //   progress += 2
-          // }
-          // if (child.age !== "string" && child.age !== undefined && child.age !== "") {
-          //   progress += 2
-          // }
-          // if (child.schoolinfo !== "string" && child.schoolinfo !== undefined && child.schoolinfo !== "") {
-          //   progress += 1
-          // }
-          // if (child.avtar !== "string" && child.avtar !== undefined && child.avtar !== "") {
-          //   progress += 1
-          // }
-          // if (child.sex !== "string" && child.sex !== undefined && child.sex !== "") {
-          //   progress += 1
-          // }
-          // if (child.relationToChild !== "string" && child.relationToChild !== undefined && child.relationToChild !== "") {
-          //   progress += 1
-          // }
-          // if (child.interestInfo.length >= 1) {
-          //   progress += 2
-          // }
-          progress += 30;
-          childCount++;
-        }
-      });
+    if (children) {
+      progress += 30;
     }
+    // if (children.length > 1) {
+    //   let childCount = 1;
+    //   children.forEach((child) => {
+    //     while (childCount < 2) {
+    // if (child.name !== "string" && child.name !== undefined && child.name !== "") {
+    //   progress += 2
+    // }
+    // if (child.age !== "string" && child.age !== undefined && child.age !== "") {
+    //   progress += 2
+    // }
+    // if (child.schoolinfo !== "string" && child.schoolinfo !== undefined && child.schoolinfo !== "") {
+    //   progress += 1
+    // }
+    // if (child.avtar !== "string" && child.avtar !== undefined && child.avtar !== "") {
+    //   progress += 1
+    // }
+    // if (child.sex !== "string" && child.sex !== undefined && child.sex !== "") {
+    //   progress += 1
+    // }
+    // if (child.relationToChild !== "string" && child.relationToChild !== undefined && child.relationToChild !== "") {
+    //   progress += 1
+    // }
+    // if (child.interestInfo.length >= 1) {
+    //   progress += 2
+    // }
+    //       progress += 30;
+    //       childCount++;
+    //     }
+    //   });
+    // }
   }
   if (query.role == 'provider') {
     const program = await db.program.find({ user: query.id });
