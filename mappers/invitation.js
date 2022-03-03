@@ -23,7 +23,8 @@ exports.toModel = entity => {
         wantWondrflyBetaUserBecause: entity.wantWondrflyBetaUserBecause,
         occupation: entity.occupation,
         willActive: entity.willActive,
-        user: entity.user._id
+        user: entity.user._id,
+        ipAddress: entity.user.ipAddress
     }
     return model;
 };

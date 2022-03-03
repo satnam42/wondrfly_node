@@ -2012,17 +2012,17 @@ const searchByKeyValue = async (query, context) => {
   if (query.keyType == "name") {
     program = await db.program
       .find({ name: { $regex: '.*' + query.keyValue + '.*', $options: 'i' } })
-      .populate('tags').populate('subCategoryIds').limit(10)
+      .populate('user').populate('tags').populate('subCategoryIds').limit(10)
   }
   if (query.keyType == "type") {
     program = await db.program
       .find({ type: { $regex: '.*' + query.keyValue + '.*', $options: 'i' } })
-      .populate('tags').populate('subCategoryIds').limit(10)
+      .populate('user').populate('tags').populate('subCategoryIds').limit(10)
   }
   if (query.keyType == "address") {
     program = await db.program
       .find({ addresses: { $regex: '.*' + query.keyValue + '.*', $options: 'i' } })
-      .populate('tags').populate('subCategoryIds').limit(10)
+      .populate('user').populate('tags').populate('subCategoryIds').limit(10)
   }
 
   log.end()
