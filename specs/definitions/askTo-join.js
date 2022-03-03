@@ -37,7 +37,10 @@ module.exports = [
             },
             willActive: {
                 type: "boolean"
-            }
+            },
+            ipAddress: {
+                type: "string"
+            },
             // role: {
             //     type: "string"
             // }

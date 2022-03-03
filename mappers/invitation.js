@@ -22,7 +22,8 @@ exports.toModel = entity => {
         bookedActivityInLastMonths: entity.bookedActivityInLastMonths,
         wantWondrflyBetaUserBecause: entity.wantWondrflyBetaUserBecause,
         occupation: entity.occupation,
-        willActive: entity.willActive
+        willActive: entity.willActive,
+        user: entity.user._id
     }
     return model;
 };

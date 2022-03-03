@@ -143,6 +143,7 @@ const buildUser = async (model, context) => {
     role: 'parent',
     isActivated: false,
     password: model.password,
+    ipAddress: model.ipAddress,
     betaUser: true,
     createdOn: new Date(),
     updateOn: new Date(),
