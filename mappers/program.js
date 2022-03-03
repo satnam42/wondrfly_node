@@ -55,6 +55,7 @@ exports.toModel = (entity) => {
     batches: entity.batches || '',
     sessions: entity.sessions || '',
     isExpired: entity.isExpired,
+    isproRated: entity.isproRated,
     expireReason: entity.expireReason || '',
     programImage: entity.programImage ? baseUrl + entity.programImage : '',
   }
