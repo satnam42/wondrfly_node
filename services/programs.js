@@ -1948,9 +1948,11 @@ const uploadExcel = async (file, context) => {
 const duplicateCreate = async (id, context) => {
   const log = context.logger.start('services:programs:duplicateCreate')
   let progrm = await db.program.findById(id)
+
   if (!progrm) {
     throw new Error('original program is not found')
   }
+
   const program = build(progrm, context)
   log.end()
   return program
@@ -1965,6 +1967,7 @@ const childTagProgramCount = async (model, context) => {
   const count = await db.program.find({
     $and: [{ subCategoryIds: model.tagId }, { "ageGroup.to": age }],
   }).count()
+
   log.end()
   return count
 }
@@ -2027,6 +2030,47 @@ const searchByKeyValue = async (query, context) => {
 
   log.end()
   return program
+}
+
+const getExpiredprograms = async (query, context) => {
+  const log = context.logger.start(`services:programs:getExpiredprograms`)
+  let pageNo = Number(query.pageNo) || 1
+  let pageSize = Number(query.pageSize) || 10
+  let skipCount = pageSize * (pageNo - 1)
+  let programs = await db.program
+    .find({ isExpired: true })
+    .sort({ _id: -1 })
+    .populate('tags')
+    .populate('user')
+    .populate('categoryId')
+    .populate('subCategoryIds')
+    .populate('lastModifiedBy')
+    .skip(skipCount)
+    .limit(pageSize)
+  programs.count = await db.program.find().count()
+  let favourites
+  if (context.user !== undefined) {
+    favourites = await db.favourite
+      .find({ user: context.user.id })
+      .populate('program')
+  }
+  if (favourites) {
+    // add fav in program
+    for (var p = 0; p < programs.length; p++) {
+      for (var f = 0; f < favourites.length; f++) {
+        if (
+          favourites[f].program !== null &&
+          favourites[f].program !== undefined
+        ) {
+          if (programs[p].id === favourites[f].program.id) {
+            programs[p].isFav = true
+          }
+        }
+      }
+    }
+  }
+  log.end()
+  return programs
 }
 
 // get categories and subcategories id's function ====
@@ -2107,3 +2151,4 @@ exports.childTagProgramCount = childTagProgramCount;
 exports.expireProgram = expireProgram;
 exports.expiresInWeek = expiresInWeek;
 exports.searchByKeyValue = searchByKeyValue;
+exports.getExpiredprograms = getExpiredprograms;

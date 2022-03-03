@@ -778,6 +778,12 @@ const configure = (app, logger) => {
     permit.context.builder,
     api.programs.searchByKeyValue
   );
+
+  app.get(
+    '/api/programs/expired',
+    permit.context.builder,
+    api.programs.expired
+  );
   //=============favourites api=====================//
   app.post(
     '/api/favourites/add',

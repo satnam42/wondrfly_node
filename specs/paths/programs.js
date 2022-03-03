@@ -1242,5 +1242,23 @@ module.exports = [
         },
       },
     },
+  },
+  {
+    url: '/expired',
+    get: {
+      summary: 'list expired programs',
+      description: 'get list of expired programs',
+      parameters: [
+
+      ],
+      responses: {
+        default: {
+          description: 'Unexpected error',
+          schema: {
+            $ref: '#/definitions/Error',
+          },
+        },
+      },
+    },
   }
 ]
