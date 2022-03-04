@@ -224,6 +224,7 @@ module.exports = [
         },
       },
       isproRated: { type: 'boolean' },
+      isExpired: { type: 'boolean' }
     },
   },
 ]

@@ -548,6 +548,7 @@ const set = async (model, program, context) => {
     program.days = model.days
   }
   program.isproRated = model.isproRated
+  program.isExpired = model.isExpired
   program.lastModifiedBy = context.user.id
   program.updatedOn = new Date()
   log.end()
