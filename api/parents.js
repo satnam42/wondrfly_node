@@ -108,6 +108,19 @@ const activeOrDeactive = async (req, res) => {
     }
 };
 
+const searchByNameEmailStatus = async (req, res) => {
+    const log = req.context.logger.start(`api:programs:searchByNameEmailStatus`);
+    try {
+        const program = await service.searchByNameEmailStatus(req.query, req.context);
+        log.end();
+        return response.data(res, mapper.toSearchModel(program));
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 exports.add = add;
 exports.list = list;
 exports.update = update;
@@ -115,3 +128,4 @@ exports.resetPassword = resetPassword;
 exports.uploadProfilePic = uploadProfilePic;
 exports.activeOrDeactive = activeOrDeactive;
 exports.get = get
+exports.searchByNameEmailStatus = searchByNameEmailStatus

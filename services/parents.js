@@ -235,6 +235,29 @@ const getParent = async (id, context) => {
   log.end();
   return parent;
 };
+const searchByNameEmailStatus = async (query, context) => {
+  const log = context.logger.start(`services:programs:searchByNameEmailStatus`)
+  // keyType, keyValue
+  let program
+  if (query.keyType == "name") {
+    program = await db.program
+      .find({ name: { $regex: '.*' + query.keyValue + '.*', $options: 'i' } })
+      .populate('user').populate('tags').populate('subCategoryIds').limit(10)
+  }
+  if (query.keyType == "type") {
+    program = await db.program
+      .find({ type: { $regex: '.*' + query.keyValue + '.*', $options: 'i' } })
+      .populate('user').populate('tags').populate('subCategoryIds').limit(10)
+  }
+  if (query.keyType == "address") {
+    program = await db.program
+      .find({ addresses: { $regex: '.*' + query.keyValue + '.*', $options: 'i' } })
+      .populate('user').populate('tags').populate('subCategoryIds').limit(10)
+  }
+
+  log.end()
+  return program
+}
 
 exports.addParent = addParent;
 exports.getList = getList;
@@ -243,3 +266,4 @@ exports.updateParent = updateParent;
 exports.uploadProfilePic = uploadProfilePic;
 exports.activateAndDeactive = activateAndDeactive;
 exports.getParent = getParent;
+exports.searchByNameEmailStatus = searchByNameEmailStatus;

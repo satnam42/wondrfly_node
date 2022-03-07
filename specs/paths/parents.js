@@ -145,6 +145,35 @@ module.exports = [
             }
         }
     },
+    {
+        url: '/searchByNameEmailStatus',
+        get: {
+            summary: 'search parent',
+            description: 'search parent by name or email or status',
+            parameters: [
+                {
+                    in: 'query',
+                    type: 'string',
+                    name: 'keyType',
+                    description: 'name, email, status',
+                },
+                {
+                    in: 'query',
+                    type: 'string',
+                    name: 'keyValue',
+                    description: 'key value',
+                }
+            ],
+            responses: {
+                default: {
+                    description: 'Unexpected error',
+                    schema: {
+                        $ref: '#/definitions/Error',
+                    },
+                },
+            },
+        },
+    }
     // {
     //   url: "/resetPassword",
     //   post: {

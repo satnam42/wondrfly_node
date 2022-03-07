@@ -507,6 +507,11 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.parents.get
   );
+  app.get(
+    '/api/parents/searchByNameEmailStatus',
+    permit.context.builder,
+    api.parents.searchByNameEmailStatus
+  );
   // app.put(
   //   "/api/parents/delete",
   //   permit.context.requiresToken,
@@ -784,6 +789,7 @@ const configure = (app, logger) => {
     permit.context.builder,
     api.programs.expired
   );
+
   //=============favourites api=====================//
   app.post(
     '/api/favourites/add',
