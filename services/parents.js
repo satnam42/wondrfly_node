@@ -241,16 +241,15 @@ const searchByNameEmailStatus = async (query, context) => {
   let users
   if (query.keyType == "name") {
     users = await db.user
-      .find({ firstName: { $regex: '.*' + query.keyValue + '.*', $options: 'i' } })
+      .find({ firstName: { $regex: '.*' + query.keyValue + '.*', $options: 'i' }, role: "parent" })
   }
   if (query.keyType == "email") {
     users = await db.user
-      .find({ email: { $regex: '.*' + query.keyValue + '.*', $options: 'i' } })
+      .find({ email: { $regex: '.*' + query.keyValue + '.*', $options: 'i' }, role: "parent" })
   }
   if (query.keyType == "status") {
     users = await db.user
-      .find({ isActivated: query.keyValue })
-      .populate('user').populate('tags').populate('subCategoryIds').limit(10)
+      .find({ isActivated: query.keyValue, role: "parent" })
   }
   log.end()
   return users
