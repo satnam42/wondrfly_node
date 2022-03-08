@@ -1559,6 +1559,23 @@ const removeProfilePic = async (context, id) => {
   }
 };
 
+const parentLoginFromAdmin = async (id, context) => {
+  const log = context.logger.start('services:users:parentLoginFromAdmin');
+
+  let user = await db.user.findById(id);
+  if (!user) {
+    log.end();
+    throw new Error('user not found');
+  }
+  //  notification for profile complete
+  const token = auth.getToken(user, false, context);
+  user.lastLoggedIn = Date.now();
+  user.token = token;
+  user.save();
+  log.end();
+  return user;
+};
+// parentLoginFromAdmin
 // const triggerEmail = async (model, context) => {
 //   const log = context.logger.start('services/users/triggerEmail');
 //   const users = await db.user.find({});
@@ -1626,4 +1643,5 @@ exports.facebookLogin = facebookLogin;
 exports.loginWithGoogle = loginWithGoogle;
 exports.contactUs = contactUs;
 exports.removeProfilePic = removeProfilePic;
+exports.parentLoginFromAdmin = parentLoginFromAdmin;
 // exports.triggerEmail = triggerEmail;

@@ -357,6 +357,19 @@ const removeProfilePic = async (req, res) => {
   }
 };
 
+const parentLoginFromAdmin = async (req, res) => {
+  const log = req.context.logger.start("api:users:parentLoginFromAdmin");
+  try {
+    const user = await service.parentLoginFromAdmin(req.params.id, req.context);
+    log.end();
+    return response.authorized(res, userMapper.toModel(user), user.token);
+  } catch (err) {
+    log.error(err);
+    log.end();
+    return response.failure(res, err.message);
+  }
+};
+
 // const triggerEmail = async (req, res) => {
 //   const log = req.context.logger.start(`api:users:triggerEmail`);
 //   try {
@@ -395,4 +408,5 @@ exports.facebookLogin = facebookLogin;
 exports.loginWithGoogle = loginWithGoogle;
 exports.contactUs = contactUs;
 exports.removeProfilePic = removeProfilePic;
+exports.parentLoginFromAdmin = parentLoginFromAdmin;
 // exports.triggerEmail = triggerEmail;

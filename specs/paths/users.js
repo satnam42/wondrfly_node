@@ -751,6 +751,30 @@ module.exports = [
       }
     }
   },
+  {
+    url: "/parentLoginFromAdmin/{id}",
+    post: {
+      summary: "Login parent from admin",
+      description: "parent login from admin and get its token to access apis",
+      parameters: [
+        {
+          in: "path",
+          name: "id",
+          description: "user id",
+          required: true,
+          type: "string"
+        },
+      ],
+      responses: {
+        default: {
+          description: "Unexpected error",
+          schema: {
+            $ref: "#/definitions/Error"
+          }
+        }
+      }
+    }
+  }
   // {
   //   url: "/triggerEmail",
   //   post: {
