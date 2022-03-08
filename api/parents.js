@@ -113,7 +113,7 @@ const searchByNameEmailStatus = async (req, res) => {
     try {
         const program = await service.searchByNameEmailStatus(req.query, req.context);
         log.end();
-        return response.data(res, mapper.toSearchModel(program));
+        return response.data(res, parentMapper.toSearchModel(program));
     } catch (err) {
         log.error(err);
         log.end();
