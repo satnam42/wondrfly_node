@@ -250,6 +250,31 @@ module.exports = [
                 },
             },
         },
+    },
+    {
+        url: "/getSearchHistory/{id}",
+        get: {
+            summary: "getById",
+            description: "get Search History by parent id",
+            parameters: [
+                {
+                    in: "path",
+                    name: "id",
+                    description: "parent id",
+                    required: true,
+                    type: "string"
+                }
+            ],
+
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
     }
     // {
     //   url: "/resetPassword",

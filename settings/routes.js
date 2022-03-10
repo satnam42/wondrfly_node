@@ -522,6 +522,11 @@ const configure = (app, logger) => {
     permit.context.builder,
     api.parents.createSearchHistory
   );
+  app.get(
+    '/api/parents/getSearchHistory/:id',
+    permit.context.builder,
+    api.parents.getSearchHistory
+  );
   // app.put(
   //   "/api/parents/delete",
   //   permit.context.requiresToken,

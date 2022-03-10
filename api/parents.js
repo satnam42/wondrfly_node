@@ -134,6 +134,19 @@ const createSearchHistory = async (req, res) => {
     }
 };
 
+const getSearchHistory = async (req, res) => {
+    const log = req.context.logger.start(`api:parents:get:${req.params.id}`);
+    try {
+        const searchHistory = await service.getSearchHistory(req.params.id, req.context);
+        log.end();
+        return response.data(res, searchHistory);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 exports.add = add;
 exports.list = list;
 exports.update = update;
@@ -143,3 +156,4 @@ exports.activeOrDeactive = activeOrDeactive;
 exports.get = get
 exports.searchByNameEmailStatus = searchByNameEmailStatus
 exports.createSearchHistory = createSearchHistory;
+exports.getSearchHistory = getSearchHistory;

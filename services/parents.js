@@ -5,6 +5,7 @@ const ObjectId = require('mongodb').ObjectID;
 const auth = require('../permit/auth');
 const moment = require('moment');
 const mailchimp = require('./mailchimp');
+const { search } = require('./programs.js');
 const setParent = (model, parent, context) => {
   const log = context.logger.start('services:parents:setParent');
   if (model.firstName !== 'string' && model.firstName !== undefined) {
@@ -298,7 +299,23 @@ const createSearchHistory = async (model, context) => {
     log.end();
     return search;
   }
+};
 
+const getSearchHistory = async (id, context) => {
+  const log = context.logger.start(`services:parents:update`);
+  if (!id) {
+    throw new Error('parent id is required');
+  }
+  let searchHistory = await db.parentSearch.find({ user: id })
+    .populate('category')
+    .populate('subCategory')
+    .populate('program')
+    .populate('provider')
+  if (!searchHistory) {
+    throw new Error('search History Not Found');
+  }
+  log.end();
+  return searchHistory;
 };
 
 exports.addParent = addParent;
@@ -310,3 +327,4 @@ exports.activateAndDeactive = activateAndDeactive;
 exports.getParent = getParent;
 exports.searchByNameEmailStatus = searchByNameEmailStatus;
 exports.createSearchHistory = createSearchHistory;
+exports.getSearchHistory = getSearchHistory;
