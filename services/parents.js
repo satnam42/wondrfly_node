@@ -236,7 +236,7 @@ const getParent = async (id, context) => {
   return parent;
 };
 const searchByNameEmailStatus = async (query, context) => {
-  const log = context.logger.start(`services:programs:searchByNameEmailStatus`)
+  const log = context.logger.start(`services:parents:searchByNameEmailStatus`)
   // keyType, keyValue
   let users
   if (query.keyType == "name") {
@@ -255,6 +255,52 @@ const searchByNameEmailStatus = async (query, context) => {
   return users
 }
 
+const createSearchHistory = async (model, context) => {
+  const log = context.logger.start("services:parents:createSearchHistory");
+  let search
+  if (model.category) {
+    search = await new db.parentSearch({
+      user: model.userId,
+      category: model.category,
+      createdOn: new Date(),
+      updateOn: new Date(),
+    }).save();
+    log.end();
+    return search;
+  }
+  if (model.subCategory) {
+    search = await new db.parentSearch({
+      user: model.userId,
+      subCategory: model.subCategory,
+      createdOn: new Date(),
+      updateOn: new Date(),
+    }).save();
+    log.end();
+    return search;
+  }
+  if (model.program) {
+    search = await new db.parentSearch({
+      user: model.userId,
+      program: model.program,
+      createdOn: new Date(),
+      updateOn: new Date(),
+    }).save();
+    log.end();
+    return search;
+  }
+  if (model.provider) {
+    search = await new db.parentSearch({
+      user: model.userId,
+      provider: model.provider,
+      createdOn: new Date(),
+      updateOn: new Date(),
+    }).save();
+    log.end();
+    return search;
+  }
+
+};
+
 exports.addParent = addParent;
 exports.getList = getList;
 exports.resetPassword = resetPassword;
@@ -263,3 +309,4 @@ exports.uploadProfilePic = uploadProfilePic;
 exports.activateAndDeactive = activateAndDeactive;
 exports.getParent = getParent;
 exports.searchByNameEmailStatus = searchByNameEmailStatus;
+exports.createSearchHistory = createSearchHistory;

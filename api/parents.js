@@ -121,6 +121,19 @@ const searchByNameEmailStatus = async (req, res) => {
     }
 };
 
+const createSearchHistory = async (req, res) => {
+    const log = req.context.logger.start(`api:searchHistory:createSearchHistory`);
+    try {
+        const search = await service.createSearchHistory(req.query, req.context);
+        log.end();
+        return response.data(res, search);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 exports.add = add;
 exports.list = list;
 exports.update = update;
@@ -129,3 +142,4 @@ exports.uploadProfilePic = uploadProfilePic;
 exports.activeOrDeactive = activeOrDeactive;
 exports.get = get
 exports.searchByNameEmailStatus = searchByNameEmailStatus
+exports.createSearchHistory = createSearchHistory;

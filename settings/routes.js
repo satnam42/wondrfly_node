@@ -517,6 +517,11 @@ const configure = (app, logger) => {
     permit.context.builder,
     api.parents.searchByNameEmailStatus
   );
+  app.put(
+    '/api/parents/createSearchHistory',
+    permit.context.builder,
+    api.parents.createSearchHistory
+  );
   // app.put(
   //   "/api/parents/delete",
   //   permit.context.requiresToken,

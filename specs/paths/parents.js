@@ -173,6 +173,83 @@ module.exports = [
                 },
             },
         },
+    },
+    {
+        url: '/createSearchHistory',
+        put: {
+            summary: 'search history',
+            description: 'search history by parent',
+            parameters: [
+                {
+                    in: 'query',
+                    type: 'string',
+                    name: 'userId',
+                    required: true,
+                    description: 'user Id',
+                },
+                {
+                    in: 'query',
+                    type: 'string',
+                    name: 'category',
+                    description: 'category id',
+                },
+                {
+                    in: 'query',
+                    type: 'string',
+                    name: 'subCategory',
+                    description: 'subCategory id',
+                },
+                {
+                    in: 'query',
+                    type: 'string',
+                    name: 'program',
+                    description: 'program id',
+                },
+                {
+                    in: 'query',
+                    type: 'string',
+                    name: 'provider',
+                    description: 'provider id',
+                }
+            ],
+            responses: {
+                default: {
+                    description: 'Unexpected error',
+                    schema: {
+                        $ref: '#/definitions/Error',
+                    },
+                },
+            },
+        },
+    },
+    {
+        url: '/searchByNameEmailStatus',
+        get: {
+            summary: 'search parent',
+            description: 'search parent by name or email or status',
+            parameters: [
+                {
+                    in: 'query',
+                    type: 'string',
+                    name: 'keyType',
+                    description: 'name, email, status',
+                },
+                {
+                    in: 'query',
+                    type: 'string',
+                    name: 'keyValue',
+                    description: 'key value',
+                }
+            ],
+            responses: {
+                default: {
+                    description: 'Unexpected error',
+                    schema: {
+                        $ref: '#/definitions/Error',
+                    },
+                },
+            },
+        },
     }
     // {
     //   url: "/resetPassword",
