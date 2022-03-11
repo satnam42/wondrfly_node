@@ -2016,17 +2016,22 @@ const searchByKeyValue = async (query, context) => {
   if (query.keyType == "name") {
     program = await db.program
       .find({ name: { $regex: '.*' + query.keyValue + '.*', $options: 'i' } })
-      .populate('user').populate('tags').populate('subCategoryIds').limit(10)
+      .populate('user').populate('tags').populate('subCategoryIds')
   }
   if (query.keyType == "type") {
     program = await db.program
       .find({ type: { $regex: '.*' + query.keyValue + '.*', $options: 'i' } })
-      .populate('user').populate('tags').populate('subCategoryIds').limit(10)
+      .populate('user').populate('tags').populate('subCategoryIds')
   }
   if (query.keyType == "address") {
     program = await db.program
       .find({ addresses: { $regex: '.*' + query.keyValue + '.*', $options: 'i' } })
-      .populate('user').populate('tags').populate('subCategoryIds').limit(10)
+      .populate('user').populate('tags').populate('subCategoryIds')
+  }
+  if (query.keyType == "location") {
+    program = await db.program
+      .find({ location: { $regex: '.*' + query.keyValue + '.*', $options: 'i' } })
+      .populate('user').populate('tags').populate('subCategoryIds')
   }
 
   log.end()
