@@ -1069,12 +1069,12 @@ const montclairProviders = async (query, context) => {
   let pageNo = Number(query.pageNo) || 1
   let pageSize = Number(query.pageSize) || 10
   let skipCount = pageSize * (pageNo - 1)
-  let providers = await db.program
+  let providers = await db.user
     .find({ addressLine1: { $regex: '.*' + 'montclair' + '.*', $options: 'i' }, role: "provider" })
     .sort({ _id: -1 })
     .skip(skipCount)
     .limit(pageSize)
-  providers.count = await db.program.find({ addressLine1: { $regex: '.*' + 'montclair' + '.*', $options: 'i' }, role: "provider" }).count()
+  providers.count = await db.user.find({ addressLine1: { $regex: '.*' + 'montclair' + '.*', $options: 'i' }, role: "provider" }).count()
   log.end()
   return providers
 }
