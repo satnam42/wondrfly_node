@@ -1064,6 +1064,21 @@ const uploadExcel = async (file, context) => {
   return "excel file uploaded successfully"
 };
 
+const montclairProviders = async (query, context) => {
+  const log = context.logger.start(`services:providers:montclairProviders`)
+  let pageNo = Number(query.pageNo) || 1
+  let pageSize = Number(query.pageSize) || 10
+  let skipCount = pageSize * (pageNo - 1)
+  let providers = await db.program
+    .find({ addressLine1: { $regex: '.*' + 'montclair' + '.*', $options: 'i' }, role: "provider" })
+    .sort({ _id: -1 })
+    .skip(skipCount)
+    .limit(pageSize)
+  providers.count = await db.program.find({ addressLine1: { $regex: '.*' + 'montclair' + '.*', $options: 'i' }, role: "provider" }).count()
+  log.end()
+  return providers
+}
+
 exports.importProvider = importProvider
 exports.getAllProvider = getAllProvider
 exports.updateProvider = updateProvider
@@ -1083,3 +1098,4 @@ exports.isVerifiedOrNot = isVerifiedOrNot
 exports.searchVerifiedOrUnverified = searchVerifiedOrUnverified
 exports.uploadExcel = uploadExcel
 exports.getRatingByUser = getRatingByUser
+exports.montclairProviders = montclairProviders;

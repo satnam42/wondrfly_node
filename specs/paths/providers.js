@@ -728,5 +728,36 @@ module.exports = [
                 }
             }
         }
+    },
+    {
+        url: '/montclairProviders',
+        get: {
+            summary: 'Montclair providers',
+            description: 'get list of all montclair providers',
+            parameters: [
+                {
+                    in: 'query',
+                    type: 'integer',
+                    name: 'pageNo',
+                    description: 'pageNo',
+                    required: true,
+                },
+                {
+                    in: 'query',
+                    type: 'integer',
+                    name: 'pageSize',
+                    description: 'pageSize',
+                    required: true,
+                }
+            ],
+            responses: {
+                default: {
+                    description: 'Unexpected error',
+                    schema: {
+                        $ref: '#/definitions/Error',
+                    },
+                },
+            },
+        },
     }
 ]

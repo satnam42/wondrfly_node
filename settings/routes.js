@@ -483,6 +483,13 @@ const configure = (app, logger) => {
     api.providers.uploadExcel
   );
 
+  app.get(
+    '/api/providers/montclairProviders',
+    permit.context.builder,
+    api.providers.montclairProviders
+  );
+
+
   //review routes//
   app.post(
     '/api/reviews/add',

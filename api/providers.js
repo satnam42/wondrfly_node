@@ -290,6 +290,27 @@ const getRatingByUser = async (req, res) => {
   }
 }
 
+const montclairProviders = async (req, res) => {
+  const log = req.context.logger.start(`api:providers:montclairProviders`);
+  try {
+    const providers = await service.montclairProviders(req.query, req.context);
+    let message = providers.count ? providers.count : 0 + " " + "providers Got";
+    log.end();
+    return response.page(
+      message,
+      res,
+      userMapper.toSearchModel(providers),
+      Number(req.query.pageNo) || 1,
+      Number(req.query.pageSize) || 10,
+      providers.count
+    )
+  } catch (err) {
+    log.error(err);
+    log.end();
+    return response.failure(res, err.message);
+  }
+};
+
 exports.create = create
 exports.list = list
 exports.update = update
@@ -309,3 +330,4 @@ exports.isVerifiedOrNot = isVerifiedOrNot
 exports.searchVerifiedOrUnverified = searchVerifiedOrUnverified
 exports.uploadExcel = uploadExcel
 exports.getRatingByUser = getRatingByUser
+exports.montclairProviders = montclairProviders;
