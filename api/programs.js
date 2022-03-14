@@ -468,6 +468,26 @@ const expired = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
+const montclairPrograms = async (req, res) => {
+    const log = req.context.logger.start(`api:programs:montclairPrograms`);
+    try {
+        const programs = await service.montclairPrograms(req.query, req.context);
+        let message = programs.count ? programs.count : 0 + " " + "programs Got";
+        log.end();
+        return response.page(
+            message,
+            res,
+            mapper.toSearchModel(programs),
+            Number(req.query.pageNo) || 1,
+            Number(req.query.pageSize) || 10,
+            programs.count
+        );
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
 
 exports.create = create;
 exports.list = list;
@@ -501,4 +521,5 @@ exports.childTagProgramCount = childTagProgramCount
 exports.expireProgram = expireProgram;
 exports.expiresInWeek = expiresInWeek;
 exports.searchByKeyValue = searchByKeyValue;
-exports.expired = expired
+exports.expired = expired;
+exports.montclairPrograms = montclairPrograms;

@@ -2079,6 +2079,27 @@ const getExpiredprograms = async (query, context) => {
   return programs
 }
 
+const montclairPrograms = async (query, context) => {
+  const log = context.logger.start(`services:programs:montclairPrograms`)
+  let pageNo = Number(query.pageNo) || 1
+  let pageSize = Number(query.pageSize) || 10
+  let skipCount = pageSize * (pageNo - 1)
+  let programs = await db.program
+    .find({ location: { $regex: '.*' + 'montclair' + '.*', $options: 'i' } })
+    .sort({ _id: -1 })
+    .populate('tags')
+    .populate('user')
+    .populate('categoryId')
+    .populate('subCategoryIds')
+    .populate('lastModifiedBy')
+    .skip(skipCount)
+    .limit(pageSize)
+  programs.count = await db.program.find().count()
+
+  log.end()
+  return programs
+}
+
 // get categories and subcategories id's function ====
 // async function getIds(str, type) {
 //   let ids = []
@@ -2158,3 +2179,4 @@ exports.expireProgram = expireProgram;
 exports.expiresInWeek = expiresInWeek;
 exports.searchByKeyValue = searchByKeyValue;
 exports.getExpiredprograms = getExpiredprograms;
+exports.montclairPrograms = montclairPrograms;

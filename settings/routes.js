@@ -804,6 +804,11 @@ const configure = (app, logger) => {
     permit.context.builder,
     api.programs.expired
   );
+  app.get(
+    '/api/programs/montclairPrograms',
+    permit.context.builder,
+    api.programs.montclairPrograms
+  );
 
   //=============favourites api=====================//
   app.post(
