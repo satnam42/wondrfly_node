@@ -289,6 +289,7 @@ const approveAll = async (model, context) => {
       'status.pending': false,
       'status.expired': false,
       'status.declined': false,
+      approvalDate: new Date()
     },
   });
   const user = await db.user.updateMany(
@@ -348,6 +349,7 @@ const approveOrDecline = async (model, context) => {
           'status.pending': false,
           'status.expired': false,
           'status.declined': false,
+          approvalDate: new Date()
         },
       },
       { new: true }

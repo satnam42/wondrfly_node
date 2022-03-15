@@ -32,6 +32,7 @@ const invitation = mongoose.Schema({
     wantWondrflyBetaUserBecause: { type: String, default: '' },
     occupation: { type: String, default: "" },
     willActive: { type: Boolean, default: false },
+    approvalDate: { type: Date, default: Date.now },
     // acceptance: { type: Boolean, default: false },
     // declined: { type: Boolean, default: false },
     createdOn: { type: Date, default: Date.now },

@@ -23,6 +23,7 @@ exports.toModel = entity => {
         wantWondrflyBetaUserBecause: entity.wantWondrflyBetaUserBecause,
         occupation: entity.occupation,
         willActive: entity.willActive,
+        approvalDate: entity.approvalDate,
         user: entity.user._id,
         ipAddress: entity.user.ipAddress
     }
