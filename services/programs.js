@@ -2114,44 +2114,52 @@ const histogram = async (query, context) => {
     let third = moment(Month).subtract(35, 'days').format('YYYY-MM-DD')
     let second = moment(Month).subtract(42, 'days').format('YYYY-MM-DD')
     let first = moment(Month).subtract(49, 'days').format('YYYY-MM-DD')
-    console.log('first =>>>', first)
     let compute
     compute = await db.program.find({ createdOn: { $gte: first, $lt: second, } }).count()
-    data.push({ week: 1, count: compute })
+    data.push({ week: 1, count: compute, period: { first, second } })
     compute = await db.program.find({ createdOn: { $gte: second, $lt: third, } }).count()
-    data.push({ week: 2, count: compute })
+    data.push({ week: 2, count: compute, period: { second, third } })
     compute = await db.program.find({ createdOn: { $gte: third, $lt: fourth, } }).count()
-    data.push({ week: 3, count: compute })
+    data.push({ week: 3, count: compute, period: { third, fourth } })
     compute = await db.program.find({ createdOn: { $gte: fourth, $lt: fifth, } }).count()
-    data.push({ week: 4, count: compute })
+    data.push({ week: 4, count: compute, period: { fourth, fifth } })
     compute = await db.program.find({ createdOn: { $gte: fifth, $lt: six, } }).count()
-    data.push({ week: 5, count: compute })
+    data.push({ week: 5, count: compute, period: { fifth, six } })
     compute = await db.program.find({ createdOn: { $gte: six, $lt: seven, } }).count()
-    data.push({ week: 6, count: compute })
+    data.push({ week: 6, count: compute, period: { six, seven } })
     compute = await db.program.find({ createdOn: { $gte: seven, $lt: Month, } }).count()
-    data.push({ week: 7, count: compute })
-
-
-
+    data.push({ week: 7, count: compute, period: { seven, Month } })
     log.end()
     return data
-    // const date = {
-    //   $gte: moment(firstWeek, 'DD-MM-YYYY').format('YYYY-MM-DD'),
-    //   $lt: moment(secondWeek, 'DD-MM-YYYY').format('YYYY-MM-DD'),
-    // }
-    // console.log('date =>>', date);
   }
-  // var startMonth = moment(Month).startOf('month').format('YYYY-MM-DD');
-  // var endMonth = moment(Month).endOf('month').format('YYYY-MM-DD');
-  // console.log(moment('2022-03-15').subtract(7, 'days').format('YYYY-MM-DD'))
-  // console.log(moment('2022-03-15').subtract(14, 'days').format('YYYY-MM-DD'))
-  // console.log(moment('2022-03-15').subtract(21, 'days').format('YYYY-MM-DD'))
-  // console.log(moment('2022-03-15').subtract(28, 'days').format('YYYY-MM-DD'))
+  if (query.period == 'month') {
+    let data = [];
+    let seven = moment(new Date()).subtract(1, 'M').format('YYYY-MM-DD')
+    let six = moment(new Date()).subtract(2, 'M').format('YYYY-MM-DD')
+    let fifth = moment(new Date()).subtract(3, 'M').format('YYYY-MM-DD')
+    let fourth = moment(new Date()).subtract(4, 'M').format('YYYY-MM-DD')
+    let third = moment(new Date()).subtract(5, 'M').format('YYYY-MM-DD')
+    let second = moment(new Date()).subtract(6, 'M').format('YYYY-MM-DD')
+    let first = moment(new Date()).subtract(7, 'M').format('YYYY-MM-DD')
+    let compute
+    compute = await db.program.find({ createdOn: { $gte: moment(seven).startOf('month').format('YYYY-MM-DD'), $lt: moment(seven).endOf('month').format('YYYY-MM-DD'), } }).count()
+    data.push({ month: 1, count: compute, period: moment(seven).startOf('month').format('YYYY-MM-DD') })
+    compute = await db.program.find({ createdOn: { $gte: moment(six).startOf('month').format('YYYY-MM-DD'), $lt: moment(six).endOf('month').format('YYYY-MM-DD'), } }).count()
+    data.push({ month: 2, count: compute, period: moment(six).startOf('month').format('YYYY-MM-DD') })
+    compute = await db.program.find({ createdOn: { $gte: moment(fifth).startOf('month').format('YYYY-MM-DD'), $lt: moment(fifth).endOf('month').format('YYYY-MM-DD'), } }).count()
+    data.push({ month: 3, count: compute, period: moment(fifth).startOf('month').format('YYYY-MM-DD') })
+    compute = await db.program.find({ createdOn: { $gte: moment(fourth).startOf('month').format('YYYY-MM-DD'), $lt: moment(fourth).endOf('month').format('YYYY-MM-DD'), } }).count()
+    data.push({ month: 4, count: compute, period: moment(fourth).startOf('month').format('YYYY-MM-DD') })
+    compute = await db.program.find({ createdOn: { $gte: moment(third).startOf('month').format('YYYY-MM-DD'), $lt: moment(third).endOf('month').format('YYYY-MM-DD'), } }).count()
+    data.push({ month: 5, count: compute, period: moment(third).startOf('month').format('YYYY-MM-DD') })
+    compute = await db.program.find({ createdOn: { $gte: moment(second).startOf('month').format('YYYY-MM-DD'), $lt: moment(second).endOf('month').format('YYYY-MM-DD'), } }).count()
+    data.push({ month: 6, count: compute, period: moment(second).startOf('month').format('YYYY-MM-DD') })
+    compute = await db.program.find({ createdOn: { $gte: moment(first).startOf('month').format('YYYY-MM-DD'), $lt: moment(first).endOf('month').format('YYYY-MM-DD'), } }).count()
+    data.push({ month: 7, count: compute, period: moment(first).startOf('month').format('YYYY-MM-DD') })
+    log.end()
+    return data
+  }
 
-  // console.log('startMonth =>', startMonth);
-  // console.log('endMonth =>', endMonth);
-  // let program = await db.program.findById(query.id)
-  // program.status = query.status
   log.end()
   return ""
 }
