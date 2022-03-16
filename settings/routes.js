@@ -816,6 +816,11 @@ const configure = (app, logger) => {
     permit.context.builder,
     api.programs.montclairPrograms
   );
+  app.get(
+    '/api/programs/histogram',
+    permit.context.builder,
+    api.programs.histogram
+  );
 
   //=============favourites api=====================//
   app.post(

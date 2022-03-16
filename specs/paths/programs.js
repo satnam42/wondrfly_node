@@ -1291,5 +1291,40 @@ module.exports = [
         },
       },
     },
+  },
+  {
+    url: '/histogram',
+    get: {
+      summary: 'histogram',
+      description: 'get programs data to show in histogram',
+      parameters: [
+        {
+          in: 'query',
+          name: 'period',
+          description: 'week, month, year',
+          type: 'string',
+        },
+        // {
+        //   in: 'query',
+        //   name: 'month',
+        //   description: 'month',
+        //   type: 'string',
+        // },
+        // {
+        //   in: 'query',
+        //   name: 'year',
+        //   description: 'year',
+        //   type: 'string',
+        // }
+      ],
+      responses: {
+        default: {
+          description: 'Unexpected error',
+          schema: {
+            $ref: '#/definitions/Error',
+          },
+        },
+      },
+    },
   }
 ]

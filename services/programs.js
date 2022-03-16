@@ -5,6 +5,7 @@ const csv = require('csvtojson')
 const fs = require('fs')
 const baseUrl = require('config').get('image').baseUrl
 var xlsxtojson = require("xlsx-to-json");
+const _ = require('lodash');
 
 
 function humanize(str) {
@@ -2099,6 +2100,61 @@ const montclairPrograms = async (query, context) => {
   log.end()
   return programs
 }
+// var startMonth = moment(Month).startOf('month').format('YYYY-MM-DD');
+// var endMonth = moment(Month).endOf('month').format('YYYY-MM-DD');
+const histogram = async (query, context) => {
+  const log = context.logger.start(`services:programs:getProgramCount`)
+  if (query.period == 'week') {
+    let data = [];
+    let Month = moment(new Date()).subtract(1, 'M').format('YYYY-MM-DD');
+    let seven = moment(Month).subtract(7, 'days').format('YYYY-MM-DD')
+    let six = moment(Month).subtract(14, 'days').format('YYYY-MM-DD')
+    let fifth = moment(Month).subtract(21, 'days').format('YYYY-MM-DD')
+    let fourth = moment(Month).subtract(28, 'days').format('YYYY-MM-DD')
+    let third = moment(Month).subtract(35, 'days').format('YYYY-MM-DD')
+    let second = moment(Month).subtract(42, 'days').format('YYYY-MM-DD')
+    let first = moment(Month).subtract(49, 'days').format('YYYY-MM-DD')
+    console.log('first =>>>', first)
+    let compute
+    compute = await db.program.find({ createdOn: { $gte: first, $lt: second, } }).count()
+    data.push({ week: 1, count: compute })
+    compute = await db.program.find({ createdOn: { $gte: second, $lt: third, } }).count()
+    data.push({ week: 2, count: compute })
+    compute = await db.program.find({ createdOn: { $gte: third, $lt: fourth, } }).count()
+    data.push({ week: 3, count: compute })
+    compute = await db.program.find({ createdOn: { $gte: fourth, $lt: fifth, } }).count()
+    data.push({ week: 4, count: compute })
+    compute = await db.program.find({ createdOn: { $gte: fifth, $lt: six, } }).count()
+    data.push({ week: 5, count: compute })
+    compute = await db.program.find({ createdOn: { $gte: six, $lt: seven, } }).count()
+    data.push({ week: 6, count: compute })
+    compute = await db.program.find({ createdOn: { $gte: seven, $lt: Month, } }).count()
+    data.push({ week: 7, count: compute })
+
+
+
+    log.end()
+    return data
+    // const date = {
+    //   $gte: moment(firstWeek, 'DD-MM-YYYY').format('YYYY-MM-DD'),
+    //   $lt: moment(secondWeek, 'DD-MM-YYYY').format('YYYY-MM-DD'),
+    // }
+    // console.log('date =>>', date);
+  }
+  // var startMonth = moment(Month).startOf('month').format('YYYY-MM-DD');
+  // var endMonth = moment(Month).endOf('month').format('YYYY-MM-DD');
+  // console.log(moment('2022-03-15').subtract(7, 'days').format('YYYY-MM-DD'))
+  // console.log(moment('2022-03-15').subtract(14, 'days').format('YYYY-MM-DD'))
+  // console.log(moment('2022-03-15').subtract(21, 'days').format('YYYY-MM-DD'))
+  // console.log(moment('2022-03-15').subtract(28, 'days').format('YYYY-MM-DD'))
+
+  // console.log('startMonth =>', startMonth);
+  // console.log('endMonth =>', endMonth);
+  // let program = await db.program.findById(query.id)
+  // program.status = query.status
+  log.end()
+  return ""
+}
 
 // get categories and subcategories id's function ====
 // async function getIds(str, type) {
@@ -2147,6 +2203,7 @@ const montclairPrograms = async (query, context) => {
 //   return arr
 // }
 
+
 exports.create = create
 exports.getAllprograms = getAllprograms
 exports.update = update
@@ -2180,3 +2237,4 @@ exports.expiresInWeek = expiresInWeek;
 exports.searchByKeyValue = searchByKeyValue;
 exports.getExpiredprograms = getExpiredprograms;
 exports.montclairPrograms = montclairPrograms;
+exports.histogram = histogram;
