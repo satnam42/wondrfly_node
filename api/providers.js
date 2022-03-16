@@ -311,6 +311,19 @@ const montclairProviders = async (req, res) => {
   }
 };
 
+const histogram = async (req, res) => {
+  const log = req.context.logger.start(`api:providers:histogram:${req.query.userId}`);
+  try {
+    const data = await service.histogram(req.query, req.context);
+    log.end();
+    return response.data(res, data);
+  } catch (err) {
+    log.error(err);
+    log.end();
+    return response.failure(res, err.message);
+  }
+};
+
 exports.create = create
 exports.list = list
 exports.update = update
@@ -331,3 +344,4 @@ exports.searchVerifiedOrUnverified = searchVerifiedOrUnverified
 exports.uploadExcel = uploadExcel
 exports.getRatingByUser = getRatingByUser
 exports.montclairProviders = montclairProviders;
+exports.histogram = histogram

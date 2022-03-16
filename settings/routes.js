@@ -488,6 +488,11 @@ const configure = (app, logger) => {
     permit.context.builder,
     api.providers.montclairProviders
   );
+  app.get(
+    '/api/providers/histogram',
+    permit.context.builder,
+    api.providers.histogram
+  );
 
 
   //review routes//

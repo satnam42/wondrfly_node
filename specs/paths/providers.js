@@ -759,5 +759,28 @@ module.exports = [
                 },
             },
         },
+    },
+    {
+        url: '/histogram',
+        get: {
+            summary: 'histogram',
+            description: 'get providers data to show in histogram',
+            parameters: [
+                {
+                    in: 'query',
+                    name: 'period',
+                    description: 'week, month, year',
+                    type: 'string',
+                }
+            ],
+            responses: {
+                default: {
+                    description: 'Unexpected error',
+                    schema: {
+                        $ref: '#/definitions/Error',
+                    },
+                },
+            },
+        },
     }
 ]

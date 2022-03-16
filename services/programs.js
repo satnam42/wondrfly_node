@@ -2159,6 +2159,14 @@ const histogram = async (query, context) => {
     log.end()
     return data
   }
+  if (query.period == 'year') {
+    let data = [];
+    let date = moment(new Date()).subtract(1, 'year').format('YYYY-MM-DD')
+    let compute = await db.program.find({ createdOn: { $gte: moment(date).startOf('year').format('YYYY-MM-DD'), $lt: moment(date).endOf('year').format('YYYY-MM-DD'), } }).count()
+    data.push({ year: 1, count: compute, period: moment(date).format('YYYY') })
+    log.end()
+    return data
+  }
 
   log.end()
   return ""
