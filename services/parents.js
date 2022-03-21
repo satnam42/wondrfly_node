@@ -53,6 +53,9 @@ const setParent = (model, parent, context) => {
   if (model.isAmbassador !== 'string' && model.isAmbassador !== undefined) {
     parent.isAmbassador = model.isAmbassador;
   }
+  if (model.source !== 'string' && model.source !== undefined) {
+    parent.source = model.source;
+  }
   parent.lastModifiedBy = context.user.id;
   parent.updateOn = new Date();
   let user = parent;
@@ -88,6 +91,7 @@ const buildParent = async (model, context) => {
     role: 'parent',
     deviceToken: model.deviceToken,
     password: model.password,
+    source: model.source,
     createdOn: new Date(),
     updateOn: new Date(),
   }).save();
