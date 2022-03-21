@@ -34,7 +34,7 @@ exports.toModel = (entity) => {
     ssn: user.ssn,
     isActivated: user.isActivated,
     lastModifiedBy: user.lastModifiedBy,
-    // source: user.source,
+    source: user.source,
     state: user.state,
     createdBy: user.createdBy,
     deviceToken: user.deviceToken,
