@@ -1304,18 +1304,18 @@ module.exports = [
           description: 'week, month, year',
           type: 'string',
         },
-        // {
-        //   in: 'query',
-        //   name: 'month',
-        //   description: 'month',
-        //   type: 'string',
-        // },
-        // {
-        //   in: 'query',
-        //   name: 'year',
-        //   description: 'year',
-        //   type: 'string',
-        // }
+        {
+          in: 'query',
+          name: 'fromDate',
+          description: 'fromDate',
+          type: 'date',
+        },
+        {
+          in: 'query',
+          name: 'toDate',
+          description: 'toDate',
+          type: 'date',
+        },
       ],
       responses: {
         default: {

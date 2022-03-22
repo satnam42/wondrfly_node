@@ -2167,9 +2167,11 @@ const histogram = async (query, context) => {
     log.end()
     return data
   }
-
-  log.end()
-  return ""
+  if (query.fromDate && query.toDate) {
+    let data = await db.program.find({ createdOn: { $gte: query.fromDate, $lt: query.toDate, } })
+    log.end()
+    return data
+  }
 }
 
 // get categories and subcategories id's function ====
