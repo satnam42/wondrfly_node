@@ -2134,13 +2134,13 @@ const histogram = async (query, context) => {
   }
   if (query.period == 'month') {
     let data = [];
-    let seven = moment(new Date()).subtract(1, 'M').format('YYYY-MM-DD')
-    let six = moment(new Date()).subtract(2, 'M').format('YYYY-MM-DD')
-    let fifth = moment(new Date()).subtract(3, 'M').format('YYYY-MM-DD')
-    let fourth = moment(new Date()).subtract(4, 'M').format('YYYY-MM-DD')
-    let third = moment(new Date()).subtract(5, 'M').format('YYYY-MM-DD')
-    let second = moment(new Date()).subtract(6, 'M').format('YYYY-MM-DD')
-    let first = moment(new Date()).subtract(7, 'M').format('YYYY-MM-DD')
+    let seven = moment(new Date()).format('YYYY-MM-DD')
+    let six = moment(new Date()).subtract(1, 'M').format('YYYY-MM-DD')
+    let fifth = moment(new Date()).subtract(2, 'M').format('YYYY-MM-DD')
+    let fourth = moment(new Date()).subtract(3, 'M').format('YYYY-MM-DD')
+    let third = moment(new Date()).subtract(4, 'M').format('YYYY-MM-DD')
+    let second = moment(new Date()).subtract(5, 'M').format('YYYY-MM-DD')
+    let first = moment(new Date()).subtract(6, 'M').format('YYYY-MM-DD')
     let compute
     compute = await db.program.find({ createdOn: { $gte: moment(first).startOf('month').format('YYYY-MM-DD'), $lt: moment(first).endOf('month').format('YYYY-MM-DD'), } }).count()
     data.push({ month: 1, count: compute, period: moment(first).startOf('month').format('YYYY-MM-DD') })
