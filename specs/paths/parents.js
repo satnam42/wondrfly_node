@@ -231,14 +231,20 @@ module.exports = [
                 {
                     in: 'query',
                     type: 'string',
-                    name: 'keyType',
-                    description: 'name, email, status',
+                    name: 'name',
+                    description: 'name of parent',
                 },
                 {
                     in: 'query',
                     type: 'string',
-                    name: 'keyValue',
-                    description: 'key value',
+                    name: 'email',
+                    description: 'email of parent',
+                },
+                {
+                    in: 'query',
+                    type: 'string',
+                    name: 'status',
+                    description: 'status can be true or false',
                 }
             ],
             responses: {

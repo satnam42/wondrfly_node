@@ -240,22 +240,19 @@ const getParent = async (id, context) => {
   log.end();
   return parent;
 };
-const searchByNameEmailStatus = async (query, context) => {
+const searchByNameEmailStatus = async (model, context) => {
   const log = context.logger.start(`services:parents:searchByNameEmailStatus`)
-  // keyType, keyValue
-  let users
-  if (query.keyType == "name") {
-    users = await db.user
-      .find({ firstName: { $regex: '.*' + query.keyValue + '.*', $options: 'i' }, role: "parent" })
+  let query = {}
+  if (model.name) {
+    query["firstName"] = model.name
   }
-  if (query.keyType == "email") {
-    users = await db.user
-      .find({ email: { $regex: '.*' + query.keyValue + '.*', $options: 'i' }, role: "parent" })
+  if (model.email) {
+    query["email"] = model.email
   }
-  if (query.keyType == "status") {
-    users = await db.user
-      .find({ isActivated: query.keyValue, role: "parent" })
+  if (model.status) {
+    query["isActivated"] = model.status
   }
+  let users = await db.user.find(query)
   log.end()
   return users
 }
