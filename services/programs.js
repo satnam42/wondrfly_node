@@ -2096,7 +2096,6 @@ const montclairPrograms = async (query, context) => {
     .skip(skipCount)
     .limit(pageSize)
   programs.count = await db.program.find({ location: { $regex: '.*' + 'montclair' + '.*', $options: 'i' } }).count()
-
   log.end()
   return programs
 }
