@@ -492,9 +492,10 @@ const montclairPrograms = async (req, res) => {
 const histogram = async (req, res) => {
     const log = req.context.logger.start(`api:programs:histogram:${req.query.userId}`);
     try {
-        const data = await service.histogram(req.query, req.context);
+        const programs = await service.histogram(req.query, req.context);
         log.end();
-        return response.data(res, data);
+        return mapper.toSearchModel(programs)
+        // response.data(res, programs);
     } catch (err) {
         log.error(err);
         log.end();

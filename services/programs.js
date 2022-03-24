@@ -2172,6 +2172,11 @@ const histogram = async (query, context) => {
   }
   if (query.fromDate && query.toDate) {
     let data = await db.program.find({ createdOn: { $gte: query.fromDate, $lt: query.toDate, } })
+      .populate('tags')
+      .populate('user')
+      .populate('categoryId')
+      .populate('subCategoryIds')
+      .populate('lastModifiedBy')
     log.end()
     return data
   }

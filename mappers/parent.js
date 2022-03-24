@@ -45,6 +45,7 @@ exports.toModel = entity => {
         rewardpointIds: entity.rewardpointIds,
         deviceToken: entity.deviceToken,
         isAmbassadorOn: entity.isAmbassadorOn,
+        ipAddress: entity.ipAddress,
 
         permissions: entity.permissions || [],
         updatedOn: entity.updatedOn,
