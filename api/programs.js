@@ -494,7 +494,7 @@ const histogram = async (req, res) => {
     try {
         const programs = await service.histogram(req.query, req.context);
         log.end();
-        return response.data(res, mapper.toSearchModel(programs));
+        return response.data(res, programs);
         // response.data(res, programs);
     } catch (err) {
         log.error(err);
