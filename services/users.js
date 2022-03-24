@@ -944,10 +944,19 @@ const activateAndDeactive = async (context, id, isActivated) => {
   if (!user) {
     throw new Error('user not found');
   }
+  const invitation = await db.invitation.findOne({ user: id })
+  if (invitation && isActivated == "false") {
+    invitation.status.declined = true;
+    await invitation.save();
+  }
+  if (invitation && isActivated == "true") {
+    invitation.status.declined = false;
+    await invitation.save();
+  }
   user.isActivated = isActivated;
   user.lastModifiedBy = context.user.id;
   user.updatedOn = Date.now();
-  user.save();
+  await user.save();
   log.end();
   return user;
 };
