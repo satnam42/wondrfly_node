@@ -252,6 +252,7 @@ const searchByNameEmailStatus = async (model, context) => {
   if (model.status) {
     query["isActivated"] = model.status
   }
+  query["role"] = "parent"
   let users = await db.user.find(query)
   log.end()
   return users
