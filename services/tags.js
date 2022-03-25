@@ -273,6 +273,19 @@ const uploadPattern = async (id, file, context) => {
     return tag;
 };
 
+const searchTags = async (query, context) => {
+    const log = context.logger.start(`services:tags:searchTags`);
+    const allData = {}
+    const tags = await db.tag.find({ name: { "$regex": '.*' + query.name + '.*', "$options": 'i' } }
+    ).limit(5).sort({ name: 1 });
+    const category = await db.category.find({ name: { "$regex": '.*' + query.name + '.*', "$options": 'i' } }
+    ).limit(2).sort({ name: 1 });
+    allData.tags = tags
+    allData.category = category
+    log.end();
+    return allData;
+};
+
 exports.create = create;
 exports.getAlltags = getAlltags;
 exports.update = update;
@@ -284,3 +297,4 @@ exports.uploadImage = uploadImage;
 exports.uploadIcon = uploadIcon;
 exports.uploadLogo = uploadLogo;
 exports.uploadPattern = uploadPattern;
+exports.searchTags = searchTags;

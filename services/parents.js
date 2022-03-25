@@ -244,10 +244,10 @@ const searchByNameEmailStatus = async (model, context) => {
   const log = context.logger.start(`services:parents:searchByNameEmailStatus`)
   let query = {}
   if (model.name) {
-    query["firstName"] = model.name
+    query["firstName"] = { $regex: '.*' + model.name + '.*', $options: 'i' }
   }
   if (model.email) {
-    query["email"] = model.email
+    query["email"] = { $regex: '.*' + model.email + '.*', $options: 'i' }
   }
   if (model.status) {
     query["isActivated"] = model.status
@@ -257,7 +257,7 @@ const searchByNameEmailStatus = async (model, context) => {
   log.end()
   return users
 }
-
+// .find({ firstName: { $regex: '.*' + query.keyValue + '.*', $options: 'i' }, role: "parent" })
 const createSearchHistory = async (model, context) => {
   const log = context.logger.start("services:parents:createSearchHistory");
   let search

@@ -144,6 +144,19 @@ const uploadPattern = async (req, res) => {
     }
 };
 
+const searchTags = async (req, res) => {
+    const log = req.context.logger.start(`api:tags:searchTags`);
+    try {
+        const tags = await service.searchTags(req.query, req.context);
+        log.end();
+        return response.data(res, tags);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 exports.create = create;
 exports.list = list;
 exports.update = update;
@@ -155,3 +168,4 @@ exports.uploadImage = uploadImage;
 exports.uploadIcon = uploadIcon;
 exports.uploadLogo = uploadLogo;
 exports.uploadPattern = uploadPattern;
+exports.searchTags = searchTags;
