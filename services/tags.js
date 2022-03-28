@@ -278,10 +278,10 @@ const searchTags = async (query, context) => {
     const allData = {}
     const tags = await db.tag.find({ name: { "$regex": '.*' + query.name + '.*', "$options": 'i' } }
     ).limit(5).sort({ name: 1 });
-    const category = await db.category.find({ name: { "$regex": '.*' + query.name + '.*', "$options": 'i' } }
+    const categry = await db.category.find({ name: { "$regex": '.*' + query.name + '.*', "$options": 'i' } }
     ).limit(2).sort({ name: 1 });
+    allData.category = { name: categry[0].name }
     allData.tags = tags
-    allData.category = category
     log.end();
     return allData;
 };
