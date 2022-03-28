@@ -337,6 +337,7 @@ const configure = (app, logger) => {
     upload.single('pattern'),
     api.tags.uploadPattern
   );
+  app.get('/api/tags/searchTags', permit.context.builder, api.tags.searchTags);
 
   //permission routes //
 

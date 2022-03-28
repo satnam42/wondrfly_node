@@ -373,5 +373,30 @@ module.exports = [
                 }
             }
         }
+    },
+    {
+        url: "/searchTags",
+        get: {
+            summary: "get tags by search",
+            description: "tags  by search",
+            parameters: [
+
+                {
+                    in: "query",
+                    type: "string",
+                    name: "name",
+                    description: "tags name",
+                    required: true
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
     }
 ]
