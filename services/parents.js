@@ -116,21 +116,21 @@ const addParent = async (model, context) => {
   return parent;
 };
 
-const getList = async (query, context) => {
-  const log = context.logger.start(`services:parents:getList`);
-  let pageNo = Number(query.pageNo) || 1;
-  let pageSize = Number(query.pageSize) || 10;
-  let skipCount = pageSize * (pageNo - 1);
-  let parents = await db.user
-    .find({ $and: [{ role: 'parent' }, { isDeleted: false }] })
-    .skip(skipCount)
-    .limit(pageSize);
-  parents.count = await db.user
-    .find({ $and: [{ role: 'parent' }, { isDeleted: false }] })
-    .count();
-  log.end();
-  return parents;
-};
+// const getList = async (query, context) => {
+//   const log = context.logger.start(`services:parents:getList`);
+//   let pageNo = Number(query.pageNo) || 1;
+//   let pageSize = Number(query.pageSize) || 10;
+//   let skipCount = pageSize * (pageNo - 1);
+//   let parents = await db.user
+//     .find({ $and: [{ role: 'parent' }, { isDeleted: false }] })
+//     .skip(skipCount)
+//     .limit(pageSize);
+//   parents.count = await db.user
+//     .find({ $and: [{ role: 'parent' }, { isDeleted: false }] })
+//     .count();
+//   log.end();
+//   return parents;
+// };
 
 const resetPassword = async (model, context) => {
   const log = context.logger.start(`service/parents/resetPassword: ${model}`);
@@ -318,6 +318,35 @@ const getSearchHistory = async (id, context) => {
   }
   log.end();
   return searchHistory;
+};
+
+const getList = async (query, context) => {
+  const log = context.logger.start(`services:parents:getList`);
+  let pageNo = Number(query.pageNo) || 1;
+  let pageSize = Number(query.pageSize) || 10;
+  let skipCount = pageSize * (pageNo - 1);
+  const parents = await db.user.aggregate([
+    {
+      $lookup: {
+        from: 'invitations',
+        localField: '_id',
+        foreignField: 'user',
+        as: 'beta',
+      },
+    },
+    {
+      $match: {
+        'role': 'parent',
+      },
+    },
+    { $limit: pageSize + skipCount },
+    { $skip: skipCount },
+  ])
+  parents.count = await db.user
+    .find({ role: 'parent' })
+    .count();
+  log.end();
+  return parents;
 };
 
 const getAll = async (query, context) => {

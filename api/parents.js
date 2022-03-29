@@ -27,7 +27,7 @@ const list = async (req, res) => {
         return response.page(
             message,
             res,
-            parentMapper.toSearchModel(parents),
+            betaMapper.toSearchModel(parents),
             Number(req.query.pageNo) || 1,
             Number(req.query.pageSize) || 10,
             parents.count
