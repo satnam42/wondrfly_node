@@ -320,6 +320,35 @@ const getSearchHistory = async (id, context) => {
   return searchHistory;
 };
 
+const getAll = async (query, context) => {
+  const log = context.logger.start(`services:parents:getAll`);
+  let pageNo = Number(query.pageNo) || 1;
+  let pageSize = Number(query.pageSize) || 10;
+  let skipCount = pageSize * (pageNo - 1);
+  const parents = await db.user.aggregate([
+    {
+      $lookup: {
+        from: 'invitations',
+        localField: '_id',
+        foreignField: 'user',
+        as: 'beta',
+      },
+    },
+    {
+      $match: {
+        'role': 'parent',
+      },
+    },
+    { $limit: pageSize + skipCount },
+    { $skip: skipCount },
+  ])
+  parents.count = await db.user
+    .find({ role: 'parent' })
+    .count();
+  log.end();
+  return parents;
+};
+
 exports.addParent = addParent;
 exports.getList = getList;
 exports.resetPassword = resetPassword;
@@ -330,3 +359,4 @@ exports.getParent = getParent;
 exports.searchByNameEmailStatus = searchByNameEmailStatus;
 exports.createSearchHistory = createSearchHistory;
 exports.getSearchHistory = getSearchHistory;
+exports.getAll = getAll;

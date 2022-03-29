@@ -2,7 +2,7 @@
 const service = require("../services/parents");
 const response = require("../exchange/response");
 const parentMapper = require("../mappers/parent");
-
+const betaMapper = require("../mappers/betaParent");
 
 const add = async (req, res) => {
     const log = req.context.logger.start(`api:parents:add`);
@@ -147,6 +147,27 @@ const getSearchHistory = async (req, res) => {
     }
 };
 
+const getAll = async (req, res) => {
+    const log = req.context.logger.start(`api:parents:get`);
+    try {
+        const parents = await service.getAll(req.query, req.context);
+        let message = parents.count ? parents.count : 0 + " " + "parent Got";
+        log.end();
+        return response.page(
+            message,
+            res,
+            betaMapper.toSearchModel(parents),
+            Number(req.query.pageNo) || 1,
+            Number(req.query.pageSize) || 10,
+            parents.count
+        );
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 exports.add = add;
 exports.list = list;
 exports.update = update;
@@ -157,3 +178,4 @@ exports.get = get
 exports.searchByNameEmailStatus = searchByNameEmailStatus
 exports.createSearchHistory = createSearchHistory;
 exports.getSearchHistory = getSearchHistory;
+exports.getAll = getAll;

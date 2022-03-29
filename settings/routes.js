@@ -557,6 +557,8 @@ const configure = (app, logger) => {
   //   api.parents.uploadProfilePic
   // );
   app.get('/api/parents/list', permit.context.builder, api.parents.list);
+  app.get('/api/parents/getAll', permit.context.builder, api.parents.getAll);
+
   //child routes//
   app.post('/api/child/add', permit.context.requiresToken, api.child.add);
   app.get('/api/child/list', permit.context.requiresToken, api.child.list);
