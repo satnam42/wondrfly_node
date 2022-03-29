@@ -55,7 +55,7 @@ exports.toModel = entity => {
         applicationDate: beta.createdOn ? beta.createdOn : '',
         approvalDate: beta.approvalDate ? beta.approvalDate : '',
         occupation: beta.occupation ? beta.occupation : '',
-        activityFor: beta.bookedActivityFor ? beta.bookedActivityFor : '',
+        bookedActivityFor: beta.bookedActivityFor ? beta.bookedActivityFor : '',
         updatedOn: entity.updatedOn,
         createdOn: entity.createdOn,
     }
