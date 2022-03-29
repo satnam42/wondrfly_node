@@ -277,13 +277,13 @@ const searchTags = async (query, context) => {
     const log = context.logger.start(`services:tags:searchTags`);
     const allData = {}
     const tags = await db.tag.find({ name: { "$regex": '.*' + query.name + '.*', "$options": 'i' } }
-    ).limit(5).sort({ name: 1 });
-    const categry = await db.category.find({ name: { "$regex": '.*' + query.name + '.*', "$options": 'i' } }
-    ).limit(2).sort({ name: 1 });
-    allData.category = { name: categry[0].name }
-    allData.tags = tags
+    ).limit(5).sort({ name: 1 }).populate('categoryIds');
+    // const categry = await db.category.find({ name: { "$regex": '.*' + query.name + '.*', "$options": 'i' } }
+    // ).limit(2).sort({ name: 1 });
+    // allData.category = { name: categry[0].name }
+    // allData.tags = tags
     log.end();
-    return allData;
+    return tags;
 };
 
 exports.create = create;
