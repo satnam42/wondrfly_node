@@ -7,7 +7,7 @@ exports.toModel = entity => {
         beta = entity.beta[0]
     }
     let model = {
-        id: entity.id,
+        id: entity._id,
         firstName: entity.firstName,
         lastName: entity.lastName,
         sex: entity.sex,
