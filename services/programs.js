@@ -1631,6 +1631,7 @@ const multiFilter = async (model, context) => {
   let programs
   if (!isEmpty) {
     programs = await db.program.find(query)
+      .sort({ programRating: -1 })
       .populate('tags')
       .populate('categoryId')
       .populate('subCategoryIds')
@@ -1664,6 +1665,21 @@ const multiFilter = async (model, context) => {
       }
     }
   }
+  // let finalArray = []
+  //   let numbers = [5, 13, 1, 44, 32, 15, 500]
+  //   let highestToLowest = numbers.sort((a, b) => b - a);
+  // var arr = [];
+  // var lab = ["1", "2", "3"];
+  // var val = [42, 55, 51, 22];
+  // var data = [];
+  // for (var i = 0; i < 4; i++) {
+  //   data.push({ label: lab[i], value: val[i] });
+  // }
+  // console.log('data =>', data);
+  // for (let program of programs) {
+  //   console.log('program ==>>>', program.user.averageFinalRating);
+  // }
+  console.log('programs ---==>>>>>>>', programs);
   return programs
 }
 // db.contributor.find({
