@@ -1322,49 +1322,56 @@ const listPublishOrUnpublish = async (query, context) => {
         },
       },
       {
-        $lookup: {
-          from: 'categories',
-          localField: 'categoryId',
-          foreignField: '_id',
-          as: 'categoryId',
+        $group:
+        {
+          _id: "$user",
+          programs: { $push: "$$ROOT" },
         },
       },
-      {
-        $lookup: {
-          from: "tags",
-          let: { "subCategoryIds": "$subCategoryIds" },
-          // pipeline: [
-          //   { "$match": { "$expr": { "$in": ["$_id", "$$subCategoryIds"] } } }
-          // ],
-          pipeline: [
-            {
-              $match: {
-                $expr: {
-                  $and: [
-                    { $in: ['$_id', { $ifNull: ['$$subCategoryIds', []] }] },
-                  ]
-                }
-              }
-            }
-          ],
-          as: "subCategoryIds"
-        }
-      },
-      {
-        $lookup: {
-          from: 'users',
-          localField: 'user',
-          foreignField: '_id',
-          as: 'provider',
-        },
-      },
-      { $sort: { programRating: 1 } },
+      // {
+      //   $lookup: {
+      //     from: 'categories',
+      //     localField: 'programs.categoryId',
+      //     foreignField: '_id',
+      //     as: 'categoryId',
+      //   },
+      // },
+      // {
+      //   $lookup: {
+      //     from: "tags",
+      //     let: { "subCategoryIds": "$subCategoryIds" },
+      //     // pipeline: [
+      //     //   { "$match": { "$expr": { "$in": ["$_id", "$$subCategoryIds"] } } }
+      //     // ],
+      //     pipeline: [
+      //       {
+      //         $match: {
+      //           $expr: {
+      //             $and: [
+      //               { $in: ['$_id', { $ifNull: ['$$subCategoryIds', []] }] },
+      //             ]
+      //           }
+      //         }
+      //       }
+      //     ],
+      //     as: "subCategoryIds"
+      //   }
+      // },
+      // {
+      //   $lookup: {
+      //     from: 'users',
+      //     localField: 'programs.user',
+      //     foreignField: '_id',
+      //     as: 'provider',
+      //   },
+      // },
+      // { $sort: { programRating: 1 } },
       { $limit: pageSize + skipCount },
       { $skip: skipCount },
     ])
     programs.count = await db.program.find({ isPublished: true }).count()
     log.end()
-    return programs.reverse()
+    return programs
   }
   if (query.programType == 'unpublished') {
     programs = await db.program
@@ -1631,16 +1638,29 @@ const multiFilter = async (model, context) => {
   const isEmpty = Object.keys(query).length === 0
   let programs
   if (!isEmpty) {
-    programs = await db.program.find(query)
-      .sort({ programRating: -1 })
-      .populate('tags')
-      .populate('categoryId')
-      .populate('subCategoryIds')
-      .populate('user')
-      .skip(skipCount)
-      .limit(pageSize)
-      .skip(skipCount).limit(pageSize);
+    // programs = await db.program.find(query)
+    //   .sort({ programRating: -1 })
+    //   .populate('tags')
+    //   .populate('categoryId')
+    //   .populate('subCategoryIds')
+    //   .populate('user')
+    //   .skip(skipCount)
+    //   .limit(pageSize)
+    //   .skip(skipCount).limit(pageSize);
+    programs = await db.program.aggregate([
+      {
+        $match: query
+      },
+      {
+        $group:
+        {
+          _id: "$user",
+          programs: { $push: "$$ROOT" },
+        },
+      }
+    ])
     log.end()
+
   }
   // if (!isEmpty) {
   //   programs = await db.program.find(query)

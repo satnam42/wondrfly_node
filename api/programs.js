@@ -2,7 +2,7 @@
 const service = require("../services/programs");
 const response = require("../exchange/response");
 const mapper = require("../mappers/program")
-
+// const mapperGrouping = require("../mappers/groupingPrograms")
 
 const create = async (req, res) => {
     const log = req.context.logger.start(`api:programs:create`);
@@ -271,15 +271,17 @@ const listPublishOrUnpublish = async (req, res) => {
         const programs = await service.listPublishOrUnpublish(req.query, req.context);
         let message = programs.count ? programs.count : 0 + " " + "programs Got";
         log.end();
-        return response.page(
-            message,
-            res,
-            mapper.toSearchModel(programs),
-            // programs,
-            Number(req.query.pageNo) || 1,
-            Number(req.query.pageSize) || 10,
-            programs.count
-        );
+        return response.data(res, programs);
+
+        // return response.page(
+        //     message,
+        //     res,
+        //     mapperGrouping.toSearchModel(programs),
+        //     // programs,
+        //     Number(req.query.pageNo) || 1,
+        //     Number(req.query.pageSize) || 10,
+        //     programs.count
+        // );
     } catch (err) {
         log.error(err);
         log.end();
@@ -332,7 +334,9 @@ const multiFilter = async (req, res) => {
     try {
         const data = await service.multiFilter(req.query, req.context);
         log.end();
-        return response.data(res, mapper.toSearchModel(data));
+        return response.data(res, data);
+
+        // return response.data(res, mapper.toSearchModel(data));
     } catch (err) {
         log.error(err);
         log.end();
