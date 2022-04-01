@@ -15,7 +15,7 @@ exports.toModel = (entity) => {
     alias: entity.alias || '',
     description: entity.description || '',
 
-    programRating: entity.programRating || '',
+    programRating: entity.programRating,
     providerName: entity.providerName || '',
     indoorOroutdoor: entity.indoorOroutdoor || '',
     inpersonOrVirtual: entity.inpersonOrVirtual || '',
