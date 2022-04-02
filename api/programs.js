@@ -271,17 +271,15 @@ const listPublishOrUnpublish = async (req, res) => {
         const programs = await service.listPublishOrUnpublish(req.query, req.context);
         let message = programs.count ? programs.count : 0 + " " + "programs Got";
         log.end();
-        return response.data(res, programs);
-
-        // return response.page(
-        //     message,
-        //     res,
-        //     mapperGrouping.toSearchModel(programs),
-        //     // programs,
-        //     Number(req.query.pageNo) || 1,
-        //     Number(req.query.pageSize) || 10,
-        //     programs.count
-        // );
+        return response.page(
+            message,
+            res,
+            mapper.toSearchModel(programs),
+            // programs,
+            Number(req.query.pageNo) || 1,
+            Number(req.query.pageSize) || 10,
+            programs.count
+        );
     } catch (err) {
         log.error(err);
         log.end();
@@ -507,6 +505,20 @@ const histogram = async (req, res) => {
     }
 };
 
+const groupPublishOrUnpublish = async (req, res) => {
+    const log = req.context.logger.start(`api:programs:groupPublishOrUnpublish`);
+    try {
+        const programs = await service.groupPublishOrUnpublish(req.query, req.context);
+        let message = programs.count ? programs.count : 0 + " " + "programs Got";
+        log.end();
+        return response.data(res, programs);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 exports.create = create;
 exports.list = list;
 exports.update = update;
@@ -542,3 +554,4 @@ exports.searchByKeyValue = searchByKeyValue;
 exports.expired = expired;
 exports.montclairPrograms = montclairPrograms;
 exports.histogram = histogram;
+exports.groupPublishOrUnpublish = groupPublishOrUnpublish;

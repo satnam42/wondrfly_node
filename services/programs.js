@@ -1322,50 +1322,88 @@ const listPublishOrUnpublish = async (query, context) => {
         },
       },
       {
+        $lookup: {
+          from: 'categories',
+          localField: 'categoryId',
+          foreignField: '_id',
+          as: 'categoryId',
+        },
+      },
+      {
+        $lookup: {
+          from: "tags",
+          let: { "subCategoryIds": "$subCategoryIds" },
+          // pipeline: [
+          //   { "$match": { "$expr": { "$in": ["$_id", "$$subCategoryIds"] } } }
+          // ],
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $in: ['$_id', { $ifNull: ['$$subCategoryIds', []] }] },
+                  ]
+                }
+              }
+            }
+          ],
+          as: "subCategoryIds"
+        }
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'user',
+          foreignField: '_id',
+          as: 'provider',
+        },
+      },
+      { $sort: { programRating: 1 } },
+      { $limit: pageSize + skipCount },
+      { $skip: skipCount },
+    ])
+    programs.count = await db.program.find({ isPublished: true }).count()
+    log.end()
+    return programs.reverse()
+  }
+  if (query.programType == 'unpublished') {
+    programs = await db.program
+      .find({ isPublished: false })
+      .sort({ createdOn: -1 })
+      .populate('tags')
+      .populate('user')
+      .skip(skipCount)
+      .limit(pageSize)
+    programs.count = await db.program.find({ isPublished: false }).count()
+  }
+  log.end()
+  return programs
+}
+
+const groupPublishOrUnpublish = async (query, context) => {
+  const log = context.logger.start(`services:providers:groupPublishOrUnpublish`)
+  let pageNo = Number(query.pageNo) || 1
+  let pageSize = Number(query.pageSize) || 10
+  let skipCount = pageSize * (pageNo - 1)
+  let programs
+  if (query.programType == 'published') {
+    const programs = await db.program.aggregate([
+      {
+        $match: {
+          isPublished: true,
+        },
+      },
+      {
         $group:
         {
           _id: "$user",
+          total: { $sum: 1 },
           programs: { $push: "$$ROOT" },
         },
       },
-      // {
-      //   $lookup: {
-      //     from: 'categories',
-      //     localField: 'programs.categoryId',
-      //     foreignField: '_id',
-      //     as: 'categoryId',
-      //   },
-      // },
-      // {
-      //   $lookup: {
-      //     from: "tags",
-      //     let: { "subCategoryIds": "$subCategoryIds" },
-      //     // pipeline: [
-      //     //   { "$match": { "$expr": { "$in": ["$_id", "$$subCategoryIds"] } } }
-      //     // ],
-      //     pipeline: [
-      //       {
-      //         $match: {
-      //           $expr: {
-      //             $and: [
-      //               { $in: ['$_id', { $ifNull: ['$$subCategoryIds', []] }] },
-      //             ]
-      //           }
-      //         }
-      //       }
-      //     ],
-      //     as: "subCategoryIds"
-      //   }
-      // },
-      // {
-      //   $lookup: {
-      //     from: 'users',
-      //     localField: 'programs.user',
-      //     foreignField: '_id',
-      //     as: 'provider',
-      //   },
-      // },
-      // { $sort: { programRating: 1 } },
+      {
+        $sort: { programRating: -1 }
+      },
       { $limit: pageSize + skipCount },
       { $skip: skipCount },
     ])
@@ -2286,3 +2324,4 @@ exports.searchByKeyValue = searchByKeyValue;
 exports.getExpiredprograms = getExpiredprograms;
 exports.montclairPrograms = montclairPrograms;
 exports.histogram = histogram;
+exports.groupPublishOrUnpublish = groupPublishOrUnpublish;

@@ -1326,5 +1326,43 @@ module.exports = [
         },
       },
     },
+  },
+  {
+    url: '/groupPublishOrUnpublish',
+    get: {
+      summary: 'grouping list of published or unpublished programs',
+      description: 'grouping list of published or unpublished programs',
+      parameters: [
+        {
+          in: 'query',
+          type: 'integer',
+          name: 'pageNo',
+          description: 'pageNo',
+          required: true,
+        },
+        {
+          in: 'query',
+          type: 'integer',
+          name: 'pageSize',
+          description: 'pageSize',
+          required: true,
+        },
+        {
+          in: 'query',
+          type: 'string',
+          name: 'programType',
+          description: 'program type can be published or unpublished',
+          required: true,
+        },
+      ],
+      responses: {
+        default: {
+          description: 'Unexpected error',
+          schema: {
+            $ref: '#/definitions/Error',
+          },
+        },
+      },
+    },
   }
 ]

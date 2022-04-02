@@ -829,6 +829,11 @@ const configure = (app, logger) => {
     permit.context.builder,
     api.programs.histogram
   );
+  app.get(
+    '/api/programs/groupPublishOrUnpublish',
+    permit.context.builder,
+    api.programs.groupPublishOrUnpublish
+  );
 
   //=============favourites api=====================//
   app.post(
