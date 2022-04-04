@@ -1402,11 +1402,17 @@ const groupPublishOrUnpublish = async (query, context) => {
         },
       },
       {
-        $sort: { programRating: -1 }
+        $lookup: {
+          from: 'users',
+          localField: 'programs.user',
+          foreignField: '_id',
+          as: 'user',
+        },
       },
       { $limit: pageSize + skipCount },
       { $skip: skipCount },
     ])
+    console.log('programs =>', programs);
     programs.count = await db.program.find({ isPublished: true }).count()
     log.end()
     return programs
