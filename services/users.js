@@ -809,7 +809,7 @@ const login = async (model, context) => {
           },
         ],
 
-        subject: `${firstName}, is this you?`,
+        subject: `${firstName}, Was this you?`,
         options: [
           {
             name: 'FNAME',

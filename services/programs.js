@@ -1401,6 +1401,7 @@ const groupPublishOrUnpublish = async (query, context) => {
           programs: { $push: "$$ROOT" },
         },
       },
+      { $limit: 10 },
       {
         $lookup: {
           from: 'users',
@@ -1701,7 +1702,15 @@ const multiFilter = async (model, context) => {
           _id: "$user",
           programs: { $push: "$$ROOT" },
         },
-      }
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'programs.user',
+          foreignField: '_id',
+          as: 'user',
+        },
+      },
     ])
     log.end()
 
