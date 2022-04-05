@@ -1559,9 +1559,11 @@ const multiFilter = async (model, context) => {
   if (model.fromDate !== undefined && model.toDate !== undefined && model.fromDate !== "" && model.toDate !== "" && model.fromDate !== null && model.toDate !== null) {
     // query["date.from"] = { $gte: model.fromDate }
     // query["date.to"] = { $lte: model.toDate }
+    let start = new Date(model.fromDate)
+    let end = new Date(model.toDate)
     let dateArray = []
-    dateArray.push({ 'date.from': { '$gte': model.fromDate, '$lte': model.toDate } })
-    dateArray.push({ 'date.to': { '$gte': model.fromDate, '$lte': model.toDate } })
+    dateArray.push({ 'date.from': { '$gte': start, '$lte': end } })
+    dateArray.push({ 'date.to': { '$gte': start, '$lte': end } })
     const dates = {
       $or: dateArray
     }
@@ -1607,8 +1609,8 @@ const multiFilter = async (model, context) => {
   }
   if (model.priceFrom !== undefined && model.priceTo !== undefined && model.priceFrom !== "" && model.priceTo !== "" && model.priceFrom !== null && model.priceTo !== null) {
     const byPrice = {
-      $gte: model.priceFrom,
-      $lte: model.priceTo,
+      $gte: Number(model.priceFrom),
+      $lte: Number(model.priceTo),
     }
     query["pricePerParticipant"] = byPrice
   }
@@ -1621,14 +1623,14 @@ const multiFilter = async (model, context) => {
   }
   if (model.ratingFrom !== undefined && model.ratingTo !== undefined && model.ratingFrom !== "" && model.ratingTo !== "" && model.ratingFrom !== null && model.ratingTo !== null) {
     const byRating = {
-      $gte: model.ratingFrom,
-      $lte: model.ratingTo,
+      $gte: Number(model.ratingFrom),
+      $lte: Number(model.ratingTo),
     }
     query["programRating"] = byRating
   }
 
   if (model.categoryId !== undefined && model.categoryId !== "" && model.categoryId !== null) {
-    query["categoryId"] = model.categoryId;
+    query["categoryId"] = ObjectId(model.categoryId);
   }
   if (model.type !== undefined && model.type !== "" && model.type !== null) {
     // query["type"] = model.type;
@@ -1667,14 +1669,14 @@ const multiFilter = async (model, context) => {
     query["$or"] = dayArray
   }
   if (model.tagsIds !== undefined && model.tagsIds !== "" && model.tagsIds !== null) {
-    console.log('tagsIds ==>>>>>', model.tagsIds)
     const tagsArray = []
     var tagArr = model.tagsIds.split(',');
     for (const element of tagArr) {
-      tagsArray.push(element)
+      tagsArray.push(ObjectId(element))
     }
     // const tags = { subCategoryIds: { $in: tagsArray } }
     query["subCategoryIds"] = { $in: tagsArray }
+
   }
   // if (model.ageFrom || model.fromDate || model.toTime || model.priceFrom || model.durationMin || model.categoryId || model.type1 || model.type2) {
   //   query["isPublished"] = true
@@ -1692,6 +1694,7 @@ const multiFilter = async (model, context) => {
     //   .skip(skipCount)
     //   .limit(pageSize)
     //   .skip(skipCount).limit(pageSize);
+
     programs = await db.program.aggregate([
       {
         $match: query
