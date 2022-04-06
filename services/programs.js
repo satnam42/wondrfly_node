@@ -1401,7 +1401,6 @@ const groupPublishOrUnpublish = async (query, context) => {
           programs: { $push: "$$ROOT" },
         },
       },
-      { $limit: 10 },
       {
         $lookup: {
           from: 'users',
