@@ -1719,6 +1719,14 @@ const multiFilter = async (model, context) => {
           as: 'user',
         },
       },
+      {
+        $lookup: {
+          from: 'categories',
+          localField: 'programs.categoryId',
+          foreignField: '_id',
+          as: 'categories',
+        },
+      }
     ])
     log.end()
 
