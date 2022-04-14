@@ -1608,6 +1608,7 @@ const multiFilter = async (model, context) => {
       $gte: model.fromTime,
       $lt: model.toTime,
     }
+
     query["realTime.from"] = tme
     // query["realTime.from"] = { $gte: model.fromTime }
     // query["realTime.from"] = { $lte: model.toTime }
@@ -1687,6 +1688,7 @@ const multiFilter = async (model, context) => {
   //   query["isPublished"] = true
   // }
   query["isPublished"] = true
+  query["isExpired"] = false
   const isEmpty = Object.keys(query).length === 0
   let programs
   if (!isEmpty) {
@@ -2067,7 +2069,6 @@ const childTagProgramCount = async (model, context) => {
 
 const expireProgram = async (model, context) => {
   const log = context.logger.start(`services:programs:expireProgram`);
-  console.log('expireProgram =>', model);
   const program = await db.program.findById(model.id);
   if (!program) {
     throw new Error('program does not exist');
