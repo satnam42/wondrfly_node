@@ -1391,6 +1391,7 @@ const groupPublishOrUnpublish = async (query, context) => {
       {
         $match: {
           isPublished: true,
+          isExpired: false
         },
       },
       {
