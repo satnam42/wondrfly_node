@@ -856,6 +856,12 @@ module.exports = [
         },
         {
           in: 'query',
+          name: 'providerId',
+          description: 'provider id',
+          type: 'string',
+        },
+        {
+          in: 'query',
           name: 'fromDate',
           description: 'fromDate',
           // required: true,

@@ -1691,6 +1691,9 @@ const multiFilter = async (model, context) => {
   query["isPublished"] = true
   query["isExpired"] = false
   const isEmpty = Object.keys(query).length === 0
+  if (model.providerId) {
+    query["user"] = ObjectId(model.providerId)
+  }
   let programs
   if (!isEmpty) {
     // programs = await db.program.find(query)
