@@ -275,32 +275,34 @@ const uploadPattern = async (id, file, context) => {
 
 const searchTags = async (query, context) => {
     const log = context.logger.start(`services:tags:searchTags`);
-    let subtags = []
-    let subCategorie = []
     const tags = await db.tag.find({ name: { "$regex": '.*' + query.name + '.*', "$options": 'i' } }
     ).sort({ name: 1 }).populate('categoryIds');
-    if (tags.length > 0) {
-        subtags = await db.tag.find({ categoryIds: tags[0].categoryIds[0]._id }
-        ).sort({ name: 1 }).populate('categoryIds');
-    }
-    const category = await db.category.find({ name: { "$regex": '.*' + query.name + '.*', "$options": 'i' } }
-    ).limit(1).sort({ name: 1 });
-    if (category.length > 0) {
-        subCategorie = await db.tag.find({ categoryIds: category[0]._id }
-        ).sort({ name: 1 }).populate('categoryIds');
-    }
-    if (subCategorie.length > 0 && subtags.length > 0) {
-        const allData = subtags.concat(subCategorie);
-        return allData;
-    }
-    if (subCategorie.length > 0) {
-        return subCategorie;
-    }
-    if (subtags.length > 0) {
-        return subtags;
-    }
+    // let subtags = []
+    // let subCategorie = []
+    // const tags = await db.tag.find({ name: { "$regex": '.*' + query.name + '.*', "$options": 'i' } }
+    // ).sort({ name: 1 }).populate('categoryIds');
+    // if (tags.length > 0) {
+    //     subtags = await db.tag.find({ categoryIds: tags[0].categoryIds[0]._id }
+    //     ).sort({ name: 1 }).populate('categoryIds');
+    // }
+    // const category = await db.category.find({ name: { "$regex": '.*' + query.name + '.*', "$options": 'i' } }
+    // ).limit(1).sort({ name: 1 });
+    // if (category.length > 0) {
+    //     subCategorie = await db.tag.find({ categoryIds: category[0]._id }
+    //     ).sort({ name: 1 }).populate('categoryIds');
+    // }
+    // if (subCategorie.length > 0 && subtags.length > 0) {
+    //     const allData = subtags.concat(subCategorie);
+    //     return allData;
+    // }
+    // if (subCategorie.length > 0) {
+    //     return subCategorie;
+    // }
+    // if (subtags.length > 0) {
+    //     return subtags;
+    // }
     log.end();
-    return allData;
+    return tags;
 };
 
 exports.create = create;
