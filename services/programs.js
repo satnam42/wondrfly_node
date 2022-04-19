@@ -1517,19 +1517,24 @@ const searchByNameAndDate = async (query, context) => {
 
 const topRating = async (context) => {
   const log = context.logger.start(`services:programs:topRating`)
-  const users = await db.user.find({ averageFinalRating: { $gte: 4.0, $lte: 5.0 } });
-  let totalPrograms = []
-  for (let user of users) {
-    console.log(user.id);
-    const programs = await db.program.find({ user: user.id })
-      .populate('tags')
-      .populate('categoryId')
-      .populate('subCategoryIds')
-      .populate('user')
-    totalPrograms.push(...programs)
-  }
+  // const users = await db.user.find({ averageFinalRating: { $gte: 4.0, $lte: 5.0 } });
+  // let totalPrograms = []
+  // for (let user of users) {
+  //   console.log(user.id);
+  //   const programs = await db.program.find({ user: user.id })
+  //     .populate('tags')
+  //     .populate('categoryId')
+  //     .populate('subCategoryIds')
+  //     .populate('user')
+  //   totalPrograms.push(...programs)
+  // }
+  const programs = await db.program.find({ programRating: { $gte: 4.0, $lte: 5.0 } }).sort({ programRating: -1 })
+    .populate('tags')
+    .populate('categoryId')
+    .populate('subCategoryIds')
+    .populate('user')
   log.end()
-  return totalPrograms
+  return programs
 }
 
 const multiFilter = async (model, context) => {
