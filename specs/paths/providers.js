@@ -782,5 +782,38 @@ module.exports = [
                 },
             },
         },
+    },
+    {
+        url: "/saveProvider",
+        post: {
+            summary: "saveProvider",
+            description: "add in favourites",
+            parameters: [
+                {
+                    in: "body",
+                    name: "body",
+                    description: "Model of favourite creation",
+                    required: true,
+                    schema: {
+                        $ref: "#/definitions/saveProvider"
+                    }
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
     }
 ]

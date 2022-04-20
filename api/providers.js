@@ -324,6 +324,19 @@ const histogram = async (req, res) => {
   }
 };
 
+const saveProvider = async (req, res) => {
+  const log = req.context.logger.start(`api:providers:saveProvider`);
+  try {
+    const favourite = await service.saveProvider(req.body, req.context);
+    log.end();
+    return response.data(res, favourite);
+  } catch (err) {
+    log.error(err);
+    log.end();
+    return response.failure(res, err.message);
+  }
+};
+
 exports.create = create
 exports.list = list
 exports.update = update
@@ -344,4 +357,5 @@ exports.searchVerifiedOrUnverified = searchVerifiedOrUnverified
 exports.uploadExcel = uploadExcel
 exports.getRatingByUser = getRatingByUser
 exports.montclairProviders = montclairProviders;
-exports.histogram = histogram
+exports.histogram = histogram;
+exports.saveProvider = saveProvider;

@@ -1150,6 +1150,23 @@ const histogram = async (query, context) => {
   }
 }
 
+const saveProvider = async (model, context) => {
+  const log = context.logger.start("services:providers:saveProvider");
+  const Favourites = await db.saveProvider.find({ $and: [{ parent: model.parent }, { provider: model.provider }] })
+  if (Favourites.length > 0) {
+    return "favourite already exist";
+  }
+  const favourite = await new db.saveProvider({
+    parent: model.parent,
+    provider: model.provider,
+    createdOn: new Date(),
+    updateOn: new Date(),
+  }).save();
+  log.end();
+  return favourite;
+};
+
+
 exports.importProvider = importProvider
 exports.getAllProvider = getAllProvider
 exports.updateProvider = updateProvider
@@ -1171,3 +1188,4 @@ exports.uploadExcel = uploadExcel
 exports.getRatingByUser = getRatingByUser
 exports.montclairProviders = montclairProviders;
 exports.histogram = histogram;
+exports.saveProvider = saveProvider

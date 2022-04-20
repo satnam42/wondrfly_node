@@ -494,7 +494,11 @@ const configure = (app, logger) => {
     permit.context.builder,
     api.providers.histogram
   );
-
+  app.post(
+    '/api/providers/saveProvider',
+    permit.context.requiresToken,
+    api.providers.saveProvider
+  );
 
   //review routes//
   app.post(
