@@ -74,6 +74,7 @@ const user = mongoose.Schema({
   rewardpointIds: [
     { type: mongoose.Schema.Types.ObjectId, default: [], ref: 'rewardpoint' },
   ],
+  isFav: { type: Boolean, default: false },
   parentInvitationLimit: { type: Number, default: 0 },
   guardianInvitationLimit: { type: Number, default: 0 },
   browserName: { type: String, default: '' },

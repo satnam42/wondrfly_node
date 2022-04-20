@@ -181,7 +181,57 @@ const removeById = async (id, context) => {
     return 'favourite removed succesfully'
 };
 
+
+const savedProvidersUserId = async (query, context) => {
+    const log = context.logger.start(`services:favourites:savedProvidersUserId`);
+    if (!query.parentId) {
+        throw new Error("userId not found");
+    }
+    // const favourites = await db.favourite.find({ user: query.parentId }).populate('program');
+    // if (favourites.length < 0) {
+    //     throw new Error("Favourites not found");
+    // }
+    const favourites = await db.favourite.aggregate([
+        {
+            $match: {
+                user: ObjectId(query.parentId),
+            },
+        },
+        {
+            $lookup: {
+                from: 'programs',
+                localField: 'program',
+                foreignField: '_id',
+                as: 'programs',
+            },
+        },
+    ])
+    let providers = []
+    let finalFavourites = []
+    for (let fav of favourites) {
+        providers.push(fav.programs[0].user.toString())
+    }
+    let uniquePro = [...new Set(providers)];
+    for (let fav of uniquePro) {
+        const group = {}
+        const providerFav = await db.saveProvider.findOne({ provider: fav })
+        const provider = await db.user.findOne({ _id: fav })
+        if (providerFav && provider) {
+            provider.isFav = true
+        } else {
+            provider.isFav = false
+        }
+        const programs = await db.program.find({ user: fav }).populate('categoryId').populate('subCategoryIds')
+        group.user = provider;
+        group.programs = programs
+        finalFavourites.push(group)
+    }
+    log.end();
+    return finalFavourites;
+};
+
 exports.create = create;
 exports.getAllfavourites = getAllfavourites;
 exports.removeById = removeById
 exports.getFavouritesByUserId = getFavouritesByUserId
+exports.savedProvidersUserId = savedProvidersUserId;

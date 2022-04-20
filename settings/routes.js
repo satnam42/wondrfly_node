@@ -858,6 +858,13 @@ const configure = (app, logger) => {
     api.favourites.remove
   );
 
+  app.get(
+    '/api/favourites/savedProvidersUserId',
+    permit.context.builder,
+    api.favourites.savedProvidersUserId
+  );
+
+
   // uploads api//
   app.post(
     '/api/uploads/getPicUrl',

@@ -54,7 +54,21 @@ const remove = async (req, res) => {
     }
 };
 
+const savedProvidersUserId = async (req, res) => {
+    const log = req.context.logger.start(`api:favourites:savedProvidersUserId`);
+    try {
+        const favourites = await service.savedProvidersUserId(req.query, req.context);
+        log.end();
+        return response.data(res, favourites);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 exports.create = create;
 exports.list = list;
 exports.remove = remove;
 exports.listByUserId = listByUserId;
+exports.savedProvidersUserId = savedProvidersUserId;

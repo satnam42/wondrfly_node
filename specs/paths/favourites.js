@@ -120,4 +120,36 @@ module.exports = [
             }
         }
     },
+    {
+        url: "/savedProvidersUserId",
+        get: {
+            url: "/savedProvidersUserId",
+            summary: "get favourites providers and parents by parentid",
+            description: "get favourites list of providers and parents by parentid",
+            parameters: [
+                {
+                    in: "query",
+                    name: "parentId",
+                    description: "parentId",
+                    required: true,
+                    type: "string"
+                },
+                // {
+                //     in: "header",
+                //     name: "x-access-token",
+                //     description: "token to access api",
+                //     required: true,
+                //     type: "string"
+                // },
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
 ]
