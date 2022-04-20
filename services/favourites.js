@@ -210,10 +210,12 @@ const savedProvidersUserId = async (query, context) => {
     let finalFavourites = []
     for (let fav of favourites) {
         console.log('=>_>_>', fav)
-        console.log('=>_>_>', fav.programs)
-        console.log('=>_>_>', fav.programs[0])
-        console.log('==========---------<><><><>', fav.programs[0].user)
-        providers.push(fav.programs[0].user.toString())
+        console.log('=>>><<<>>>>', fav.programs)
+        // console.log('=>_>_>', fav.programs[0])
+        // console.log('==========---------<><><><>', fav.programs[0].user)
+        if (fav.programs.length > 0) {
+            providers.push(fav.programs[0].user.toString())
+        }
     }
     let uniquePro = [...new Set(providers)];
     for (let fav of uniquePro) {
