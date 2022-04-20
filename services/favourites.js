@@ -227,7 +227,7 @@ const savedProvidersUserId = async (query, context) => {
         } else {
             provider.isFav = false
         }
-        const programs = await db.program.find({ user: fav }).populate('categoryId').populate('subCategoryIds')
+        const programs = await db.favourite.find({ user: fav }).populate('program')
         group.user = provider;
         group.programs = programs
         finalFavourites.push(group)
