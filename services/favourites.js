@@ -209,6 +209,8 @@ const savedProvidersUserId = async (query, context) => {
     let providers = []
     let finalFavourites = []
     for (let fav of favourites) {
+        console.log('=>_>_>', fav)
+        console.log('=>_>_>', fav.programs)
         console.log('=>_>_>', fav.programs[0])
         console.log('==========---------<><><><>', fav.programs[0].user)
         providers.push(fav.programs[0].user.toString())
