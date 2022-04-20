@@ -1737,7 +1737,8 @@ const multiFilter = async (model, context) => {
           foreignField: '_id',
           as: 'categories',
         },
-      }
+      },
+      { $sort: { programRating: -1 } }
     ])
     log.end()
 
