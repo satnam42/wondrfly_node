@@ -209,8 +209,6 @@ const savedProvidersUserId = async (query, context) => {
     let providers = []
     let finalFavourites = []
     for (let fav of favourites) {
-        console.log('=>_>_>', fav)
-        console.log('=>>><<<>>>>', fav.programs)
         // console.log('=>_>_>', fav.programs[0])
         // console.log('==========---------<><><><>', fav.programs[0].user)
         if (fav.programs.length > 0) {
@@ -227,7 +225,24 @@ const savedProvidersUserId = async (query, context) => {
         } else {
             provider.isFav = false
         }
-        const programs = await db.favourite.find({ user: fav }).populate('program')
+        // const programs = await db.favourite.find({ user: ObjectId(fav) }).populate('program')
+        const programs = await db.favourite.aggregate([
+            {
+                $match: {
+                    user: ObjectId(query.parentId),
+                },
+            },
+            // {
+            //     $lookup: {
+            //         from: 'programs',
+            //         localField: 'program',
+            //         foreignField: '_id',
+            //         as: 'programs',
+            //     },
+            // },
+        ])
+        console.log('provider ==>>>>', provider._id)
+        console.log('programs =>>', programs);
         group.user = provider;
         group.programs = programs
         finalFavourites.push(group)
