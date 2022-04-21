@@ -141,6 +141,7 @@ const programSchema = mongoose.Schema({
   isExpired: { type: Boolean, default: false },
   expireReason: { type: String, default: '' },
   isproRated: { type: Boolean, default: false },
+  isFreeTrial: { type: Boolean, default: false },
   createdOn: { type: Date, default: Date.now },
   updatedOn: { type: Date, default: Date.now },
 })

@@ -519,6 +519,19 @@ const groupPublishOrUnpublish = async (req, res) => {
     }
 };
 
+const freeTrail = async (req, res) => {
+    const log = req.context.logger.start(`api:programs:freeTrail`);
+    try {
+        const program = await service.freeTrail(req.query, req.context);
+        log.end();
+        return response.data(res, program);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 exports.create = create;
 exports.list = list;
 exports.update = update;
@@ -555,3 +568,4 @@ exports.expired = expired;
 exports.montclairPrograms = montclairPrograms;
 exports.histogram = histogram;
 exports.groupPublishOrUnpublish = groupPublishOrUnpublish;
+exports.freeTrail = freeTrail;

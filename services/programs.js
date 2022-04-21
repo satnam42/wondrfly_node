@@ -2330,7 +2330,19 @@ const histogram = async (query, context) => {
 //   }
 //   return arr
 // }
+const freeTrail = async (query, context) => {
+  const log = context.logger.start(`services:providers:freeTrail`)
 
+  let program = await db.program.findById(query.programId)
+  if (context.user.role == 'parent') {
+    throw new Error('you are not authorized to perform this operation')
+  }
+  program.isFreeTrial = query.isFreeTrial
+  program.updatedOn = new Date()
+  log.end()
+  program.save()
+  return program
+}
 
 exports.create = create
 exports.getAllprograms = getAllprograms
@@ -2367,3 +2379,4 @@ exports.getExpiredprograms = getExpiredprograms;
 exports.montclairPrograms = montclairPrograms;
 exports.histogram = histogram;
 exports.groupPublishOrUnpublish = groupPublishOrUnpublish;
+exports.freeTrail = freeTrail;

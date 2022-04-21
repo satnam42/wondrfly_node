@@ -232,14 +232,14 @@ const savedProvidersUserId = async (query, context) => {
                     user: ObjectId(query.parentId),
                 },
             },
-            // {
-            //     $lookup: {
-            //         from: 'programs',
-            //         localField: 'program',
-            //         foreignField: '_id',
-            //         as: 'programs',
-            //     },
-            // },
+            {
+                $lookup: {
+                    from: 'programs',
+                    localField: 'program',
+                    foreignField: '_id',
+                    as: 'programs',
+                },
+            },
         ])
         console.log('provider ==>>>>', provider._id)
         console.log('programs =>>', programs);
