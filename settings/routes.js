@@ -499,6 +499,11 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.providers.saveProvider
   );
+  app.put(
+    '/api/providers/freeTrail',
+    permit.context.requiresToken,
+    api.providers.freeTrail
+  );
 
   //review routes//
   app.post(

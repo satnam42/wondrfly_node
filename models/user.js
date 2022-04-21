@@ -83,6 +83,7 @@ const user = mongoose.Schema({
   loginCount: { type: Number, default: 0 },
   deviceToken: { type: String, default: '' },
   betaUser: { type: Boolean, default: false },
+  isFreeTrial: { type: Boolean, default: false },
   createdOn: { type: Date, default: Date.now },
   updatedOn: { type: Date, default: Date.now },
 })

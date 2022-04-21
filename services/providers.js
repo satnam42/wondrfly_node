@@ -1166,6 +1166,19 @@ const saveProvider = async (model, context) => {
   return favourite;
 };
 
+const freeTrail = async (query, context) => {
+  const log = context.logger.start(`services:providers:freeTrail`)
+
+  let user = await db.user.findById(query.userId)
+  if (context.user.role == 'parent') {
+    throw new Error('you are not authorized to perform this operation')
+  }
+  user.isFreeTrial = query.isFreeTrial
+  user.updatedOn = new Date()
+  log.end()
+  user.save()
+  return user
+}
 
 exports.importProvider = importProvider
 exports.getAllProvider = getAllProvider
@@ -1188,4 +1201,5 @@ exports.uploadExcel = uploadExcel
 exports.getRatingByUser = getRatingByUser
 exports.montclairProviders = montclairProviders;
 exports.histogram = histogram;
-exports.saveProvider = saveProvider
+exports.saveProvider = saveProvider;
+exports.freeTrail = freeTrail;

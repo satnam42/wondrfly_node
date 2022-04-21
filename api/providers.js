@@ -337,6 +337,19 @@ const saveProvider = async (req, res) => {
   }
 };
 
+const freeTrail = async (req, res) => {
+  const log = req.context.logger.start(`api:providers:freeTrail`);
+  try {
+    const program = await service.freeTrail(req.query, req.context);
+    log.end();
+    return response.data(res, program);
+  } catch (err) {
+    log.error(err);
+    log.end();
+    return response.failure(res, err.message);
+  }
+};
+
 exports.create = create
 exports.list = list
 exports.update = update
@@ -359,3 +372,4 @@ exports.getRatingByUser = getRatingByUser
 exports.montclairProviders = montclairProviders;
 exports.histogram = histogram;
 exports.saveProvider = saveProvider;
+exports.freeTrail = freeTrail;

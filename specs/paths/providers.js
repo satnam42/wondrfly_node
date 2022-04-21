@@ -815,5 +815,44 @@ module.exports = [
                 }
             }
         }
+    },
+    {
+        url: '/freeTrail',
+        put: {
+            summary: 'freeTrail the progvider',
+            description: 'freeTrail the provider',
+            parameters: [
+                {
+                    in: 'query',
+                    type: 'string',
+                    name: 'userId',
+                    description: 'user Id',
+                    required: true,
+                },
+                {
+                    in: 'query',
+                    type: 'boolean',
+                    name: 'isFreeTrial',
+                    description: 'isFreeTrial should be true or false',
+                    default: true,
+                    required: true,
+                },
+                {
+                    in: 'header',
+                    name: 'x-access-token',
+                    description: 'token to access api',
+                    required: true,
+                    type: 'string',
+                },
+            ],
+            responses: {
+                default: {
+                    description: 'Unexpected error',
+                    schema: {
+                        $ref: '#/definitions/Error',
+                    },
+                },
+            },
+        },
     }
 ]
