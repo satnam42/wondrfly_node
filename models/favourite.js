@@ -6,6 +6,11 @@ const favourite = mongoose.Schema({
         ref: 'user',
         required: true
     },
+    providerId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user',
+        required: true
+    },
     program: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'program',

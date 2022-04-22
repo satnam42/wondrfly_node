@@ -33,6 +33,11 @@ const invitation = mongoose.Schema({
     occupation: { type: String, default: "" },
     willActive: { type: Boolean, default: false },
     approvalDate: { type: Date, default: Date.now },
+    approvedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user',
+        required: false
+    },
     // acceptance: { type: Boolean, default: false },
     // declined: { type: Boolean, default: false },
     createdOn: { type: Date, default: Date.now },
