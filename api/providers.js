@@ -350,6 +350,19 @@ const freeTrail = async (req, res) => {
   }
 };
 
+const searchCreateModifiedDate = async (req, res) => {
+  const log = req.context.logger.start(`api:providers:searchCreateModifiedDate:${req.query}`)
+  try {
+    const providers = await service.searchCreateModifiedDate(req.query, req.context)
+    log.end()
+    return response.data(res, userMapper.toSearchModel(providers))
+  } catch (err) {
+    log.error(err)
+    log.end()
+    return response.failure(res, err.message)
+  }
+}
+
 exports.create = create
 exports.list = list
 exports.update = update
@@ -373,3 +386,4 @@ exports.montclairProviders = montclairProviders;
 exports.histogram = histogram;
 exports.saveProvider = saveProvider;
 exports.freeTrail = freeTrail;
+exports.searchCreateModifiedDate = searchCreateModifiedDate;

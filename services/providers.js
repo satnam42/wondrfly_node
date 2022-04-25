@@ -1180,6 +1180,19 @@ const freeTrail = async (query, context) => {
   return user
 }
 
+const searchCreateModifiedDate = async (query, context) => {
+  let date = new Date(query.date);
+  const log = context.logger.start(`services:providers:searchCreateModifiedDate`)
+  const providers = await db.user.find({
+    createdOn: {
+      $gte: date,
+      $lte: moment(date).endOf('day')
+    }
+  })
+  log.end()
+  return providers
+}
+
 exports.importProvider = importProvider
 exports.getAllProvider = getAllProvider
 exports.updateProvider = updateProvider
@@ -1203,3 +1216,4 @@ exports.montclairProviders = montclairProviders;
 exports.histogram = histogram;
 exports.saveProvider = saveProvider;
 exports.freeTrail = freeTrail;
+exports.searchCreateModifiedDate = searchCreateModifiedDate;

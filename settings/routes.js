@@ -504,6 +504,11 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.providers.freeTrail
   );
+  app.get(
+    '/api/providers/searchCreateModifiedDate',
+    permit.context.builder,
+    api.providers.searchCreateModifiedDate
+  );
 
   //review routes//
   app.post(

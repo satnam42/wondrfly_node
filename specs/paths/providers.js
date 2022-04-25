@@ -854,5 +854,29 @@ module.exports = [
                 },
             },
         },
+    },
+    {
+        url: "/searchCreateModifiedDate",
+        get: {
+            summary: "search by created or modified date",
+            description: "search by created or modified date",
+            parameters: [
+                {
+                    in: "query",
+                    name: "date",
+                    description: "created or modified date",
+                    required: true,
+                    type: "date"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
     }
 ]
