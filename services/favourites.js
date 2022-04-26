@@ -311,9 +311,6 @@ const unsaveProvider = async (id, context) => {
         throw new Error("favourite not found");
     }
     let isDeleted = await db.saveProvider.deleteOne({ provider: ObjectId(id) })
-    if (isDeleted) {
-        throw new Error("something went wrong");
-    }
     log.end();
     return 'provider unsaved succesfully'
 };
