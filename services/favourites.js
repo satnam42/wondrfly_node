@@ -300,8 +300,27 @@ const savedProvidersUserId = async (query, context) => {
     log.end();
     return finalFavourites;
 };
+
+const unsaveProvider = async (id, context) => {
+    const log = context.logger.start(`services:favourites:unsaveProvider`);
+    if (!id) {
+        throw new Error("favourite id not found");
+    }
+    let isFavourite = await db.saveProvider.findOne({ provider: ObjectId(id) })
+    if (!isFavourite) {
+        throw new Error("favourite not found");
+    }
+    let isDeleted = await db.saveProvider.deleteOne({ provider: ObjectId(id) })
+    if (isDeleted) {
+        throw new Error("something went wrong");
+    }
+    log.end();
+    return 'provider unsaved succesfully'
+};
+
 exports.create = create;
 exports.getAllfavourites = getAllfavourites;
 exports.removeById = removeById
 exports.getFavouritesByUserId = getFavouritesByUserId
 exports.savedProvidersUserId = savedProvidersUserId;
+exports.unsaveProvider = unsaveProvider;

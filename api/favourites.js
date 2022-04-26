@@ -67,8 +67,22 @@ const savedProvidersUserId = async (req, res) => {
     }
 };
 
+const unsaveProvider = async (req, res) => {
+    const log = req.context.logger.start(`api:favourites:unsaveProvider:${req.params.id}`);
+    try {
+        const favourite = await service.unsaveProvider(req.params.id, req.context);
+        log.end();
+        return response.data(res, favourite);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 exports.create = create;
 exports.list = list;
 exports.remove = remove;
 exports.listByUserId = listByUserId;
 exports.savedProvidersUserId = savedProvidersUserId;
+exports.unsaveProvider = unsaveProvider;

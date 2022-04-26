@@ -152,4 +152,35 @@ module.exports = [
             }
         }
     },
+    {
+        url: "/unsaveProvider/{id}",
+        delete: {
+            summary: "remove",
+            description: "remove favourite by provider id",
+            parameters: [
+                {
+                    in: "path",
+                    name: "id",
+                    description: "provider id",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    }
 ]

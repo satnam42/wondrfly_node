@@ -878,6 +878,12 @@ const configure = (app, logger) => {
     api.favourites.savedProvidersUserId
   );
 
+  app.delete(
+    '/api/favourites/unsaveProvider/:id',
+    permit.context.requiresToken,
+    api.favourites.unsaveProvider
+  );
+
 
   // uploads api//
   app.post(
