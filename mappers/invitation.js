@@ -3,8 +3,13 @@ var moment = require('moment') // require for date formating
 
 exports.toModel = entity => {
     let inviter = {}
+    let approvedBy = {}
     if (entity.invitedBy) {
         inviter.name = entity.invitedBy.firstName
+    }
+    if (entity.approvedBy) {
+        approvedBy.name = entity.approvedBy.firstName
+        approvedBy.role = entity.approvedBy.role
     }
     let model = {
         invitation: entity.id,
@@ -25,7 +30,8 @@ exports.toModel = entity => {
         willActive: entity.willActive,
         approvalDate: entity.approvalDate,
         user: entity.user._id,
-        ipAddress: entity.user.ipAddress
+        ipAddress: entity.user.ipAddress,
+        approvedBy: approvedBy
     }
     return model;
 };

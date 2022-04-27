@@ -257,7 +257,8 @@ const getAllInvitation = async (context) => {
   const invitation = await db.invitation
     .find({ joined: true })
     .populate('user')
-    .populate('invitedBy');
+    .populate('invitedBy')
+    .populate('approvedBy');
   const count = await db.invitation.count({ joined: true });
   const accepted = await db.invitation
     .find({ joined: true, 'status.accepted': true })
