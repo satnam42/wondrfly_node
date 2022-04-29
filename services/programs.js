@@ -1420,7 +1420,7 @@ const groupPublishOrUnpublish = async (query, context) => {
       { $limit: pageSize + skipCount },
       { $skip: skipCount },
     ])
-    programs.sort((a, b) => b.user[0]?.createdOn - a.user[0]?.createdOn)
+    programs.sort((a, b) => b.user[0]?.averageFinalRating - a.user[0]?.averageFinalRating)
     // programs.count = await db.program.find({ isPublished: true, isExpired: false }).count()
     log.end()
     return programs
