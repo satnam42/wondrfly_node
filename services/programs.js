@@ -1420,7 +1420,8 @@ const groupPublishOrUnpublish = async (query, context) => {
       { $limit: pageSize + skipCount },
       { $skip: skipCount },
     ])
-    programs.count = await db.program.find({ isPublished: true }).count()
+    programs.sort((a, b) => b.user[0]?.createdOn - a.user[0]?.createdOn)
+    // programs.count = await db.program.find({ isPublished: true, isExpired: false }).count()
     log.end()
     return programs
   }
@@ -1432,7 +1433,7 @@ const groupPublishOrUnpublish = async (query, context) => {
       .populate('user')
       .skip(skipCount)
       .limit(pageSize)
-    programs.count = await db.program.find({ isPublished: false }).count()
+    programs.count = await db.program.find({ isPublished: false, isExpired: false }).count()
   }
   log.end()
   return programs
