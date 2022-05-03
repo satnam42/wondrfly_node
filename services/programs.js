@@ -1384,37 +1384,45 @@ const groupPublishOrUnpublish = async (query, context) => {
   let pageNo = Number(query.pageNo) || 1
   let pageSize = Number(query.pageSize) || 10
   let skipCount = pageSize * (pageNo - 1)
-  let result = []
   if (query.programType == 'published') {
-    const providers = await db.program.aggregate([
+    const programs = await db.program.aggregate([
       {
         $match: {
           isPublished: true,
-          // isExpired: false
+          isExpired: false
         },
       },
       {
         $group:
         {
           _id: "$user",
-          // total: { $sum: 1 },
-          // programs: { $push: "$$ROOT" },
+          total: { $sum: 1 },
+          programs: { $push: "$$ROOT" },
+        },
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'programs.user',
+          foreignField: '_id',
+          as: 'user',
+        },
+      },
+      {
+        $lookup: {
+          from: 'categories',
+          localField: 'programs.categoryId',
+          foreignField: '_id',
+          as: 'categories',
         },
       },
 
+
     ])
-    for (let provider of providers) {
-      let group = {}
-      console.log('provider =>>', provider._id);
-      let user = await db.user.findById(provider._id)
-      let programs = await db.program.find({ user: ObjectId(provider._id), isPublished: true, isExpired: false }).populate('categoryId')
-      group.user = user;
-      group.programs = programs
-      result.push(group);
-    }
-    // programs.sort((a, b) => b.user[0]?.createdOn - a.user[0]?.createdOn)
+
+    programs.sort((a, b) => b.user[0]?.createdOn - a.user[0]?.createdOn)
     log.end()
-    return result
+    return programs
   }
   if (query.programType == 'unpublished') {
     programs = await db.program
