@@ -1379,51 +1379,42 @@ const listPublishOrUnpublish = async (query, context) => {
   log.end()
   return programs
 }
-
 const groupPublishOrUnpublish = async (query, context) => {
   const log = context.logger.start(`services:providers:groupPublishOrUnpublish`)
   let pageNo = Number(query.pageNo) || 1
   let pageSize = Number(query.pageSize) || 10
   let skipCount = pageSize * (pageNo - 1)
-  let programs
+  let result = []
   if (query.programType == 'published') {
-    const programs = await db.program.aggregate([
+    const providers = await db.program.aggregate([
       {
         $match: {
           isPublished: true,
-          isExpired: false
+          // isExpired: false
         },
       },
       {
         $group:
         {
           _id: "$user",
-          total: { $sum: 1 },
-          programs: { $push: "$$ROOT" },
+          // total: { $sum: 1 },
+          // programs: { $push: "$$ROOT" },
         },
       },
-      {
-        $lookup: {
-          from: 'users',
-          localField: 'programs.user',
-          foreignField: '_id',
-          as: 'user',
-        },
-      }, {
-        $lookup: {
-          from: 'categories',
-          localField: 'programs.categoryId',
-          foreignField: '_id',
-          as: 'categories',
-        },
-      },
-      { $limit: pageSize + skipCount },
-      { $skip: skipCount },
+
     ])
-    programs.sort((a, b) => b.user[0]?.createdOn - a.user[0]?.createdOn)
-    // programs.count = await db.program.find({ isPublished: true, isExpired: false }).count()
+    for (let provider of providers) {
+      let group = {}
+      console.log('provider =>>', provider._id);
+      let user = await db.user.findById(provider._id)
+      let programs = await db.program.find({ user: ObjectId(provider._id), isPublished: true, isExpired: false }).populate('categoryId')
+      group.user = user;
+      group.programs = programs
+      result.push(group);
+    }
+    // programs.sort((a, b) => b.user[0]?.createdOn - a.user[0]?.createdOn)
     log.end()
-    return programs
+    return result
   }
   if (query.programType == 'unpublished') {
     programs = await db.program

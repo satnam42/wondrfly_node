@@ -509,7 +509,7 @@ const groupPublishOrUnpublish = async (req, res) => {
     const log = req.context.logger.start(`api:programs:groupPublishOrUnpublish`);
     try {
         const programs = await service.groupPublishOrUnpublish(req.query, req.context);
-        let message = programs.count ? programs.count : 0 + " " + "programs Got";
+        // let message = programs.count ? programs.count : 0 + " " + "programs Got";
         log.end();
         return response.data(res, programs);
     } catch (err) {
