@@ -848,6 +848,11 @@ const configure = (app, logger) => {
     permit.context.builder,
     api.programs.groupPublishOrUnpublish
   );
+  app.get(
+    '/api/programs/byUser',
+    permit.context.requiresToken,
+    api.programs.programsByUser
+  );
   app.put(
     '/api/programs/freeTrail',
     permit.context.requiresToken,

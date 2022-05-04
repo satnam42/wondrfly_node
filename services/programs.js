@@ -2330,6 +2330,71 @@ const histogram = async (query, context) => {
 //   }
 //   return arr
 // }
+const getProgramsByUser = async (query, context) => {
+  const log = context.logger.start(`services:programs:getProgramsByUser`)
+  let pageNo = Number(query.pageNo) || 1
+  let pageSize = Number(query.pageSize) || 10
+  let skipCount = pageSize * (pageNo - 1)
+  if (!query.userId) {
+    throw new Error('userId is  required')
+  }
+  let user = await db.user.findById(query.userId)
+  if (!user) {
+    throw new Error(
+      'provider not found, So without provider programs not possible'
+    )
+  }
+  // let programs = await db.program.find({ user: query.userId }).sort({ createdOn: -1 }).populate('tags').skip(skipCount).limit(pageSize);
+  const programs = await db.program.aggregate([
+    {
+      $match: {
+        user: ObjectId(query.userId),
+      },
+    },
+    {
+      $lookup: {
+        from: 'categories',
+        localField: 'categoryId',
+        foreignField: '_id',
+        as: 'categoryId',
+      },
+    },
+    {
+      $lookup: {
+        from: 'providers',
+        localField: 'user',
+        foreignField: 'user',
+        as: 'provider',
+      },
+    },
+    { $limit: pageSize + skipCount },
+    { $skip: skipCount },
+  ])
+  programs.count = await db.program.find({ user: query.userId }).count()
+  log.end()
+  let favourites
+  if (user) {
+    favourites = await db.favourite
+      .find({ user: query.userId })
+      .populate('program')
+  }
+  if (favourites) {
+    // add fav in program
+    for (var p = 0; p < programs.length; p++) {
+      for (var f = 0; f < favourites.length; f++) {
+        if (
+          favourites[f].program !== null &&
+          favourites[f].program !== undefined
+        ) {
+          if (programs[p]._id == favourites[f].program.id) {
+            programs[p].isFav = true
+          }
+        }
+      }
+    }
+  }
+  return programs
+}
 const freeTrail = async (query, context) => {
   const log = context.logger.start(`services:providers:freeTrail`)
 
@@ -2380,3 +2445,4 @@ exports.montclairPrograms = montclairPrograms;
 exports.histogram = histogram;
 exports.groupPublishOrUnpublish = groupPublishOrUnpublish;
 exports.freeTrail = freeTrail;
+exports.getProgramsByUser = getProgramsByUser;

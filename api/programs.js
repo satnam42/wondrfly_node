@@ -532,6 +532,19 @@ const freeTrail = async (req, res) => {
     }
 };
 
+const programsByUser = async (req, res) => {
+    const log = req.context.logger.start(`api:programs:programsByUser:${req.query.userId}`);
+    try {
+        const programs = await service.getProgramsByUser(req.query, req.context);
+        log.end();
+        return response.data(res, mapper.toSearchModel(programs));
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 exports.create = create;
 exports.list = list;
 exports.update = update;
@@ -569,3 +582,4 @@ exports.montclairPrograms = montclairPrograms;
 exports.histogram = histogram;
 exports.groupPublishOrUnpublish = groupPublishOrUnpublish;
 exports.freeTrail = freeTrail;
+exports.programsByUser = programsByUser;
