@@ -858,6 +858,11 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.programs.freeTrail
   );
+  app.post(
+    '/api/programs/bulkPublishOrUnpublish',
+    permit.context.builder,
+    api.programs.bulkPublishOrUnpublish
+  );
   //=============favourites api=====================//
   app.post(
     '/api/favourites/add',

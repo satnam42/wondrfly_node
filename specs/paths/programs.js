@@ -1455,5 +1455,31 @@ module.exports = [
         },
       },
     },
+  },
+  {
+    url: '/bulkPublishOrUnpublish',
+    post: {
+      summary: 'publish programs in bulk',
+      description: 'publish programs in bulk',
+      parameters: [
+        {
+          in: 'body',
+          name: 'body',
+          description: 'Model of publish program in bulk',
+          required: true,
+          schema: {
+            $ref: '#/definitions/bulkPublish',
+          },
+        }
+      ],
+      responses: {
+        default: {
+          description: 'Unexpected error',
+          schema: {
+            $ref: '#/definitions/Error',
+          },
+        },
+      },
+    },
   }
 ]

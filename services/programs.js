@@ -2409,6 +2409,20 @@ const freeTrail = async (query, context) => {
   return program
 }
 
+const bulkPublishOrUnpublish = async (model, context) => {
+  const log = context.logger.start(`services:providers:bulkPublishOrUnpublish`)
+  console.log("model =>", model);
+  // let program = await db.program.findById(query.programId)
+  // if (context.user.role == 'parent') {
+  //   throw new Error('you are not authorized to perform this operation')
+  // }
+  // program.isPublished = query.isPublished
+  // program.updatedOn = new Date()
+  // log.end()
+  // program.save()
+  return "hello"
+}
+// bulkPublishOrUnpublish
 exports.create = create
 exports.getAllprograms = getAllprograms
 exports.update = update
@@ -2446,3 +2460,4 @@ exports.histogram = histogram;
 exports.groupPublishOrUnpublish = groupPublishOrUnpublish;
 exports.freeTrail = freeTrail;
 exports.getProgramsByUser = getProgramsByUser;
+exports.bulkPublishOrUnpublish = bulkPublishOrUnpublish;

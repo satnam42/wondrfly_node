@@ -79,7 +79,7 @@ const tagByCategoryId = async (categoriesId, context) => {
     const subcategories = await db.tag.find({ categoryIds: categoriesId })
     for (var i = 0; i < subcategories.length; i++) {
         const tag = subcategories[i]
-        const count = await db.program.find({ subCategoryIds: subcategories[i].id }).count()
+        const count = await db.program.find({ subCategoryIds: subcategories[i].id, isPublished: true, isExpired: false }).count()
         tag.programCount = count;
         tags.push(tag)
     }
