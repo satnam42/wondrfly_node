@@ -1579,7 +1579,7 @@ const multiFilter = async (model, context) => {
       $or: dateArray
     }
     query = dates
-    query["isDateNotMention"] = true
+    // query["isDateNotMention"] = true
   }
   if (model.time !== undefined && model.time !== "" && model.time !== null) {
     //early-morning, morning, afternoon, late-afternoon, evening
