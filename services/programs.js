@@ -1575,11 +1575,11 @@ const multiFilter = async (model, context) => {
     let dateArray = []
     dateArray.push({ 'date.from': { '$gte': start, '$lte': end } })
     dateArray.push({ 'date.to': { '$gte': start, '$lte': end } })
+    dateArray.push({ 'isDateNotMention': true })
     const dates = {
       $or: dateArray
     }
     query = dates
-    // query["isDateNotMention"] = true
   }
   if (model.time !== undefined && model.time !== "" && model.time !== null) {
     //early-morning, morning, afternoon, late-afternoon, evening
@@ -1693,8 +1693,8 @@ const multiFilter = async (model, context) => {
   // if (model.ageFrom || model.fromDate || model.toTime || model.priceFrom || model.durationMin || model.categoryId || model.type1 || model.type2) {
   //   query["isPublished"] = true
   // }
-  query["isPublished"] = true
-  query["isExpired"] = false
+  // query["isPublished"] = true
+  // query["isExpired"] = false
   const isEmpty = Object.keys(query).length === 0
   if (model.providerId) {
     query["user"] = ObjectId(model.providerId)
