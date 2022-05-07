@@ -547,7 +547,6 @@ const programsByUser = async (req, res) => {
 
 const bulkPublishOrUnpublish = async (req, res) => {
     const log = req.context.logger.start(`api:programs:bulkPublishOrUnpublish`);
-    console.log('req.body =>', req.body);
     try {
         const program = await service.bulkPublishOrUnpublish(req.body, req.context);
         log.end();

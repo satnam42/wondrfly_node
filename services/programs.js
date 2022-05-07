@@ -2411,17 +2411,23 @@ const freeTrail = async (query, context) => {
 
 const bulkPublishOrUnpublish = async (model, context) => {
   const log = context.logger.start(`services:providers:bulkPublishOrUnpublish`)
-  console.log("model =>", model);
-  // let program = await db.program.findById(query.programId)
-  // if (context.user.role == 'parent') {
-  //   throw new Error('you are not authorized to perform this operation')
-  // }
-  // program.isPublished = query.isPublished
-  // program.updatedOn = new Date()
-  // log.end()
-  // program.save()
+  if (context.user.role == 'parent') {
+    throw new Error('you are not authorized to perform this operation')
+  }
+  if (model.programIds.length <= 0) {
+    throw new Error('program ids are required to make publish or unpublish')
+  }
+  if (model.programIds.length > 0) {
+    for (let id of model.programIds) {
+      let program = await db.program.findById(id)
+      program.isPublished = model.isPublished
+      program.updatedOn = new Date()
+      await program.save()
+    }
+  }
   log.end()
-  return "hello"
+  if (model.isPublished) { return "published" }
+  else { return "unpublished" }
 }
 // bulkPublishOrUnpublish
 exports.create = create

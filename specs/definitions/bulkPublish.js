@@ -7,7 +7,10 @@ module.exports = [
                 items: {
                     type: 'string',
                 },
-            }
+            },
+            isPublished: {
+                type: "boolean"
+            },
         },
     },
 ];
