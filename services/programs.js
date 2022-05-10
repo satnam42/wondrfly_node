@@ -1690,6 +1690,28 @@ const multiFilter = async (model, context) => {
     query["subCategoryIds"] = { $in: tagsArray }
 
   }
+  if (model.lat !== undefined && model.lng !== undefined && model.lat !== "" && model.lng !== "" && model.lat !== null && model.lng !== null) {
+    var lt = model.lat.substring(0, 3)
+    var lg = model.lng.substring(0, 3)
+    const nearbyArray = []
+    nearbyArray.push({
+      lat: {
+        $regex: lt,
+        $options: 'i'
+      }
+    })
+    nearbyArray.push({
+      lng: {
+        $regex: lg,
+        $options: 'i'
+      }
+    })
+    const closeBy = {
+      $and: nearbyArray
+    }
+    query = closeBy
+  }
+
   // if (model.ageFrom || model.fromDate || model.toTime || model.priceFrom || model.durationMin || model.categoryId || model.type1 || model.type2) {
   //   query["isPublished"] = true
   // }
@@ -2429,7 +2451,6 @@ const bulkPublishOrUnpublish = async (model, context) => {
   if (model.isPublished) { return "published" }
   else { return "unpublished" }
 }
-// bulkPublishOrUnpublish
 exports.create = create
 exports.getAllprograms = getAllprograms
 exports.update = update

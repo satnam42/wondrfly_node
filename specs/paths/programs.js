@@ -985,6 +985,18 @@ module.exports = [
           description: 'enter tagsIds separated by commas',
           type: 'string',
         },
+        {
+          in: 'query',
+          name: 'lat',
+          description: 'lat',
+          type: 'string',
+        },
+        {
+          in: 'query',
+          name: 'lng',
+          description: 'lng',
+          type: 'string',
+        }
       ],
       responses: {
         default: {
