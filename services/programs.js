@@ -1715,8 +1715,8 @@ const multiFilter = async (model, context) => {
   // if (model.ageFrom || model.fromDate || model.toTime || model.priceFrom || model.durationMin || model.categoryId || model.type1 || model.type2) {
   //   query["isPublished"] = true
   // }
-  // query["isPublished"] = true
-  // query["isExpired"] = false
+  query["isPublished"] = true
+  query["isExpired"] = false
   const isEmpty = Object.keys(query).length === 0
   if (model.providerId) {
     query["user"] = ObjectId(model.providerId)
@@ -1791,10 +1791,7 @@ const multiFilter = async (model, context) => {
   }
   return programs
 }
-// db.contributor.find({
-//   $and: [{ branch: "CSE" },
-//   { joiningYear: 2018 }]
-// })
+
 // programs list near by location
 const nearBy = async (query, context) => {
   const log = context.logger.start(`services:programs:nearBy`)
