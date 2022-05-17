@@ -1760,7 +1760,9 @@ const multiFilter = async (model, context) => {
           as: 'categories',
         },
       },
-      { $sort: { programRating: -1 } }
+      { $sort: { programRating: -1 } },
+      { $limit: pageSize + skipCount },
+      { $skip: skipCount },
     ])
     log.end()
 
