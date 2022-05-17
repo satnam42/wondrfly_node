@@ -1416,8 +1416,8 @@ const groupPublishOrUnpublish = async (query, context) => {
           as: 'categories',
         },
       },
-
-
+      { $limit: pageSize + skipCount },
+      { $skip: skipCount },
     ])
 
     programs.sort((a, b) => b.user[0]?.createdOn - a.user[0]?.createdOn)
