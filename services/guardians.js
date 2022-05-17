@@ -684,12 +684,12 @@ const create = async (model, context) => {
     ],
     subject: 'Your application is on its way!',
   };
-  const mailchimpMail = await mailchimp.dynamic(
-    opt.name,
-    opt.email,
-    opt.subject,
-    opt.options
-  );
+  // const mailchimpMail = await mailchimp.dynamic(
+  //   opt.name,
+  //   opt.email,
+  //   opt.subject,
+  //   opt.options
+  // );
   log.end();
   return guardian;
 };

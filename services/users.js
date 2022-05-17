@@ -420,11 +420,11 @@ const register = async (model, context) => {
       //   },
       // ],
     };
-    const mailchimpMail = await mailchimp.static(
-      opt.name,
-      opt.email,
-      opt.subject
-    );
+    // const mailchimpMail = await mailchimp.static(
+    //   opt.name,
+    //   opt.email,
+    //   opt.subject
+    // );
     // sendEmail(user.firstName, user.email, templatePath, subject);
   }
   const token = auth.getToken(user, false, context);
@@ -645,12 +645,12 @@ const resetPassword = async (id, model, context) => {
         },
       ],
     };
-    const mailchimpMail = await mailchimp.dynamic(
-      opt.name,
-      opt.email,
-      opt.subject,
-      opt.options
-    );
+    // const mailchimpMail = await mailchimp.dynamic(
+    //   opt.name,
+    //   opt.email,
+    //   opt.subject,
+    //   opt.options
+    // );
     log.end();
     return 'Password Updated Successfully';
   } else {
@@ -818,13 +818,13 @@ const login = async (model, context) => {
         ],
         senderEmail: 'support@wondrfly.com',
       };
-      await mailchimp.dynamic(
-        opt.name,
-        opt.email,
-        opt.subject,
-        opt.options,
-        opt.senderEmail
-      );
+      // await mailchimp.dynamic(
+      //   opt.name,
+      //   opt.email,
+      //   opt.subject,
+      //   opt.options,
+      //   opt.senderEmail
+      // );
     }
   }
   const token = auth.getToken(user, false, context);
@@ -1004,12 +1004,12 @@ const sendOtp = async (email, context) => {
         },
       ],
     };
-    const mailchimpMail = await mailchimp.dynamic(
-      opt.name,
-      opt.email,
-      opt.subject,
-      opt.options
-    );
+    // const mailchimpMail = await mailchimp.dynamic(
+    //   opt.name,
+    //   opt.email,
+    //   opt.subject,
+    //   opt.options
+    // );
 
     // sendOtpEmail(user.firstName, user.email, templatePath, subject, OTP);
   }
@@ -1094,12 +1094,12 @@ const forgotPassword = async (model, context) => {
         },
       ],
     };
-    const mailchimpMail = await mailchimp.dynamic(
-      opt.name,
-      opt.email,
-      opt.subject,
-      opt.options
-    );
+    // const mailchimpMail = await mailchimp.dynamic(
+    //   opt.name,
+    //   opt.email,
+    //   opt.subject,
+    //   opt.options
+    // );
     // changePasswordEmail(user.firstName, user.email, templatePath, subject);
   }
   log.end();
@@ -1500,17 +1500,17 @@ const contactUs = async (model, context) => {
     ],
   };
 
-  const mailchimpMail = await mailchimp.dynamic(
-    opt.name,
-    opt.email,
-    opt.subject,
-    opt.options
-  );
+  // const mailchimpMail = await mailchimp.dynamic(
+  //   opt.name,
+  //   opt.email,
+  //   opt.subject,
+  //   opt.options
+  // );
 
-  if (mailchimpMail[0].reject_reason == null) {
-    return 'Email sent successfully';
-  }
-  throw new Error('Somethng went wrong');
+  // if (mailchimpMail[0].reject_reason == null) {
+  //   return 'Email sent successfully';
+  // }
+  // throw new Error('Somethng went wrong');
 
   // Send e-mail using AWS SES
   // var sesTransporter = nodemailer.createTransport(

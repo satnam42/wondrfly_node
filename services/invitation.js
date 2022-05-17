@@ -215,12 +215,12 @@ const create = async (model, context) => {
     ],
     subject: 'Your application is on its way!',
   };
-  const mailchimpMail = await mailchimp.dynamic(
-    opt.name,
-    opt.email,
-    opt.subject,
-    opt.options
-  );
+  // const mailchimpMail = await mailchimp.dynamic(
+  //   opt.name,
+  //   opt.email,
+  //   opt.subject,
+  //   opt.options
+  // );
   // congratsEmail(model.firstName, model.email, templatePath, subject);
   // add mailchimp
   if (model) {
@@ -244,8 +244,8 @@ const create = async (model, context) => {
       lastName: last_name,
       phoneNumber: model.phoneNumber || 0,
     };
-    const addMember = await mailchimp.add_beta_user(data);
-    console.log(addMember);
+    // const addMember = await mailchimp.add_beta_user(data);
+    // console.log(addMember);
   }
   log.end();
   return user;
@@ -328,11 +328,11 @@ const approveAll = async (model, context) => {
         // ],
         subject: 'Welcome to the World of Wondrfly!',
       };
-      const mailchimpMail = await mailchimp.static(
-        opt.name,
-        opt.email,
-        opt.subject
-      );
+      // const mailchimpMail = await mailchimp.static(
+      //   opt.name,
+      //   opt.email,
+      //   opt.subject
+      // );
     }
   }
   log.end();
@@ -385,11 +385,11 @@ const approveOrDecline = async (model, context) => {
         // ],
         subject: 'Welcome to the World of Wondrfly!',
       };
-      const mailchimpMail = await mailchimp.static(
-        opt.name,
-        opt.email,
-        opt.subject
-      );
+      // const mailchimpMail = await mailchimp.static(
+      //   opt.name,
+      //   opt.email,
+      //   opt.subject
+      // );
       ///// user add in mailchimp subscribes
       console.log(user.email, '>>>>>>>>>>>>>>>>');
       if (!user) throw new Error('User not found');
@@ -409,8 +409,8 @@ const approveOrDecline = async (model, context) => {
         lastName: last_name,
         // location: user.location,
       };
-      const addMember = await mailchimp.add_beta_user(data);
-      console.log(addMember);
+      // const addMember = await mailchimp.add_beta_user(data);
+      // console.log(addMember);
     }
 
     log.end();

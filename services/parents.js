@@ -183,12 +183,12 @@ const updateParent = async (id, model, context) => {
     .find({ parent: id, status: 'active' })
     .count();
 
-  const updated = await mailchimp.update_beta_user(
-    entity.email,
-    totalChild,
-    parent
-  );
-  console.log(updated);
+  // const updated = await mailchimp.update_beta_user(
+  //   entity.email,
+  //   totalChild,
+  //   parent
+  // );
+  // console.log(updated);
   log.end();
   return parent;
 };
