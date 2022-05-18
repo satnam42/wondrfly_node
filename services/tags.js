@@ -100,10 +100,18 @@ const update = async (id, model, context) => {
 const search = async (query, context) => {
     const log = context.logger.start(`services:tags:search`);
     const allData = {}
-    const tags = await db.tag.find({ name: { "$regex": '.*' + query.name + '.*', "$options": 'i' } }
+    let tags = []
+    const subtags = await db.tag.find({ name: { "$regex": '.*' + query.name + '.*', "$options": 'i' } }
     ).limit(5).sort({ name: 1 });
     const category = await db.category.find({ name: { "$regex": '.*' + query.name + '.*', "$options": 'i' } }
     ).limit(2).sort({ name: 1 });
+    if (subtags.length > 0) {
+        for (let tag of subtags) {
+            const count = await db.program.find({ subCategoryIds: tag._id }).count()
+            tag.programCount = count;
+            tags.push(tag);
+        }
+    }
     allData.tags = tags
     allData.category = category
     log.end();
