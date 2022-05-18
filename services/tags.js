@@ -107,7 +107,7 @@ const search = async (query, context) => {
     ).limit(2).sort({ name: 1 });
     if (subtags.length > 0) {
         for (let tag of subtags) {
-            const count = await db.program.find({ subCategoryIds: tag._id }).count()
+            const count = await db.program.find({ subCategoryIds: tag._id, isPublished: true, isExpired: false }).count()
             tag.programCount = count;
             tags.push(tag);
         }
