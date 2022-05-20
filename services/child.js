@@ -456,8 +456,8 @@ const activateAndDeactive = async (context, id, isActivated) => {
     .find({ parent: child.parent, isActivated: true })
     .count();
   const user = await db.user.findById({ _id: child.parent });
-  // const updateChild = await mailchimp.updatechild(chids, user.email);
-  // console.log(updateChild);
+  const updateChild = await mailchimp.updatechild(chids, user.email);
+  console.log(updateChild);
   log.end();
   return child;
 };
