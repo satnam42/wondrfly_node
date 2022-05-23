@@ -513,6 +513,44 @@ const interestPrograms = async (model, context) => {
   return finalChildren;
 };
 
+const buildChildren = async (model, context) => {
+  const log = context.logger.start(`services:childs:build${model}`);
+  const child = await new db.child({
+    name: model.name,
+    dob: model.dob,
+    age: model.age,
+    avtar: model.avtar,
+    sex: model.sex,
+    relationToChild: model.relationToChild,
+    contactOtherInfo: model.contactOtherInfo,
+    schoolInfo: model.schoolInfo,
+    interestInfo: model.interestInfo,
+    gradeLevel: model.gradeLevel,
+    fromWhereYouHeard: model.fromWhereYouHeard,
+    dislikes: model.dislikes,
+    alergies: model.alergies,
+    parent: model.parentId,
+    parentNotes: model.parentNotes,
+    createdBy: context.user.id,
+    createdOn: new Date(),
+    updateOn: new Date(),
+  }).save();
+  log.end();
+  return child;
+};
+
+const addMultiple = async (model, context) => {
+  const log = context.logger.start('services:childs:create');
+  const user = await db.user.findById(model.parentId);
+  if (!user) {
+    throw new Error('parent not found');
+  }
+  console.log('model --=>>', model);
+  // const child = buildChildren(model, context);
+  log.end();
+  return model;
+};
+
 exports.addChild = addChild;
 exports.getList = getList;
 exports.updateChild = updateChild;
@@ -522,3 +560,4 @@ exports.childByGuardianId = childByGuardianId;
 exports.activateAndDeactive = activateAndDeactive;
 exports.removeProfilePic = removeProfilePic;
 exports.interestPrograms = interestPrograms;
+exports.addMultiple = addMultiple;

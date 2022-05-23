@@ -611,6 +611,11 @@ const configure = (app, logger) => {
     permit.context.builder,
     api.child.interestPrograms
   );
+  app.post(
+    '/api/child/addMultiple',
+    permit.context.requiresToken,
+    api.child.addMultiple
+  );
 
 
   //guardian routes

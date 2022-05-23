@@ -307,6 +307,39 @@ module.exports = [
                 }
             }
         }
+    },
+    {
+        url: "/addMultiple",
+        post: {
+            summary: "add multiple",
+            description: "add multiple children",
+            parameters: [
+                {
+                    in: "body",
+                    name: "body",
+                    description: "Model of child creation",
+                    required: true,
+                    schema: {
+                        $ref: "#/definitions/childAdd"
+                    }
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                },
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
     }
 
 ];

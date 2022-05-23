@@ -134,6 +134,20 @@ const interestPrograms = async (req, res) => {
     }
 };
 
+const addMultiple = async (req, res) => {
+    const log = req.context.logger.start(`api:child:addMultiple`);
+    try {
+        const child = await service.addMultiple(req.body, req.context);
+        const message = "children added Successfully";
+        log.end();
+        return response.success(res, message, child);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 exports.add = add;
 exports.list = list;
 exports.update = update;
@@ -143,3 +157,4 @@ exports.childByGuardianId = childByGuardianId;
 exports.activeOrDeactive = activeOrDeactive;
 exports.removeProfilePic = removeProfilePic;
 exports.interestPrograms = interestPrograms;
+exports.addMultiple = addMultiple;
