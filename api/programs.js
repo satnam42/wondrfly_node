@@ -331,8 +331,17 @@ const multiFilter = async (req, res) => {
     const log = req.context.logger.start(`api:programs:multiFilter`);
     try {
         const data = await service.multiFilter(req.query, req.context);
+        let message = data.count ? data.count : 0 + " " + "programs Got";
         log.end();
-        return response.data(res, data);
+        return response.page(
+            message,
+            res,
+            data,
+            Number(req.query.pageNo) || 1,
+            Number(req.query.pageSize) || 10,
+            data.count
+        );
+        // return response.data(res, data);
 
         // return response.data(res, mapper.toSearchModel(data));
     } catch (err) {

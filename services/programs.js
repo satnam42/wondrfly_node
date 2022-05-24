@@ -1687,6 +1687,7 @@ const multiFilter = async (model, context) => {
       tagsArray.push(ObjectId(element))
     }
     // const tags = { subCategoryIds: { $in: tagsArray } }
+    console.log('tagsArray =>>', tagsArray);
     query["subCategoryIds"] = { $in: tagsArray }
 
   }
@@ -1732,7 +1733,10 @@ const multiFilter = async (model, context) => {
     //   .skip(skipCount)
     //   .limit(pageSize)
     //   .skip(skipCount).limit(pageSize);
-
+    // if (query.subCategoryIds) {
+    //   let programCount = await db.program.find(query).count();
+    //   console.log('count', programCount)
+    // }
     programs = await db.program.aggregate([
       {
         $match: query
@@ -1767,6 +1771,9 @@ const multiFilter = async (model, context) => {
     log.end()
 
   }
+
+  programs.count = await db.program.find(query).count()
+
   // if (!isEmpty) {
   //   programs = await db.program.find(query)
   // }
@@ -1791,6 +1798,7 @@ const multiFilter = async (model, context) => {
       }
     }
   }
+  programs.programCount
   return programs
 }
 

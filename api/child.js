@@ -137,10 +137,10 @@ const interestPrograms = async (req, res) => {
 const addMultiple = async (req, res) => {
     const log = req.context.logger.start(`api:child:addMultiple`);
     try {
-        const child = await service.addMultiple(req.body, req.context);
+        const children = await service.addMultiple(req.body, req.context);
         const message = "children added Successfully";
         log.end();
-        return response.success(res, message, child);
+        return response.success(res, message, children);
     } catch (err) {
         log.error(err);
         log.end();

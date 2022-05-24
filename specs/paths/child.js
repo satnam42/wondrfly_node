@@ -320,7 +320,7 @@ module.exports = [
                     description: "Model of child creation",
                     required: true,
                     schema: {
-                        $ref: "#/definitions/childAdd"
+                        $ref: "#/definitions/add-multichild"
                     }
                 },
                 {

@@ -546,6 +546,9 @@ const addMultiple = async (model, context) => {
     throw new Error('parent not found');
   }
   console.log('model --=>>', model);
+  for (let child of model) {
+    console.log("child =>", child);
+  }
   // const child = buildChildren(model, context);
   log.end();
   return model;
