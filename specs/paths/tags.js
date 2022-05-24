@@ -37,15 +37,15 @@ module.exports = [
         get: {
             summary: "get tag list",
             description: "get tag list",
-            parameters: [
-                {
-                    in: "header",
-                    name: "x-access-token",
-                    description: "token to access api",
-                    required: true,
-                    type: "string"
-                }
-            ],
+            // parameters: [
+            //     {
+            //         in: "header",
+            //         name: "x-access-token",
+            //         description: "token to access api",
+            //         required: true,
+            //         type: "string"
+            //     }
+            // ],
             responses: {
                 default: {
                     description: "Unexpected error",

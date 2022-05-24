@@ -289,7 +289,7 @@ const configure = (app, logger) => {
 
   //tag routes //
   app.post('/api/tags/add', permit.context.requiresToken, api.tags.create);
-  app.get('/api/tags/list', permit.context.requiresToken, api.tags.list);
+  app.get('/api/tags/list', permit.context.builder, api.tags.list);
   app.get(
     '/api/tags/byCategoryId',
     permit.context.builder,
