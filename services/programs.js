@@ -1546,6 +1546,7 @@ const multiFilter = async (model, context) => {
   //   programs = await db.program
   //     .find({ $or: [{ type: query.type1 }, { type: query.type2 }], isPublished: true })
   // }
+  let count = 0;
   let query = {}
   if (model.ageFrom && model.ageTo) {
     let ageArray = []
@@ -1685,10 +1686,11 @@ const multiFilter = async (model, context) => {
     var tagArr = model.tagsIds.split(',');
     for (const element of tagArr) {
       tagsArray.push(ObjectId(element))
+      count += await db.program.find({ subCategoryIds: ObjectId(element), isPublished: true, isExpired: false }).count()
     }
     // const tags = { subCategoryIds: { $in: tagsArray } }
-    console.log('tagsArray =>>', tagsArray);
     query["subCategoryIds"] = { $in: tagsArray }
+
 
   }
   if (model.lat !== undefined && model.lng !== undefined && model.lat !== "" && model.lng !== "" && model.lat !== null && model.lng !== null) {
@@ -1772,7 +1774,7 @@ const multiFilter = async (model, context) => {
 
   }
 
-  programs.count = await db.program.find(query).count()
+  programs.count = count
 
   // if (!isEmpty) {
   //   programs = await db.program.find(query)
