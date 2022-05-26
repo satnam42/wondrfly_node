@@ -1356,6 +1356,16 @@ const configure = (app, logger) => {
     api.market_mailchimp.addSubscribers
   );
 
+  //========filterkeys========================
+
+  app.post('/api/filterkeys/create', permit.context.requiresToken, api.filterkeys.create);
+  app.get(
+    '/api/filterkeys/list',
+    permit.context.requiresToken,
+    // permit.context.builder,
+    api.filterkeys.list
+  );
+  app.put('/api/filterkeys/update/:id', permit.context.requiresToken, api.filterkeys.update);
   log.end();
 };
 
