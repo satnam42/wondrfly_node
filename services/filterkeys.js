@@ -44,13 +44,13 @@ const getAllfilterkeys = async (context) => {
     return filterkeyss;
 };
 
-const update = async (model, context) => {
+const update = async (id, model, context) => {
     const log = context.logger.start(`services:users:update`);
-    if (!model.filterkeysId) {
+    if (!id) {
         throw new Error("filterkey id is required");
     }
 
-    let entity = await db.filterkeys.findOne({ _id: model.filterkeysId });
+    let entity = await db.filterkeys.findOne({ _id: id });
     if (!entity) {
         throw new Error("invalid filterkeys");
     }

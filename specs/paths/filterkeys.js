@@ -58,7 +58,7 @@ module.exports = [
         }
     },
     {
-        url: "/update{id}",
+        url: "/update/{id}",
         put: {
             summary: "Update",
             description: "update filterkeys details",
@@ -76,7 +76,7 @@ module.exports = [
                     description: "Model of filterkeys creation",
                     required: true,
                     schema: {
-                        $ref: "#/definitions/update-filterkey"
+                        $ref: "#/definitions/add-filterkey"
                     }
                 },
                 {
