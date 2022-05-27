@@ -1,11 +1,11 @@
 "use strict";
 const build = async (model, context) => {
-    const { kewordName, kewordType } = model;
+    const { keywordName, keywordType, keywordValue } = model;
     const log = context.logger.start(`services:filterkeys:build${model}`);
     const filterkeys = await new db.filterkeys({
-        kewordName: kewordName,
-        kewordType: kewordType,
-        // filterkeysFor: filterkeysFor,
+        keywordName: keywordName,
+        keywordType: keywordType,
+        keywordValue: keywordValue,
         createdOn: new Date(),
         updateOn: new Date(),
     }).save();
@@ -15,11 +15,14 @@ const build = async (model, context) => {
 
 const setAlert = async (model, filterkeys, context) => {
     const log = context.logger.start("services:filterkeys:set");
-    if (model.kewordName !== "string" && model.kewordName !== undefined) {
-        filterkeys.kewordName = model.kewordName;
+    if (model.keywordName !== "string" && model.keywordName !== undefined) {
+        filterkeys.keywordName = model.keywordName;
     }
-    if (model.kewordType !== "string" && model.kewordType !== undefined) {
-        filterkeys.kewordType = model.kewordType;
+    if (model.keywordType !== "string" && model.keywordType !== undefined) {
+        filterkeys.keywordType = model.keywordType;
+    }
+    if (model.keywordValue !== "string" && model.keywordValue !== undefined) {
+        filterkeys.keywordValue = model.keywordValue;
     }
     log.end();
     await filterkeys.save();
@@ -28,7 +31,7 @@ const setAlert = async (model, filterkeys, context) => {
 
 const create = async (model, context) => {
     const log = context.logger.start("services:filterkeys:create");
-    const isfilterkeysExist = await db.filterkeys.findOne({ msg: { $eq: model.msg } });
+    // const isfilterkeysExist = await db.filterkeys.findOne({ msg: { $eq: model.msg } });
     // if (isfilterkeysExist) {
     //     throw new Error("filterkey is already exist");
     // }
