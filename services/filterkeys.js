@@ -29,9 +29,9 @@ const setAlert = async (model, filterkeys, context) => {
 const create = async (model, context) => {
     const log = context.logger.start("services:filterkeys:create");
     const isfilterkeysExist = await db.filterkeys.findOne({ msg: { $eq: model.msg } });
-    if (isfilterkeysExist) {
-        throw new Error("filterkey is already exist");
-    }
+    // if (isfilterkeysExist) {
+    //     throw new Error("filterkey is already exist");
+    // }
     const filterkeys = build(model, context);
     log.end();
     return filterkeys;
