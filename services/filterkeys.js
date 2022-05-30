@@ -62,7 +62,17 @@ const update = async (id, model, context) => {
     return filterkeys
 };
 
+const deleteFilterkey = async (id, context) => {
+    const log = context.logger.start(`services:users:deleteFilterkey:${id}`);
+    if (!id) {
+        throw new Error("filterkey id is required");
+    }
+    await db.filterkeys.deleteOne({ _id: id });
+    log.end();
+    return 'filterkey Deleted Successfully'
+};
 
 exports.create = create;
 exports.getAllfilterkeys = getAllfilterkeys;
 exports.update = update;
+exports.deleteFilterkey = deleteFilterkey;

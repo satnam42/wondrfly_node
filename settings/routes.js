@@ -1366,6 +1366,11 @@ const configure = (app, logger) => {
     api.filterkeys.list
   );
   app.put('/api/filterkeys/update/:id', permit.context.requiresToken, api.filterkeys.update);
+  app.delete(
+    '/api/filterkeys/deleteFilterkey/:id',
+    permit.context.requiresToken,
+    api.filterkeys.deleteFilterkey
+  );
   log.end();
 };
 
