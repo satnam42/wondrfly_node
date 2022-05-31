@@ -42,7 +42,7 @@ const update = async (req, res) => {
 };
 
 const deleteFilterkey = async (req, res) => {
-    const log = req.context.logger.start(`api:alert:deleteFilterkey:${req.params.id}`);
+    const log = req.context.logger.start(`api:filterkeys:deleteFilterkey:${req.params.id}`);
     try {
         const alert = await service.deleteFilterkey(req.params.id, req.context);
         log.end();
@@ -54,7 +54,21 @@ const deleteFilterkey = async (req, res) => {
     }
 };
 
+const search = async (req, res) => {
+    const log = req.context.logger.start(`api:filterkeys:search`);
+    try {
+        const filterkeys = await service.search(req.query, req.context);
+        log.end();
+        return response.data(res, filterkeys);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 exports.create = create;
 exports.list = list;
 exports.update = update;
 exports.deleteFilterkey = deleteFilterkey;
+exports.search = search;

@@ -1371,6 +1371,12 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.filterkeys.deleteFilterkey
   );
+  app.get(
+    '/api/filterkeys/search',
+    permit.context.builder,
+    // permit.context.requiresToken,
+    api.filterkeys.search
+  );
   log.end();
 };
 

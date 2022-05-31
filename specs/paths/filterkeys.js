@@ -127,5 +127,38 @@ module.exports = [
                 }
             }
         }
+    },
+    {
+        url: "/search",
+        get: {
+            summary: "get filterkeys by search",
+            description: "filterkeys  by search",
+            parameters: [
+
+                {
+                    in: "query",
+                    type: "string",
+                    name: "name",
+                    description: "filterkeys name",
+                    required: true
+                },
+                // {
+                //     in: "header",
+                //     name: "x-access-token",
+                //     description: "token to access api",
+                //     required: true,
+                //     type: "string"
+                // }
+
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
     }
 ]

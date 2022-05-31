@@ -1,11 +1,12 @@
 "use strict";
 const build = async (model, context) => {
-    const { keywordName, keywordType, keywordValue } = model;
+    const { keywordName, keywordType, keywordValue, isActivated } = model;
     const log = context.logger.start(`services:filterkeys:build${model}`);
     const filterkeys = await new db.filterkeys({
         keywordName: keywordName,
         keywordType: keywordType,
         keywordValue: keywordValue,
+        isActivated: isActivated,
         createdOn: new Date(),
         updateOn: new Date(),
     }).save();
@@ -23,6 +24,9 @@ const setAlert = async (model, filterkeys, context) => {
     }
     if (model.keywordValue !== "string" && model.keywordValue !== undefined) {
         filterkeys.keywordValue = model.keywordValue;
+    }
+    if (model.isActivated !== "string" && model.isActivated !== undefined) {
+        filterkeys.isActivated = model.isActivated;
     }
     log.end();
     await filterkeys.save();
@@ -48,7 +52,7 @@ const getAllfilterkeys = async (context) => {
 };
 
 const update = async (id, model, context) => {
-    const log = context.logger.start(`services:users:update`);
+    const log = context.logger.start(`services:filterkeys:update`);
     if (!id) {
         throw new Error("filterkey id is required");
     }
@@ -63,7 +67,7 @@ const update = async (id, model, context) => {
 };
 
 const deleteFilterkey = async (id, context) => {
-    const log = context.logger.start(`services:users:deleteFilterkey:${id}`);
+    const log = context.logger.start(`services:filterkeys:deleteFilterkey:${id}`);
     if (!id) {
         throw new Error("filterkey id is required");
     }
@@ -72,7 +76,17 @@ const deleteFilterkey = async (id, context) => {
     return 'filterkey Deleted Successfully'
 };
 
+const search = async (query, context) => {
+    const log = context.logger.start(`services:filterkeys:search`);
+    const filterkeys = await db.filterkeys.find({ keywordName: { "$regex": '.*' + query.name + '.*', "$options": 'i' } }
+    ).limit(5).sort({ name: 1 });
+    log.end();
+    return filterkeys;
+
+};
+
 exports.create = create;
 exports.getAllfilterkeys = getAllfilterkeys;
 exports.update = update;
 exports.deleteFilterkey = deleteFilterkey;
+exports.search = search

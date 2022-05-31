@@ -10,6 +10,10 @@ module.exports = [
                 type: "string",
                 default: "",
             },
+            isActivated: {
+                type: "boolean",
+                default: "",
+            },
             keywordValue: {
                 type: 'array',
                 items: {
