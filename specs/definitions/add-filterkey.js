@@ -14,14 +14,20 @@ module.exports = [
                 type: 'array',
                 items: {
                     properties: {
-                        ageGroup: {
-                            properties: {
-                                from: { type: "number", default: 0 },
-                                to: { type: "number", default: 0 },
-                            }
-                        },
-                        category: { type: 'string' },
-                        subcategory: { type: 'string' },
+                        // ageGroup: {
+                        //     properties: {
+                        //         from: { type: "number", default: 0 },
+                        //         to: { type: "number", default: 0 },
+                        //     }
+                        // },
+                        // category: { type: 'string', default: '' },
+                        // subcategories: {
+                        //     type: 'array',
+                        //     items: {
+                        //         type: 'string',
+                        //         default: '',
+                        //     },
+                        // },
                     },
                 },
             },
