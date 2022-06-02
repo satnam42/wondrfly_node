@@ -1377,6 +1377,20 @@ const configure = (app, logger) => {
     // permit.context.requiresToken,
     api.filterkeys.search
   );
+
+  //====================freetextSearch=============
+  app.get(
+    '/api/freetextSearch/search',
+    permit.context.builder,
+    // permit.context.requiresToken,
+    api.freetextSearch.search
+  );
+  app.get(
+    '/api/freetextSearch/list',
+    permit.context.builder,
+    // permit.context.requiresToken,
+    api.freetextSearch.list
+  );
   log.end();
 };
 
