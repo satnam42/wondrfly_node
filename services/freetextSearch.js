@@ -7,8 +7,18 @@ const freetextSearch = async (query, context) => {
         createdOn: new Date(),
         updateOn: new Date(),
     }).save();
+    let keywords = []
+    var words = query.text.split(" ");
+    for (var i = 0; i < words.length; i++) {
+        // words[i] += " ";
+        console.log('word =>', words[i])
+        let entity = await db.filterkeys.findOne({ keywordName: words[i] });
+        if (entity) {
+            keywords.push(entity)
+        }
+    }
     log.end();
-    return freetextSearch;
+    return keywords;
 };
 
 const getAllfreetextSearch = async (context) => {
