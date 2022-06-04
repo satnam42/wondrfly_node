@@ -1377,6 +1377,11 @@ const configure = (app, logger) => {
     // permit.context.requiresToken,
     api.filterkeys.search
   );
+  app.put(
+    '/api/filterkeys/activeOrDeactive',
+    permit.context.requiresToken,
+    api.filterkeys.activeOrDeactive
+  );
 
   //====================freetextSearch=============
   app.get(
@@ -1391,6 +1396,7 @@ const configure = (app, logger) => {
     // permit.context.requiresToken,
     api.freetextSearch.list
   );
+
   log.end();
 };
 

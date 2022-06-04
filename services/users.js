@@ -420,11 +420,12 @@ const register = async (model, context) => {
       //   },
       // ],
     };
-    // const mailchimpMail = await mailchimp.static(
-    //   opt.name,
-    //   opt.email,
-    //   opt.subject
-    // );
+    const mailchimpMail = await mailchimp.static(
+      opt.name,
+      opt.email,
+      opt.subject
+    );
+    console.log('mailchimpMail ===>>>>>', mailchimpMail)
     // sendEmail(user.firstName, user.email, templatePath, subject);
   }
   const token = auth.getToken(user, false, context);
@@ -645,12 +646,13 @@ const resetPassword = async (id, model, context) => {
         },
       ],
     };
-    // const mailchimpMail = await mailchimp.dynamic(
-    //   opt.name,
-    //   opt.email,
-    //   opt.subject,
-    //   opt.options
-    // );
+    const mailchimpMail = await mailchimp.dynamic(
+      opt.name,
+      opt.email,
+      opt.subject,
+      opt.options
+    );
+    console.log('mailchimpMail PR==>>>', mailchimpMail)
     log.end();
     return 'Password Updated Successfully';
   } else {
@@ -1094,12 +1096,13 @@ const forgotPassword = async (model, context) => {
         },
       ],
     };
-    // const mailchimpMail = await mailchimp.dynamic(
-    //   opt.name,
-    //   opt.email,
-    //   opt.subject,
-    //   opt.options
-    // );
+    const mailchimpMail = await mailchimp.dynamic(
+      opt.name,
+      opt.email,
+      opt.subject,
+      opt.options
+    );
+    console.log('mailchimp forgot pass ==>>>', mailchimpMail);
     // changePasswordEmail(user.firstName, user.email, templatePath, subject);
   }
   log.end();

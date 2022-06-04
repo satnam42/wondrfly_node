@@ -67,8 +67,22 @@ const search = async (req, res) => {
     }
 };
 
+const activeOrDeactive = async (req, res) => {
+    const log = req.context.logger.start(`api:filterkeys:activeOrDeactive`);
+    try {
+        const keyword = await service.activateAndDeactive(req.context, req.query.id, req.query.isActivated);
+        log.end();
+        return response.data(res, keyword);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 exports.create = create;
 exports.list = list;
 exports.update = update;
 exports.deleteFilterkey = deleteFilterkey;
 exports.search = search;
+exports.activeOrDeactive = activeOrDeactive;

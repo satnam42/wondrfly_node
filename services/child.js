@@ -188,8 +188,8 @@ const addChild = async (model, context) => {
         isActivated: true,
       })
       .count();
-    // const updated = await mailchimp.updatechild(childs, user.email);
-    // console.log(updated);
+    const updated = await mailchimp.updatechild(childs, user.email);
+    console.log(updated);
     // ? add child mailchimp email
     const firstName = user.firstName.trim().split(' ')[0];
     const child = model.name.trim().split(' ')[0];
@@ -265,8 +265,8 @@ const deleteChild = async (id, context) => {
 
   const childs = await db.child.find({ parent: deleted?.parent }).count();
   const user = await db.user.findOne({ _id: deleted?.parent });
-  // const parentUpdate = await mailchimp.updatechild(childs, user.email);
-  // console.log(parentUpdate);
+  const parentUpdate = await mailchimp.updatechild(childs, user.email);
+  console.log(parentUpdate);
   log.end();
   return 'child deleted succesfully';
 };
@@ -456,8 +456,7 @@ const activateAndDeactive = async (context, id, isActivated) => {
     .find({ parent: child.parent, isActivated: true })
     .count();
   const user = await db.user.findById({ _id: child.parent });
-  // const updateChild = await mailchimp.updatechild(chids, user.email);
-  // console.log(updateChild);
+  const updateChild = await mailchimp.updatechild(chids, user.email);
   log.end();
   return child;
 };

@@ -82,11 +82,31 @@ const search = async (query, context) => {
     ).limit(5).sort({ name: 1 });
     log.end();
     return filterkeys;
+};
 
+const activateAndDeactive = async (context, id, isActivated) => {
+    const log = context.logger.start(`services:filterkeys:activateAndDeactive`);
+    if (!id) {
+        throw new Error('Id is requried');
+    }
+    if (!isActivated) {
+        throw new Error('isActivated requried');
+    }
+    let keyword = await db.filterkeys.findById(id);
+    if (!keyword) {
+        throw new Error('keyword not found');
+    }
+    keyword.isActivated = isActivated;
+    keyword.lastModifiedBy = context.user.id;
+    keyword.updatedOn = Date.now();
+    keyword.save();
+    log.end();
+    return keyword;
 };
 
 exports.create = create;
 exports.getAllfilterkeys = getAllfilterkeys;
 exports.update = update;
 exports.deleteFilterkey = deleteFilterkey;
-exports.search = search
+exports.search = search;
+exports.activateAndDeactive = activateAndDeactive;
