@@ -263,8 +263,8 @@ const deleteChild = async (id, context) => {
     throw new Error('something went wrong');
   }
 
-  const childs = await db.child.find({ parent: deleted?.parent }).count();
-  const user = await db.user.findOne({ _id: deleted?.parent });
+  const childs = await db.child.find({ parent: deleted.parent }).count();
+  const user = await db.user.findOne({ _id: deleted.parent });
   const parentUpdate = await mailchimp.updatechild(childs, user.email);
   console.log(parentUpdate);
   log.end();

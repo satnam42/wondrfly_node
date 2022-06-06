@@ -1249,6 +1249,20 @@ module.exports = [
           type: 'string',
           name: 'keyValue',
           description: 'key value',
+        },
+        {
+          in: 'query',
+          type: 'integer',
+          name: 'pageNo',
+          description: 'pageNo',
+          // required: true,
+        },
+        {
+          in: 'query',
+          type: 'integer',
+          name: 'pageSize',
+          description: 'pageSize',
+          // required: true,
         }
       ],
       responses: {

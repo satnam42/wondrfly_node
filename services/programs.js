@@ -1420,7 +1420,7 @@ const groupPublishOrUnpublish = async (query, context) => {
       { $skip: skipCount },
     ])
 
-    programs.sort((a, b) => b.user[0]?.createdOn - a.user[0]?.createdOn)
+    programs.sort((a, b) => b.user[0].createdOn - a.user[0].createdOn)
     log.end()
     return programs
   }
@@ -1460,7 +1460,7 @@ const searchByNameAndDate = async (query, context) => {
     console.log('tag ---------', tag.length);
     if (tag.length >= 1) {
       tagPrograms = await db.program
-        .find({ subCategoryIds: tag[0]._id, isPublished: true },).populate('categoryId').populate('subCategoryIds').populate('user').limit(10)
+        .find({ subCategoryIds: tag[0]._id, isPublished: true }).populate('categoryId').populate('subCategoryIds').populate('user').limit(10)
     }
     let category = await db.category.find({ name: { $regex: '.*' + programName + '.*', $options: 'i' } }).limit(5)
     if (category.length >= 1) {
@@ -2145,27 +2145,38 @@ const expiresInWeek = async (query, context) => {
 
 const searchByKeyValue = async (query, context) => {
   const log = context.logger.start(`services:programs:searchByKeyValue`)
+  let pageNo = Number(query.pageNo) || 1
+  let pageSize = Number(query.pageSize) || 10
+  let skipCount = pageSize * (pageNo - 1)
   // keyType, keyValue
   let program
   if (query.keyType == "name") {
     program = await db.program
       .find({ name: { $regex: '.*' + query.keyValue + '.*', $options: 'i' } })
       .populate('user').populate('tags').populate('subCategoryIds')
+      .skip(skipCount)
+      .limit(pageSize)
   }
   if (query.keyType == "type") {
     program = await db.program
       .find({ type: { $regex: '.*' + query.keyValue + '.*', $options: 'i' } })
       .populate('user').populate('tags').populate('subCategoryIds')
+      .skip(skipCount)
+      .limit(pageSize)
   }
   if (query.keyType == "address") {
     program = await db.program
       .find({ addresses: { $regex: '.*' + query.keyValue + '.*', $options: 'i' } })
       .populate('user').populate('tags').populate('subCategoryIds')
+      .skip(skipCount)
+      .limit(pageSize)
   }
   if (query.keyType == "location") {
     program = await db.program
       .find({ location: { $regex: '.*' + query.keyValue + '.*', $options: 'i' } })
       .populate('user').populate('tags').populate('subCategoryIds')
+      .skip(skipCount)
+      .limit(pageSize)
   }
 
   log.end()
