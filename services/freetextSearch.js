@@ -12,7 +12,7 @@ const freetextSearch = async (query, context) => {
     for (var i = 0; i < words.length; i++) {
         // words[i] += " ";
         console.log('word =>', words[i])
-        let entity = await db.filterkeys.findOne({ keywordName: words[i] });
+        let entity = await db.filterkeys.findOne({ keywordName: { $regex: '.*' + words[i] + '.*', $options: 'i' } });
         if (entity) {
             keywords.push(entity)
         }
