@@ -2145,38 +2145,27 @@ const expiresInWeek = async (query, context) => {
 
 const searchByKeyValue = async (query, context) => {
   const log = context.logger.start(`services:programs:searchByKeyValue`)
-  let pageNo = Number(query.pageNo) || 1
-  let pageSize = Number(query.pageSize) || 10
-  let skipCount = pageSize * (pageNo - 1)
   // keyType, keyValue
   let program
   if (query.keyType == "name") {
     program = await db.program
       .find({ name: { $regex: '.*' + query.keyValue + '.*', $options: 'i' } })
-      .populate('user').populate('tags').populate('subCategoryIds')
-      .skip(skipCount)
-      .limit(pageSize)
+      .populate('user').populate('tags').populate('subCategoryIds').limit(5)
   }
   if (query.keyType == "type") {
     program = await db.program
       .find({ type: { $regex: '.*' + query.keyValue + '.*', $options: 'i' } })
-      .populate('user').populate('tags').populate('subCategoryIds')
-      .skip(skipCount)
-      .limit(pageSize)
+      .populate('user').populate('tags').populate('subCategoryIds').limit(5)
   }
   if (query.keyType == "address") {
     program = await db.program
       .find({ addresses: { $regex: '.*' + query.keyValue + '.*', $options: 'i' } })
-      .populate('user').populate('tags').populate('subCategoryIds')
-      .skip(skipCount)
-      .limit(pageSize)
+      .populate('user').populate('tags').populate('subCategoryIds').limit(5)
   }
   if (query.keyType == "location") {
     program = await db.program
       .find({ location: { $regex: '.*' + query.keyValue + '.*', $options: 'i' } })
-      .populate('user').populate('tags').populate('subCategoryIds')
-      .skip(skipCount)
-      .limit(pageSize)
+      .populate('user').populate('tags').populate('subCategoryIds').limit(5)
   }
 
   log.end()
