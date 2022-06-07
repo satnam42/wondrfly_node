@@ -46,7 +46,7 @@ const create = async (model, context) => {
 
 const getAllfilterkeys = async (context) => {
     const log = context.logger.start(`services:filterkeys:getAllfilterkeys`);
-    const filterkeyss = await db.filterkeys.find()
+    const filterkeyss = await db.filterkeys.find({ isActivated: true })
     log.end();
     return filterkeyss;
 };
