@@ -10,9 +10,9 @@ const freetextSearch = async (query, context) => {
     let keywords = []
     var words = query.text.split(" ");
     for (var i = 0; i < words.length; i++) {
-        // const str = words[i];
-        // const str2 = str.charAt(0).toUpperCase() + str.slice(1);
-        let entity = await db.filterkeys.findOne({ keywordName: { $regex: '.*' + words[i] + '.*', $options: 'i' } }).limit(1);
+        const str = words[i];
+        const str2 = str.charAt(0).toUpperCase() + str.slice(1);
+        let entity = await db.filterkeys.findOne({ keywordName: str2 }).limit(1);
         if (entity) {
             keywords.push(entity)
         }
