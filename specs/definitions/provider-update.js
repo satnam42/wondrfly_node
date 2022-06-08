@@ -5,6 +5,9 @@ module.exports = [
       firstName: {
         type: 'string',
       },
+      userName: {
+        type: 'string',
+      },
       lastName: {
         type: 'string',
       },

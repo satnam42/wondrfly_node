@@ -42,6 +42,7 @@ const buildUser = async (model, context) => {
 
   const user = await new db.user({
     firstName: model.firstName,
+    userName: model.userName,
     type: model.type || '',
     email: model.email,
     phoneNumber: model.phoneNumber,
@@ -102,6 +103,9 @@ const setProviderDetail = async (model, provider, context) => {
   }
   if (model.firstName !== 'string' && model.firstName !== undefined) {
     provider.alias = humanize(model.firstName)
+  }
+  if (model.userName !== 'string' && model.userName !== undefined) {
+    provider.userName = model.userName
   }
   if (model.bio !== 'string' && model.bio !== undefined) {
     provider.bio = model.bio
