@@ -12,6 +12,7 @@ exports.toModel = (entity) => {
     id: user.id,
     firstName: user.firstName,
     lastName: user.lastName,
+    userName: user.userName,
     phoneNumber: user.phoneNumber,
     secondaryPhonenumber: user.secondaryPhonenumber,
     isPhoneVerified: user.isPhoneVerified,
