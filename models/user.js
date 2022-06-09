@@ -4,7 +4,6 @@ const REQUIRED_VALIDATION_MESSAGE = '{PATH} is required'
 const user = mongoose.Schema({
   firstName: { type: String, default: '' },
   lastName: { type: String, default: '' },
-  userName: { type: String, default: '' },
   sex: { type: String, default: '' },
   age: { type: Number, default: '' },
   dob: { type: Date, default: '' },

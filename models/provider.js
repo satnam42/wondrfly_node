@@ -5,6 +5,7 @@ const provider = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
   },
+  userName: { type: String, default: '' },
   categories: [
     {
       type: mongoose.Schema.Types.ObjectId,
