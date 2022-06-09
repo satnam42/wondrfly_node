@@ -368,7 +368,7 @@ const getByUsername = async (req, res) => {
   try {
     const provider = await service.getByUsername(req.params.username, req.context)
     log.end()
-    return response.data(res, mapper.toModel(provider))
+    return response.data(res, provider)
   } catch (err) {
     log.error(err)
     log.end()

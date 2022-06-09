@@ -213,6 +213,9 @@ const setBasicInfo = async (model, user, context) => {
   if (model.lastName !== 'string' && model.lastName !== undefined) {
     user.lastName = model.lastName
   }
+  if (model.userName !== 'string' && model.userName !== undefined) {
+    user.userName = model.userName
+  }
   if (model.sex !== 'string' && model.sex !== undefined) {
     user.sex = model.sex
   }
@@ -458,7 +461,6 @@ const addProvider = async (model, context) => {
   if (user.role == 'provider') {
     await new db.provider({
       user: user._id,
-      userName: model.userName,
       alias: word ? word : '',
       categories: model.categoryIds,
       subCategoryIds: model.subCategoryIds,
@@ -1200,14 +1202,8 @@ const searchCreateModifiedDate = async (query, context) => {
 
 const getByUsername = async (username, context) => {
   const log = context.logger.start(`services:providers:getByUsername`)
-  const provider = await db.provider
+  const provider = await db.user
     .findOne({ userName: username })
-    .populate('user')
-    .populate('categories')
-    .populate('addedBy')
-  if (provider.logo) {
-    provider.logo = baseUrl + provider.logo
-  }
   log.end()
   return provider
 }
