@@ -511,7 +511,7 @@ const configure = (app, logger) => {
   );
   app.get(
     '/api/providers/getByUsername/:username',
-    permit.context.requiresToken,
+    permit.context.builder,
     // validator.users.update,
     api.providers.getByUsername
   );

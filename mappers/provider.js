@@ -43,6 +43,7 @@ exports.toModel = (entity) => {
     ; (model.id = entity.user.id),
       (model.firstName = entity.user.firstName),
       (model.lastName = entity.user.lastName),
+      (model.userName = entity.user.userName),
       (model.phoneNumber = entity.user.phoneNumber),
       (model.secondaryPhonenumber = entity.user.secondaryPhonenumber),
       (model.avatarImages = entity.user.avatarImages),
