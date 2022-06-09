@@ -363,6 +363,19 @@ const searchCreateModifiedDate = async (req, res) => {
   }
 }
 
+const getByUsername = async (req, res) => {
+  const log = req.context.logger.start(`api:providers:getByUsername:${req.params.username}`)
+  try {
+    const provider = await service.getByUsername(req.params.username, req.context)
+    log.end()
+    return response.data(res, mapper.toModel(provider))
+  } catch (err) {
+    log.error(err)
+    log.end()
+    return response.failure(res, err.message)
+  }
+}
+
 exports.create = create
 exports.list = list
 exports.update = update
@@ -387,3 +400,4 @@ exports.histogram = histogram;
 exports.saveProvider = saveProvider;
 exports.freeTrail = freeTrail;
 exports.searchCreateModifiedDate = searchCreateModifiedDate;
+exports.getByUsername = getByUsername;

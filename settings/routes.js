@@ -509,7 +509,12 @@ const configure = (app, logger) => {
     permit.context.builder,
     api.providers.searchCreateModifiedDate
   );
-
+  app.get(
+    '/api/providers/getByUsername/:username',
+    permit.context.requiresToken,
+    // validator.users.update,
+    api.providers.getByUsername
+  );
   //review routes//
   app.post(
     '/api/reviews/add',

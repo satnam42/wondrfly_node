@@ -1197,6 +1197,20 @@ const searchCreateModifiedDate = async (query, context) => {
   return providers
 }
 
+const getByUsername = async (username, context) => {
+  const log = context.logger.start(`services:providers:getByUsername`)
+  const provider = await db.provider
+    .findOne({ user: username })
+    .populate('user')
+    .populate('categories')
+    .populate('addedBy')
+  if (provider.logo) {
+    provider.logo = baseUrl + provider.logo
+  }
+  log.end()
+  return provider
+}
+
 exports.importProvider = importProvider
 exports.getAllProvider = getAllProvider
 exports.updateProvider = updateProvider
@@ -1221,3 +1235,4 @@ exports.histogram = histogram;
 exports.saveProvider = saveProvider;
 exports.freeTrail = freeTrail;
 exports.searchCreateModifiedDate = searchCreateModifiedDate;
+exports.getByUsername = getByUsername;

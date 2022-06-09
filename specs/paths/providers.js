@@ -878,5 +878,36 @@ module.exports = [
                 }
             }
         }
+    },
+    {
+        url: "/getByUsername/{username}",
+        get: {
+            summary: "getByUsername",
+            description: "getByUsername provider details",
+            parameters: [
+                {
+                    in: "path",
+                    name: "username",
+                    description: "user name",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
     }
 ]
