@@ -1402,6 +1402,32 @@ const configure = (app, logger) => {
     api.freetextSearch.list
   );
 
+  //==============search topic======================
+  app.post('/api/searchTopics/create', permit.context.requiresToken, api.searchTopics.create);
+  app.get(
+    '/api/searchTopics/list',
+    permit.context.requiresToken,
+    // permit.context.builder,
+    api.searchTopics.list
+  );
+  app.put('/api/searchTopics/update/:id', permit.context.requiresToken, api.searchTopics.update);
+  app.delete(
+    '/api/searchTopics/remove/:id',
+    permit.context.requiresToken,
+    api.searchTopics.remove
+  );
+  app.get(
+    '/api/searchTopics/search',
+    permit.context.builder,
+    // permit.context.requiresToken,
+    api.searchTopics.search
+  );
+  app.put(
+    '/api/searchTopics/activeOrDeactive',
+    permit.context.requiresToken,
+    api.searchTopics.activeOrDeactive
+  );
+
   log.end();
 };
 
