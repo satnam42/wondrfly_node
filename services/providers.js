@@ -358,11 +358,16 @@ const updateProvider = async (id, model, context) => {
   if (!user) {
     throw new Error('provider Not Found')
   }
+  const isuserName = await db.user.findOne({ userName: { $eq: model.userName } })
+  if (isuserName) {
+    throw new Error('userName already resgister')
+  }
   const userBasicInfo = await setBasicInfo(model, user, context)
   const providerDetail = await setProviderDetail(model, provider, context)
   log.end()
   return userBasicInfo
 }
+
 
 const uploadBannerPic = async (id, files, context) => {
   const log = context.logger.start(`services:provider:uploadBannerPic`)
@@ -443,8 +448,12 @@ const search = async (name, context) => {
 const addProvider = async (model, context) => {
   const log = context.logger.start('services:providers:addProvider')
   const isEmail = await db.user.findOne({ email: { $eq: model.email } })
+  const isuserName = await db.user.findOne({ userName: { $eq: model.userName } })
   if (isEmail) {
     throw new Error('Email already resgister')
+  }
+  if (isuserName) {
+    throw new Error('userName already resgister')
   }
   let genPassword = generator.generate({
     length: 10,
