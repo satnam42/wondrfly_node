@@ -12,6 +12,13 @@ module.exports = [
                     description: "freetext search name",
                     required: true
                 },
+                {
+                    in: "query",
+                    type: "string",
+                    name: "parentId",
+                    description: "parent Id",
+                    required: true
+                }
                 // {
                 //     in: "header",
                 //     name: "x-access-token",

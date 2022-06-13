@@ -4,6 +4,7 @@ const freetextSearch = async (query, context) => {
     const log = context.logger.start(`services:filterkeys:freetextSearch`);
     const freetextSearch = await new db.freetextSearch({
         text: query.text,
+        parentId: query.parentId,
         createdOn: new Date(),
         updateOn: new Date(),
     }).save();
