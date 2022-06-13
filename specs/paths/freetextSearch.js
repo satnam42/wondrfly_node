@@ -62,5 +62,30 @@ module.exports = [
                 }
             }
         }
+    },
+    {
+        url: "/listByParentId/{id}",
+        get: {
+            summary: "get free text search by parent id",
+            description: "get free text search by parent id",
+            parameters: [
+
+                {
+                    in: "path",
+                    name: "id",
+                    description: "parent id",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
     }
 ]

@@ -29,5 +29,19 @@ const getAllfreetextSearch = async (context) => {
     return freetextSearch;
 };
 
+
+const listByParentId = async (id, context) => {
+    const log = context.logger.start('services:invitation:listByParentId');
+    const user = await db.user.findById(id);
+    if (!user) {
+        throw new Error('parent not found');
+    }
+    const freetextSearch = await db.freetextSearch.find({ parentId: id })
+    log.end();
+    return freetextSearch;
+};
+
+
 exports.freetextSearch = freetextSearch;
 exports.getAllfreetextSearch = getAllfreetextSearch;
+exports.listByParentId = listByParentId;

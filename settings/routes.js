@@ -1401,6 +1401,12 @@ const configure = (app, logger) => {
     // permit.context.requiresToken,
     api.freetextSearch.list
   );
+  app.get(
+    '/api/freetextSearch/listByParentId/:id',
+    // permit.context.requiresToken,
+    permit.context.builder,
+    api.freetextSearch.listByParentId
+  );
 
   //==============search topic======================
   app.post('/api/searchTopics/create', permit.context.requiresToken, api.searchTopics.create);
