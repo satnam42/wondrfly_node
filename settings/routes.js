@@ -1453,6 +1453,12 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.metaservice.remove
   );
+  app.get(
+    '/api/metaservice/getbyPagename/:name',
+    permit.context.builder,
+    // validator.users.update,
+    api.metaservice.getbyPagename
+  );
   log.end();
 };
 

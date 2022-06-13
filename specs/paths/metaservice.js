@@ -128,6 +128,30 @@ module.exports = [
             }
         }
     },
+    {
+        url: "/getbyPagename/{name}",
+        get: {
+            summary: "getbyPagename",
+            description: "by page name meta service details",
+            parameters: [
+                {
+                    in: "path",
+                    name: "name",
+                    description: "meta service name",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    }
     // {
     //     url: "/search",
     //     get: {

@@ -76,7 +76,16 @@ const deleteMetaservice = async (id, context) => {
     return 'meta service Deleted Successfully'
 };
 
+const getbyPagename = async (pageName, context) => {
+    const log = context.logger.start(`services:metaservice:getbyPagename`)
+    const metaservice = await db.metaservice
+        .findOne({ pageName: pageName })
+    log.end()
+    return metaservice
+}
+
 exports.create = create;
 exports.getAllmetaservice = getAllmetaservice;
 exports.update = update;
 exports.deleteMetaservice = deleteMetaservice;
+exports.getbyPagename = getbyPagename;
