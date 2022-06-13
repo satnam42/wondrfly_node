@@ -27,10 +27,10 @@ const setAlert = async (model, searchTopics, context) => {
 
 const create = async (model, context) => {
     const log = context.logger.start("services:searchTopics:create");
-    // const issearchTopicsExist = await db.searchTopics.findOne({ msg: { $eq: model.msg } });
-    // if (issearchTopicsExist) {
-    //     throw new Error("filterkey is already exist");
-    // }
+    const issearchTopicsExist = await db.searchtopic.findOne({ Name: { $eq: model.Name } });
+    if (issearchTopicsExist) {
+        throw new Error("topic is already exist");
+    }
     const searchTopics = build(model, context);
     log.end();
     return searchTopics;

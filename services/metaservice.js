@@ -35,10 +35,10 @@ const setAlert = async (model, metaservice, context) => {
 
 const create = async (model, context) => {
     const log = context.logger.start("services:metaservice:create");
-    // const ismetaserviceExist = await db.metaservice.findOne({ msg: { $eq: model.msg } });
-    // if (ismetaserviceExist) {
-    //     throw new Error("filterkey is already exist");
-    // }
+    const ismetaserviceExist = await db.metaservice.findOne({ pageName: { $eq: model.pageName } });
+    if (ismetaserviceExist) {
+        throw new Error("metaservice is already exist");
+    }
     const metaservice = build(model, context);
     log.end();
     return metaservice;
