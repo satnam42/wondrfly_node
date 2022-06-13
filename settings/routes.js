@@ -1427,7 +1427,20 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.searchTopics.activeOrDeactive
   );
-
+  //===============meta service==========================
+  app.post('/api/metaservice/create', permit.context.requiresToken, api.metaservice.create);
+  app.get(
+    '/api/metaservice/list',
+    permit.context.requiresToken,
+    // permit.context.builder,
+    api.metaservice.list
+  );
+  app.put('/api/metaservice/update/:id', permit.context.requiresToken, api.metaservice.update);
+  app.delete(
+    '/api/metaservice/remove/:id',
+    permit.context.requiresToken,
+    api.metaservice.remove
+  );
   log.end();
 };
 

@@ -70,7 +70,7 @@ const deleteSearchTopic = async (id, context) => {
 
 const search = async (query, context) => {
     const log = context.logger.start(`services:searchTopics:search`);
-    const searchTopics = await db.searchtopic.find({ searchTopics: { "$regex": '.*' + query.name + '.*', "$options": 'i' }, isActivated: true }
+    const searchTopics = await db.searchtopic.find({ Name: { "$regex": '.*' + query.name + '.*', "$options": 'i' } }
     ).limit(5).sort({ name: 1 });
     log.end();
     return searchTopics;
