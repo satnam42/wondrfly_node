@@ -198,5 +198,29 @@ module.exports = [
                 }
             }
         }
+    },
+    {
+        url: "/getByName/{name}",
+        get: {
+            summary: "getByName",
+            description: "getByName topic details",
+            parameters: [
+                {
+                    in: "path",
+                    name: "name",
+                    description: "topic name",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
     }
 ]

@@ -80,9 +80,23 @@ const activeOrDeactive = async (req, res) => {
     }
 };
 
+const getByName = async (req, res) => {
+    const log = req.context.logger.start(`api:searchTopics:getByName:${req.params.name}`)
+    try {
+        const provider = await service.getByName(req.params.name, req.context)
+        log.end()
+        return response.data(res, provider)
+    } catch (err) {
+        log.error(err)
+        log.end()
+        return response.failure(res, err.message)
+    }
+}
+
 exports.create = create;
 exports.list = list;
 exports.update = update;
 exports.remove = remove;
 exports.search = search;
 exports.activeOrDeactive = activeOrDeactive;
+exports.getByName = getByName;

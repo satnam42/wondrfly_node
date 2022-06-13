@@ -96,9 +96,18 @@ const activateAndDeactive = async (context, id, isActivated) => {
     return keyword;
 };
 
+const getByName = async (Name, context) => {
+    const log = context.logger.start(`services:providers:getByName`)
+    const searchtopic = await db.searchtopic
+        .findOne({ Name: Name })
+    log.end()
+    return searchtopic
+}
+
 exports.create = create;
 exports.getAllsearchTopics = getAllsearchTopics;
 exports.update = update;
 exports.deleteSearchTopic = deleteSearchTopic;
 exports.search = search;
 exports.activateAndDeactive = activateAndDeactive;
+exports.getByName = getByName;

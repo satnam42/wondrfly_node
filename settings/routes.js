@@ -1433,6 +1433,12 @@ const configure = (app, logger) => {
     permit.context.requiresToken,
     api.searchTopics.activeOrDeactive
   );
+  app.get(
+    '/api/searchTopics/getByName/:name',
+    permit.context.builder,
+    // validator.users.update,
+    api.searchTopics.getByName
+  );
   //===============meta service==========================
   app.post('/api/metaservice/create', permit.context.requiresToken, api.metaservice.create);
   app.get(
