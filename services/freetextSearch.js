@@ -41,7 +41,18 @@ const listByParentId = async (id, context) => {
     return freetextSearch;
 };
 
+const deleteFreetext = async (id, context) => {
+    const log = context.logger.start(`services:searchTopics:deleteFreetext:${id}`);
+    if (!id) {
+        throw new Error("free text search id is required");
+    }
+    await db.freetextSearch.deleteOne({ _id: id });
+    log.end();
+    return 'free text search Deleted Successfully'
+};
+
 
 exports.freetextSearch = freetextSearch;
 exports.getAllfreetextSearch = getAllfreetextSearch;
 exports.listByParentId = listByParentId;
+exports.deleteFreetext = deleteFreetext;

@@ -41,7 +41,21 @@ const listByParentId = async (req, res) => {
     }
 };
 
+const remove = async (req, res) => {
+    const log = req.context.logger.start(`api:freetextSearch:remove:${req.params.id}`);
+    try {
+        const alert = await service.deleteFreetext(req.params.id, req.context);
+        log.end();
+        return response.data(res, alert);
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 
 exports.search = search
 exports.list = list
 exports.listByParentId = listByParentId
+exports.remove = remove;

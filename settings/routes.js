@@ -1407,6 +1407,11 @@ const configure = (app, logger) => {
     permit.context.builder,
     api.freetextSearch.listByParentId
   );
+  app.delete(
+    '/api/freetextSearch/remove/:id',
+    permit.context.requiresToken,
+    api.freetextSearch.remove
+  );
 
   //==============search topic======================
   app.post('/api/searchTopics/create', permit.context.requiresToken, api.searchTopics.create);

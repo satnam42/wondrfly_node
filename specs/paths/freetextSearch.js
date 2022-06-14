@@ -87,5 +87,36 @@ module.exports = [
                 }
             }
         }
+    },
+    {
+        url: "/remove/{id}",
+        delete: {
+            summary: "Delete",
+            description: "Delete free text search",
+            parameters: [
+                {
+                    in: "path",
+                    name: "id",
+                    description: "free text search id",
+                    required: true,
+                    type: "string"
+                },
+                {
+                    in: "header",
+                    name: "x-access-token",
+                    description: "token to access api",
+                    required: true,
+                    type: "string"
+                }
+            ],
+            responses: {
+                default: {
+                    description: "Unexpected error",
+                    schema: {
+                        $ref: "#/definitions/Error"
+                    }
+                }
+            }
+        }
     }
 ]
