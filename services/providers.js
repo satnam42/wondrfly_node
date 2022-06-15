@@ -358,10 +358,10 @@ const updateProvider = async (id, model, context) => {
   if (!user) {
     throw new Error('provider Not Found')
   }
-  const isuserName = await db.user.findOne({ userName: { $eq: model.userName } })
-  if (isuserName) {
-    throw new Error('userName already resgister')
-  }
+  // const isuserName = await db.user.findOne({ userName: { $eq: model.userName } })
+  // if (isuserName) {
+  //   throw new Error('userName already resgister')
+  // }
   const userBasicInfo = await setBasicInfo(model, user, context)
   const providerDetail = await setProviderDetail(model, provider, context)
   log.end()
