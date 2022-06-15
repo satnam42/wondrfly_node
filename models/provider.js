@@ -6,18 +6,18 @@ const provider = mongoose.Schema({
     ref: 'user',
   },
   userName: { type: String, default: '' },
-  // categories: [
-  //   {
-  //     type: mongoose.Schema.Types.ObjectId,
-  //     ref: 'category',
-  //     // required: true
-  //   },
-  // ],
-  // subCategoryIds: [{
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   default: [],
-  //   ref: 'tag',
-  // }],
+  categories: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'category',
+      // required: true
+    },
+  ],
+  subCategoryIds: [{
+    type: mongoose.Schema.Types.ObjectId,
+    default: [],
+    ref: 'tag',
+  }],
   addedBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
