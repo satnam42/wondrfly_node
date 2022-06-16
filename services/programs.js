@@ -322,6 +322,10 @@ const build = async (model, context) => {
     proofreaderRating: model.proofreaderRating,
     programRating: model.userRating,
     isproRated: model.isproRated,
+    per_hour_rate: model.per_hour_rate,
+    last_reviewed: model.last_reviewed,
+    cycle_time: model.cycle_time,
+    proof_reader_notes: model.proof_reader_notes,
     createdOn: new Date(),
     updateOn: new Date(),
   }).save()
@@ -547,6 +551,18 @@ const set = async (model, program, context) => {
   }
   if (model.days) {
     program.days = model.days
+  }
+  if (model.per_hour_rate !== 'string' && model.per_hour_rate !== undefined) {
+    program.per_hour_rate = model.per_hour_rate
+  }
+  if (model.last_reviewed !== 'string' && model.last_reviewed !== undefined) {
+    program.last_reviewed = model.last_reviewed
+  }
+  if (model.cycle_time !== 'string' && model.cycle_time !== undefined) {
+    program.cycle_time = model.cycle_time
+  }
+  if (model.proof_reader_notes !== 'string' && model.proof_reader_notes !== undefined) {
+    program.proof_reader_notes = model.proof_reader_notes
   }
   program.isproRated = model.isproRated
   program.isExpired = model.isExpired

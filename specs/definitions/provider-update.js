@@ -157,6 +157,10 @@ module.exports = [
           instagramFollowers: { type: 'number' },
         },
       },
+      cancellation_and_refund: { type: 'string' },
+      last_reviewed: { type: 'date' },
+      cycle_time: { type: 'number' },
+      proof_reader_notes: { type: 'string' }
     },
   },
 ]

@@ -142,6 +142,10 @@ const programSchema = mongoose.Schema({
   expireReason: { type: String, default: '' },
   isproRated: { type: Boolean, default: false },
   isFreeTrial: { type: Boolean, default: false },
+  per_hour_rate: { type: String, default: '' },
+  last_reviewed: { type: Date, default: '' },
+  cycle_time: { type: Number, default: 0 },
+  proof_reader_notes: { type: String, default: '' },
   createdOn: { type: Date, default: Date.now },
   updatedOn: { type: Date, default: Date.now },
 })

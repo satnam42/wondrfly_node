@@ -224,7 +224,11 @@ module.exports = [
         },
       },
       isproRated: { type: 'boolean' },
-      isExpired: { type: 'boolean' }
+      isExpired: { type: 'boolean' },
+      per_hour_rate: { type: 'string' },
+      last_reviewed: { type: 'date' },
+      cycle_time: { type: 'number' },
+      proof_reader_notes: { type: 'string' },
     },
   },
 ]
