@@ -180,16 +180,16 @@ const setProviderDetail = async (model, provider, context) => {
     provider.sourceUrl = model.sourceUrl
   }
   if (model.cancellation_and_refund !== 'string' && model.cancellation_and_refund !== undefined) {
-    program.cancellation_and_refund = model.cancellation_and_refund
+    provider.cancellation_and_refund = model.cancellation_and_refund
   }
   if (model.last_reviewed !== 'string' && model.last_reviewed !== undefined) {
-    program.last_reviewed = model.last_reviewed
+    provider.last_reviewed = model.last_reviewed
   }
   if (model.cycle_time !== 'string' && model.cycle_time !== undefined) {
-    program.cycle_time = model.cycle_time
+    provider.cycle_time = model.cycle_time
   }
   if (model.proof_reader_notes !== 'string' && model.proof_reader_notes !== undefined) {
-    program.proof_reader_notes = model.proof_reader_notes
+    provider.proof_reader_notes = model.proof_reader_notes
   }
 
 

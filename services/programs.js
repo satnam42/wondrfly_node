@@ -2307,6 +2307,41 @@ const histogram = async (query, context) => {
     log.end()
     return data
   }
+  if (query.period == 'quarter') {
+    let data = [];
+    let seven = moment(new Date()).format('YYYY-MM-DD')
+    let six = moment(new Date()).subtract(3, 'M').format('YYYY-MM-DD')
+    let fifth = moment(new Date()).subtract(6, 'M').format('YYYY-MM-DD')
+    let fourth = moment(new Date()).subtract(9, 'M').format('YYYY-MM-DD')
+    let third = moment(new Date()).subtract(12, 'M').format('YYYY-MM-DD')
+    let second = moment(new Date()).subtract(15, 'M').format('YYYY-MM-DD')
+    let first = moment(new Date()).subtract(18, 'M').format('YYYY-MM-DD')
+    let compute
+    console.log('seven q', seven)
+    console.log('six q', six)
+    console.log('fifth q', fifth)
+    console.log('fourth q', fourth)
+    console.log('third q', third)
+    console.log('second q', second)
+    console.log('first q', first)
+    // compute = await db.program.find({ createdOn: { $gte: moment(first).startOf('month').format('YYYY-MM-DD'), $lt: moment(first).endOf('month').format('YYYY-MM-DD'), } }).count()
+    // data.push({ month: 1, count: compute, period: moment(first).startOf('month').format('YYYY-MM-DD') })
+    // compute = await db.program.find({ createdOn: { $gte: moment(second).startOf('month').format('YYYY-MM-DD'), $lt: moment(second).endOf('month').format('YYYY-MM-DD'), } }).count()
+    // data.push({ month: 2, count: compute, period: moment(second).startOf('month').format('YYYY-MM-DD') })
+    // compute = await db.program.find({ createdOn: { $gte: moment(third).startOf('month').format('YYYY-MM-DD'), $lt: moment(third).endOf('month').format('YYYY-MM-DD'), } }).count()
+    // data.push({ month: 3, count: compute, period: moment(third).startOf('month').format('YYYY-MM-DD') })
+    // compute = await db.program.find({ createdOn: { $gte: moment(fourth).startOf('month').format('YYYY-MM-DD'), $lt: moment(fourth).endOf('month').format('YYYY-MM-DD'), } }).count()
+    // data.push({ month: 4, count: compute, period: moment(fourth).startOf('month').format('YYYY-MM-DD') })
+    // compute = await db.program.find({ createdOn: { $gte: moment(fifth).startOf('month').format('YYYY-MM-DD'), $lt: moment(fifth).endOf('month').format('YYYY-MM-DD'), } }).count()
+    // data.push({ month: 5, count: compute, period: moment(fifth).startOf('month').format('YYYY-MM-DD') })
+    // compute = await db.program.find({ createdOn: { $gte: moment(six).startOf('month').format('YYYY-MM-DD'), $lt: moment(six).endOf('month').format('YYYY-MM-DD'), } }).count()
+    // data.push({ month: 6, count: compute, period: moment(six).startOf('month').format('YYYY-MM-DD') })
+    // compute = await db.program.find({ createdOn: { $gte: moment(seven).startOf('month').format('YYYY-MM-DD'), $lt: moment(seven).endOf('month').format('YYYY-MM-DD'), } }).count()
+    // data.push({ month: 7, count: compute, period: moment(seven).startOf('month').format('YYYY-MM-DD') })
+    log.end()
+    return data
+
+  }
   if (query.period == 'year') {
     let data = [];
     let current = moment(new Date()).format('YYYY-MM-DD')

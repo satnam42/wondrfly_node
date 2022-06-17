@@ -28,6 +28,10 @@ exports.toModel = (entity) => {
     tier: entity.tier || '',
     notes: entity.notes || '',
     adminNotes: entity.adminNotes || '',
+    cancellation_and_refund: entity.cancellation_and_refund,
+    last_reviewed: entity.last_reviewed,
+    cycle_time: entity.cycle_time,
+    proof_reader_notes: entity.proof_reader_notes,
     logo: entity.logo || '',
     token: entity.token || '',
   }
