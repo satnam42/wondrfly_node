@@ -1168,6 +1168,35 @@ const histogram = async (query, context) => {
     log.end()
     return data
   }
+  if (query.period == 'quarter') {
+    let data = [];
+    let eight = moment(new Date()).format('YYYY-MM-DD')
+    let seven = moment(new Date()).subtract(3, 'M').format('YYYY-MM-DD')
+    let six = moment(new Date()).subtract(6, 'M').format('YYYY-MM-DD')
+    let fifth = moment(new Date()).subtract(9, 'M').format('YYYY-MM-DD')
+    let fourth = moment(new Date()).subtract(12, 'M').format('YYYY-MM-DD')
+    let third = moment(new Date()).subtract(15, 'M').format('YYYY-MM-DD')
+    let second = moment(new Date()).subtract(18, 'M').format('YYYY-MM-DD')
+    let first = moment(new Date()).subtract(21, 'M').format('YYYY-MM-DD')
+    let compute
+    compute = await db.user.find({ createdOn: { $gte: moment(first).format('YYYY-MM-DD'), $lt: moment(second).format('YYYY-MM-DD') }, role: "provider" }).count()
+    data.push({ Quarter: 1, count: compute, period: moment(first).format('YYYY-MM-DD'), end: moment(second).format('YYYY-MM-DD') })
+    compute = await db.user.find({ createdOn: { $gte: moment(second).format('YYYY-MM-DD'), $lt: moment(third).format('YYYY-MM-DD') }, role: "provider" }).count()
+    data.push({ Quarter: 2, count: compute, period: moment(second).format('YYYY-MM-DD'), end: moment(third).format('YYYY-MM-DD') })
+    compute = await db.user.find({ createdOn: { $gte: moment(third).format('YYYY-MM-DD'), $lt: moment(fourth).format('YYYY-MM-DD') }, role: "provider" }).count()
+    data.push({ Quarter: 3, count: compute, period: moment(third).format('YYYY-MM-DD'), end: moment(fourth).format('YYYY-MM-DD') })
+    compute = await db.user.find({ createdOn: { $gte: moment(fourth).format('YYYY-MM-DD'), $lt: moment(fifth).format('YYYY-MM-DD') }, role: "provider" }).count()
+    data.push({ Quarter: 4, count: compute, period: moment(fourth).format('YYYY-MM-DD'), end: moment(fifth).format('YYYY-MM-DD') })
+    compute = await db.user.find({ createdOn: { $gte: moment(fifth).format('YYYY-MM-DD'), $lt: moment(six).format('YYYY-MM-DD') }, role: "provider" }).count()
+    data.push({ Quarter: 5, count: compute, period: moment(fifth).format('YYYY-MM-DD'), end: moment(six).format('YYYY-MM-DD') })
+    compute = await db.user.find({ createdOn: { $gte: moment(six).format('YYYY-MM-DD'), $lt: moment(seven).format('YYYY-MM-DD') }, role: "provider" }).count()
+    data.push({ Quarter: 6, count: compute, period: moment(six).format('YYYY-MM-DD'), end: moment(seven).format('YYYY-MM-DD') })
+    compute = await db.user.find({ createdOn: { $gte: moment(seven).format('YYYY-MM-DD'), $lt: moment(eight).format('YYYY-MM-DD') }, role: "provider" }).count()
+    data.push({ Quarter: 7, count: compute, period: moment(seven).format('YYYY-MM-DD'), end: moment(eight).format('YYYY-MM-DD') })
+    log.end()
+    return data
+
+  }
   if (query.period == 'year') {
     let data = [];
     let current = moment(new Date()).format('YYYY-MM-DD')

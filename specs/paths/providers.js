@@ -769,7 +769,7 @@ module.exports = [
                 {
                     in: 'query',
                     name: 'period',
-                    description: 'week, month, year',
+                    description: 'week, month, quarter, year',
                     type: 'string',
                 }
             ],
