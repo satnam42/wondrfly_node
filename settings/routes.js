@@ -517,7 +517,7 @@ const configure = (app, logger) => {
   );
   app.get(
     '/api/providers/activePrograms',
-    permit.context.requiresToken,
+    permit.context.builder,
     api.providers.activePrograms
   );
   //review routes//
