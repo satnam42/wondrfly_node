@@ -1246,7 +1246,7 @@ const getAllProviderActivePrograms = async (query, context) => {
     .limit(pageSize)
 
   for (let provider of providers) {
-    let progrmCount = await db.program.find({ user: provider._id }).count()
+    let progrmCount = await db.program.find({ user: provider._id, isExpired: false, isPublished: true }).count()
     let obj = {}
     obj.providerName = provider.firstName
     obj.programCount = progrmCount
