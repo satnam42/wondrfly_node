@@ -1233,6 +1233,31 @@ const getByUsername = async (username, context) => {
   return provider
 }
 
+const getAllProviderActivePrograms = async (query, context) => {
+  const log = context.logger.start(`services:providers:getAllProviderActivePrograms`)
+  let pageNo = Number(query.pageNo) || 1
+  let pageSize = Number(query.pageSize) || 10
+  let skipCount = pageSize * (pageNo - 1)
+  let allTotal = []
+  const providers = await db.user
+    .find({ role: "provider" })
+    .sort({ date: -1 })
+    .skip(skipCount)
+    .limit(pageSize)
+
+  for (let provider of providers) {
+    let progrmCount = await db.program.find({ user: provider._id }).count()
+    let obj = {}
+    obj.providerName = provider.firstName
+    obj.programCount = progrmCount
+    allTotal.push(obj)
+  }
+  allTotal.count = await db.provider.find({}).count()
+  log.end()
+  return allTotal
+}
+// getAllProviderActivePrograms
+
 exports.importProvider = importProvider
 exports.getAllProvider = getAllProvider
 exports.updateProvider = updateProvider
@@ -1258,3 +1283,4 @@ exports.saveProvider = saveProvider;
 exports.freeTrail = freeTrail;
 exports.searchCreateModifiedDate = searchCreateModifiedDate;
 exports.getByUsername = getByUsername;
+exports.getAllProviderActivePrograms = getAllProviderActivePrograms;

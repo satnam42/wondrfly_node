@@ -515,6 +515,11 @@ const configure = (app, logger) => {
     // validator.users.update,
     api.providers.getByUsername
   );
+  app.get(
+    '/api/providers/activePrograms',
+    permit.context.requiresToken,
+    api.providers.activePrograms
+  );
   //review routes//
   app.post(
     '/api/reviews/add',

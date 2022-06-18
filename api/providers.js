@@ -376,6 +376,28 @@ const getByUsername = async (req, res) => {
   }
 }
 
+const activePrograms = async (req, res) => {
+  const log = req.context.logger.start(`api:providers:activePrograms`)
+  try {
+    const providers = await service.getAllProviderActivePrograms(req.query, req.context)
+    let message = providers.count ? providers.count : 0 + ' ' + 'providers Got'
+    log.end()
+    return response.page(
+      message,
+      res,
+      providers,
+      Number(req.query.pageNo) || 1,
+      Number(req.query.pageSize) || 10,
+      providers.count
+    )
+    // return response.data(res, providers);
+  } catch (err) {
+    log.error(err)
+    log.end()
+    return response.failure(res, err.message)
+  }
+}
+
 exports.create = create
 exports.list = list
 exports.update = update
@@ -401,3 +423,4 @@ exports.saveProvider = saveProvider;
 exports.freeTrail = freeTrail;
 exports.searchCreateModifiedDate = searchCreateModifiedDate;
 exports.getByUsername = getByUsername;
+exports.activePrograms = activePrograms;
