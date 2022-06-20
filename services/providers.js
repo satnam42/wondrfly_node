@@ -1197,6 +1197,22 @@ const histogram = async (query, context) => {
     return data
 
   }
+  if (query.period == 'semiYear') {
+    let data = [];
+    let current = moment(new Date()).format('YYYY-MM-DD')
+    let third = moment(new Date()).subtract(6, 'month').format('YYYY-MM-DD')
+    let second = moment(new Date()).subtract(12, 'month').format('YYYY-MM-DD')
+    let first = moment(new Date()).subtract(18, 'month').format('YYYY-MM-DD')
+    let compute
+    compute = await db.user.find({ createdOn: { $gte: moment(first).format('YYYY-MM-DD'), $lt: moment(second).format('YYYY-MM-DD'), }, role: "provider" }).count()
+    data.push({ semiYear: 1, count: compute, period: moment(first).format('YYYY-MM-DD'), end: moment(second).format('YYYY-MM-DD') })
+    compute = await db.user.find({ createdOn: { $gte: moment(second).format('YYYY-MM-DD'), $lt: moment(third).format('YYYY-MM-DD'), }, role: "provider" }).count()
+    data.push({ semiYear: 2, count: compute, period: moment(second).format('YYYY-MM-DD'), end: moment(third).format('YYYY-MM-DD') })
+    compute = await db.user.find({ createdOn: { $gte: moment(third).format('YYYY-MM-DD'), $lt: moment(current).format('YYYY-MM-DD'), }, role: "provider" }).count()
+    data.push({ semiYear: 3, count: compute, period: moment(third).format('YYYY-MM-DD'), end: moment(current).format('YYYY-MM-DD') })
+    log.end()
+    return data
+  }
   if (query.period == 'year') {
     let data = [];
     let current = moment(new Date()).format('YYYY-MM-DD')

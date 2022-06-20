@@ -1319,7 +1319,7 @@ module.exports = [
         {
           in: 'query',
           name: 'period',
-          description: 'week, month, quarter, year',
+          description: 'week, month, quarter, semiYear, year',
           type: 'string',
         },
         {
