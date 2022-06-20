@@ -2521,6 +2521,53 @@ const bulkPublishOrUnpublish = async (model, context) => {
   if (model.isPublished) { return "published" }
   else { return "unpublished" }
 }
+
+const getExpiredByProvider = async (query, context) => {
+  const log = context.logger.start(`services:programs:getExpiredByProvider`)
+  let pageNo = Number(query.pageNo) || 1
+  let pageSize = Number(query.pageSize) || 10
+  let skipCount = pageSize * (pageNo - 1)
+  if (!query.userId) {
+    throw new Error('userId is  required')
+  }
+  let user = await db.user.findById(query.userId)
+  if (!user) {
+    throw new Error(
+      'provider not found, So without provider programs not possible'
+    )
+  }
+  // let programs = await db.program.find({ user: query.userId }).sort({ createdOn: -1 }).populate('tags').skip(skipCount).limit(pageSize);
+  const programs = await db.program.aggregate([
+    {
+      $match: {
+        user: ObjectId(query.userId),
+        isExpired: true
+      },
+    },
+    {
+      $lookup: {
+        from: 'categories',
+        localField: 'categoryId',
+        foreignField: '_id',
+        as: 'categoryId',
+      },
+    },
+    {
+      $lookup: {
+        from: 'providers',
+        localField: 'user',
+        foreignField: 'user',
+        as: 'provider',
+      },
+    },
+    { $limit: pageSize + skipCount },
+    { $skip: skipCount },
+  ])
+  programs.count = await db.program.find({ user: query.userId, isExpired: true }).count()
+  log.end()
+  return programs
+}
+
 exports.create = create
 exports.getAllprograms = getAllprograms
 exports.update = update
@@ -2559,3 +2606,4 @@ exports.groupPublishOrUnpublish = groupPublishOrUnpublish;
 exports.freeTrail = freeTrail;
 exports.getProgramsByUser = getProgramsByUser;
 exports.bulkPublishOrUnpublish = bulkPublishOrUnpublish;
+exports.getExpiredByProvider = getExpiredByProvider;

@@ -566,6 +566,20 @@ const bulkPublishOrUnpublish = async (req, res) => {
         return response.failure(res, err.message);
     }
 };
+
+const expiredByProvider = async (req, res) => {
+    const log = req.context.logger.start(`api:programs:expiredByProvider:${req.query.userId}`);
+    try {
+        const programs = await service.getExpiredByProvider(req.query, req.context);
+        log.end();
+        return response.data(res, mapper.toSearchModel(programs));
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 exports.create = create;
 exports.list = list;
 exports.update = update;
@@ -605,3 +619,4 @@ exports.groupPublishOrUnpublish = groupPublishOrUnpublish;
 exports.freeTrail = freeTrail;
 exports.programsByUser = programsByUser;
 exports.bulkPublishOrUnpublish = bulkPublishOrUnpublish;
+exports.expiredByProvider = expiredByProvider;

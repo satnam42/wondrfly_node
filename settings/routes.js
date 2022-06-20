@@ -878,6 +878,11 @@ const configure = (app, logger) => {
     permit.context.builder,
     api.programs.bulkPublishOrUnpublish
   );
+  app.get(
+    '/api/programs/expiredByProvider',
+    permit.context.builder,
+    api.programs.expiredByProvider
+  );
   //=============favourites api=====================//
   app.post(
     '/api/favourites/add',

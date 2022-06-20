@@ -1500,5 +1500,51 @@ module.exports = [
         },
       },
     },
+  },
+  {
+    url: '/expiredByProvider',
+    get: {
+      summary: 'expiredByProvider',
+      description: 'expired program by Provider id',
+      parameters: [
+        {
+          in: 'query',
+          name: 'userId',
+          description: 'user id',
+          required: true,
+          type: 'string',
+        },
+        {
+          in: 'query',
+          type: 'integer',
+          name: 'pageNo',
+          description: 'pageNo',
+          required: true,
+        },
+        {
+          in: 'query',
+          type: 'integer',
+          name: 'pageSize',
+          description: 'pageSize',
+          required: true,
+        },
+        // {
+        //     in: "header",
+        //     name: "x-access-token",
+        //     description: "token to access api",
+        //     required: true,
+        //     type: "string"
+        // }
+      ],
+
+      responses: {
+        default: {
+          description: 'Unexpected error',
+          schema: {
+            $ref: '#/definitions/Error',
+          },
+        },
+      },
+    },
   }
 ]
