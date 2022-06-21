@@ -545,8 +545,16 @@ const programsByUser = async (req, res) => {
     const log = req.context.logger.start(`api:programs:programsByUser:${req.query.userId}`);
     try {
         const programs = await service.getProgramsByUser(req.query, req.context);
+        let message = programs.count ? programs.count : 0 + " " + "programs Got";
         log.end();
-        return response.data(res, mapper.toSearchModel(programs));
+        return response.page(
+            message,
+            res,
+            mapper.toSearchModel(programs),
+            Number(req.query.pageNo) || 1,
+            Number(req.query.pageSize) || 10,
+            programs.count
+        );
     } catch (err) {
         log.error(err);
         log.end();
@@ -571,8 +579,16 @@ const expiredByProvider = async (req, res) => {
     const log = req.context.logger.start(`api:programs:expiredByProvider:${req.query.userId}`);
     try {
         const programs = await service.getExpiredByProvider(req.query, req.context);
+        let message = programs.count ? programs.count : 0 + " " + "programs Got";
         log.end();
-        return response.data(res, mapper.toSearchModel(programs));
+        return response.page(
+            message,
+            res,
+            mapper.toSearchModel(programs),
+            Number(req.query.pageNo) || 1,
+            Number(req.query.pageSize) || 10,
+            programs.count
+        );
     } catch (err) {
         log.error(err);
         log.end();
