@@ -1592,7 +1592,7 @@ module.exports = [
           description: 'Model of expire program in bulk',
           required: true,
           schema: {
-            $ref: '#/definitions/bulkPublish',
+            $ref: '#/definitions/bulkExpire',
           },
         },
         {
