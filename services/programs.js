@@ -2480,6 +2480,27 @@ const getProgramsByUser = async (query, context) => {
         as: 'provider',
       },
     },
+    {
+      $lookup: {
+        from: "tags",
+        let: { "subCategoryIds": "$subCategoryIds" },
+        // pipeline: [
+        //   { "$match": { "$expr": { "$in": ["$_id", "$$subCategoryIds"] } } }
+        // ],
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  { $in: ['$_id', { $ifNull: ['$$subCategoryIds', []] }] },
+                ]
+              }
+            }
+          }
+        ],
+        as: "subCategoryIds"
+      }
+    },
     { $limit: pageSize + skipCount },
     { $skip: skipCount },
   ])
