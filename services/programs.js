@@ -2610,6 +2610,28 @@ const getExpiredByProvider = async (query, context) => {
   return programs
 }
 
+const bulkExpire = async (model, context) => {
+  const log = context.logger.start(`services:providers:bulkExpire`)
+  if (context.user.role == 'parent') {
+    throw new Error('you are not authorized to perform this operation')
+  }
+  if (model.programIds.length <= 0) {
+    throw new Error('program ids are required in order to expire program')
+  }
+  if (model.programIds.length > 0) {
+    for (let id of model.programIds) {
+      let program = await db.program.findById(id)
+      program.isPublished = false
+      program.isExpired = true
+      program.updatedOn = new Date()
+      await program.save()
+    }
+  }
+  log.end()
+  return "programs expired successfully"
+}
+
+
 exports.create = create
 exports.getAllprograms = getAllprograms
 exports.update = update
@@ -2649,3 +2671,4 @@ exports.freeTrail = freeTrail;
 exports.getProgramsByUser = getProgramsByUser;
 exports.bulkPublishOrUnpublish = bulkPublishOrUnpublish;
 exports.getExpiredByProvider = getExpiredByProvider;
+exports.bulkExpire = bulkExpire;

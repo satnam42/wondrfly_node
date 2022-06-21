@@ -1546,5 +1546,71 @@ module.exports = [
         },
       },
     },
+  },
+  {
+    url: '/bulkPublishOrUnpublish',
+    post: {
+      summary: 'publish programs in bulk',
+      description: 'publish programs in bulk',
+      parameters: [
+        {
+          in: 'body',
+          name: 'body',
+          description: 'Model of publish program in bulk',
+          required: true,
+          schema: {
+            $ref: '#/definitions/bulkPublish',
+          },
+        },
+        {
+          in: 'header',
+          name: 'x-access-token',
+          description: 'token to access api',
+          required: true,
+          type: 'string',
+        }
+      ],
+      responses: {
+        default: {
+          description: 'Unexpected error',
+          schema: {
+            $ref: '#/definitions/Error',
+          },
+        },
+      },
+    },
+  },
+  {
+    url: '/bulkExpire',
+    post: {
+      summary: 'expire programs in bulk',
+      description: 'expire programs in bulk',
+      parameters: [
+        {
+          in: 'body',
+          name: 'body',
+          description: 'Model of expire program in bulk',
+          required: true,
+          schema: {
+            $ref: '#/definitions/bulkPublish',
+          },
+        },
+        {
+          in: 'header',
+          name: 'x-access-token',
+          description: 'token to access api',
+          required: true,
+          type: 'string',
+        }
+      ],
+      responses: {
+        default: {
+          description: 'Unexpected error',
+          schema: {
+            $ref: '#/definitions/Error',
+          },
+        },
+      },
+    },
   }
 ]

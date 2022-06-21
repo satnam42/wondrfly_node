@@ -883,6 +883,12 @@ const configure = (app, logger) => {
     permit.context.builder,
     api.programs.expiredByProvider
   );
+  app.post(
+    '/api/programs/bulkExpire',
+    permit.context.builder,
+    api.programs.bulkExpire
+  );
+
   //=============favourites api=====================//
   app.post(
     '/api/favourites/add',

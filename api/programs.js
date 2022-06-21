@@ -545,16 +545,8 @@ const programsByUser = async (req, res) => {
     const log = req.context.logger.start(`api:programs:programsByUser:${req.query.userId}`);
     try {
         const programs = await service.getProgramsByUser(req.query, req.context);
-        let message = programs.count ? programs.count : 0 + " " + "programs Got";
         log.end();
-        return response.page(
-            message,
-            res,
-            mapper.toSearchModel(programs),
-            Number(req.query.pageNo) || 1,
-            Number(req.query.pageSize) || 10,
-            programs.count
-        );
+        return response.data(res, mapper.toSearchModel(programs));
     } catch (err) {
         log.error(err);
         log.end();
@@ -579,16 +571,21 @@ const expiredByProvider = async (req, res) => {
     const log = req.context.logger.start(`api:programs:expiredByProvider:${req.query.userId}`);
     try {
         const programs = await service.getExpiredByProvider(req.query, req.context);
-        let message = programs.count ? programs.count : 0 + " " + "programs Got";
         log.end();
-        return response.page(
-            message,
-            res,
-            mapper.toSearchModel(programs),
-            Number(req.query.pageNo) || 1,
-            Number(req.query.pageSize) || 10,
-            programs.count
-        );
+        return response.data(res, mapper.toSearchModel(programs));
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
+const bulkExpire = async (req, res) => {
+    const log = req.context.logger.start(`api:programs:bulkExpire`);
+    try {
+        const program = await service.bulkExpire(req.body, req.context);
+        log.end();
+        return response.data(res, program);
     } catch (err) {
         log.error(err);
         log.end();
@@ -636,3 +633,4 @@ exports.freeTrail = freeTrail;
 exports.programsByUser = programsByUser;
 exports.bulkPublishOrUnpublish = bulkPublishOrUnpublish;
 exports.expiredByProvider = expiredByProvider;
+exports.bulkExpire = bulkExpire
