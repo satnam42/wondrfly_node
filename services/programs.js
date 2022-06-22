@@ -2284,20 +2284,28 @@ const histogram = async (query, context) => {
     let second = moment(Month).subtract(42, 'days').format('YYYY-MM-DD')
     let first = moment(Month).subtract(49, 'days').format('YYYY-MM-DD')
     let compute
+    let computeUpdated
     compute = await db.program.find({ createdOn: { $gte: first, $lt: second, } }).count()
-    data.push({ week: 1, count: compute, start: first, end: second })
+    computeUpdated = await db.program.find({ updatedOn: { $gte: first, $lt: second, } }).count()
+    data.push({ week: 1, count: compute, updatedCount: computeUpdated, start: first, end: second })
     compute = await db.program.find({ createdOn: { $gte: second, $lt: third, } }).count()
-    data.push({ week: 2, count: compute, start: second, end: third })
+    computeUpdated = await db.program.find({ updatedOn: { $gte: second, $lt: third, } }).count()
+    data.push({ week: 2, count: compute, updatedCount: computeUpdated, start: second, end: third })
     compute = await db.program.find({ createdOn: { $gte: third, $lt: fourth, } }).count()
-    data.push({ week: 3, count: compute, start: third, end: fourth })
+    computeUpdated = await db.program.find({ updatedOn: { $gte: third, $lt: fourth, } }).count()
+    data.push({ week: 3, count: compute, updatedCount: computeUpdated, start: third, end: fourth })
     compute = await db.program.find({ createdOn: { $gte: fourth, $lt: fifth, } }).count()
-    data.push({ week: 4, count: compute, start: fourth, end: fifth })
+    computeUpdated = await db.program.find({ updatedOn: { $gte: fourth, $lt: fifth, } }).count()
+    data.push({ week: 4, count: compute, updatedCount: computeUpdated, start: fourth, end: fifth })
     compute = await db.program.find({ createdOn: { $gte: fifth, $lt: six, } }).count()
-    data.push({ week: 5, count: compute, start: fifth, end: six })
+    computeUpdated = await db.program.find({ updatedOn: { $gte: fifth, $lt: six, } }).count()
+    data.push({ week: 5, count: compute, updatedCount: computeUpdated, start: fifth, end: six })
     compute = await db.program.find({ createdOn: { $gte: six, $lt: seven, } }).count()
-    data.push({ week: 6, count: compute, start: six, end: seven })
+    computeUpdated = await db.program.find({ updatedOn: { $gte: six, $lt: seven, } }).count()
+    data.push({ week: 6, count: compute, updatedCount: computeUpdated, start: six, end: seven })
     compute = await db.program.find({ createdOn: { $gte: seven, $lt: Month, } }).count()
-    data.push({ week: 7, count: compute, start: seven, end: Month })
+    computeUpdated = await db.program.find({ updatedOn: { $gte: seven, $lt: Month, } }).count()
+    data.push({ week: 7, count: compute, updatedCount: computeUpdated, start: seven, end: Month })
     log.end()
     return data
   }
@@ -2311,19 +2319,33 @@ const histogram = async (query, context) => {
     let second = moment(new Date()).subtract(5, 'M').format('YYYY-MM-DD')
     let first = moment(new Date()).subtract(6, 'M').format('YYYY-MM-DD')
     let compute
+    let computeUpdated
     compute = await db.program.find({ createdOn: { $gte: moment(first).startOf('month').format('YYYY-MM-DD'), $lt: moment(first).endOf('month').format('YYYY-MM-DD'), } }).count()
-    data.push({ month: 1, count: compute, period: moment(first).startOf('month').format('YYYY-MM-DD') })
+    computeUpdated = await db.program.find({ updatedOn: { $gte: moment(first).startOf('month').format('YYYY-MM-DD'), $lt: moment(first).endOf('month').format('YYYY-MM-DD'), } }).count()
+    data.push({ month: 1, count: compute, updatedCount: computeUpdated, period: moment(first).startOf('month').format('YYYY-MM-DD') })
     compute = await db.program.find({ createdOn: { $gte: moment(second).startOf('month').format('YYYY-MM-DD'), $lt: moment(second).endOf('month').format('YYYY-MM-DD'), } }).count()
-    data.push({ month: 2, count: compute, period: moment(second).startOf('month').format('YYYY-MM-DD') })
+    computeUpdated = await db.program.find({ updatedOn: { $gte: moment(second).startOf('month').format('YYYY-MM-DD'), $lt: moment(second).endOf('month').format('YYYY-MM-DD'), } }).count()
+
+    data.push({ month: 2, count: compute, updatedCount: computeUpdated, period: moment(second).startOf('month').format('YYYY-MM-DD') })
     compute = await db.program.find({ createdOn: { $gte: moment(third).startOf('month').format('YYYY-MM-DD'), $lt: moment(third).endOf('month').format('YYYY-MM-DD'), } }).count()
-    data.push({ month: 3, count: compute, period: moment(third).startOf('month').format('YYYY-MM-DD') })
+    computeUpdated = await db.program.find({ updatedOn: { $gte: moment(third).startOf('month').format('YYYY-MM-DD'), $lt: moment(third).endOf('month').format('YYYY-MM-DD'), } }).count()
+
+    data.push({ month: 3, count: compute, updatedCount: computeUpdated, period: moment(third).startOf('month').format('YYYY-MM-DD') })
     compute = await db.program.find({ createdOn: { $gte: moment(fourth).startOf('month').format('YYYY-MM-DD'), $lt: moment(fourth).endOf('month').format('YYYY-MM-DD'), } }).count()
-    data.push({ month: 4, count: compute, period: moment(fourth).startOf('month').format('YYYY-MM-DD') })
+    computeUpdated = await db.program.find({ updatedOn: { $gte: moment(fourth).startOf('month').format('YYYY-MM-DD'), $lt: moment(fourth).endOf('month').format('YYYY-MM-DD'), } }).count()
+
+    data.push({ month: 4, count: compute, updatedCount: computeUpdated, period: moment(fourth).startOf('month').format('YYYY-MM-DD') })
     compute = await db.program.find({ createdOn: { $gte: moment(fifth).startOf('month').format('YYYY-MM-DD'), $lt: moment(fifth).endOf('month').format('YYYY-MM-DD'), } }).count()
-    data.push({ month: 5, count: compute, period: moment(fifth).startOf('month').format('YYYY-MM-DD') })
+    computeUpdated = await db.program.find({ updatedOn: { $gte: moment(fifth).startOf('month').format('YYYY-MM-DD'), $lt: moment(fifth).endOf('month').format('YYYY-MM-DD'), } }).count()
+
+    data.push({ month: 5, count: compute, updatedCount: computeUpdated, period: moment(fifth).startOf('month').format('YYYY-MM-DD') })
     compute = await db.program.find({ createdOn: { $gte: moment(six).startOf('month').format('YYYY-MM-DD'), $lt: moment(six).endOf('month').format('YYYY-MM-DD'), } }).count()
-    data.push({ month: 6, count: compute, period: moment(six).startOf('month').format('YYYY-MM-DD') })
+    computeUpdated = await db.program.find({ updatedOn: { $gte: moment(six).startOf('month').format('YYYY-MM-DD'), $lt: moment(six).endOf('month').format('YYYY-MM-DD'), } }).count()
+
+    data.push({ month: 6, count: compute, updatedCount: computeUpdated, period: moment(six).startOf('month').format('YYYY-MM-DD') })
     compute = await db.program.find({ createdOn: { $gte: moment(seven).startOf('month').format('YYYY-MM-DD'), $lt: moment(seven).endOf('month').format('YYYY-MM-DD'), } }).count()
+    computeUpdated = await db.program.find({ updatedOn: { $gte: moment(seven).startOf('month').format('YYYY-MM-DD'), $lt: moment(seven).endOf('month').format('YYYY-MM-DD'), } }).count()
+
     data.push({ month: 7, count: compute, period: moment(seven).startOf('month').format('YYYY-MM-DD') })
     log.end()
     return data
@@ -2339,20 +2361,35 @@ const histogram = async (query, context) => {
     let second = moment(new Date()).subtract(18, 'M').format('YYYY-MM-DD')
     let first = moment(new Date()).subtract(21, 'M').format('YYYY-MM-DD')
     let compute
+    let computeUpdated
     compute = await db.program.find({ createdOn: { $gte: moment(first).format('YYYY-MM-DD'), $lt: moment(second).format('YYYY-MM-DD'), } }).count()
-    data.push({ Quarter: 1, count: compute, period: moment(first).format('YYYY-MM-DD'), end: moment(second).format('YYYY-MM-DD') })
+    computeUpdated = await db.program.find({ updatedOn: { $gte: moment(first).format('YYYY-MM-DD'), $lt: moment(second).format('YYYY-MM-DD'), } }).count()
+
+    data.push({ Quarter: 1, count: compute, updatedCount: computeUpdated, period: moment(first).format('YYYY-MM-DD'), end: moment(second).format('YYYY-MM-DD') })
     compute = await db.program.find({ createdOn: { $gte: moment(second).format('YYYY-MM-DD'), $lt: moment(third).format('YYYY-MM-DD'), } }).count()
-    data.push({ Quarter: 2, count: compute, period: moment(second).format('YYYY-MM-DD'), end: moment(third).format('YYYY-MM-DD') })
+    computeUpdated = await db.program.find({ updatedOn: { $gte: moment(second).format('YYYY-MM-DD'), $lt: moment(third).format('YYYY-MM-DD'), } }).count()
+
+    data.push({ Quarter: 2, count: compute, updatedCount: computeUpdated, period: moment(second).format('YYYY-MM-DD'), end: moment(third).format('YYYY-MM-DD') })
     compute = await db.program.find({ createdOn: { $gte: moment(third).format('YYYY-MM-DD'), $lt: moment(fourth).format('YYYY-MM-DD'), } }).count()
-    data.push({ Quarter: 3, count: compute, period: moment(third).format('YYYY-MM-DD'), end: moment(fourth).format('YYYY-MM-DD') })
+    computeUpdated = await db.program.find({ updatedOn: { $gte: moment(third).format('YYYY-MM-DD'), $lt: moment(fourth).format('YYYY-MM-DD'), } }).count()
+
+    data.push({ Quarter: 3, count: compute, updatedCount: computeUpdated, period: moment(third).format('YYYY-MM-DD'), end: moment(fourth).format('YYYY-MM-DD') })
     compute = await db.program.find({ createdOn: { $gte: moment(fourth).format('YYYY-MM-DD'), $lt: moment(fifth).format('YYYY-MM-DD'), } }).count()
-    data.push({ Quarter: 4, count: compute, period: moment(fourth).format('YYYY-MM-DD'), end: moment(fifth).format('YYYY-MM-DD') })
+    computeUpdated = await db.program.find({ updatedOn: { $gte: moment(fourth).format('YYYY-MM-DD'), $lt: moment(fifth).format('YYYY-MM-DD'), } }).count()
+
+    data.push({ Quarter: 4, count: compute, updatedCount: computeUpdated, period: moment(fourth).format('YYYY-MM-DD'), end: moment(fifth).format('YYYY-MM-DD') })
     compute = await db.program.find({ createdOn: { $gte: moment(fifth).format('YYYY-MM-DD'), $lt: moment(six).format('YYYY-MM-DD'), } }).count()
-    data.push({ Quarter: 5, count: compute, period: moment(fifth).format('YYYY-MM-DD'), end: moment(six).format('YYYY-MM-DD') })
+    computeUpdated = await db.program.find({ updatedOn: { $gte: moment(fifth).format('YYYY-MM-DD'), $lt: moment(six).format('YYYY-MM-DD'), } }).count()
+
+    data.push({ Quarter: 5, count: compute, updatedCount: computeUpdated, period: moment(fifth).format('YYYY-MM-DD'), end: moment(six).format('YYYY-MM-DD') })
     compute = await db.program.find({ createdOn: { $gte: moment(six).format('YYYY-MM-DD'), $lt: moment(seven).format('YYYY-MM-DD'), } }).count()
-    data.push({ Quarter: 6, count: compute, period: moment(six).format('YYYY-MM-DD'), end: moment(seven).format('YYYY-MM-DD') })
+    computeUpdated = await db.program.find({ updatedOn: { $gte: moment(six).format('YYYY-MM-DD'), $lt: moment(seven).format('YYYY-MM-DD'), } }).count()
+
+    data.push({ Quarter: 6, count: compute, updatedCount: computeUpdated, period: moment(six).format('YYYY-MM-DD'), end: moment(seven).format('YYYY-MM-DD') })
     compute = await db.program.find({ createdOn: { $gte: moment(seven).format('YYYY-MM-DD'), $lt: moment(eight).format('YYYY-MM-DD'), } }).count()
-    data.push({ Quarter: 7, count: compute, period: moment(seven).format('YYYY-MM-DD'), end: moment(eight).format('YYYY-MM-DD') })
+    computeUpdated = await db.program.find({ updatedOn: { $gte: moment(seven).format('YYYY-MM-DD'), $lt: moment(eight).format('YYYY-MM-DD'), } }).count()
+
+    data.push({ Quarter: 7, count: compute, updatedCount: computeUpdated, period: moment(seven).format('YYYY-MM-DD'), end: moment(eight).format('YYYY-MM-DD') })
     log.end()
     return data
 
@@ -2364,12 +2401,19 @@ const histogram = async (query, context) => {
     let second = moment(new Date()).subtract(12, 'month').format('YYYY-MM-DD')
     let first = moment(new Date()).subtract(18, 'month').format('YYYY-MM-DD')
     let compute
+    let computeUpdated
     compute = await db.program.find({ createdOn: { $gte: moment(first).format('YYYY-MM-DD'), $lt: moment(second).format('YYYY-MM-DD'), } }).count()
-    data.push({ semiYear: 1, count: compute, period: moment(first).format('YYYY-MM-DD'), end: moment(second).format('YYYY-MM-DD') })
+    computeUpdated = await db.program.find({ updatedOn: { $gte: moment(first).format('YYYY-MM-DD'), $lt: moment(second).format('YYYY-MM-DD'), } }).count()
+
+    data.push({ semiYear: 1, count: compute, updatedCount: computeUpdated, period: moment(first).format('YYYY-MM-DD'), end: moment(second).format('YYYY-MM-DD') })
     compute = await db.program.find({ createdOn: { $gte: moment(second).format('YYYY-MM-DD'), $lt: moment(third).format('YYYY-MM-DD'), } }).count()
-    data.push({ semiYear: 2, count: compute, period: moment(second).format('YYYY-MM-DD'), end: moment(third).format('YYYY-MM-DD') })
+    computeUpdated = await db.program.find({ updatedOn: { $gte: moment(second).format('YYYY-MM-DD'), $lt: moment(third).format('YYYY-MM-DD'), } }).count()
+
+    data.push({ semiYear: 2, count: compute, updatedCount: computeUpdated, period: moment(second).format('YYYY-MM-DD'), end: moment(third).format('YYYY-MM-DD') })
     compute = await db.program.find({ createdOn: { $gte: moment(third).format('YYYY-MM-DD'), $lt: moment(current).format('YYYY-MM-DD'), } }).count()
-    data.push({ semiYear: 3, count: compute, period: moment(third).format('YYYY-MM-DD'), end: moment(current).format('YYYY-MM-DD') })
+    computeUpdated = await db.program.find({ updatedOn: { $gte: moment(third).format('YYYY-MM-DD'), $lt: moment(current).format('YYYY-MM-DD'), } }).count()
+
+    data.push({ semiYear: 3, count: compute, updatedCount: computeUpdated, period: moment(third).format('YYYY-MM-DD'), end: moment(current).format('YYYY-MM-DD') })
     log.end()
     return data
   }
@@ -2378,10 +2422,16 @@ const histogram = async (query, context) => {
     let current = moment(new Date()).format('YYYY-MM-DD')
     let previous = moment(new Date()).subtract(1, 'year').format('YYYY-MM-DD')
     let compute
+    let computeUpdated
+
     compute = await db.program.find({ createdOn: { $gte: moment(previous).startOf('year').format('YYYY-MM-DD'), $lt: moment(previous).endOf('year').format('YYYY-MM-DD'), } }).count()
-    data.push({ year: 1, count: compute, period: moment(previous).format('YYYY') })
+    computeUpdated = await db.program.find({ updatedOn: { $gte: moment(previous).startOf('year').format('YYYY-MM-DD'), $lt: moment(previous).endOf('year').format('YYYY-MM-DD'), } }).count()
+
+    data.push({ year: 1, count: compute, updatedCount: computeUpdated, period: moment(previous).format('YYYY') })
     compute = await db.program.find({ createdOn: { $gte: moment(current).startOf('year').format('YYYY-MM-DD'), $lt: moment(current).endOf('year').format('YYYY-MM-DD'), } }).count()
-    data.push({ year: 2, count: compute, period: moment(current).format('YYYY') })
+    computeUpdated = await db.program.find({ updatedOn: { $gte: moment(current).startOf('year').format('YYYY-MM-DD'), $lt: moment(current).endOf('year').format('YYYY-MM-DD'), } }).count()
+
+    data.push({ year: 2, count: compute, updatedCount: computeUpdated, period: moment(current).format('YYYY') })
     log.end()
     return data
   }
