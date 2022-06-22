@@ -326,6 +326,7 @@ const build = async (model, context) => {
     last_reviewed: model.last_reviewed,
     cycle_time: model.cycle_time,
     proof_reader_notes: model.proof_reader_notes,
+    addedBy: context.user.id,
     createdOn: new Date(),
     updateOn: new Date(),
   }).save()

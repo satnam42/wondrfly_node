@@ -194,6 +194,7 @@ const setProviderDetail = async (model, provider, context) => {
 
 
   provider.updateOn = new Date()
+  provider.lastModifiedBy = context.user.id
   log.end()
   await provider.save()
   // const provider = await setproviderDetail(model, entity, context);

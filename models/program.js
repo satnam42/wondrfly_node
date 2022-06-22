@@ -146,6 +146,10 @@ const programSchema = mongoose.Schema({
   last_reviewed: { type: Date, default: '' },
   cycle_time: { type: Number, default: 0 },
   proof_reader_notes: { type: String, default: '' },
+  addedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user'
+  },
   createdOn: { type: Date, default: Date.now },
   updatedOn: { type: Date, default: Date.now },
 })

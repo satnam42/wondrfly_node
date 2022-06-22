@@ -22,6 +22,10 @@ const provider = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
   },
+  lastModifiedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user'
+  },
   county: { type: String, default: '' },
   about: { type: String, default: '' },
   bio: { type: String, default: '' },
