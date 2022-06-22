@@ -228,6 +228,9 @@ const setBasicInfo = async (model, user, context) => {
   if (model.userName !== 'string' && model.userName !== undefined) {
     user.userName = model.userName
   }
+  if (model.email !== 'string' && model.email !== undefined) {
+    user.email = model.email
+  }
   if (model.sex !== 'string' && model.sex !== undefined) {
     user.sex = model.sex
   }
