@@ -229,6 +229,13 @@ module.exports = [
       last_reviewed: { type: 'date' },
       cycle_time: { type: 'number' },
       proof_reader_notes: { type: 'string' },
+      isParentJoin: { type: 'boolean' },
+      privateOrGroup: { type: 'string' },
+      maxTravelDistance: { type: 'number' },
+      instructor: { type: 'string' },
+      totalSessionClasses: { type: 'number' },
+      offerDiscount: { type: 'string' },
+      isParentGuardianRequire: { type: 'boolean' },
     },
   },
 ]

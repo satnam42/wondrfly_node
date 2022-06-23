@@ -150,6 +150,13 @@ const programSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user'
   },
+  isParentJoin: { type: Boolean, default: false },
+  privateOrGroup: { type: String, default: '' },
+  maxTravelDistance: { type: Number, default: 0 },
+  instructor: { type: String, default: '' },
+  totalSessionClasses: { type: Number, default: 0 },
+  offerDiscount: { type: String, default: '' },
+  isParentGuardianRequire: { type: Boolean, default: false },
   createdOn: { type: Date, default: Date.now },
   updatedOn: { type: Date, default: Date.now },
 })
