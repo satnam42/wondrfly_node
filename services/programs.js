@@ -334,6 +334,8 @@ const build = async (model, context) => {
     totalSessionClasses: model.totalSessionClasses,
     offerDiscount: model.offerDiscount,
     isParentGuardianRequire: model.isParentGuardianRequire,
+    phoneNumber: model.phoneNumber,
+    zip: model.zip,
     createdOn: new Date(),
     updateOn: new Date(),
   }).save()
@@ -593,6 +595,13 @@ const set = async (model, program, context) => {
   if (model.isParentGuardianRequire !== 'string' && model.isParentGuardianRequire !== undefined) {
     program.isParentGuardianRequire = model.isParentGuardianRequire
   }
+  if (model.phoneNumber !== 'string' && model.phoneNumber !== undefined) {
+    program.phoneNumber = model.phoneNumber
+  }
+  if (model.zip !== 'string' && model.zip !== undefined) {
+    program.zip = model.zip
+  }
+
   program.isproRated = model.isproRated
   program.isExpired = model.isExpired
   program.lastModifiedBy = context.user.id

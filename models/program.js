@@ -157,6 +157,8 @@ const programSchema = mongoose.Schema({
   totalSessionClasses: { type: Number, default: 0 },
   offerDiscount: { type: String, default: '' },
   isParentGuardianRequire: { type: Boolean, default: false },
+  phoneNumber: { type: String, default: '' },
+  zip: { type: String, default: '' },
   createdOn: { type: Date, default: Date.now },
   updatedOn: { type: Date, default: Date.now },
 })

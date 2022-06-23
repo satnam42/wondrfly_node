@@ -236,6 +236,8 @@ module.exports = [
       totalSessionClasses: { type: 'number' },
       offerDiscount: { type: 'string' },
       isParentGuardianRequire: { type: 'boolean' },
+      phoneNumber: { type: 'string' },
+      zip: { type: 'string' }
     },
   },
 ]
