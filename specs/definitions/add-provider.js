@@ -50,6 +50,10 @@ module.exports = [
       isAmbassador: {
         type: 'boolean',
       },
+      location: {
+        type: 'string'
+      },
+      zipCode: { type: 'string' },
       lat: {
         type: 'string',
       },

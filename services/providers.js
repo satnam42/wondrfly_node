@@ -54,6 +54,8 @@ const buildUser = async (model, context) => {
     isUserVerified: isVerified,
     street: model.street,
     state: model.state,
+    location: model.location,
+    zipCode: model.zipCode,
     lng: model.lng,
     lat: model.lat,
     // source: model.source,
@@ -270,6 +272,9 @@ const setBasicInfo = async (model, user, context) => {
   }
   if (model.zipCode !== 'string' && model.zipCode !== undefined) {
     user.zipCode = model.zipCode
+  }
+  if (model.location !== 'string' && model.location !== undefined) {
+    user.location = model.location
   }
   if (model.lat !== 'string' && model.lat !== undefined) {
     user.lat = model.lat

@@ -35,6 +35,9 @@ module.exports = [
       youtube: {
         type: 'string',
       },
+      location: {
+        type: 'string'
+      },
       lat: {
         type: 'string',
       },
