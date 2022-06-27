@@ -1612,5 +1612,34 @@ module.exports = [
         },
       },
     },
+  },
+  {
+    url: '/searchWithProviderId',
+    get: {
+      summary: 'search program for particular provider',
+      description: 'search program for particular provider',
+      parameters: [
+        {
+          in: 'query',
+          type: 'string',
+          name: 'name',
+          description: 'program name',
+        },
+        {
+          in: 'query',
+          type: 'string',
+          name: 'providerId',
+          description: 'provider id',
+        }
+      ],
+      responses: {
+        default: {
+          description: 'Unexpected error',
+          schema: {
+            $ref: '#/definitions/Error',
+          },
+        },
+      },
+    },
   }
 ]

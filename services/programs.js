@@ -2719,6 +2719,15 @@ const bulkExpire = async (model, context) => {
   return "programs expired successfully"
 }
 
+const searchWithProviderId = async (query, context) => {
+  const log = context.logger.start(`services:programs:searchWithProviderId`)
+  // keyType, keyValue
+  let program = await db.program
+    .find({ name: { $regex: '.*' + query.name + '.*', $options: 'i' }, user: ObjectId(query.providerId) })
+    .populate('user').populate('tags').populate('subCategoryIds').limit(20)
+  log.end()
+  return program
+}
 
 exports.create = create
 exports.getAllprograms = getAllprograms
@@ -2760,3 +2769,4 @@ exports.getProgramsByUser = getProgramsByUser;
 exports.bulkPublishOrUnpublish = bulkPublishOrUnpublish;
 exports.getExpiredByProvider = getExpiredByProvider;
 exports.bulkExpire = bulkExpire;
+exports.searchWithProviderId = searchWithProviderId;

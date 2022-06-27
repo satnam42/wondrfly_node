@@ -609,6 +609,19 @@ const bulkExpire = async (req, res) => {
     }
 };
 
+const searchWithProviderId = async (req, res) => {
+    const log = req.context.logger.start(`api:programs:searchWithProviderId`);
+    try {
+        const program = await service.searchWithProviderId(req.query, req.context);
+        log.end();
+        return response.data(res, mapper.toSearchModel(program));
+    } catch (err) {
+        log.error(err);
+        log.end();
+        return response.failure(res, err.message);
+    }
+};
+
 exports.create = create;
 exports.list = list;
 exports.update = update;
@@ -649,4 +662,5 @@ exports.freeTrail = freeTrail;
 exports.programsByUser = programsByUser;
 exports.bulkPublishOrUnpublish = bulkPublishOrUnpublish;
 exports.expiredByProvider = expiredByProvider;
-exports.bulkExpire = bulkExpire
+exports.bulkExpire = bulkExpire;
+exports.searchWithProviderId = searchWithProviderId;

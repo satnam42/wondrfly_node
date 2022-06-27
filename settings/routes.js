@@ -888,6 +888,11 @@ const configure = (app, logger) => {
     permit.context.builder,
     api.programs.bulkExpire
   );
+  app.get(
+    '/api/programs/searchWithProviderId',
+    permit.context.builder,
+    api.programs.searchWithProviderId
+  );
 
   //=============favourites api=====================//
   app.post(
