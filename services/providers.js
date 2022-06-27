@@ -1110,14 +1110,24 @@ const montclairProviders = async (query, context) => {
   let pageNo = Number(query.pageNo) || 1
   let pageSize = Number(query.pageSize) || 10
   let skipCount = pageSize * (pageNo - 1)
+  let finalProviders = []
   let providers = await db.user
     .find({ addressLine1: { $regex: '.*' + 'montclair' + '.*', $options: 'i' }, role: "provider" })
     .sort({ _id: -1 })
     .skip(skipCount)
     .limit(pageSize)
-  providers.count = await db.user.find({ addressLine1: { $regex: '.*' + 'montclair' + '.*', $options: 'i' }, role: "provider" }).count()
+  for (let provider of providers) {
+    let expired = await db.program.find({ user: ObjectId(provider._id), isExpired: true }).count()
+    let active = await db.program.find({ user: ObjectId(provider._id), isPublished: true }).count()
+    provider = provider.toJSON()
+    provider.expired = expired;
+    provider.active = active;
+    // console.log('provider =>', provider);
+    finalProviders.push(provider);
+  }
+  finalProviders.count = await db.user.find({ addressLine1: { $regex: '.*' + 'montclair' + '.*', $options: 'i' }, role: "provider" }).count()
   log.end()
-  return providers
+  return finalProviders
 }
 
 const histogram = async (query, context) => {

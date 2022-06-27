@@ -54,6 +54,8 @@ exports.toModel = (entity) => {
     notificationsOnOff: user.notificationsOnOff,
     securityQuestion: user.securityQuestion,
     isFreeTrial: user.isFreeTrial,
+    expiredPrograms: user.expired,
+    activePrograms: user.active,
     permissions: user.permissions || [],
     notices: entity.notifications ? entity.notifications : [],
     updatedOn: user.updatedOn,
