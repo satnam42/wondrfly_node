@@ -327,6 +327,15 @@ const build = async (model, context) => {
     cycle_time: model.cycle_time,
     proof_reader_notes: model.proof_reader_notes,
     addedBy: context.user.id,
+    isParentJoin: model.isParentJoin,
+    privateOrGroup: model.privateOrGroup,
+    maxTravelDistance: model.maxTravelDistance,
+    instructor: model.instructor,
+    totalSessionClasses: model.totalSessionClasses,
+    offerDiscount: model.offerDiscount,
+    isParentGuardianRequire: model.isParentGuardianRequire,
+    phoneNumber: model.phoneNumber,
+    zip: model.zip,
     createdOn: new Date(),
     updateOn: new Date(),
   }).save()
@@ -565,6 +574,34 @@ const set = async (model, program, context) => {
   if (model.proof_reader_notes !== 'string' && model.proof_reader_notes !== undefined) {
     program.proof_reader_notes = model.proof_reader_notes
   }
+  if (model.isParentJoin !== 'string' && model.isParentJoin !== undefined) {
+    program.isParentJoin = model.isParentJoin
+  }
+  if (model.privateOrGroup !== 'string' && model.privateOrGroup !== undefined) {
+    program.privateOrGroup = model.privateOrGroup
+  }
+  if (model.maxTravelDistance !== 'string' && model.maxTravelDistance !== undefined) {
+    program.maxTravelDistance = model.maxTravelDistance
+  }
+  if (model.instructor !== 'string' && model.instructor !== undefined) {
+    program.instructor = model.instructor
+  }
+  if (model.totalSessionClasses !== 'string' && model.totalSessionClasses !== undefined) {
+    program.totalSessionClasses = model.totalSessionClasses
+  }
+  if (model.offerDiscount !== 'string' && model.offerDiscount !== undefined) {
+    program.offerDiscount = model.offerDiscount
+  }
+  if (model.isParentGuardianRequire !== 'string' && model.isParentGuardianRequire !== undefined) {
+    program.isParentGuardianRequire = model.isParentGuardianRequire
+  }
+  if (model.phoneNumber !== 'string' && model.phoneNumber !== undefined) {
+    program.phoneNumber = model.phoneNumber
+  }
+  if (model.zip !== 'string' && model.zip !== undefined) {
+    program.zip = model.zip
+  }
+
   program.isproRated = model.isproRated
   program.isExpired = model.isExpired
   program.lastModifiedBy = context.user.id
