@@ -465,10 +465,13 @@ const search = async (name, context) => {
   let finalProvidersarry=[]
   for (let provider of providers) {
     let expired = await db.program.find({ user: ObjectId(provider._id), isExpired: true }).count()
-    let active = await db.program.find({ user: ObjectId(provider._id), isPublished: true }).count()
+    let active = await db.program.find({ user: ObjectId(provider._id), isExpired: false }).count()
+    let all = await db.program.find({ user: ObjectId(provider._id)}).count()
     provider = provider.toJSON()
     provider.expiredPrograms = expired;
     provider.activePrograms = active;
+    provider.allPrograms = all;
+
     // console.log('provider =>', provider);
     finalProvidersarry.push(provider);
   }
@@ -500,6 +503,10 @@ const addProvider = async (model, context) => {
   model.password = await encrypt.getHash(genPassword, context)
   const user = await buildUser(model, context)
   if (user.role == 'provider') {
+    console.log("user",context?.user)
+    console.log("provider model",model)
+    console.log("provider user",model)
+
     await new db.provider({
       user: user._id,
       alias: word ? word : '',
@@ -1129,10 +1136,12 @@ const montclairProviders = async (query, context) => {
     .limit(pageSize)
   for (let provider of providers) {
     let expired = await db.program.find({ user: ObjectId(provider._id), isExpired: true }).count()
-    let active = await db.program.find({ user: ObjectId(provider._id), isPublished: true }).count()
+    let active = await db.program.find({ user: ObjectId(provider._id), isExpired: false }).count()
+    let all = await db.program.find({ user: ObjectId(provider._id)}).count()
     provider = provider.toJSON()
-    provider.expired = expired;
-    provider.active = active;
+    provider.expiredPrograms = expired;
+    provider.activePrograms = active;
+    provider.allPrograms = all;
     // console.log('provider =>', provider);
     finalProviders.push(provider);
   }

@@ -554,8 +554,10 @@ const get = async (query, context) => {
       let finalusers=[];
       for (let user of users) {
         let expired = await db.program.find({ user: ObjectId(user.id), isExpired: true }).count() 
-        let active = await db.program.find({ user: ObjectId(user.id), isPublished: true }).count() 
+        let active = await db.program.find({ user: ObjectId(user.id), isExpired: false }).count() 
+        let all = await db.program.find({ user: ObjectId(user.id)}).count() 
         user = user.toJSON()
+        user.allPrograms=all
         user.expired = expired;
         user.active = active;
         finalusers.push(user);

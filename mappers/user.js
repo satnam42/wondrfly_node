@@ -8,6 +8,7 @@ exports.toModel = (entity) => {
   } else {
     user = entity
   }
+  console.log("user entity",entity)
   let model = {
     id: user.id || user._id,
     firstName: user.firstName,
@@ -56,6 +57,7 @@ exports.toModel = (entity) => {
     isFreeTrial: user.isFreeTrial,
     expiredPrograms: user.expired,
     activePrograms: user.active,
+    allPrograms:user.allPrograms,
     permissions: user.permissions || [],
     notices: entity.notifications ? entity.notifications : [],
     updatedOn: user.updatedOn,
@@ -91,7 +93,13 @@ exports.toModel = (entity) => {
       (model.source = entity.provider.source || ''),
       (model.sourceUrl = entity.provider.sourceUrl || ''),
       (model.categories = entity.provider.categories || ''),
-      (model.subCategoryIds = entity.provider.subCategoryIds || '')
+      (model.subCategoryIds = entity.provider.subCategoryIds || ''),
+      (model.cancellation_and_refund = entity.provider.cancellation_and_refund || ''),
+      (model.cycle_time = entity.provider.cycle_time || 0),
+      (model.proof_reader_notes = entity.provider.proof_reader_notes || ''),
+      (model.activeStatus = entity.provider.activeStatus || ''),
+      (model.addedBy = entity.provider.addedBy || "")
+
 
   }
 
