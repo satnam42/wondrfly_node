@@ -560,6 +560,8 @@ const get = async (query, context) => {
         user.active = active;
         finalusers.push(user);
       }
+      finalusers.count = await db.user.find({ role: query.role }).count();
+
      users =finalusers
 
     }
