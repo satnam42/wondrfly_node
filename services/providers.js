@@ -45,6 +45,7 @@ const buildUser = async (model, context) => {
     userName: model.userName,
     type: model.type || '',
     email: model.email,
+    createdByUser: context.user.id,
     phoneNumber: model.phoneNumber,
     secondaryPhonenumber: model.secondaryPhonenumber,
     password: model.password,
@@ -308,7 +309,7 @@ const setBasicInfo = async (model, user, context) => {
   }
   // user.lastModifiedBy = context.user.id
 
-  user.updateOn = new Date()
+  user.updatedOn = new Date()
   log.end()
   await user.save()
   // const provider = await setproviderDetail(model, entity, context);

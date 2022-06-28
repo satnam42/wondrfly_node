@@ -337,7 +337,7 @@ const setUser = (model, user, context) => {
   if (model.role !== 'string' && model.role !== undefined) {
     user.role = model.role;
   }
-
+  user.updatedOn= new Date()
   log.end();
   user.save();
   return user;
@@ -497,6 +497,7 @@ const get = async (query, context) => {
       .find({ role: query.role })
       .sort({ _id: -1 })
       .skip(skipCount)
+      .populate({path: 'createdByUser',select: 'firstName role'})
       .limit(pageSize);
     users.count = await db.user.find({ role: query.role }).count();
 

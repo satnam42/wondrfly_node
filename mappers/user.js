@@ -8,7 +8,6 @@ exports.toModel = (entity) => {
   } else {
     user = entity
   }
-  console.log("user entity",entity)
   let model = {
     id: user.id || user._id,
     firstName: user.firstName,
@@ -39,6 +38,7 @@ exports.toModel = (entity) => {
     source: user.source,
     state: user.state,
     createdBy: user.createdBy,
+    createdByUser: user.createdByUser || '',
     deviceToken: user.deviceToken,
     note: user.note,
     role: user.role,

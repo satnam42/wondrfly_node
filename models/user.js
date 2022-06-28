@@ -43,6 +43,10 @@ const user = mongoose.Schema({
   deletedBy: { type: String, default: '' },
   token: { type: String, default: '' },
   createdBy: { type: String, default: '' },
+  createdByUser:  {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user',
+  },
   note: { type: String, default: '' },
   inviteLinked: {
     type: mongoose.Schema.Types.ObjectId,
