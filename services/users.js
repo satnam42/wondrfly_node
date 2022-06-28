@@ -501,7 +501,7 @@ const get = async (query, context) => {
     users.count = await db.user.find({ role: query.role }).count();
 
     if (query.role == 'provider') {
-      users.forEach((user, index) => {
+      users.forEach(async(user, index) => {
         let progress = 20;
         if (
           user.phoneNumber !== 'string' &&
@@ -551,6 +551,17 @@ const get = async (query, context) => {
         objUser.progress = progress;
         users.splice(index, 0, objUser);
       });
+      let finalusers=[];
+      for (let user of users) {
+        let expired = await db.program.find({ user: ObjectId(user.id), isExpired: true }).count() 
+        let active = await db.program.find({ user: ObjectId(user.id), isPublished: true }).count() 
+        user = user.toJSON()
+        user.expired = expired;
+        user.active = active;
+        finalusers.push(user);
+      }
+     users =finalusers
+
     }
   }
 
