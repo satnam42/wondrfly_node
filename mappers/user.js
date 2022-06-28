@@ -9,7 +9,7 @@ exports.toModel = (entity) => {
     user = entity
   }
   let model = {
-    id: user.id,
+    id: user.id || user._id,
     firstName: user.firstName,
     lastName: user.lastName,
     userName: user.userName,
