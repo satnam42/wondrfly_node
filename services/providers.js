@@ -437,7 +437,7 @@ const search = async (name, context) => {
   if (!name) {
     throw new Error('name is required')
   }
-  const providers = await db.user
+  let providers = await db.user
     .find({ firstName: { $regex: '.*' + name + '.*', $options: 'i' }, role: 'provider' })
     .limit(5)
 
@@ -462,6 +462,17 @@ const search = async (name, context) => {
       console.log('')
     }
   })
+  let finalProvidersarry=[]
+  for (let provider of providers) {
+    let expired = await db.program.find({ user: ObjectId(provider._id), isExpired: true }).count()
+    let active = await db.program.find({ user: ObjectId(provider._id), isPublished: true }).count()
+    provider = provider.toJSON()
+    provider.expiredPrograms = expired;
+    provider.activePrograms = active;
+    // console.log('provider =>', provider);
+    finalProvidersarry.push(provider);
+  }
+  providers=finalProvidersarry
   log.end()
   return providers
 }
