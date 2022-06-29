@@ -98,7 +98,9 @@ exports.toModel = (entity) => {
       (model.cycle_time = entity.provider.cycle_time || 0),
       (model.proof_reader_notes = entity.provider.proof_reader_notes || ''),
       (model.activeStatus = entity.provider.activeStatus || ''),
-      (model.addedBy = entity.provider.addedBy || "")
+      (model.addedBy = entity.provider.addedBy || ""),
+      (model.last_reviewed = entity.provider.last_reviewed || "")
+      
 
 
   }

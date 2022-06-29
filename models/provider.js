@@ -82,7 +82,7 @@ const provider = mongoose.Schema({
   adminNotes: { type: String, default: '' },
   logo: { type: String, default: '' },
   cancellation_and_refund: { type: String, default: '' },
-  last_reviewed: { type: Date, default: '' },
+  last_reviewed: { type: Date, default: '1970-06-28T12:32:06.247Z' },
   cycle_time: { type: Number, default: 0 },
   proof_reader_notes: { type: String, default: '' },
   createdOn: { type: Date, default: Date.now },

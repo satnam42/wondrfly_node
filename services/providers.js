@@ -97,6 +97,8 @@ const build = async (model, context) => {
 }
 
 const setProviderDetail = async (model, provider, context) => {
+console.log("model",model)
+
   const log = context.logger.start('services:providers:setBasicInfo')
   if (model.categoryIds !== undefined && !model.categoryIds.length) {
     provider.categoires = model.categoryIds
@@ -307,7 +309,7 @@ const setBasicInfo = async (model, user, context) => {
   if (model.interests.length > 1) {
     user.interests = model.interests
   }
-  // user.lastModifiedBy = context.user.id
+  user.lastModifiedBy = context.user.id
 
   user.updatedOn = new Date()
   log.end()
